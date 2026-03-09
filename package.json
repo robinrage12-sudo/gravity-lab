@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@vladmandic/face-api": "^1.7.15",
-"face-api.js": "^0.22.2"
+    "face-api.js": "^0.22.2",
     "lucide-react": "^0.575.0",
     "next": "^15.3.0",
     "react": "^19.0.0",
@@ -26,3 +26,4 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   }
+}
