@@ -1,17 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ArrowLeft, Download, Clock, Check,
   ChevronDown, ChevronUp, Home, Dumbbell,
   RefreshCw, Target, BookOpen, Layers, Package,
-  Thermometer, Wind
+  Thermometer, Wind, Star, AlertCircle
 } from "lucide-react";
 
 // ═══════════════════════════════════════════════════════
 // TYPES & DATA (inlined from programs.ts)
 // ═══════════════════════════════════════════════════════
-
-// ─── TYPES ───────────────────────────────────────────────────────────────────
 
 interface ProgressionStep {
   label: string;
@@ -307,8 +305,6 @@ const plancheFoundation: Program = {
   stripeUrl: "https://buy.stripe.com/5kQeVf0Ix3Yd0EPgZT3ZK06",
 };
 
-// ─── PLANCHE ELITE ────────────────────────────────────────────────────────────
-
 const plancheElite: Program = {
   id: "planche-elite",
   title: "Planche Elite",
@@ -455,8 +451,6 @@ const plancheElite: Program = {
   ],
   stripeUrl: "https://buy.stripe.com/eVq9AVdvjamB73dcJD3ZK07",
 };
-
-// ─── FRONT LEVER MASTERY ──────────────────────────────────────────────────────
 
 const frontLeverMastery: Program = {
   id: "front-lever",
@@ -623,8 +617,6 @@ const frontLeverMastery: Program = {
   ],
   stripeUrl: "https://buy.stripe.com/8x2dRbaj7fGV0EP6lf3ZK08",
 };
-
-// ─── HYBRID ATHLETE ───────────────────────────────────────────────────────────
 
 const hybridAthlete: Program = {
   id: "hybrid-athlete",
@@ -849,8 +841,6 @@ const hybridAthlete: Program = {
   ],
   stripeUrl: "https://buy.stripe.com/28EaEZ2QFdyN2MX4d73ZK09",
 };
-
-// ─── FULL HYPERTROPHY ─────────────────────────────────────────────────────────
 
 const fullHypertrophy: Program = {
   id: "hypertrophy",
@@ -1101,8 +1091,6 @@ const fullHypertrophy: Program = {
   stripeUrl: "https://buy.stripe.com/aFa00l0IxeCRcnx3933ZK0a",
 };
 
-// ─── BUNDLE ───────────────────────────────────────────────────────────────────
-
 const ultimateBundle: Program = {
   id: "bundle",
   title: "Ultimate Gravity Bundle",
@@ -1136,8 +1124,6 @@ const ultimateBundle: Program = {
   stripeUrl: "https://buy.stripe.com/aFa8wR3UJeCRcnx10V3ZK0b",
 };
 
-// ─── ALL PROGRAMS REGISTRY ────────────────────────────────────────────────────
-
 const allPrograms: Program[] = [
   plancheFoundation,
   plancheElite,
@@ -1147,7 +1133,6 @@ const allPrograms: Program[] = [
   ultimateBundle,
 ];
 
-// Wire up bundle programs now that all programs exist
 ultimateBundle.bundlePrograms = [
   plancheFoundation,
   plancheElite,
@@ -1161,12 +1146,151 @@ const strengthSkillsGroup = [plancheFoundation, plancheElite, frontLeverMastery]
 const hybridGroup = [hybridAthlete];
 const hypertrophyGroup = [fullHypertrophy];
 
+// ═══════════════════════════════════════════════════════
+// TESTIMONIALS DATA
+// ═══════════════════════════════════════════════════════
+
+const testimonials = [
+  {
+    name: "Marcus T.",
+    handle: "@marcus_cali",
+    program: "Planche Foundation",
+    avatar: "MT",
+    avatarColor: "#22c55e",
+    rating: 5,
+    weeks: "8 weeks in",
+    result: "Hit my first clean tuck planche hold this morning. 6 seconds. I've been trying on my own for 4 months with zero progress. The warm-up protocol alone changed everything — my wrists stopped hurting after week 2.",
+  },
+  {
+    name: "Jordan K.",
+    handle: "@jk_strength",
+    program: "Hybrid Athlete",
+    avatar: "JK",
+    avatarColor: "#a855f7",
+    rating: 5,
+    weeks: "12 weeks in",
+    result: "I was skeptical about combining barbell and calisthenics. Gained 4kg of muscle while actually improving my advanced tuck hold. The dual-track format is genius — gym days and home days both programmed.",
+  },
+  {
+    name: "Alex R.",
+    handle: "@alex_levers",
+    program: "Front Lever Mastery",
+    avatar: "AR",
+    avatarColor: "#3b82f6",
+    rating: 5,
+    weeks: "10 weeks in",
+    result: "Week 10 and I held my first straddle front lever for 5 seconds. The progression from tuck to advanced tuck to straddle is perfectly structured. No guesswork. Every session tells you exactly what to do.",
+  },
+  {
+    name: "Sam W.",
+    handle: "@sw_aesthetics",
+    program: "Full Hypertrophy",
+    avatar: "SW",
+    avatarColor: "#ec4899",
+    rating: 5,
+    weeks: "12 weeks in",
+    result: "No gym? No problem. The bodyweight track alone gave me more muscle than a year of random gym sessions. The progressive overload is real — I went from 8 archer push-ups to 15 clean reps each side.",
+  },
+  {
+    name: "Tom B.",
+    handle: "@tombfit_cali",
+    program: "Planche Elite",
+    avatar: "TB",
+    avatarColor: "#f97316",
+    rating: 5,
+    weeks: "7 weeks in",
+    result: "Went from a shaky advanced tuck to a stable 4-second straddle hold. The eccentric negatives are brutal but they work. My strength jumped faster in 7 weeks than in the previous 6 months of self-programming.",
+  },
+  {
+    name: "Lena M.",
+    handle: "@lena.moves",
+    program: "Ultimate Bundle",
+    avatar: "LM",
+    avatarColor: "#FF4500",
+    rating: 5,
+    weeks: "16 weeks in",
+    result: "Got the bundle and I'm alternating between Hypertrophy and Front Lever. The programs complement each other perfectly. Best $97 I've ever spent on fitness — this replaced a $80/month PT I was paying for.",
+  },
+];
+
+// ═══════════════════════════════════════════════════════
+// FAQ DATA
+// ═══════════════════════════════════════════════════════
+
+const faqs = [
+  {
+    q: "What format are the programs? PDF, video, app?",
+    a: "Programs are delivered as a structured digital manual (PDF + web access). Every exercise includes written cues, progression paths, and pro tips. No app subscription needed — lifetime access means you own it forever.",
+  },
+  {
+    q: "I have zero experience with calisthenics. Where do I start?",
+    a: "Start with Planche Foundation. It's designed from absolute zero — the first 3 weeks build the connective tissue and scapular control you need before attempting any skill. If physique is your main goal with no skill focus, start with Full Hypertrophy instead.",
+  },
+  {
+    q: "Do I need a gym or special equipment?",
+    a: "For skill programs (Planche, Front Lever), you need parallettes or a pull-up bar — both under $50. For Hybrid Athlete and Full Hypertrophy, there are dual tracks: one fully bodyweight (floor only), one for gym access. You pick what fits your setup.",
+  },
+  {
+    q: "How long until I see real results?",
+    a: "Most athletes notice strength changes within 2–3 weeks and visible skill progression by Week 4–6. The programs are designed for measurable results at every phase — you'll be testing and recording holds so you can see the exact progress over time.",
+  },
+  {
+    q: "What if the program is too hard or too easy?",
+    a: "Every exercise includes a progression path (easier and harder variants). If the main exercise is too hard, the previous progression step is listed. If too easy, the next step is there. The program adapts to where you actually are — not where you think you should be.",
+  },
+  {
+    q: "Is there any support if I have questions?",
+    a: "Yes — you get direct access via email. Questions about form, programming adjustments, or exercise substitutions are answered personally. This isn't an automated bot response system.",
+  },
+  {
+    q: "Can I run multiple programs at the same time?",
+    a: "Generally no — one primary program at a time. The exception is the Hybrid Athlete, which is specifically designed to combine skill and strength work. The Bundle includes guidance on how to sequence programs intelligently over a 6–12 month period.",
+  },
+  {
+    q: "What's the refund policy?",
+    a: "If you complete the first 2 weeks of the program and aren't seeing any progress or finding value, reach out within 30 days for a full refund. The program works if you work it — that's the only condition.",
+  },
+];
+
+// ═══════════════════════════════════════════════════════
+// COUNTDOWN TIMER HOOK
+// ═══════════════════════════════════════════════════════
+
+function useCountdown() {
+  const getTargetTime = () => {
+    const stored = localStorage.getItem("gl_bundle_deadline");
+    if (stored) return parseInt(stored);
+    const deadline = Date.now() + 48 * 60 * 60 * 1000;
+    localStorage.setItem("gl_bundle_deadline", deadline.toString());
+    return deadline;
+  };
+
+  const [timeLeft, setTimeLeft] = useState({ h: 47, m: 59, s: 59 });
+
+  useEffect(() => {
+    const target = getTargetTime();
+    const tick = () => {
+      const diff = target - Date.now();
+      if (diff <= 0) {
+        setTimeLeft({ h: 0, m: 0, s: 0 });
+        return;
+      }
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      setTimeLeft({ h, m, s });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return timeLeft;
+}
 
 // ═══════════════════════════════════════════════════════
 // DASHBOARD (inlined)
 // ═══════════════════════════════════════════════════════
-
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
 
 function SectionBar({ title, tag }: { title: string; tag?: string }) {
   return (
@@ -1187,8 +1311,6 @@ function Checkbox({ checked }: { checked: boolean }) {
     </div>
   );
 }
-
-// ─── PROGRESSION RAIL ────────────────────────────────────────────────────────
 
 function ProgressionRail({ steps }: { steps: { label: string; emoji: string; hold?: string; active?: boolean }[] }) {
   return (
@@ -1213,15 +1335,10 @@ function ProgressionRail({ steps }: { steps: { label: string; emoji: string; hol
   );
 }
 
-// ─── EXERCISE CARD ────────────────────────────────────────────────────────────
-
 function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
   const [open, setOpen] = useState(index === 0);
-
   return (
     <div className="surface-2 print-avoid-break ex-card-print" style={{ borderRadius: 8, overflow: "hidden", border: "1px solid var(--border)" }}>
-
-      {/* Header */}
       <button onClick={() => setOpen(!open)} style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "16px 20px", display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
         <div style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--orange-dim)", border: "1px solid var(--orange-border)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           <span className="t-label" style={{ color: "var(--orange)", fontSize: 10 }}>{String(index + 1).padStart(2, "0")}</span>
@@ -1229,11 +1346,7 @@ function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
         <div style={{ flex: 1 }}>
           <div className="t-display" style={{ fontSize: 17, color: "var(--text)" }}>{ex.title}</div>
           <div style={{ display: "flex", gap: 16, marginTop: 4, flexWrap: "wrap" }}>
-            {[
-              { label: "Sets", val: ex.sets },
-              { label: "Reps", val: ex.reps },
-              { label: "Rest", val: ex.rest },
-            ].map(({ label, val }) => (
+            {[{ label: "Sets", val: ex.sets }, { label: "Reps", val: ex.reps }, { label: "Rest", val: ex.rest }].map(({ label, val }) => (
               <span key={label} className="t-body" style={{ fontSize: 12, color: "var(--text-faint)" }}>
                 <span style={{ color: "var(--orange)" }}>{val}</span> {label}
               </span>
@@ -1245,19 +1358,14 @@ function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
           {open ? <ChevronUp size={14} style={{ color: "var(--text-faint)" }} /> : <ChevronDown size={14} style={{ color: "var(--text-faint)" }} />}
         </div>
       </button>
-
-      {/* Body */}
       {open && (
         <div style={{ padding: "0 20px 20px" }}>
-          {/* Progression rail */}
           {ex.progression && ex.progression.length > 0 && (
             <div style={{ marginBottom: 16, paddingBottom: 16, borderBottom: "1px solid var(--border)" }}>
               <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 10 }}>PROGRESSION PATH</div>
               <ProgressionRail steps={ex.progression} />
             </div>
           )}
-
-          {/* Technical Cues */}
           <div style={{ marginBottom: 14 }}>
             <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 10 }}>TECHNICAL CUES</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -1271,9 +1379,7 @@ function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
               ))}
             </div>
           </div>
-
-          {/* Pro Tip */}
-          <div className="orange-border-left" style={{ background: "rgba(255,69,0,0.04)", borderLeft: "3px solid var(--orange)", borderRadius: "0 4px 4px 0", padding: "12px 14px" }}>
+          <div style={{ background: "rgba(255,69,0,0.04)", borderLeft: "3px solid var(--orange)", borderRadius: "0 4px 4px 0", padding: "12px 14px" }}>
             <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 6 }}>💡 PRO TIP</div>
             <p className="t-body print-body" style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.55, fontStyle: "italic" }}>{ex.proTip}</p>
           </div>
@@ -1283,16 +1389,12 @@ function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
   );
 }
 
-// ─── PHASE BLOCK ──────────────────────────────────────────────────────────────
-
 function PhaseBlock({ phase, index }: { phase: Phase; index: number }) {
   const [collapsed, setCollapsed] = useState(false);
-
   return (
     <div className="surface print-break-before print-avoid-break" style={{ borderRadius: 10, overflow: "hidden", border: "1px solid var(--border)", marginBottom: 24 }}>
-      {/* Phase header */}
       <button onClick={() => setCollapsed(!collapsed)} style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer" }}>
-        <div className="phase-header" style={{ display: "flex", alignItems: "center", gap: 14, padding: "18px 24px", background: "linear-gradient(90deg, rgba(255,69,0,0.08) 0%, transparent 100%)", borderBottom: collapsed ? "none" : "1px solid var(--border)", textAlign: "left" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "18px 24px", background: "linear-gradient(90deg, rgba(255,69,0,0.08) 0%, transparent 100%)", borderBottom: collapsed ? "none" : "1px solid var(--border)", textAlign: "left" }}>
           <div style={{ fontSize: 24, flexShrink: 0 }}>{phase.icon}</div>
           <div style={{ flex: 1 }}>
             <div className="t-display print-h3" style={{ fontSize: 20, color: "var(--text)" }}>{phase.name}</div>
@@ -1304,15 +1406,11 @@ function PhaseBlock({ phase, index }: { phase: Phase; index: number }) {
           {collapsed ? <ChevronDown size={16} style={{ color: "var(--text-faint)", flexShrink: 0 }} /> : <ChevronUp size={16} style={{ color: "var(--text-faint)", flexShrink: 0 }} />}
         </div>
       </button>
-
       {!collapsed && (
         <div style={{ padding: "20px 24px" }}>
           <p className="t-body print-body" style={{ fontSize: 14, color: "var(--text-dim)", lineHeight: 1.6, marginBottom: 24, borderBottom: "1px solid var(--border)", paddingBottom: 20 }}>{phase.description}</p>
-
           <div className="ex-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 14 }}>
-            {phase.exercises.map((ex, i) => (
-              <ExerciseCard key={i} ex={ex} index={i} />
-            ))}
+            {phase.exercises.map((ex, i) => <ExerciseCard key={i} ex={ex} index={i} />)}
           </div>
         </div>
       )}
@@ -1320,11 +1418,8 @@ function PhaseBlock({ phase, index }: { phase: Phase; index: number }) {
   );
 }
 
-// ─── WARMUP / COOLDOWN ────────────────────────────────────────────────────────
-
 function WarmupCooldown({ items, title, icon, tag }: { items: { name: string; duration: string; notes: string }[]; title: string; icon: React.ReactNode; tag: string }) {
   const [checkedMap, setCheckedMap] = useState<Record<number, boolean>>({});
-
   return (
     <div style={{ marginBottom: 40 }}>
       <SectionBar title={title} tag={tag} />
@@ -1348,8 +1443,6 @@ function WarmupCooldown({ items, title, icon, tag }: { items: { name: string; du
   );
 }
 
-// ─── PRINT COVER ──────────────────────────────────────────────────────────────
-
 function PrintCover({ program }: { program: Program }) {
   return (
     <div className="print-cover" style={{ display: "none", pageBreakAfter: "always" }}>
@@ -1364,22 +1457,15 @@ function PrintCover({ program }: { program: Program }) {
   );
 }
 
-// ─── BUNDLE DASHBOARD ─────────────────────────────────────────────────────────
-
 function BundleDashboard({ program, onBack }: { program: Program; onBack: () => void }) {
   const bundleProgs = program.bundlePrograms ?? [];
   const [activeProg, setActiveProg] = useState<Program>(bundleProgs[0]);
   const [activeTrack, setActiveTrack] = useState<0 | 1>(0);
-
-  const phases: Phase[] = activeProg.dualTrack && activeTrack === 1
-    ? (activeProg.gymPhases ?? activeProg.phases)
-    : activeProg.phases;
+  const phases: Phase[] = activeProg.dualTrack && activeTrack === 1 ? (activeProg.gymPhases ?? activeProg.phases) : activeProg.phases;
 
   return (
     <div style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh" }}>
       <PrintCover program={program} />
-
-      {/* Sticky Nav */}
       <div className="no-print" style={{ background: "rgba(10,10,10,0.94)", backdropFilter: "blur(24px)", borderBottom: "1px solid var(--border)", padding: "16px 24px", position: "sticky", top: 0, zIndex: 200 }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }} className="dash-head">
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -1404,15 +1490,12 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
         </div>
       </div>
 
-      {/* Bundle Header */}
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px 0" }}>
         <div style={{ background: "linear-gradient(135deg, rgba(255,69,0,0.1), rgba(255,69,0,0.03))", border: "1px solid var(--orange-border)", borderRadius: 12, padding: "32px 36px", marginBottom: 36, position: "relative", overflow: "hidden" }}>
           <div style={{ position: "absolute", top: -30, right: -30, fontSize: 120, opacity: 0.06, pointerEvents: "none" }}>👑</div>
           <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14 }}>BUNDLE — ALL 5 PROGRAMS</div>
           <h2 className="t-display" style={{ fontSize: "clamp(26px,4vw,44px)", marginBottom: 10 }}>Your Complete Training Library</h2>
-          <p className="t-body" style={{ fontSize: 14, color: "var(--text-dim)", maxWidth: 640, lineHeight: 1.65, marginBottom: 20 }}>
-            {program.mindset}
-          </p>
+          <p className="t-body" style={{ fontSize: 14, color: "var(--text-dim)", maxWidth: 640, lineHeight: 1.65, marginBottom: 20 }}>{program.mindset}</p>
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             {program.benefits.map((b, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -1423,21 +1506,12 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
           </div>
         </div>
 
-        {/* Program Tabs */}
         <div style={{ marginBottom: 32 }}>
           <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, letterSpacing: 2, marginBottom: 12 }}>SELECT PROGRAM</div>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             {bundleProgs.map(p => (
-              <button key={p.id}
-                onClick={() => { setActiveProg(p); setActiveTrack(0); }}
-                style={{
-                  display: "flex", alignItems: "center", gap: 8, padding: "10px 18px",
-                  borderRadius: 6, border: `1px solid ${activeProg.id === p.id ? "var(--orange)" : "var(--border)"}`,
-                  background: activeProg.id === p.id ? "var(--orange-dim)" : "var(--bg-card)",
-                  color: activeProg.id === p.id ? "var(--orange)" : "var(--text-dim)",
-                  cursor: "pointer", transition: "all .2s", fontFamily: "var(--fd)", fontWeight: 700,
-                  fontSize: 12, letterSpacing: 1, textTransform: "uppercase"
-                }}>
+              <button key={p.id} onClick={() => { setActiveProg(p); setActiveTrack(0); }}
+                style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 18px", borderRadius: 6, border: `1px solid ${activeProg.id === p.id ? "var(--orange)" : "var(--border)"}`, background: activeProg.id === p.id ? "var(--orange-dim)" : "var(--bg-card)", color: activeProg.id === p.id ? "var(--orange)" : "var(--text-dim)", cursor: "pointer", transition: "all .2s", fontFamily: "var(--fd)", fontWeight: 700, fontSize: 12, letterSpacing: 1, textTransform: "uppercase" }}>
                 <span style={{ fontSize: 16 }}>{p.icon}</span>
                 <div style={{ textAlign: "left" }}>
                   <div>{p.title}</div>
@@ -1449,7 +1523,6 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
           </div>
         </div>
 
-        {/* Active program info strip */}
         <div className="surface" style={{ padding: "18px 22px", borderRadius: 8, marginBottom: 32, display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", borderLeft: `3px solid ${activeProg.levelColor}` }}>
           <div style={{ fontSize: 32 }}>{activeProg.icon}</div>
           <div style={{ flex: 1 }}>
@@ -1459,8 +1532,7 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
           {activeProg.dualTrack && activeProg.trackLabels && (
             <div className="track-toggle">
               {activeProg.trackLabels.map((label, idx) => (
-                <button key={label} className={`track-btn ${activeTrack === idx ? "active" : ""}`}
-                  onClick={() => setActiveTrack(idx as 0 | 1)}>
+                <button key={label} className={`track-btn ${activeTrack === idx ? "active" : ""}`} onClick={() => setActiveTrack(idx as 0 | 1)}>
                   {idx === 0 ? <Home size={12} /> : <Dumbbell size={12} />}
                   {label}
                 </button>
@@ -1470,9 +1542,7 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
         </div>
       </div>
 
-      {/* Program Content */}
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px 60px" }}>
-        {/* Goals + Structure */}
         <div style={{ display: "flex", gap: 20, marginBottom: 40, flexWrap: "wrap" }}>
           <div className="surface" style={{ flex: 2, minWidth: 260, padding: "20px", borderRadius: 8 }}>
             <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 12 }}><Target size={10} style={{ display: "inline", marginRight: 5, color: "var(--orange)" }} />PROGRAM GOALS</div>
@@ -1492,14 +1562,10 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
         </div>
 
         <WarmupCooldown items={activeProg.warmup} title="WARM-UP & MOBILITY" icon={<Thermometer size={16} />} tag={`${activeProg.warmup.length} exercises · ~15 min`} />
-
         <section style={{ marginBottom: 52 }}>
           <SectionBar title="CORE PROGRAM" tag={`${phases.length} phases · ${phases.reduce((acc, p) => acc + p.exercises.length, 0)} exercises`} />
-          {phases.map((phase, i) => (
-            <PhaseBlock key={`${activeProg.id}-${i}`} phase={phase} index={i} />
-          ))}
+          {phases.map((phase, i) => <PhaseBlock key={`${activeProg.id}-${i}`} phase={phase} index={i} />)}
         </section>
-
         <WarmupCooldown items={activeProg.cooldown} title="COOL DOWN & RECOVERY" icon={<Wind size={16} />} tag={`${activeProg.cooldown.length} exercises · ~12 min`} />
 
         <div className="no-print" style={{ marginTop: 56, paddingTop: 28, borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
@@ -1511,25 +1577,15 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
   );
 }
 
-// ─── MAIN DASHBOARD ───────────────────────────────────────────────────────────
-
 function Dashboard({ program, onBack }: { program: Program; onBack: () => void }) {
   const [activeTrack, setActiveTrack] = useState<0 | 1>(0);
   const [progressWeek] = useState(3);
   const totalWeeks = 8;
-
-  const phases: Phase[] = program.dualTrack && activeTrack === 1
-    ? (program.gymPhases ?? program.phases)
-    : program.phases;
-
-  const handlePrint = () => window.print();
+  const phases: Phase[] = program.dualTrack && activeTrack === 1 ? (program.gymPhases ?? program.phases) : program.phases;
 
   return (
     <div style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh" }}>
-      {/* Print cover (only visible in print) */}
       <PrintCover program={program} />
-
-      {/* Sticky Nav */}
       <div className="no-print" style={{ background: "rgba(10,10,10,0.94)", backdropFilter: "blur(24px)", borderBottom: "1px solid var(--border)", padding: "16px 24px", position: "sticky", top: 0, zIndex: 200 }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }} className="dash-head">
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -1543,8 +1599,7 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
             {program.dualTrack && program.trackLabels && (
               <div className="track-toggle">
                 {program.trackLabels.map((label, idx) => (
-                  <button key={label} className={`track-btn ${activeTrack === idx ? "active" : ""}`}
-                    onClick={() => setActiveTrack(idx as 0 | 1)}>
+                  <button key={label} className={`track-btn ${activeTrack === idx ? "active" : ""}`} onClick={() => setActiveTrack(idx as 0 | 1)}>
                     {idx === 0 ? <Home size={12} /> : <Dumbbell size={12} />}
                     {label}
                   </button>
@@ -1553,12 +1608,10 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
             )}
             {program.stripeUrl && (
               <a href={program.stripeUrl} target="_blank" rel="noopener noreferrer">
-                <button className="btn-primary" style={{ padding: "10px 20px", fontSize: 12 }}>
-                  Get Access — ${program.price}
-                </button>
+                <button className="btn-primary" style={{ padding: "10px 20px", fontSize: 12 }}>Get Access — ${program.price}</button>
               </a>
             )}
-            <button className="btn-ghost" style={{ padding: "10px 20px", fontSize: 12 }} onClick={handlePrint}>
+            <button className="btn-ghost" style={{ padding: "10px 20px", fontSize: 12 }} onClick={() => window.print()}>
               <Download size={12} /> Download Manual
             </button>
           </div>
@@ -1566,8 +1619,6 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
       </div>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px" }}>
-
-        {/* ── Introduction ──────────────────────────────────────── */}
         <section style={{ marginBottom: 56 }} className="print-break-before">
           <div style={{ display: "flex", gap: 24, flexWrap: "wrap", marginBottom: 28 }}>
             <div style={{ flex: 2, minWidth: 260 }}>
@@ -1579,7 +1630,6 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
               <p className="t-body print-body" style={{ fontSize: 14, color: "var(--text-dim)", lineHeight: 1.7, maxWidth: 580 }}>{program.mindset}</p>
             </div>
             <div style={{ flex: 1, minWidth: 220 }}>
-              {/* Goals */}
               <div className="surface" style={{ padding: "20px", borderRadius: 8, marginBottom: 16 }}>
                 <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 12 }}>
                   <Target size={10} style={{ display: "inline", marginRight: 5, color: "var(--orange)" }} />PROGRAM GOALS
@@ -1593,7 +1643,6 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
                   ))}
                 </ul>
               </div>
-              {/* Week structure */}
               <div className="surface" style={{ padding: "16px 20px", borderRadius: 8 }}>
                 <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 8 }}>
                   <Layers size={10} style={{ display: "inline", marginRight: 5, color: "var(--orange)" }} />STRUCTURE
@@ -1602,8 +1651,6 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
               </div>
             </div>
           </div>
-
-          {/* Progress */}
           <div className="no-print glass" style={{ padding: "18px 22px", borderRadius: 8, display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
             <div style={{ flex: 1, minWidth: 180 }}>
               <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 8 }}>YOUR PROGRESS</div>
@@ -1614,43 +1661,31 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
           </div>
         </section>
 
-        {/* ── Dual Track Banner ──────────────────────────────────── */}
         {program.dualTrack && program.trackLabels && (
           <div className="no-print" style={{ background: "linear-gradient(135deg, rgba(255,69,0,0.07), rgba(255,69,0,0.03))", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "18px 22px", marginBottom: 40, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
             <RefreshCw size={18} style={{ color: "var(--orange)", flexShrink: 0 }} />
             <div>
               <div className="t-display" style={{ fontSize: 16, marginBottom: 3 }}>Dual-Track Program Active</div>
-              <p className="t-body" style={{ fontSize: 13, color: "var(--text-dim)" }}>
-                Currently viewing: <strong style={{ color: "var(--orange)" }}>{program.trackLabels[activeTrack]}</strong> — Switch between tracks using the toggle above. Same progressions, different equipment.
-              </p>
+              <p className="t-body" style={{ fontSize: 13, color: "var(--text-dim)" }}>Currently viewing: <strong style={{ color: "var(--orange)" }}>{program.trackLabels[activeTrack]}</strong> — Switch between tracks using the toggle above.</p>
             </div>
           </div>
         )}
 
-        {/* ── Warm-Up ────────────────────────────────────────────── */}
         <WarmupCooldown items={program.warmup} title="WARM-UP & MOBILITY" icon={<Thermometer size={16} />} tag={`${program.warmup.length} exercises · ~15 min`} />
-
-        {/* ── Core Program ──────────────────────────────────────── */}
         <section style={{ marginBottom: 52 }}>
           <SectionBar title="CORE PROGRAM" tag={`${phases.length} phases · ${phases.reduce((acc, p) => acc + p.exercises.length, 0)} exercises`} />
-          {phases.map((phase, i) => (
-            <PhaseBlock key={i} phase={phase} index={i} />
-          ))}
+          {phases.map((phase, i) => <PhaseBlock key={i} phase={phase} index={i} />)}
         </section>
-
-        {/* ── Cool Down ─────────────────────────────────────────── */}
         <WarmupCooldown items={program.cooldown} title="COOL DOWN & RECOVERY" icon={<Wind size={16} />} tag={`${program.cooldown.length} exercises · ~12 min`} />
 
-        {/* ── Footer ────────────────────────────────────────────── */}
         <div className="no-print" style={{ marginTop: 56, paddingTop: 28, borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <button className="btn-ghost" onClick={onBack}><ArrowLeft size={13} /> Back to Programs</button>
-          <button className="btn-primary" onClick={handlePrint}><Download size={13} /> Download Full Manual</button>
+          <button className="btn-primary" onClick={() => window.print()}><Download size={13} /> Download Full Manual</button>
         </div>
       </div>
     </div>
   );
 }
-
 
 // ═══════════════════════════════════════════════════════
 // PROGRAM CARD
@@ -1713,6 +1748,204 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
 }
 
 // ═══════════════════════════════════════════════════════
+// TESTIMONIALS SECTION
+// ═══════════════════════════════════════════════════════
+
+function TestimonialsSection() {
+  const [active, setActive] = useState(0);
+  const cols = [
+    [testimonials[0], testimonials[3]],
+    [testimonials[1], testimonials[4]],
+    [testimonials[2], testimonials[5]],
+  ];
+
+  return (
+    <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 56 }}>
+          <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>RESULTS</div>
+          <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4vw,52px)", textTransform: "uppercase", marginBottom: 12 }}>
+            Real athletes.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Real results.</span>
+          </h2>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", maxWidth: 480, margin: "0 auto" }}>
+            No cherry-picked before/afters. Just honest feedback from people who followed the programs.
+          </p>
+        </div>
+
+        {/* Desktop 3-col grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }} className="testimonial-grid">
+          {cols.map((col, ci) => (
+            <div key={ci} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {col.map((t, ti) => (
+                <div key={ti} className="surface" style={{ borderRadius: 10, padding: "22px", border: "1px solid var(--border)", transition: "border-color .2s", cursor: "default" }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--orange-border)")}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}>
+                  {/* Stars */}
+                  <div style={{ display: "flex", gap: 2, marginBottom: 12 }}>
+                    {Array(t.rating).fill(0).map((_, i) => <Star key={i} size={12} fill="var(--orange)" stroke="none" />)}
+                  </div>
+                  {/* Quote */}
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.65, marginBottom: 16, fontStyle: "italic" }}>"{t.result}"</p>
+                  {/* Footer */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 14, borderTop: "1px solid var(--border)" }}>
+                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: `${t.avatarColor}22`, border: `1.5px solid ${t.avatarColor}55`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--fd)", fontSize: 11, fontWeight: 900, color: t.avatarColor, flexShrink: 0 }}>{t.avatar}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--text)", fontWeight: 700 }}>{t.name}</div>
+                      <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)" }}>{t.handle}</div>
+                    </div>
+                    <span className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", fontSize: 8 }}>{t.program}</span>
+                  </div>
+                  <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)" }}>⏱ {t.weeks}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════
+// FAQ SECTION
+// ═══════════════════════════════════════════════════════
+
+function FAQSection() {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)" }}>
+      <div style={{ maxWidth: 780, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 52 }}>
+          <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>FAQ</div>
+          <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4vw,52px)", textTransform: "uppercase" }}>
+            Every question.<br />Answered honestly.
+          </h2>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          {faqs.map((faq, i) => (
+            <div key={i} className="surface" style={{ borderRadius: 6, overflow: "hidden", border: `1px solid ${open === i ? "var(--orange-border)" : "var(--border)"}`, transition: "border-color .2s" }}>
+              <button onClick={() => setOpen(open === i ? null : i)}
+                style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "18px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, textAlign: "left" }}>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 16, color: open === i ? "var(--orange)" : "var(--text)", transition: "color .2s", lineHeight: 1.3 }}>{faq.q}</span>
+                <div style={{ width: 24, height: 24, borderRadius: "50%", border: `1.5px solid ${open === i ? "var(--orange)" : "var(--border-bright)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all .2s", background: open === i ? "var(--orange-dim)" : "transparent" }}>
+                  {open === i ? <ChevronUp size={12} style={{ color: "var(--orange)" }} /> : <ChevronDown size={12} style={{ color: "var(--text-faint)" }} />}
+                </div>
+              </button>
+              {open === i && (
+                <div style={{ padding: "0 20px 20px" }}>
+                  <div style={{ width: "100%", height: 1, background: "var(--border)", marginBottom: 16 }} />
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>{faq.a}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Still unsure CTA */}
+        <div style={{ marginTop: 40, textAlign: "center", padding: "28px", background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)", borderRadius: 8 }}>
+          <AlertCircle size={20} style={{ color: "var(--orange)", marginBottom: 10 }} />
+          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", marginBottom: 16 }}>Still not sure which program is right for you?</p>
+          <a href="mailto:contact@gravitylab.com">
+            <button className="btn-secondary">Ask directly →</button>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════
+// BUNDLE COUNTDOWN + PRICE BREAKDOWN
+// ═══════════════════════════════════════════════════════
+
+function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
+  const { h, m, s } = useCountdown();
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const priceItems = [
+    { label: "Planche Foundation", price: 27 },
+    { label: "Planche Elite", price: 39 },
+    { label: "Front Lever Mastery", price: 29 },
+    { label: "Hybrid Athlete", price: 47 },
+    { label: "Full Hypertrophy", price: 47 },
+  ];
+  const total = priceItems.reduce((a, b) => a + b.price, 0);
+
+  return (
+    <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, background: "rgba(255,69,0,0.02)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
+      <div style={{ maxWidth: 960, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }} className="pg2">
+          {/* Left — value breakdown */}
+          <div>
+            <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 18 }}>BUNDLE — BEST VALUE</div>
+            <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,4vw,52px)", textTransform: "uppercase", lineHeight: .9, marginBottom: 28 }}>
+              Everything.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>One price.</span>
+            </h2>
+            {/* Price breakdown */}
+            <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden", marginBottom: 20 }}>
+              {priceItems.map((item, i) => (
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 18px", borderBottom: "1px solid var(--border)" }}>
+                  <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)" }}>
+                    <Check size={11} style={{ color: "var(--orange)", marginRight: 8, display: "inline" }} />
+                    {item.label}
+                  </span>
+                  <span style={{ fontFamily: "var(--fd)", fontSize: 15, color: "var(--text-faint)", textDecoration: "line-through" }}>${item.price}</span>
+                </div>
+              ))}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 18px", background: "rgba(255,69,0,0.06)", borderTop: "2px solid var(--orange-border)" }}>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 14, color: "var(--text)", letterSpacing: 1, textTransform: "uppercase" }}>If bought separately</span>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 20, color: "var(--text-faint)", textDecoration: "line-through" }}>${total}</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 18px", background: "linear-gradient(90deg,rgba(255,69,0,0.12),rgba(255,69,0,0.04))" }}>
+                <div>
+                  <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 14, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>Bundle Price</div>
+                  <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>You save ${total - 97}</div>
+                </div>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "var(--orange)" }}>$97</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right — countdown + CTA */}
+          <div>
+            {/* Countdown */}
+            <div style={{ background: "var(--bg-card)", border: "1px solid var(--orange-border)", borderRadius: 10, padding: "24px", marginBottom: 20, textAlign: "center" }}>
+              <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 14 }}>⏰ Launch price expires in</div>
+              <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 14 }}>
+                {[{ label: "HRS", val: pad(h) }, { label: "MIN", val: pad(m) }, { label: "SEC", val: pad(s) }].map((unit, i) => (
+                  <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                    <div style={{ background: "rgba(255,69,0,0.1)", border: "1px solid var(--orange-border)", borderRadius: 6, padding: "10px 14px", minWidth: 58 }}>
+                      <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: "var(--orange)", lineHeight: 1 }}>{unit.val}</span>
+                    </div>
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 9, letterSpacing: 2, color: "var(--text-faint)" }}>{unit.label}</span>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-faint)", lineHeight: 1.55 }}>
+                After the timer runs out, the bundle returns to full price.
+              </p>
+            </div>
+
+            {/* CTA */}
+            <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
+              <button className="btn-primary pulse-glow" style={{ width: "100%", justifyContent: "center", padding: "16px", fontSize: 15, letterSpacing: 2 }}>
+                Get the Bundle — $97
+              </button>
+            </a>
+            <div style={{ display: "flex", gap: 16, marginTop: 14, justifyContent: "center", flexWrap: "wrap" }}>
+              {["Lifetime access", "30-day guarantee", "Instant delivery"].map((t, i) => (
+                <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", display: "flex", alignItems: "center", gap: 5 }}>
+                  <Check size={10} style={{ color: "var(--orange)" }} />{t}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════
 // CATEGORY SECTION
 // ═══════════════════════════════════════════════════════
 
@@ -1734,97 +1967,21 @@ function CatSection({ label, sublabel, progs, onOpen }: { label: string; sublabe
 }
 
 // ═══════════════════════════════════════════════════════
-// MAIN APP
+// QUIZ SECTION (with urgency result page)
 // ═══════════════════════════════════════════════════════
-
-const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@300;400;500;600&display=swap');
-:root {
-  --orange:#FF4500;--orange-dim:rgba(255,69,0,.1);--orange-border:rgba(255,69,0,.28);
-  --bg:#0A0A0A;--bg-card:#111;--bg-card2:#141414;
-  --border:rgba(255,255,255,.07);--border-bright:rgba(255,255,255,.14);
-  --text:#FFF;--text-dim:rgba(255,255,255,.5);--text-faint:rgba(255,255,255,.25);
-  --fd:'Barlow Condensed',Impact,sans-serif;--fb:'Barlow',sans-serif;--fs:'Cormorant Garamond',Georgia,serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-.noise{position:fixed;inset:0;opacity:.02;pointer-events:none;z-index:500;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
-.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);background-size:64px 64px}
-.glass{background:rgba(255,255,255,.03);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:6px}
-.surface{background:var(--bg-card);border:1px solid var(--border);border-radius:6px}
-.surface-2{background:var(--bg-card2);border:1px solid var(--border);border-radius:6px}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;border-radius:2px;font-family:var(--fb);white-space:nowrap}
-.btn-primary{background:var(--orange);color:#fff;border:none;padding:12px 26px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:8px}
-.btn-primary:hover{background:#ff6030;transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,69,0,.4)}
-.btn-secondary{background:transparent;color:var(--orange);border:1px solid var(--orange-border);padding:11px 22px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
-.btn-secondary:hover{background:var(--orange-dim)}
-.btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-bright);padding:9px 16px;font-family:var(--fd);font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
-.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.28)}
-.card-lift{transition:transform .3s cubic-bezier(.4,0,.2,1),border-color .3s,box-shadow .3s;cursor:pointer}
-.card-lift:hover{transform:translateY(-5px);border-color:var(--orange-border)!important;box-shadow:0 20px 56px rgba(255,69,0,.14)}
-.progress-bar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
-.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--orange),#ff8c00);transition:width .8s cubic-bezier(.4,0,.2,1)}
-.track-toggle{display:flex;background:rgba(255,255,255,.04);border:1px solid var(--border-bright);border-radius:4px;overflow:hidden}
-.track-btn{padding:9px 18px;font-family:var(--fd);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s;display:flex;align-items:center;gap:6px;white-space:nowrap}
-.track-btn.active{background:var(--orange);color:#fff}
-.track-btn:not(.active){background:transparent;color:var(--text-dim)}
-.track-btn:not(.active):hover{background:rgba(255,255,255,.05);color:var(--text)}
-.check-row{transition:background .18s,border-color .18s;cursor:pointer}
-.check-row:hover{background:rgba(255,69,0,.04)!important}
-.data-table{width:100%;border-collapse:collapse;font-family:var(--fb);font-size:13px}
-.data-table th{padding:11px 16px;text-align:left;font-size:10px;letter-spacing:2px;color:var(--text-faint);text-transform:uppercase;font-weight:600;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
-.data-table td{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.7);vertical-align:top}
-.data-table tr:last-child td{border-bottom:none}
-.data-table tr:hover td{background:rgba(255,69,0,.03)}
-.section-line{display:flex;align-items:center;gap:16px;margin-bottom:28px}
-.section-line .ln{flex:1;height:1px;background:var(--border)}
-.section-line .dot{width:5px;height:5px;background:var(--orange);border-radius:50%;flex-shrink:0}
-.phase-hdr{background:linear-gradient(90deg,rgba(255,69,0,.08),transparent);border-left:3px solid var(--orange)}
-.protip-box{background:rgba(255,69,0,.04);border-left:3px solid var(--orange);border-radius:0 4px 4px 0}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes flicker{0%,100%{opacity:1}91%{opacity:1}92%{opacity:.7}93%{opacity:1}97%{opacity:1}98%{opacity:.82}99%{opacity:1}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(255,69,0,.3)}50%{box-shadow:0 0 44px rgba(255,69,0,.6)}}
-.fade-up{animation:fadeUp .5s ease both}
-.flicker{animation:flicker 5s ease-in-out infinite}
-.pulse-glow{animation:pulseGlow 2.6s ease-in-out infinite}
-.t-display{font-family:var(--fd);font-weight:900;text-transform:uppercase;letter-spacing:-.02em}
-.t-label{font-family:var(--fb);font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
-.t-body{font-family:var(--fb);font-weight:400;line-height:1.65}
-.t-serif{font-family:var(--fs)}
-.section-divider{display:flex;align-items:center;gap:16px;margin-bottom:28px}
-.section-divider .line{flex:1;height:1px;background:var(--border)}
-.section-divider .dot{width:5px;height:5px;background:var(--orange);border-radius:50%;flex-shrink:0}
-@media(max-width:768px){
-  .pg3{grid-template-columns:1fr!important}
-  .pg2{grid-template-columns:1fr!important}
-  .ex-grid{grid-template-columns:1fr!important}
-  .dash-head{flex-direction:column!important;align-items:flex-start!important;gap:14px!important}
-  .hero-title{font-size:clamp(60px,17vw,110px)!important}
-  .track-btn{padding:8px 12px!important;font-size:11px!important}
-}
-@media print{
-  .no-print,.noise,.grid-bg,nav,footer,.track-toggle,
-  .btn-primary,.btn-secondary,.btn-ghost,.progress-bar{display:none!important}
-  *{background:#fff!important;color:#111!important;box-shadow:none!important;animation:none!important;border-color:#ddd!important}
-  html,body{font-size:11pt;line-height:1.55;font-family:Georgia,serif}
-  @page{size:A4;margin:22mm 20mm}
-  .print-cover{display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:230mm!important;page-break-after:always!important}
-  .print-h1{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:40pt!important;font-weight:700!important}
-  .print-h2{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:20pt!important;border-bottom:2px solid #FF4500!important;padding-bottom:5px!important;margin-bottom:14pt!important}
-  .pbreak{page-break-before:always!important;break-before:page!important}
-  .pbreak-avoid{page-break-inside:avoid!important;break-inside:avoid!important}
-  .phase-hdr{background:#fff8f5!important;border-left:3px solid #FF4500!important}
-  .protip-box{background:#fff8f5!important;border-left:3px solid #FF4500!important}
-}
-`;
-
-// ─── QUIZ SECTION ─────────────────────────────────────────────────────────────
 
 function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<Program | null>(null);
+  const [quizTimer, setQuizTimer] = useState(900); // 15 min countdown on result
+  const [timerStarted, setTimerStarted] = useState(false);
+
+  useEffect(() => {
+    if (!timerStarted || quizTimer <= 0) return;
+    const id = setInterval(() => setQuizTimer(t => t - 1), 1000);
+    return () => clearInterval(id);
+  }, [timerStarted, quizTimer]);
 
   const questions = [
     {
@@ -1877,10 +2034,16 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
     } else {
       const rec = getRecommendation(newAnswers);
       setResult(rec);
+      setTimerStarted(true);
     }
   };
 
-  const reset = () => { setStep(0); setAnswers([]); setResult(null); };
+  const reset = () => { setStep(0); setAnswers([]); setResult(null); setQuizTimer(900); setTimerStarted(false); };
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const timerMin = Math.floor(quizTimer / 60);
+  const timerSec = quizTimer % 60;
+  const timerExpired = quizTimer <= 0;
 
   return (
     <section style={{ padding: "80px 22px", position: "relative", zIndex: 1, background: "rgba(255,69,0,0.02)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
@@ -1892,8 +2055,22 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
         </div>
 
         {result ? (
-          <div style={{ textAlign: "center" }}>
-            <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 13, letterSpacing: 2, color: "var(--text-faint)", textTransform: "uppercase" }}>Our recommendation for you</div>
+          <div>
+            {/* Urgency timer banner */}
+            {!timerExpired ? (
+              <div style={{ background: "rgba(255,69,0,0.1)", border: "1px solid var(--orange-border)", borderRadius: 6, padding: "12px 18px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)" }}>
+                  🔥 <strong style={{ color: "var(--text)" }}>Personal offer active</strong> — discounted price reserved for <strong style={{ color: "var(--orange)" }}>{pad(timerMin)}:{pad(timerSec)}</strong>
+                </span>
+                <span className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", fontSize: 9 }}>LIMITED</span>
+              </div>
+            ) : (
+              <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", borderRadius: 6, padding: "12px 18px", marginBottom: 20 }}>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)" }}>Offer expired — standard pricing applies.</span>
+              </div>
+            )}
+
+            <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 13, letterSpacing: 2, color: "var(--text-faint)", textTransform: "uppercase", textAlign: "center" }}>Your perfect match</div>
             <div className="surface" style={{ borderRadius: 12, padding: "32px", border: `2px solid ${result.levelColor}40`, background: `${result.glowColor}`, marginBottom: 24, textAlign: "left", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: -20, right: -20, fontSize: 100, opacity: 0.07 }}>{result.icon}</div>
               <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
@@ -1913,11 +2090,27 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                   </div>
                 ))}
               </div>
+
+              {/* Price + urgency */}
+              <div style={{ background: "rgba(0,0,0,0.2)", borderRadius: 8, padding: "16px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+                <div>
+                  <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 38, color: "var(--orange)" }}>${result.price}</span>
+                  {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 8, textDecoration: "line-through" }}>${result.originalPrice}</span>}
+                  <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>one-time · lifetime access</div>
+                </div>
+                {!timerExpired && (
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 22, color: "var(--orange)", fontVariantNumeric: "tabular-nums" }}>{pad(timerMin)}:{pad(timerSec)}</div>
+                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", letterSpacing: 1 }}>OFFER EXPIRES</div>
+                  </div>
+                )}
+              </div>
+
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                 {result.stripeUrl ? (
                   <a href={result.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ flex: 1 }}>
-                    <button className="btn-primary" style={{ width: "100%" }}>
-                      Get Access — ${result.price}
+                    <button className="btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+                      Get Access — ${result.price} →
                     </button>
                   </a>
                 ) : (
@@ -1925,40 +2118,42 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                     View Program — ${result.price}
                   </button>
                 )}
-                <button className="btn-ghost" onClick={reset}>Start Over</button>
+                <button className="btn-ghost" onClick={reset}>← Retake</button>
               </div>
             </div>
+
+            {/* Also consider */}
+            {result.category !== "bundle" && (
+              <div style={{ textAlign: "center" }}>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginBottom: 12 }}>Want everything for the best value?</p>
+                <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer">
+                  <button className="btn-secondary">👑 Get the Bundle — $97 (save $92)</button>
+                </a>
+              </div>
+            )}
           </div>
         ) : (
           <div>
-            {/* Progress dots */}
             <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 32 }}>
               {questions.map((_, i) => (
                 <div key={i} style={{ width: i === step ? 24 : 8, height: 8, borderRadius: 4, background: i < step ? "var(--orange)" : i === step ? "var(--orange)" : "var(--border)", transition: "all .3s" }} />
               ))}
             </div>
-
             <div className="surface" style={{ borderRadius: 12, padding: "32px 28px", border: "1px solid var(--border-bright)" }}>
               <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 10 }}>Question {step + 1} / {questions.length}</div>
               <h3 className="t-display" style={{ fontSize: "clamp(18px,3vw,26px)", marginBottom: 28, lineHeight: 1.2 }}>{questions[step].q}</h3>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {questions[step].opts.map((opt, i) => (
                   <button key={i} onClick={() => handleAnswer(i)}
-                    style={{
-                      padding: "14px 18px", borderRadius: 8, border: "1px solid var(--border)",
-                      background: "var(--bg-card)", color: "var(--text-dim)", cursor: "pointer",
-                      fontFamily: "var(--fb)", fontSize: 14, textAlign: "left", transition: "all .2s",
-                    }}
+                    style={{ padding: "14px 18px", borderRadius: 8, border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text-dim)", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 14, textAlign: "left", transition: "all .2s" }}
                     onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--text)"; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--text-dim)"; }}
-                  >
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--text-dim)"; }}>
                     <span style={{ color: "var(--orange)", fontFamily: "var(--fd)", marginRight: 10 }}>{String.fromCharCode(65 + i)}.</span>
                     {opt}
                   </button>
                 ))}
               </div>
             </div>
-
             {step > 0 && (
               <button className="btn-ghost" style={{ marginTop: 14, fontSize: 12 }} onClick={() => { setStep(step - 1); setAnswers(answers.slice(0, -1)); }}>
                 ← Back
@@ -1970,6 +2165,87 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
     </section>
   );
 }
+
+// ═══════════════════════════════════════════════════════
+// MAIN APP
+// ═══════════════════════════════════════════════════════
+
+const CSS = `
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@300;400;500;600&display=swap');
+:root {
+  --orange:#FF4500;--orange-dim:rgba(255,69,0,.1);--orange-border:rgba(255,69,0,.28);
+  --bg:#0A0A0A;--bg-card:#111;--bg-card2:#141414;
+  --border:rgba(255,255,255,.07);--border-bright:rgba(255,255,255,.14);
+  --text:#FFF;--text-dim:rgba(255,255,255,.5);--text-faint:rgba(255,255,255,.25);
+  --fd:'Barlow Condensed',Impact,sans-serif;--fb:'Barlow',sans-serif;--fs:'Cormorant Garamond',Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.noise{position:fixed;inset:0;opacity:.02;pointer-events:none;z-index:500;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);background-size:64px 64px}
+.glass{background:rgba(255,255,255,.03);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:6px}
+.surface{background:var(--bg-card);border:1px solid var(--border);border-radius:6px}
+.surface-2{background:var(--bg-card2);border:1px solid var(--border);border-radius:6px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;border-radius:2px;font-family:var(--fb);white-space:nowrap}
+.btn-primary{background:var(--orange);color:#fff;border:none;padding:12px 26px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:#ff6030;transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,69,0,.4)}
+.btn-secondary{background:transparent;color:var(--orange);border:1px solid var(--orange-border);padding:11px 22px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
+.btn-secondary:hover{background:var(--orange-dim)}
+.btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-bright);padding:9px 16px;font-family:var(--fd);font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
+.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.28)}
+.card-lift{transition:transform .3s cubic-bezier(.4,0,.2,1),border-color .3s,box-shadow .3s;cursor:pointer}
+.card-lift:hover{transform:translateY(-5px);border-color:var(--orange-border)!important;box-shadow:0 20px 56px rgba(255,69,0,.14)}
+.progress-bar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--orange),#ff8c00);transition:width .8s cubic-bezier(.4,0,.2,1)}
+.track-toggle{display:flex;background:rgba(255,255,255,.04);border:1px solid var(--border-bright);border-radius:4px;overflow:hidden}
+.track-btn{padding:9px 18px;font-family:var(--fd);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.track-btn.active{background:var(--orange);color:#fff}
+.track-btn:not(.active){background:transparent;color:var(--text-dim)}
+.track-btn:not(.active):hover{background:rgba(255,255,255,.05);color:var(--text)}
+.check-row{transition:background .18s,border-color .18s;cursor:pointer}
+.check-row:hover{background:rgba(255,69,0,.04)!important}
+.data-table{width:100%;border-collapse:collapse;font-family:var(--fb);font-size:13px}
+.data-table th{padding:11px 16px;text-align:left;font-size:10px;letter-spacing:2px;color:var(--text-faint);text-transform:uppercase;font-weight:600;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.data-table td{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.7);vertical-align:top}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(255,69,0,.03)}
+.section-line{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.section-line .ln{flex:1;height:1px;background:var(--border)}
+.section-line .dot{width:5px;height:5px;background:var(--orange);border-radius:50%;flex-shrink:0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes flicker{0%,100%{opacity:1}91%{opacity:1}92%{opacity:.7}93%{opacity:1}97%{opacity:1}98%{opacity:.82}99%{opacity:1}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(255,69,0,.3)}50%{box-shadow:0 0 44px rgba(255,69,0,.6)}}
+.fade-up{animation:fadeUp .5s ease both}
+.flicker{animation:flicker 5s ease-in-out infinite}
+.pulse-glow{animation:pulseGlow 2.6s ease-in-out infinite}
+.t-display{font-family:var(--fd);font-weight:900;text-transform:uppercase;letter-spacing:-.02em}
+.t-label{font-family:var(--fb);font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
+.t-body{font-family:var(--fb);font-weight:400;line-height:1.65}
+.t-serif{font-family:var(--fs)}
+.section-divider{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.section-divider .line{flex:1;height:1px;background:var(--border)}
+.section-divider .dot{width:5px;height:5px;background:var(--orange);border-radius:50%;flex-shrink:0}
+@media(max-width:768px){
+  .pg3{grid-template-columns:1fr!important}
+  .pg2{grid-template-columns:1fr!important}
+  .ex-grid{grid-template-columns:1fr!important}
+  .dash-head{flex-direction:column!important;align-items:flex-start!important;gap:14px!important}
+  .hero-title{font-size:clamp(60px,17vw,110px)!important}
+  .track-btn{padding:8px 12px!important;font-size:11px!important}
+  .testimonial-grid{grid-template-columns:1fr!important}
+}
+@media print{
+  .no-print,.noise,.grid-bg,nav,footer,.track-toggle,
+  .btn-primary,.btn-secondary,.btn-ghost,.progress-bar{display:none!important}
+  *{background:#fff!important;color:#111!important;box-shadow:none!important;animation:none!important;border-color:#ddd!important}
+  html,body{font-size:11pt;line-height:1.55;font-family:Georgia,serif}
+  @page{size:A4;margin:22mm 20mm}
+  .print-cover{display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:230mm!important;page-break-after:always!important}
+  .print-h1{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:40pt!important;font-weight:700!important}
+  .print-h2{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:20pt!important;border-bottom:2px solid #FF4500!important;padding-bottom:5px!important;margin-bottom:14pt!important}
+}
+`;
 
 export default function App() {
   const [page, setPage] = useState<"landing" | "dash">("landing");
@@ -2006,7 +2282,7 @@ export default function App() {
       <nav className="no-print" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 19, letterSpacing: 4, color: "var(--orange)" }}>GRAVITY<span style={{ color: "var(--text)" }}>LAB</span></div>
         <div style={{ display: "flex", gap: 22 }}>
-          {["Programs","Method","Guide"].map(l => (
+          {["Programs", "Method", "Guide"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-faint)", textDecoration: "none", transition: "color .2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = "var(--text)")}
               onMouseLeave={e => (e.currentTarget.style.color = "var(--text-faint)")}>{l}</a>
@@ -2014,6 +2290,7 @@ export default function App() {
         </div>
       </nav>
 
+      {/* ── HERO ─────────────────────────────────────────────── */}
       <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "130px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
         <div className="badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 3, fontSize: 10 }}>⚡ Elite Calisthenics Programs — Premium Digital Coaching</div>
@@ -2025,21 +2302,12 @@ export default function App() {
           <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>View Programs <ChevronDown size={13} /></button></a>
           <a href="#guide"><button className="btn-secondary">Selection Guide</button></a>
         </div>
-        <div style={{ display: "flex", gap: 48, marginTop: 72, flexWrap: "wrap", justifyContent: "center" }}>
-          {[["2,400+","Athletes Trained"],["6","Programs"],["98%","Satisfaction"]].map(([v,l]) => (
-            <div key={l} style={{ textAlign: "center" }}>
-              <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 38, color: "var(--orange)" }}>{v}</div>
-              <div style={{ fontFamily: "var(--fb)", fontSize: 10, letterSpacing: 2, color: "var(--text-faint)", textTransform: "uppercase", marginTop: 5 }}>{l}</div>
-            </div>
-          ))}
-        </div>
       </section>
 
-      {/* ── MANIFESTO SECTION ─────────────────────────────────── */}
-      <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)" }}>
+      {/* ── MANIFESTO ─────────────────────────────────────────── */}
+      <section id="method" style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "center" }} className="pg2">
-            {/* Left column — the problem */}
             <div>
               <div className="badge" style={{ background: "rgba(255,69,0,.08)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 9 }}>⚠️ THE HARD TRUTH</div>
               <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,58px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 28 }}>
@@ -2066,8 +2334,6 @@ export default function App() {
                 ))}
               </div>
             </div>
-
-            {/* Right column — the solution */}
             <div>
               <div style={{ background: "linear-gradient(135deg, rgba(255,69,0,0.06), rgba(255,69,0,0.02))", border: "1px solid var(--orange-border)", borderRadius: 12, padding: "32px 30px" }}>
                 <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, letterSpacing: 3, color: "var(--orange)", marginBottom: 20, textTransform: "uppercase" }}>✅ What you actually need</div>
@@ -2093,9 +2359,10 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── QUIZ SECTION ──────────────────────────────────────── */}
+      {/* ── QUIZ ──────────────────────────────────────────────── */}
       <QuizSection onOpen={openProg} />
 
+      {/* ── PROGRAMS ──────────────────────────────────────────── */}
       <section id="programs" style={{ padding: "60px 22px 20px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1260, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
@@ -2107,17 +2374,19 @@ export default function App() {
             <CatSection label="HYBRID" sublabel="Skill + Strength — two tracks" progs={hybridProgs} onOpen={openProg} />
             <CatSection label="HYPERTROPHY" sublabel="Aesthetic physique focus" progs={hypertrophyProgs} onOpen={openProg} />
           </div>
-          <div style={{ marginBottom: 40 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 6 }}>
-              <div style={{ width: 4, height: 28, background: "var(--orange)", borderRadius: 2 }} />
-              <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,3.5vw,40px)", textTransform: "uppercase" }}>BUNDLE</h2>
-            </div>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 18, marginBottom: 20 }}>Everything. One price. Lifetime access.</p>
-            <div style={{ maxWidth: 400 }}><ProgramCard program={bundleProg} onOpen={openProg} /></div>
-          </div>
         </div>
       </section>
 
+      {/* ── BUNDLE SECTION WITH COUNTDOWN ─────────────────────── */}
+      <BundleSection onOpen={openProg} />
+
+      {/* ── TESTIMONIALS ──────────────────────────────────────── */}
+      <TestimonialsSection />
+
+      {/* ── FAQ ───────────────────────────────────────────────── */}
+      <FAQSection />
+
+      {/* ── SELECTION GUIDE ───────────────────────────────────── */}
       <section id="guide" style={{ padding: "70px 22px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 980, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -2126,16 +2395,22 @@ export default function App() {
           </div>
           <div className="surface" style={{ borderRadius: 8, overflowX: "auto" }}>
             <table className="data-table">
-              <thead><tr>{["Program","Category","Level","Prerequisite","Dual Track","Price",""].map(h => <th key={h}>{h}</th>)}</tr></thead>
+              <thead><tr>{["Program", "Category", "Level", "Prerequisite", "Dual Track", "Price", ""].map(h => <th key={h}>{h}</th>)}</tr></thead>
               <tbody>
                 {PROGRAMS.map(p => (
-                  <tr key={p.id} style={{ cursor: "pointer" }} onMouseEnter={e => (e.currentTarget.style.background="rgba(255,69,0,.04)")} onMouseLeave={e => (e.currentTarget.style.background="transparent")} onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : openProg(p)}>
+                  <tr key={p.id} style={{ cursor: "pointer" }}
+                    onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,69,0,.04)")}
+                    onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                    onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : openProg(p)}>
                     <td style={{ fontWeight: 700, color: "var(--text)" }}>{p.title}</td>
                     <td><span className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border)", fontSize: 9 }}>{p.categoryGroup}</span></td>
                     <td><span className="badge" style={{ background: `${p.levelColor}15`, color: p.levelColor, border: `1px solid ${p.levelColor}28` }}>{p.level}</span></td>
                     <td style={{ fontSize: 12 }}>{(p as any).prereq ?? "—"}</td>
                     <td style={{ textAlign: "center" }}>{p.dualTrack ? <span style={{ color: "var(--orange)", fontWeight: 700 }}>✓</span> : <span style={{ color: "var(--text-faint)" }}>—</span>}</td>
-                    <td><span style={{ fontFamily: "var(--fd)", fontSize: 18, fontWeight: 900, color: p.category==="bundle"?"var(--orange)":"var(--text)" }}>${p.price}</span>{p.originalPrice&&<span style={{ fontFamily:"var(--fb)",fontSize:11,color:"var(--text-faint)",marginLeft:6,textDecoration:"line-through" }}>${p.originalPrice}</span>}</td>
+                    <td>
+                      <span style={{ fontFamily: "var(--fd)", fontSize: 18, fontWeight: 900, color: p.category === "bundle" ? "var(--orange)" : "var(--text)" }}>${p.price}</span>
+                      {p.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginLeft: 6, textDecoration: "line-through" }}>${p.originalPrice}</span>}
+                    </td>
                     <td onClick={e => e.stopPropagation()}>
                       {p.stripeUrl && (
                         <a href={p.stripeUrl} target="_blank" rel="noopener noreferrer">
