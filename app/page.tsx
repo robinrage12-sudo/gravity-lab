@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   ArrowLeft, Download, Clock, Check,
   ChevronDown, ChevronUp, Home, Dumbbell,
@@ -2247,9 +2248,28 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 }
 `;
 
-export default function App() {
+function AppInner() {
   const [page, setPage] = useState<"landing" | "dash">("landing");
   const [active, setActive] = useState<Program | null>(null);
+  const [justPaid, setJustPaid] = useState(false);
+  const searchParams = useSearchParams();
+
+  // ── Read ?program= param on load (after Stripe redirect) ──
+  useEffect(() => {
+    const programId = searchParams.get("program");
+    const paid = searchParams.get("paid");
+
+    if (programId) {
+      const found = PROGRAMS.find(p => p.id === programId);
+      if (found) {
+        setActive(found);
+        setPage("dash");
+        if (paid === "true") setJustPaid(true);
+        // Clean URL without reload
+        window.history.replaceState({}, "", window.location.pathname);
+      }
+    }
+  }, [searchParams]);
 
   const openProg = (p: Program) => {
     setActive(p);
@@ -2261,9 +2281,36 @@ export default function App() {
     return (
       <>
         <style>{CSS}</style>
+
+        {/* ── Post-payment welcome banner ── */}
+        {justPaid && (
+          <div style={{
+            position: "fixed", top: 0, left: 0, right: 0, zIndex: 999,
+            background: "linear-gradient(90deg, #22c55e, #16a34a)",
+            padding: "14px 24px", display: "flex", alignItems: "center",
+            justifyContent: "space-between", gap: 16, flexWrap: "wrap",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span style={{ fontSize: 20 }}>🎉</span>
+              <div>
+                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "#fff", letterSpacing: 1 }}>
+                  Payment confirmed — welcome to {active.title}!
+                </div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.8)", marginTop: 2 }}>
+                  Your full program is unlocked below. Bookmark this page for future access.
+                </div>
+              </div>
+            </div>
+            <button onClick={() => setJustPaid(false)}
+              style={{ background: "rgba(255,255,255,0.2)", border: "1px solid rgba(255,255,255,0.3)", color: "#fff", padding: "6px 14px", borderRadius: 4, cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 1 }}>
+              ✕ Close
+            </button>
+          </div>
+        )}
+
         {active.category === "bundle"
-          ? <BundleDashboard program={active} onBack={() => { setPage("landing"); window.scrollTo({ top: 0 }); }} />
-          : <Dashboard program={active} onBack={() => { setPage("landing"); window.scrollTo({ top: 0 }); }} />
+          ? <BundleDashboard program={active} onBack={() => { setPage("landing"); setJustPaid(false); window.scrollTo({ top: 0 }); }} />
+          : <Dashboard program={active} onBack={() => { setPage("landing"); setJustPaid(false); window.scrollTo({ top: 0 }); }} />
         }
       </>
     );
@@ -2430,5 +2477,13 @@ export default function App() {
         <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", letterSpacing: 1 }}>© 2025 GRAVITYLAB — All rights reserved</p>
       </footer>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Suspense fallback={null}>
+      <AppInner />
+    </Suspense>
   );
 }
