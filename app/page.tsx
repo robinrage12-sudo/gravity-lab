@@ -1697,7 +1697,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
     <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }} onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : onOpen(p)}>
       <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at top left, ${p.glowColor}, transparent 60%)`, pointerEvents: "none", borderRadius: 8 }} />
       {p.badge && (
-        <div style={{ position: "absolute", top: 12, right: -26, background: p.category === "bundle" ? "linear-gradient(135deg,var(--orange),#ff8c00)" : "var(--orange)", color: "#fff", fontSize: 9, fontWeight: 800, letterSpacing: 2, fontFamily: "var(--fb)", padding: "4px 32px", transform: "rotate(35deg)", transformOrigin: "center", whiteSpace: "nowrap", zIndex: 2 }}>{p.badge}</div>
+        <div className="badge-bounce" style={{ position: "absolute", top: 12, right: -26, background: p.category === "bundle" ? "linear-gradient(135deg,var(--orange),#ff8c00)" : "var(--orange)", color: "#fff", fontSize: 9, fontWeight: 800, letterSpacing: 2, fontFamily: "var(--fb)", padding: "4px 32px", transform: "rotate(35deg)", transformOrigin: "center", whiteSpace: "nowrap", zIndex: 2 }}>{p.badge}</div>
       )}
       <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
         <div style={{ fontSize: 30, marginBottom: 10 }}>{p.icon}</div>
@@ -1729,14 +1729,14 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         </ul>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
           <div>
-            <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" ? "var(--orange)" : "var(--text)", lineHeight: 1 }}>${p.price}</span>
+            <span className={p.category === "bundle" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
             {p.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${p.originalPrice}</span>}
             <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", marginTop: 1 }}>lifetime access</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
             {p.stripeUrl ? (
               <a href={p.stripeUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>
-                <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }}>Get Access →</button>
+                <button className={`btn-primary ${p.category === "bundle" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>Get Access →</button>
               </a>
             ) : (
               <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={(e) => { e.stopPropagation(); onOpen(p); }}>Get Access →</button>
@@ -1994,7 +1994,7 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
             {/* CTA */}
             <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
-              <button className="btn-primary pulse-glow" style={{ width: "100%", justifyContent: "center", padding: "16px", fontSize: 15, letterSpacing: 2 }}>
+              <button className="btn-primary pulse-glow cta-pulse" style={{ width: "100%", justifyContent: "center", padding: "16px", fontSize: 15, letterSpacing: 2 }}>
                 Get the Bundle — $97
               </button>
             </a>
@@ -2283,6 +2283,17 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes flicker{0%,100%{opacity:1}91%{opacity:1}92%{opacity:.7}93%{opacity:1}97%{opacity:1}98%{opacity:.82}99%{opacity:1}}
 @keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(255,69,0,.3)}50%{box-shadow:0 0 44px rgba(255,69,0,.6)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes badgeBounce{0%,100%{transform:rotate(35deg) scale(1)}50%{transform:rotate(35deg) scale(1.08)}}
+@keyframes wiggle{0%,100%{transform:translateX(0)}20%{transform:translateX(-3px)}40%{transform:translateX(3px)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}}
+@keyframes ctaPulse{0%,100%{transform:translateY(0);box-shadow:0 4px 20px rgba(255,69,0,.35)}50%{transform:translateY(-3px);box-shadow:0 12px 36px rgba(255,69,0,.6)}}
+@keyframes borderGlow{0%,100%{border-color:rgba(255,69,0,.28)}50%{border-color:rgba(255,69,0,.7)}}
+@keyframes priceReveal{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
+.shimmer-text{background:linear-gradient(90deg,var(--orange) 0%,#ffb347 40%,var(--orange) 60%,#ff8c00 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
+.badge-bounce{animation:badgeBounce 2s ease-in-out infinite}
+.cta-pulse{animation:ctaPulse 2.2s ease-in-out infinite}
+.border-glow{animation:borderGlow 2.5s ease-in-out infinite}
+.wiggle{animation:wiggle 3s ease-in-out infinite}
 .fade-up{animation:fadeUp .5s ease both}
 .flicker{animation:flicker 5s ease-in-out infinite}
 .pulse-glow{animation:pulseGlow 2.6s ease-in-out infinite}
@@ -2294,11 +2305,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .section-divider .line{flex:1;height:1px;background:var(--border)}
 .section-divider .dot{width:5px;height:5px;background:var(--orange);border-radius:50%;flex-shrink:0}
 .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(10,10,10,0.96);backdrop-filter:blur(24px);border-top:1px solid var(--border);padding:8px 0;justify-content:space-around;align-items:center}
-.bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 16px;background:transparent;border:none;cursor:pointer;color:var(--text-faint);transition:color .2s;font-family:var(--fb);font-size:10px;letter-spacing:1px;text-transform:uppercase;text-decoration:none}
+.bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 16px;background:transparent;border:none;cursor:pointer;color:rgba(255,255,255,0.85);transition:color .2s;font-family:var(--fb);font-size:10px;letter-spacing:1px;text-transform:uppercase;text-decoration:none}
 .bottom-nav-btn.active,.bottom-nav-btn:hover{color:var(--orange)}
-.results-fab{position:fixed;bottom:80px;right:16px;z-index:290;background:linear-gradient(135deg,var(--orange),#ff8c00);color:#fff;border:none;border-radius:50px;padding:13px 20px;font-family:var(--fd);font-weight:900;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(255,69,0,0.5);transition:all .2s}
-.results-fab:active{transform:scale(0.96)}
-@media(min-width:769px){.bottom-nav{display:none!important}.results-fab{display:none!important}}
+@media(min-width:769px){.bottom-nav{display:none!important}}
 @media(max-width:768px){
   .pg3{grid-template-columns:1fr!important}
   .pg2{grid-template-columns:1fr!important}
@@ -2314,7 +2323,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
   .hero-ctas{flex-direction:column!important;width:100%!important;align-items:stretch!important}
   .hero-ctas a{width:100%!important}
   .hero-ctas button{width:100%!important;justify-content:center!important}
-  .results-fab{display:flex!important}
   body{padding-bottom:80px}
 }
 @media print{
@@ -2438,13 +2446,6 @@ function AppInner() {
         </a>
       </nav>
 
-      {/* ── RESULTS FLOATING BUTTON (mobile only) ── */}
-      <button className="results-fab no-print" onClick={() => {
-        document.getElementById("results-section")?.scrollIntoView({ behavior: "smooth" });
-      }}>
-        📸 See Results
-      </button>
-
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "130px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
@@ -2454,7 +2455,7 @@ function AppInner() {
         </h1>
         <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 300, fontSize: 17, color: "var(--text-dim)", maxWidth: 500, marginBottom: 48, lineHeight: 1.65 }}>Science-backed programs engineered to build elite skills and serious muscle. Planche. Front Lever. Hybrid. Aesthetics.</p>
         <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
-          <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>View Programs <ChevronDown size={13} /></button></a>
+          <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>View Programs <span className="wiggle" style={{display:"inline-block"}}><ChevronDown size={13} /></span></button></a>
           <a href="#results-section"><button className="btn-secondary">📸 See Results</button></a>
         </div>
       </section>
