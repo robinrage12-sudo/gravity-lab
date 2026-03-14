@@ -2305,7 +2305,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .section-divider .line{flex:1;height:1px;background:var(--border)}
 .section-divider .dot{width:5px;height:5px;background:var(--orange);border-radius:50%;flex-shrink:0}
 .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(10,10,10,0.96);backdrop-filter:blur(24px);border-top:1px solid var(--border);padding:8px 0;justify-content:space-around;align-items:center}
-.bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 16px;background:transparent;border:none;cursor:pointer;color:rgba(255,255,255,0.85);transition:color .2s;font-family:var(--fb);font-size:10px;letter-spacing:1px;text-transform:uppercase;text-decoration:none}
+.bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 16px;background:transparent;border:none;cursor:pointer;color:#ffffff;transition:color .2s;font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none}
 .bottom-nav-btn.active,.bottom-nav-btn:hover{color:var(--orange)}
 @media(min-width:769px){.bottom-nav{display:none!important}}
 @media(max-width:768px){
@@ -2449,7 +2449,7 @@ function AppInner() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "130px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
-        <div className="badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 3, fontSize: 10 }}>⚡ Elite Calisthenics Programs — Premium Digital Coaching</div>
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Elite Calisthenics Programs — Premium Digital Coaching</div>
         <h1 className="flicker hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 28 }}>
           DOMINATE<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>GRAVITY</span>
         </h1>
