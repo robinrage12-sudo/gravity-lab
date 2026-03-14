@@ -1752,14 +1752,106 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
 // TESTIMONIALS SECTION
 // ═══════════════════════════════════════════════════════
 
-function TestimonialsSection() {
-  const [active, setActive] = useState(0);
-  const cols = [
-    [testimonials[0], testimonials[3]],
-    [testimonials[1], testimonials[4]],
-    [testimonials[2], testimonials[5]],
-  ];
+const beforeAfterData = [
+  {
+    name: "Marcus",
+    age: 18,
+    program: "Full Hypertrophy",
+    programColor: "#ec4899",
+    duration: "3 months",
+    before: "/Marcus_Before.png",
+    after: "/Marcus_After.png",
+    quote: "I had never trained seriously before. 3 months in, I have visible abs, my chest actually exists now, and I'm stronger than I've ever been. The no-equipment track is no joke.",
+    stats: [{ label: "Duration", val: "3 months" }, { label: "Program", val: "Full Hypertrophy" }, { label: "Track", val: "No Equipment" }],
+  },
+  {
+    name: "Léo",
+    age: 23,
+    program: "Hybrid Athlete",
+    programColor: "#a855f7",
+    duration: "9 months",
+    before: "/Leo_Before.png",
+    after: "/Leo_After.png",
+    quote: "9 months of Hybrid Athlete. I went from a skinny guy with zero skill to a straddle planche hold and a physique I'm actually proud of. The dual-track format kept me consistent — gym days and home days both planned.",
+    stats: [{ label: "Duration", val: "9 months" }, { label: "Program", val: "Hybrid Athlete" }, { label: "Skill reached", val: "Straddle Planche" }],
+  },
+  {
+    name: "Jordan",
+    age: 20,
+    program: "Full Hypertrophy + Front Lever",
+    programColor: "#3b82f6",
+    duration: "7 months",
+    before: "/Jordan_Before.png",
+    after: "/Jordan_After.png",
+    quote: "4 months of Full Hypertrophy bodyweight, then 3 months of Front Lever Mastery on top. Ended up with both — a physique transformation AND a full front lever. Didn't think both were possible at the same time.",
+    stats: [{ label: "Duration", val: "7 months" }, { label: "Programs", val: "2 programs" }, { label: "Skill reached", val: "Full Front Lever" }],
+  },
+];
 
+function BeforeAfterCard({ data }: { data: typeof beforeAfterData[0] }) {
+  const [showAfter, setShowAfter] = useState(false);
+
+  return (
+    <div className="surface" style={{ borderRadius: 12, overflow: "hidden", border: "1px solid var(--border)", transition: "border-color .2s" }}
+      onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--orange-border)")}
+      onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}>
+
+      {/* Photo toggle */}
+      <div style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", background: "#0a0a0a" }}>
+        <img
+          src={showAfter ? data.after : data.before}
+          alt={`${data.name} ${showAfter ? "after" : "before"}`}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", transition: "opacity .3s" }}
+        />
+        {/* Before/After toggle buttons */}
+        <div style={{ position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)", display: "flex", background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", borderRadius: 20, overflow: "hidden", border: "1px solid rgba(255,255,255,0.15)" }}>
+          <button onClick={() => setShowAfter(false)}
+            style={{ padding: "7px 18px", border: "none", cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, transition: "all .2s", background: !showAfter ? "var(--orange)" : "transparent", color: !showAfter ? "#fff" : "rgba(255,255,255,0.5)" }}>
+            BEFORE
+          </button>
+          <button onClick={() => setShowAfter(true)}
+            style={{ padding: "7px 18px", border: "none", cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, transition: "all .2s", background: showAfter ? "var(--orange)" : "transparent", color: showAfter ? "#fff" : "rgba(255,255,255,0.5)" }}>
+            AFTER
+          </button>
+        </div>
+        {/* Program badge */}
+        <div style={{ position: "absolute", top: 12, left: 12 }}>
+          <span className="badge" style={{ background: `${data.programColor}22`, color: data.programColor, border: `1px solid ${data.programColor}44`, backdropFilter: "blur(8px)", fontSize: 9 }}>
+            {data.program}
+          </span>
+        </div>
+      </div>
+
+      {/* Info */}
+      <div style={{ padding: "20px" }}>
+        {/* Stars */}
+        <div style={{ display: "flex", gap: 2, marginBottom: 10 }}>
+          {Array(5).fill(0).map((_, i) => <Star key={i} size={11} fill="var(--orange)" stroke="none" />)}
+        </div>
+        {/* Name + age */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 20, color: "var(--text)" }}>{data.name}</div>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)" }}>{data.age} y.o. · {data.duration}</span>
+        </div>
+        {/* Quote */}
+        <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.65, marginBottom: 16, fontStyle: "italic" }}>
+          "{data.quote}"
+        </p>
+        {/* Stats */}
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", paddingTop: 14, borderTop: "1px solid var(--border)" }}>
+          {data.stats.map((s, i) => (
+            <div key={i} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", borderRadius: 4, padding: "6px 10px" }}>
+              <div style={{ fontFamily: "var(--fb)", fontSize: 9, color: "var(--text-faint)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 2 }}>{s.label}</div>
+              <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--text)", fontWeight: 700 }}>{s.val}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TestimonialsSection() {
   return (
     <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
@@ -1769,38 +1861,12 @@ function TestimonialsSection() {
             Real athletes.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Real results.</span>
           </h2>
           <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", maxWidth: 480, margin: "0 auto" }}>
-            No cherry-picked before/afters. Just honest feedback from people who followed the programs.
+            Click BEFORE / AFTER to see the transformation. No filters, no editing.
           </p>
         </div>
 
-        {/* Desktop 3-col grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }} className="testimonial-grid">
-          {cols.map((col, ci) => (
-            <div key={ci} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {col.map((t, ti) => (
-                <div key={ti} className="surface" style={{ borderRadius: 10, padding: "22px", border: "1px solid var(--border)", transition: "border-color .2s", cursor: "default" }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--orange-border)")}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}>
-                  {/* Stars */}
-                  <div style={{ display: "flex", gap: 2, marginBottom: 12 }}>
-                    {Array(t.rating).fill(0).map((_, i) => <Star key={i} size={12} fill="var(--orange)" stroke="none" />)}
-                  </div>
-                  {/* Quote */}
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.65, marginBottom: 16, fontStyle: "italic" }}>"{t.result}"</p>
-                  {/* Footer */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 14, borderTop: "1px solid var(--border)" }}>
-                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: `${t.avatarColor}22`, border: `1.5px solid ${t.avatarColor}55`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--fd)", fontSize: 11, fontWeight: 900, color: t.avatarColor, flexShrink: 0 }}>{t.avatar}</div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--text)", fontWeight: 700 }}>{t.name}</div>
-                      <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)" }}>{t.handle}</div>
-                    </div>
-                    <span className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", fontSize: 8 }}>{t.program}</span>
-                  </div>
-                  <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)" }}>⏱ {t.weeks}</div>
-                </div>
-              ))}
-            </div>
-          ))}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }} className="testimonial-grid">
+          {beforeAfterData.map((d, i) => <BeforeAfterCard key={i} data={d} />)}
         </div>
       </div>
     </section>
