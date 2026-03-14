@@ -2293,14 +2293,29 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .section-divider{display:flex;align-items:center;gap:16px;margin-bottom:28px}
 .section-divider .line{flex:1;height:1px;background:var(--border)}
 .section-divider .dot{width:5px;height:5px;background:var(--orange);border-radius:50%;flex-shrink:0}
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(10,10,10,0.96);backdrop-filter:blur(24px);border-top:1px solid var(--border);padding:8px 0;justify-content:space-around;align-items:center}
+.bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 16px;background:transparent;border:none;cursor:pointer;color:var(--text-faint);transition:color .2s;font-family:var(--fb);font-size:10px;letter-spacing:1px;text-transform:uppercase;text-decoration:none}
+.bottom-nav-btn.active,.bottom-nav-btn:hover{color:var(--orange)}
+.results-fab{position:fixed;bottom:80px;right:16px;z-index:290;background:linear-gradient(135deg,var(--orange),#ff8c00);color:#fff;border:none;border-radius:50px;padding:13px 20px;font-family:var(--fd);font-weight:900;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(255,69,0,0.5);transition:all .2s}
+.results-fab:active{transform:scale(0.96)}
+@media(min-width:769px){.bottom-nav{display:none!important}.results-fab{display:none!important}}
 @media(max-width:768px){
   .pg3{grid-template-columns:1fr!important}
   .pg2{grid-template-columns:1fr!important}
   .ex-grid{grid-template-columns:1fr!important}
   .dash-head{flex-direction:column!important;align-items:flex-start!important;gap:14px!important}
-  .hero-title{font-size:clamp(60px,17vw,110px)!important}
+  .hero-title{font-size:clamp(52px,14vw,90px)!important}
   .track-btn{padding:8px 12px!important;font-size:11px!important}
   .testimonial-grid{grid-template-columns:1fr!important}
+  .bottom-nav{display:flex!important}
+  .desktop-nav-links{display:none!important}
+  .btn-primary{min-height:52px!important;font-size:14px!important}
+  .btn-secondary{min-height:50px!important;font-size:14px!important}
+  .hero-ctas{flex-direction:column!important;width:100%!important;align-items:stretch!important}
+  .hero-ctas a{width:100%!important}
+  .hero-ctas button{width:100%!important;justify-content:center!important}
+  .results-fab{display:flex!important}
+  body{padding-bottom:80px}
 }
 @media print{
   .no-print,.noise,.grid-bg,nav,footer,.track-toggle,
@@ -2394,7 +2409,7 @@ function AppInner() {
 
       <nav className="no-print" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 19, letterSpacing: 4, color: "var(--orange)" }}>GRAVITY<span style={{ color: "var(--text)" }}>LAB</span></div>
-        <div style={{ display: "flex", gap: 22 }}>
+        <div className="desktop-nav-links" style={{ display: "flex", gap: 22 }}>
           {["Programs", "Method", "Guide"].map(l => (
             <a key={l} href={`#${l.toLowerCase()}`} style={{ fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-faint)", textDecoration: "none", transition: "color .2s" }}
               onMouseEnter={e => (e.currentTarget.style.color = "var(--text)")}
@@ -2403,17 +2418,44 @@ function AppInner() {
         </div>
       </nav>
 
+      {/* ── BOTTOM NAV (mobile only) ── */}
+      <nav className="bottom-nav no-print">
+        <a href="#programs" className="bottom-nav-btn">
+          <span style={{ fontSize: 18 }}>🏋️</span>
+          Programs
+        </a>
+        <a href="#results-section" className="bottom-nav-btn">
+          <span style={{ fontSize: 18 }}>📸</span>
+          Results
+        </a>
+        <a href="#quiz-section" className="bottom-nav-btn">
+          <span style={{ fontSize: 18 }}>🎯</span>
+          Quiz
+        </a>
+        <a href="#guide" className="bottom-nav-btn">
+          <span style={{ fontSize: 18 }}>📋</span>
+          Guide
+        </a>
+      </nav>
+
+      {/* ── RESULTS FLOATING BUTTON (mobile only) ── */}
+      <button className="results-fab no-print" onClick={() => {
+        document.getElementById("results-section")?.scrollIntoView({ behavior: "smooth" });
+      }}>
+        📸 See Results
+      </button>
+
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "130px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "130px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
         <div className="badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 3, fontSize: 10 }}>⚡ Elite Calisthenics Programs — Premium Digital Coaching</div>
         <h1 className="flicker hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 28 }}>
           DOMINATE<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>GRAVITY</span>
         </h1>
-        <p style={{ fontFamily: "var(--fb)", fontWeight: 300, fontSize: 17, color: "var(--text-dim)", maxWidth: 500, marginBottom: 48, lineHeight: 1.65 }}>Science-backed programs engineered to build elite skills and serious muscle. Planche. Front Lever. Hybrid. Aesthetics.</p>
-        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
+        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 300, fontSize: 17, color: "var(--text-dim)", maxWidth: 500, marginBottom: 48, lineHeight: 1.65 }}>Science-backed programs engineered to build elite skills and serious muscle. Planche. Front Lever. Hybrid. Aesthetics.</p>
+        <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
           <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>View Programs <ChevronDown size={13} /></button></a>
-          <a href="#guide"><button className="btn-secondary">Selection Guide</button></a>
+          <a href="#results-section"><button className="btn-secondary">📸 See Results</button></a>
         </div>
       </section>
 
@@ -2473,7 +2515,9 @@ function AppInner() {
       </section>
 
       {/* ── QUIZ ──────────────────────────────────────────────── */}
-      <QuizSection onOpen={openProg} />
+      <div id="quiz-section">
+        <QuizSection onOpen={openProg} />
+      </div>
 
       {/* ── PROGRAMS ──────────────────────────────────────────── */}
       <section id="programs" style={{ padding: "60px 22px 20px", position: "relative", zIndex: 1 }}>
@@ -2494,7 +2538,7 @@ function AppInner() {
       <BundleSection onOpen={openProg} />
 
       {/* ── TESTIMONIALS ──────────────────────────────────────── */}
-      <TestimonialsSection />
+      <div id="results-section"><TestimonialsSection /></div>
 
       {/* ── FAQ ───────────────────────────────────────────────── */}
       <FAQSection />
