@@ -116,7 +116,7 @@ const plancheFoundation: Program = {
   levelColor: "#22c55e",
   category: "skill",
   categoryGroup: "STRENGTH & SKILLS",
-  price: "27",
+  price: "37",
   icon: "🤸",
   glowColor: "rgba(34,197,94,0.12)",
   goals: [
@@ -445,7 +445,7 @@ const plancheFoundation: Program = {
     "Bulletproof wrist & shoulder preparation",
     "🌟 Bonus: One arm handstand progression",
   ],
-  stripeUrl: "https://buy.stripe.com/5kQeVf0Ix3Yd0EPgZT3ZK06",
+  stripeUrl: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h",
 };
 
 const plancheElite: Program = {
@@ -457,7 +457,7 @@ const plancheElite: Program = {
   levelColor: "#f97316",
   category: "skill",
   categoryGroup: "STRENGTH & SKILLS",
-  price: "39",
+  price: "57",
   icon: "⚡",
   glowColor: "rgba(249,115,22,0.15)",
   goals: [
@@ -731,7 +731,7 @@ const plancheElite: Program = {
     "Full planche approach within 6 months",
     "🌟 Bonus: One arm handstand progression",
   ],
-  stripeUrl: "https://buy.stripe.com/eVq9AVdvjamB73dcJD3ZK07",
+  stripeUrl: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f",
 };
 
 const frontLeverMastery: Program = {
@@ -743,7 +743,7 @@ const frontLeverMastery: Program = {
   levelColor: "#3b82f6",
   category: "skill",
   categoryGroup: "STRENGTH & SKILLS",
-  price: "29",
+  price: "39",
   icon: "🎯",
   glowColor: "rgba(59,130,246,0.15)",
   goals: [
@@ -983,7 +983,7 @@ const frontLeverMastery: Program = {
     "Scapular raises & Australian pull-up technique",
     "Elite posterior chain conditioning",
   ],
-  stripeUrl: "https://buy.stripe.com/8x2dRbaj7fGV0EP6lf3ZK08",
+  stripeUrl: "https://buy.stripe.com/8x2aEZ8aZamB5Z910V3ZK0g",
 };
 
 const hybridAthlete: Program = {
@@ -995,7 +995,7 @@ const hybridAthlete: Program = {
   levelColor: "#a855f7",
   category: "hybrid",
   categoryGroup: "HYBRID",
-  price: "47",
+  price: "57",
   icon: "💪",
   glowColor: "rgba(168,85,247,0.15)",
   badge: "BEST-SELLER",
@@ -1253,7 +1253,7 @@ const hybridAthlete: Program = {
     "Bonus: One arm handstand progression — full technique",
     "Progressive overload across both tracks",
   ],
-  stripeUrl: "https://buy.stripe.com/28EaEZ2QFdyN2MX4d73ZK09",
+  stripeUrl: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e",
 };
 
 const fullHypertrophy: Program = {
@@ -1265,7 +1265,7 @@ const fullHypertrophy: Program = {
   levelColor: "#ec4899",
   category: "hypertrophy",
   categoryGroup: "HYPERTROPHY",
-  price: "47",
+  price: "57",
   icon: "🔥",
   glowColor: "rgba(236,72,153,0.15)",
   dualTrack: true,
@@ -1548,7 +1548,7 @@ const fullHypertrophy: Program = {
     "Bonus: One arm handstand progression — full technique",
     "Scientific hypertrophy protocol",
   ],
-  stripeUrl: "https://buy.stripe.com/aFa00l0IxeCRcnx3933ZK0a",
+  stripeUrl: "https://buy.stripe.com/fZu6oJeznamB87hbFz3ZK0d",
 };
 
 const ultimateBundle: Program = {
@@ -1560,8 +1560,8 @@ const ultimateBundle: Program = {
   levelColor: "#FF4500",
   category: "bundle",
   categoryGroup: "BUNDLE",
-  price: "97",
-  originalPrice: "189",
+  price: "127",
+  originalPrice: "285",
   icon: "👑",
   glowColor: "rgba(255,69,0,0.2)",
   badge: "BEST VALUE",
@@ -1578,10 +1578,10 @@ const ultimateBundle: Program = {
   cooldown: sharedCooldown,
   benefits: [
     "All 5 programs — lifetime access",
-    "Save $92 vs individual purchase",
+    "Save $158 vs individual purchase",
     "Future program updates included",
   ],
-  stripeUrl: "https://buy.stripe.com/aFa8wR3UJeCRcnx10V3ZK0b",
+  stripeUrl: "https://buy.stripe.com/7sYbJ3gHvgKZcnx6lf3ZK0c",
 };
 
 const allPrograms: Program[] = [
@@ -2388,11 +2388,11 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
   const { h, m, s } = useCountdown();
   const pad = (n: number) => String(n).padStart(2, "0");
   const priceItems = [
-    { label: "Planche Foundation", price: 27 },
-    { label: "Planche Elite", price: 39 },
-    { label: "Front Lever Mastery", price: 29 },
-    { label: "Hybrid Athlete", price: 47 },
-    { label: "Full Hypertrophy", price: 47 },
+    { label: "Planche Foundation", price: 37 },
+    { label: "Planche Elite", price: 57 },
+    { label: "Front Lever Mastery", price: 39 },
+    { label: "Hybrid Athlete", price: 57 },
+    { label: "Full Hypertrophy", price: 57 },
   ];
   const total = priceItems.reduce((a, b) => a + b.price, 0);
 
