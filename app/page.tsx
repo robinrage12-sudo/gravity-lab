@@ -701,7 +701,6 @@ const frontLeverMastery: Program = {
         },
       ],
     },
-  ],
     {
       name: "Phase 4 — Pull-Ups, Raises & Bonus Skills",
       tag: "Weeks 13–16",
