@@ -1006,7 +1006,6 @@ const hybridAthlete: Program = {
         },
       ],
     },
-  ],
     {
       name: "⭐ BONUS — One Arm Handstand Progression",
       tag: "Optional / Ongoing",
