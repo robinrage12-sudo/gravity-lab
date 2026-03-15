@@ -111,7 +111,7 @@ const plancheFoundation: Program = {
   id: "planche-foundation",
   title: "Planche Foundation",
   subtitle: "From Zero to Tuck Planche",
-  tagline: "The first 8 weeks that will define your calisthenics career.",
+  tagline: "The first 8 weeks that will define your calisthenics career. Push-ups, press & skill — all covered.",
   level: "Beginner",
   levelColor: "#22c55e",
   category: "skill",
@@ -451,8 +451,8 @@ const plancheFoundation: Program = {
 const plancheElite: Program = {
   id: "planche-elite",
   title: "Planche Elite",
-  subtitle: "From Straddle to Full Planche",
-  tagline: "The advanced protocol that separates athletes from artists.",
+  subtitle: "From Straddle to Full Planche + Maltese",
+  tagline: "The advanced protocol that separates athletes from artists. Includes Maltese & One Arm Handstand.",
   level: "Intermediate / Advanced",
   levelColor: "#f97316",
   category: "skill",
@@ -737,8 +737,8 @@ const plancheElite: Program = {
 const frontLeverMastery: Program = {
   id: "front-lever",
   title: "Front Lever Mastery",
-  subtitle: "Complete Guide to Full Front Lever",
-  tagline: "Build the posterior chain of a gymnast.",
+  subtitle: "Full Front Lever + One Arm Pull-Up Bonus",
+  tagline: "Build the posterior chain of a gymnast. Includes front lever pull-ups & OAP progression.",
   level: "All Levels",
   levelColor: "#3b82f6",
   category: "skill",
@@ -1669,7 +1669,7 @@ const testimonials = [
     avatarColor: "#FF4500",
     rating: 5,
     weeks: "16 weeks in",
-    result: "Got the bundle and I'm alternating between Hypertrophy and Front Lever. The programs complement each other perfectly. Best $97 I've ever spent on fitness — this replaced a $80/month PT I was paying for.",
+    result: "Got the bundle and I'm alternating between Hypertrophy and Front Lever. The programs complement each other perfectly. Best $127 I've ever spent on fitness — this replaced a $80/month PT I was paying for.",
   },
 ];
 
@@ -2424,9 +2424,9 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 18px", background: "linear-gradient(90deg,rgba(255,69,0,0.12),rgba(255,69,0,0.04))" }}>
                 <div>
                   <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 14, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>Bundle Price</div>
-                  <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>You save ${total - 97}</div>
+                  <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>You save ${total - 127}</div>
                 </div>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "var(--orange)" }}>$97</span>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "var(--orange)" }}>$127</span>
               </div>
             </div>
           </div>
@@ -2454,7 +2454,7 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
             {/* CTA */}
             <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
               <button className="btn-primary pulse-glow cta-pulse" style={{ width: "100%", justifyContent: "center", padding: "16px", fontSize: 15, letterSpacing: 2 }}>
-                Get the Bundle — $97
+                Get the Bundle — $127
               </button>
             </a>
             <div style={{ display: "flex", gap: 16, marginTop: 14, justifyContent: "center", flexWrap: "wrap" }}>
@@ -2653,7 +2653,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
               <div style={{ textAlign: "center" }}>
                 <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginBottom: 12 }}>Want everything for the best value?</p>
                 <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="btn-secondary">👑 Get the Bundle — $97 (save $92)</button>
+                  <button className="btn-secondary">👑 Get the Bundle — $127 (save $158)</button>
                 </a>
               </div>
             )}
@@ -2912,10 +2912,31 @@ function AppInner() {
         <h1 className="flicker hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 28 }}>
           DOMINATE<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>GRAVITY</span>
         </h1>
-        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 300, fontSize: 17, color: "var(--text-dim)", maxWidth: 500, marginBottom: 48, lineHeight: 1.65 }}>Science-backed programs engineered to build elite skills and serious muscle. Planche. Front Lever. Hybrid. Aesthetics.</p>
-        <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
-          <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>View Programs <span className="wiggle" style={{display:"inline-block"}}><ChevronDown size={13} /></span></button></a>
-          <a href="#results-section"><button className="btn-secondary">📸 See Results</button></a>
+        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 300, fontSize: 17, color: "var(--text-dim)", maxWidth: 500, marginBottom: 32, lineHeight: 1.65 }}>Science-backed programs engineered to build elite skills and serious muscle. Planche. Front Lever. Hybrid. Aesthetics.</p>
+
+        {/* Social proof line */}
+        <div style={{ display: "flex", gap: 20, marginBottom: 40, flexWrap: "wrap", justifyContent: "center" }}>
+          {[
+            { icon: "🤸", text: "Planche & Front Lever" },
+            { icon: "💪", text: "Skill + Muscle" },
+            { icon: "🌟", text: "OAH & OAP Bonuses" },
+          ].map((item, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ fontSize: 14 }}>{item.icon}</span>
+              <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.45)", letterSpacing: 0.5 }}>{item.text}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 32 }}>
+          <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>Start Training <span className="wiggle" style={{display:"inline-block"}}><ChevronDown size={13} /></span></button></a>
+          <a href="#results-section"><button className="btn-secondary">📸 Real Results</button></a>
+        </div>
+
+        {/* Scroll indicator */}
+        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, opacity: 0.35 }}>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "var(--text-faint)" }}>Scroll</span>
+          <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, var(--orange), transparent)" }} />
         </div>
       </section>
 
@@ -3043,7 +3064,32 @@ function AppInner() {
         </div>
       </section>
 
-      <footer className="no-print" style={{ borderTop: "1px solid var(--border)", padding: "24px", textAlign: "center" }}>
+      {/* ── FINAL CTA ─────────────────────────────────────────── */}
+      <section style={{ padding: "80px 22px", position: "relative", zIndex: 1, background: "linear-gradient(180deg, transparent, rgba(255,69,0,0.04))", borderTop: "1px solid var(--border)", textAlign: "center" }}>
+        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,5vw,56px)", textTransform: "uppercase", lineHeight: .9, marginBottom: 16 }}>
+            Stop scrolling.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Start training.</span>
+          </h2>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", marginBottom: 32, lineHeight: 1.65 }}>
+            Every day without a structured program is a day of spinning in place. Pick your program and start today.
+          </p>
+          <a href="#programs">
+            <button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "16px 48px", letterSpacing: 3 }}>
+              Choose Your Program →
+            </button>
+          </a>
+        </div>
+      </section>
+
+      <footer className="no-print" style={{ borderTop: "1px solid var(--border)", padding: "28px 24px", textAlign: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 28, marginBottom: 14, flexWrap: "wrap" }}>
+          {["Programs", "Results", "FAQ", "Guide"].map(l => (
+            <a key={l} href={`#${l.toLowerCase() === "results" ? "results-section" : l.toLowerCase() === "faq" ? "faq" : l.toLowerCase()}`}
+              style={{ fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-faint)", textDecoration: "none" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "var(--orange)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "var(--text-faint)")}>{l}</a>
+          ))}
+        </div>
         <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", letterSpacing: 1 }}>© 2025 GRAVITYLAB — All rights reserved</p>
       </footer>
     </div>
