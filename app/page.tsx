@@ -1717,17 +1717,25 @@ const faqs = [
 // ═══════════════════════════════════════════════════════
 
 function useCountdown() {
-  const getTargetTime = () => {
-    const stored = localStorage.getItem("gl_bundle_deadline");
-    if (stored) return parseInt(stored);
-    const deadline = Date.now() + 48 * 60 * 60 * 1000;
-    localStorage.setItem("gl_bundle_deadline", deadline.toString());
-    return deadline;
-  };
-
   const [timeLeft, setTimeLeft] = useState({ h: 47, m: 59, s: 59 });
 
   useEffect(() => {
+    // Safe to access localStorage here (client only)
+    const getTargetTime = () => {
+      try {
+        const stored = localStorage.getItem("gl_bundle_deadline");
+        if (stored) {
+          const t = parseInt(stored);
+          if (!isNaN(t) && t > Date.now()) return t;
+        }
+        const deadline = Date.now() + 48 * 60 * 60 * 1000;
+        localStorage.setItem("gl_bundle_deadline", deadline.toString());
+        return deadline;
+      } catch {
+        return Date.now() + 48 * 60 * 60 * 1000;
+      }
+    };
+
     const target = getTargetTime();
     const tick = () => {
       const diff = target - Date.now();
