@@ -1983,8 +1983,8 @@ const plancheLeverCombo: Program = {
   tagline: "The two most iconic calisthenics skills — one package, one price.",
   level: "Beginner / Intermediate",
   levelColor: "#06b6d4",
-  category: "bundle",
-  categoryGroup: "BUNDLE",
+  category: "skill",
+  categoryGroup: "STRENGTH & SKILLS",
   price: "59",
   originalPrice: "76",
   icon: "🔥",
@@ -3427,7 +3427,7 @@ function AppInner() {
     );
   }
 
-  const skillProgs = PROGRAMS.filter(p => p.category === "skill");
+  const skillProgs = PROGRAMS.filter(p => p.category === "skill" && p.id !== "combo-planche-lever");
   const hybridProgs = PROGRAMS.filter(p => p.category === "hybrid");
   const hypertrophyProgs = PROGRAMS.filter(p => p.category === "hypertrophy");
   const bundleProg = PROGRAMS.find(p => p.category === "bundle")!;
