@@ -2848,7 +2848,7 @@ function BeforeAfterCard({ data }: { data: typeof beforeAfterData[0] }) {
         </div>
         {/* Program badge */}
         <div style={{ position: "absolute", top: 12, left: 12 }}>
-          <span className="badge" style={{ background: `${data.programColor}22`, color: data.programColor, border: `1px solid ${data.programColor}44`, backdropFilter: "blur(8px)", fontSize: 9 }}>
+          <span className="badge" style={{ background: `rgba(0,0,0,0.75)`, color: data.programColor, border: `2px solid ${data.programColor}`, backdropFilter: "blur(12px)", fontSize: 9, fontWeight: 900, boxShadow: `0 0 12px ${data.programColor}66` }}>
             {data.program}
           </span>
         </div>
