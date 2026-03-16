@@ -110,8 +110,8 @@ const leverCooldown: CooldownExercise[] = [
 const plancheFoundation: Program = {
   id: "planche-foundation",
   title: "Planche Foundation",
-  subtitle: "From Zero to Full Planche — The Complete Foundation",
-  tagline: "Every step from absolute zero to the full planche — the foundation that never needs to be rebuilt.",
+  subtitle: "From Zero to Full Planche — No Prerequisites, Start From Scratch",
+  tagline: "Zero to full planche — no prerequisites, no gym needed. Built for anyone starting from scratch.",
   level: "Beginner / Intermediate",
   levelColor: "#22c55e",
   category: "skill",
@@ -125,7 +125,7 @@ const plancheFoundation: Program = {
     "Achieve a clean 5-second tuck planche hold",
     "Lay the structural foundation for advanced planche variants",
   ],
-  mindset: "The planche is not built in a session — it is carved over months. In these first 8 weeks, your only job is to own every rep, own every second, and build connective tissue strength that will protect you for years. Ego has no place here. Perfect technique over everything. Track every session: write down your hold time, your quality rating, and one thing to improve next time. That log will be your most valuable training asset.",
+  mindset: "Zero prerequisites. Zero experience needed. If you have never trained a day in your life, this is your starting point. The planche is not built in a session — it is carved over months. In the first phase, your only job is to own every rep, own every second, and build the connective tissue strength that will protect you for years. Ego has no place here. Perfect technique over everything. Track every session: hold time, quality rating /10, and one thing to improve next time.",
   weekStructure: "3 sessions/week (Mon · Wed · Fri). Each session: 60–75 min. Rest days are training days for your nervous system — sleep, eat, recover.",
   warmup: [
     { name: "Wrist Circles & Flexion/Extension", duration: "2 min", notes: "30 reps each direction. This is non-negotiable. Wrists take the most stress." },
@@ -454,6 +454,7 @@ const plancheFoundation: Program = {
   ],
   cooldown: sharedCooldown,
   benefits: [
+    "Zero prerequisite — designed for complete beginners",
     "Complete roadmap: tuck → advanced tuck → straddle → full planche",
     "Every push-up & press variation — tuck, straddle, full — with full technique",
     "Bulletproof wrist & shoulder preparation from day one",
@@ -801,8 +802,8 @@ const plancheElite: Program = {
 const frontLeverMastery: Program = {
   id: "front-lever",
   title: "Front Lever Mastery",
-  subtitle: "Full Front Lever + One Arm Pull-Up Bonus",
-  tagline: "Build the posterior chain of a gymnast. Includes front lever pull-ups & OAP progression.",
+  subtitle: "Full Front Lever + OAP Bonus — Zero Prerequisite",
+  tagline: "From zero to full front lever — no prerequisites. Master every variation, pull-up & OAP progression.",
   level: "All Levels",
   levelColor: "#3b82f6",
   category: "skill",
@@ -816,7 +817,7 @@ const frontLeverMastery: Program = {
     "Master the tuck → straddle → full progression",
     "Develop pulling strength applicable to muscle-ups and rows",
   ],
-  mindset: "The front lever is the ultimate test of pulling strength and body tension. Unlike the planche, it is achievable for most dedicated athletes within 3–6 months. The key is total body tension — it is not a lat exercise, it is a full-body isometric. Every single muscle from your feet to your hands must be contracted simultaneously. Think of it as a plank in the air. The athletes who progress fastest are those who treat every hold as a maximum effort, not a maintenance exercise.",
+  mindset: "Zero prerequisites. This program is built for athletes who have never touched a pull-up bar, all the way to those who already have their tuck front lever. The front lever is the ultimate test of pulling strength and body tension — it is not a lat exercise, it is a full-body isometric. Every single muscle from feet to hands must be contracted simultaneously. Think of it as a horizontal plank in the air. The program gives you every variation, every progression step, and every technique cue to get there regardless of your starting level.",
   weekStructure: "3 sessions/week (Mon · Wed · Sat). Can be combined with pull day in any program. Front lever work always comes FIRST in the session when fresh.",
   warmup: [
     { name: "Band Pull-Aparts", duration: "3×20", notes: "Light band. Targets rear delts and external rotators. Critical for lever shoulder health." },
@@ -1059,11 +1060,11 @@ const frontLeverMastery: Program = {
   ],
   cooldown: leverCooldown,
   benefits: [
-    "Full front lever achieved",
+    "Master all front lever variations & progressions — full technique",
     "Front lever pull-ups — technique breakdown included",
+    "Pull-up mastery — every grip, variation & loading method",
     "🌟 Bonus: One arm pull-up progression (full technique guide)",
-    "Scapular raises & Australian pull-up technique",
-    "Elite posterior chain conditioning",
+    "Zero prerequisite — start from absolute zero",
   ],
   stripeUrl: "https://buy.stripe.com/8x2aEZ8aZamB5Z910V3ZK0g",
 };
@@ -1473,8 +1474,8 @@ const hybridAthlete: Program = {
     ...sharedCooldown.slice(4),
   ],
   benefits: [
-    "Gym-based strength + calisthenics skill fusion",
-    "HSPU & 90° push-up — full technique",
+    "Gym-based strength + calisthenics skill fusion — no skill prerequisite",
+    "HSPU (Handstand Push-Up) & 90° push-up — full technique",
     "One arm pull-up progression",
     "Progressive overload with barbells & skills",
     "🌟 Bonus: One arm handstand progression",
@@ -1494,7 +1495,7 @@ const fullHypertrophy: Program = {
   price: "57",
   icon: "🔥",
   glowColor: "rgba(236,72,153,0.15)",
-  badge: "BEST-SELLER",
+  badge: "BEST-SELLER ⭐",
   dualTrack: false,
   goals: [
     "Maximize muscle size through evidence-based hypertrophy principles",
@@ -1964,13 +1965,53 @@ const fullHypertrophy: Program = {
     { name: "Final Breathing Protocol", duration: "3 min", notes: "Box breathing: 4s in, 4s hold, 4s out, 4s hold. Activates rest-and-digest for optimal recovery." },
   ],
   benefits: [
-    "Complete aesthetic physique — zero equipment needed",
-    "Elite skills: HSPU, 90° push-up, one arm push-up",
+    "Complete aesthetic physique — zero equipment, no prerequisites needed",
+    "Elite skills: HSPU (Handstand Push-Up), 90° push-up, one arm push-up",
     "One arm pull-up — full progression",
     "Scientific hypertrophy protocol",
     "🌟 Bonus: One arm handstand progression",
   ],
   stripeUrl: "https://buy.stripe.com/fZu6oJeznamB87hbFz3ZK0d",
+};
+
+// ─── PLANCHE + FRONT LEVER COMBO ─────────────────────────────────────────────
+
+const plancheLeverCombo: Program = {
+  id: "combo-planche-lever",
+  title: "Planche & Front Lever Combo",
+  subtitle: "Foundation + Front Lever Mastery",
+  tagline: "The two most iconic calisthenics skills — one package, one price.",
+  level: "Beginner / Intermediate",
+  levelColor: "#06b6d4",
+  category: "bundle",
+  categoryGroup: "BUNDLE",
+  price: "59",
+  originalPrice: "76",
+  icon: "🔥",
+  glowColor: "rgba(6,182,212,0.15)",
+  badge: "BEST DUO",
+  goals: [
+    "Complete Planche Foundation — from zero to full planche roadmap",
+    "Complete Front Lever Mastery — all variations & progressions",
+    "Master all push-up & press variations for both skills",
+    "Pull-up mastery + One Arm Pull-Up bonus",
+    "One Arm Handstand bonus from both programs",
+  ],
+  mindset: "The planche and front lever are the two pillars of calisthenics. One tests your pushing strength, the other your pulling. Train them together and they reinforce each other — the body tension from the lever improves your planche, the protraction from the planche improves your lever. This combo is the most efficient path to mastering both.",
+  weekStructure: "Run both programs simultaneously or sequentially. Recommended: alternate push days (planche) and pull days (lever) for maximum efficiency with minimum fatigue.",
+  warmup: plancheFoundation.warmup,
+  phases: plancheFoundation.phases,
+  cooldown: sharedCooldown,
+  benefits: [
+    "Zero prerequisite — start from absolute zero, no sport background needed",
+    "Full Planche roadmap — every step with technique",
+    "Full Front Lever — all variations & progressions",
+    "Pull-up mastery — from first rep to front lever pull-ups",
+    "Save $17 vs buying separately",
+    "🌟 Bonus: One arm pull-up + One arm handstand",
+  ],
+  bundlePrograms: [plancheFoundation, frontLeverMastery],
+  stripeUrl: "https://buy.stripe.com/3cI8wRfDreCR3R19xr3ZK0i",
 };
 
 const ultimateBundle: Program = {
@@ -1999,7 +2040,7 @@ const ultimateBundle: Program = {
   phases: plancheFoundation.phases,
   cooldown: sharedCooldown,
   benefits: [
-    "All 5 programs — lifetime access",
+    "All 5 programs — no prerequisites, start from zero",
     "Save $158 vs individual purchase",
     "Future program updates included",
   ],
@@ -2012,6 +2053,7 @@ const allPrograms: Program[] = [
   frontLeverMastery,
   hybridAthlete,
   fullHypertrophy,
+  plancheLeverCombo,
   ultimateBundle,
 ];
 
@@ -2023,10 +2065,13 @@ ultimateBundle.bundlePrograms = [
   fullHypertrophy,
 ];
 
+plancheLeverCombo.bundlePrograms = [plancheFoundation, frontLeverMastery];
+
 const PROGRAMS = allPrograms;
 const strengthSkillsGroup = [plancheFoundation, plancheElite, frontLeverMastery];
 const hybridGroup = [hybridAthlete];
 const hypertrophyGroup = [fullHypertrophy];
+const comboGroup = [plancheLeverCombo];
 
 // ═══════════════════════════════════════════════════════
 // TESTIMONIALS DATA
@@ -2656,7 +2701,17 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
     <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }} onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : onOpen(p)}>
       <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at top left, ${p.glowColor}, transparent 60%)`, pointerEvents: "none", borderRadius: 8 }} />
       {p.badge && (
-        <div className="badge-bounce" style={{ position: "absolute", top: 12, right: -26, background: p.category === "bundle" ? "linear-gradient(135deg,var(--orange),#ff8c00)" : "var(--orange)", color: "#fff", fontSize: 9, fontWeight: 800, letterSpacing: 2, fontFamily: "var(--fb)", padding: "4px 32px", transform: "rotate(35deg)", transformOrigin: "center", whiteSpace: "nowrap", zIndex: 2 }}>{p.badge}</div>
+        <div className="badge-bounce" style={{
+          position: "absolute", top: 12, right: -26,
+          background: p.badge === "BEST DUO" ? "linear-gradient(135deg,#06b6d4,#0891b2)"
+            : p.category === "bundle" ? "linear-gradient(135deg,var(--orange),#ff8c00)"
+            : "#fff",
+          color: p.badge === "BEST DUO" ? "#fff" : p.category === "bundle" ? "#fff" : "var(--orange)",
+          border: p.category !== "bundle" && p.badge !== "BEST DUO" ? "1.5px solid var(--orange)" : "none",
+          fontSize: 9, fontWeight: 800, letterSpacing: 2, fontFamily: "var(--fb)",
+          padding: "4px 32px", transform: "rotate(35deg)", transformOrigin: "center",
+          whiteSpace: "nowrap", zIndex: 2
+        }}>{p.badge}</div>
       )}
       <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
         <div style={{ fontSize: 30, marginBottom: 10 }}>{p.icon}</div>
@@ -3509,9 +3564,10 @@ function AppInner() {
           </div>
           <CatSection label="STRENGTH & SKILLS" sublabel="Master gravity — Planche & Front Lever from beginner to elite" progs={skillProgs} onOpen={openProg} />
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 64 }} className="pg2">
-            <CatSection label="HYBRID" sublabel="Skill + Strength — two tracks" progs={hybridProgs} onOpen={openProg} />
-            <CatSection label="HYPERTROPHY" sublabel="Aesthetic physique focus" progs={hypertrophyProgs} onOpen={openProg} />
+            <CatSection label="HYBRID" sublabel="Gym-based strength + calisthenics skills" progs={hybridProgs} onOpen={openProg} />
+            <CatSection label="HYPERTROPHY" sublabel="No equipment — bodyweight muscle & skills" progs={hypertrophyProgs} onOpen={openProg} />
           </div>
+          <CatSection label="COMBO" sublabel="Planche + Front Lever — two iconic skills, one price" progs={comboGroup} onOpen={openProg} />
         </div>
       </section>
 
