@@ -125,7 +125,7 @@ const plancheFoundation: Program = {
     "Achieve a clean 5-second tuck planche hold",
     "Lay the structural foundation for advanced planche variants",
   ],
-  mindset: "The planche is not built in a session — it is carved over months. In these first 8 weeks, your only job is to own every rep, own every second, and build connective tissue strength that will protect you for years. Ego has no place here. Perfect technique over everything.",
+  mindset: "The planche is not built in a session — it is carved over months. In these first 8 weeks, your only job is to own every rep, own every second, and build connective tissue strength that will protect you for years. Ego has no place here. Perfect technique over everything. Track every session: write down your hold time, your quality rating, and one thing to improve next time. That log will be your most valuable training asset.",
   weekStructure: "3 sessions/week (Mon · Wed · Fri). Each session: 60–75 min. Rest days are training days for your nervous system — sleep, eat, recover.",
   warmup: [
     { name: "Wrist Circles & Flexion/Extension", duration: "2 min", notes: "30 reps each direction. This is non-negotiable. Wrists take the most stress." },
@@ -149,12 +149,14 @@ const plancheFoundation: Program = {
           rest: "60s",
           intensity: "Controlled",
           cues: [
-            "Start in straight-arm plank",
-            "Let chest drop by pinching scapulas (don't bend elbows)",
-            "Push floor away to 'round' and protract scapulas",
-            "Top position: feel your upper back pushing to the ceiling",
+            "Start in straight-arm plank — arms fully locked, no bend at elbows",
+            "Phase 1 (descent): let chest drop ONLY by pinching scapulas together — elbows stay locked",
+            "Phase 2 (ascent): push floor away aggressively to protract and round upper back",
+            "Top position: your upper back should visibly dome upward — feel the serratus anterior fire",
+            "Common mistake: bending elbows. If elbows bend, you are doing a regular push-up, not a scapular push-up",
+            "Tempo: 2s down, 1s hold at bottom, 2s up, 1s squeeze at top",
           ],
-          proTip: "Record from the side. You should see your upper back rising noticeably in the protracted position. If not, you're not protracting enough.",
+          proTip: "Record from the side. You should see your upper back rising noticeably in the protracted position. If the movement looks flat, you are not protracting enough — the range is small but critical.",
           progression: [
             { label: "Knees", emoji: "🦵", active: false },
             { label: "Standard", emoji: "📐", active: true },
@@ -169,12 +171,16 @@ const plancheFoundation: Program = {
           rest: "90s",
           intensity: "Technical",
           cues: [
-            "Shoulders must be anterior to wrists — this is mandatory",
-            "Posterior pelvic tilt (tuck your tailbone)",
-            "Arms stay locked at 0° — any bend means less lean",
-            "Gaze: floor 10 inches in front",
+            "Setup: hands on parallettes shoulder-width apart, arms fully locked",
+            "Lean forward until shoulders are clearly anterior to wrists — measure this with camera",
+            "Posterior pelvic tilt throughout: tuck tailbone, engage core like a hollow body",
+            "Arms stay at 0° bend — any elbow bend reduces the training stimulus significantly",
+            "Gaze: floor 10–15cm in front of hands — not straight down",
+            "Variation 1 (easier): toes on floor for balance — focus on lean angle only",
+            "Variation 2 (harder): feet together, full bodyweight through hands",
+            "Week 1 target: shoulders 5cm in front of hands. Week 4 target: 15cm+",
           ],
-          proTip: "The lean angle is everything. Use a mirror or camera. Your shoulders should be 10–15cm in front of your hands by Week 3.",
+          proTip: "The lean angle is everything. Use a mirror or film from the side every session. Your shoulders should be 10–15cm in front of your hands by Week 3. If you cannot lean this far, do not rush — wrist and shoulder preparation takes time.",
           progression: [
             { label: "Slight Lean", emoji: "📏", active: true },
             { label: "45° Lean", emoji: "📐", active: false },
@@ -188,12 +194,17 @@ const plancheFoundation: Program = {
           rest: "90s",
           intensity: "Moderate",
           cues: [
-            "Hands turned out 45° or more",
-            "Weight forward over hands — shoulders above wrists",
-            "Lower chest to floor slowly (3-second negative)",
-            "Push back up while maintaining forward lean",
+            "Hand setup: fingers pointing out 45°–90° — the more rotation, the harder",
+            "Lean forward: shoulders must be over or in front of wrists before lowering",
+            "Phase 1 (negative): lower chest to floor over 3 seconds — control every millimeter",
+            "Bottom position: chest nearly touching floor, maintain forward lean throughout",
+            "Phase 2 (press): push back up explosively while keeping lean angle",
+            "Variation A (easier): hands at 45°, slight lean — beginner version",
+            "Variation B (moderate): hands at 90°, shoulders over wrists — standard",
+            "Variation C (harder): hands turned back, shoulders past wrists — advanced",
+            "Common mistake: losing the lean during the push. Fix: think 'push forward, not up'",
           ],
-          proTip: "The further you rotate hands and lean forward, the harder this becomes. Start conservative. Quality reps only.",
+          proTip: "The hand rotation and forward lean are what make this exercise planche-specific. A pseudo planche push-up with hands straight and no lean is just a regular push-up. Start conservative and increase lean angle as strength improves.",
         },
       ],
     },
@@ -231,12 +242,17 @@ const plancheFoundation: Program = {
           rest: "2 min",
           intensity: "Maximum",
           cues: [
-            "From tuck L-sit, lean forward until feet lift",
-            "Hips parallel to floor — do not let them sag",
-            "Maximize scapular protraction throughout",
-            "Every second counts — this is CNS-intensive",
+            "Entry: from tuck L-sit, lean forward progressively until feet lift off",
+            "Hip position: hips must be parallel to floor — sagging hips = failed rep, do not count it",
+            "Scapular state: maximum protraction throughout — upper back rounded and pushing",
+            "Knee position: knees tight to chest, not hanging loosely",
+            "Breathing: short shallow breaths — do not exhale fully (it collapses position)",
+            "Every second of a clean hold is worth more than 5 seconds of a sloppy one",
+            "Assisted variation: place one foot lightly on a stool to reduce load while learning position",
+            "Self-assessment: film from side — hips should be at the same height as shoulders",
+            "Rest quality: between sets, shake out wrists and reset completely — this is CNS-intensive",
           ],
-          proTip: "Film every session from the side. You want hips level with shoulders. The moment hips drop, the hold ends — don't count dropped reps.",
+          proTip: "Film every single session from the side. The moment hips drop below shoulder level, the hold is over — stop the timer. Most beginners are shocked to see how different their hold looks vs how it feels. The camera is your most honest coach.",
           progression: [
             { label: "Assisted", emoji: "🤝", active: false },
             { label: "Tuck Planche", emoji: "🤸", active: true },
@@ -466,7 +482,7 @@ const plancheElite: Program = {
     "Master the advanced tuck → straddle transition",
     "Develop ring planche stability for elite carryover",
   ],
-  mindset: "You are no longer a beginner. This is where true separation happens. The athletes who reach this stage and fail are those who let ego push volume before quality. Your job is to be precise, patient, and relentless. The full planche is not a trick — it's a year or more of perfect training distilled into one moment.",
+  mindset: "You are no longer a beginner. This is where true separation happens. The athletes who reach this stage and fail are those who let ego push volume before quality. Your job is to be precise, patient, and relentless. The full planche is not a trick — it is a year or more of perfect training distilled into one moment. Every session: film your best set, compare to last week, find one technical improvement. Progress here is measured in millimeters and milliseconds — both matter.",
   weekStructure: "4 sessions/week (Mon · Tue · Thu · Fri). Tue/Fri are accessory & volume days. Mon/Thu are max effort skill days.",
   warmup: sharedWarmup,
   phases: [
@@ -752,7 +768,7 @@ const frontLeverMastery: Program = {
     "Master the tuck → straddle → full progression",
     "Develop pulling strength applicable to muscle-ups and rows",
   ],
-  mindset: "The front lever is the ultimate test of pulling strength and body tension. Unlike the planche, it is achievable for most dedicated athletes within 3–6 months. The key is total body tension — it is not a lat exercise, it's a full-body isometric. Every muscle from your feet to your hands must be engaged simultaneously.",
+  mindset: "The front lever is the ultimate test of pulling strength and body tension. Unlike the planche, it is achievable for most dedicated athletes within 3–6 months. The key is total body tension — it is not a lat exercise, it is a full-body isometric. Every single muscle from your feet to your hands must be contracted simultaneously. Think of it as a plank in the air. The athletes who progress fastest are those who treat every hold as a maximum effort, not a maintenance exercise.",
   weekStructure: "3 sessions/week (Mon · Wed · Sat). Can be combined with pull day in any program. Front lever work always comes FIRST in the session when fresh.",
   warmup: [
     { name: "Band Pull-Aparts", duration: "3×20", notes: "Light band. Targets rear delts and external rotators. Critical for lever shoulder health." },
@@ -776,12 +792,18 @@ const frontLeverMastery: Program = {
           rest: "90s",
           intensity: "High",
           cues: [
-            "Knees to chest, back perfectly flat — no rounding",
-            "Arms straight — the moment you bend, it's not a lever",
-            "Depress AND retract scapulas simultaneously",
-            "Hips at bar height — not below",
+            "Grip: overhand, shoulder-width. Hang completely relaxed first, then engage",
+            "Step 1 — Pull knees tight to chest: the tighter the tuck, the easier the hold",
+            "Step 2 — Depress scapulas: pull shoulder blades down and back simultaneously",
+            "Step 3 — Engage core: hollow body position — lower back should not arch",
+            "Step 4 — Raise hips to bar height: this is the key — hips at same level as bar",
+            "Back flatness: the most common error is a rounded back. Must be perfectly flat",
+            "Arms: any bend in the elbows means it is not a front lever — elbows must be fully locked",
+            "Variation (easier): single leg tuck — one leg extended, one tucked",
+            "Breathing: inhale before the hold, exhale slowly during — do not hold breath",
+            "Readiness test: can you hold 10s clean? If yes, progress to advanced tuck",
           ],
-          proTip: "Back flatness is the single most important cue. A rounded back is a compensated lever, not a real one. Film from the side.",
+          proTip: "Back flatness is the single most important cue. A rounded back is a compensated lever — it does not build the same strength. Film from the side every session. A flat back hold of 5s is worth more than a rounded hold of 15s.",
           progression: [
             { label: "Tuck", emoji: "🧘", active: true },
             { label: "Adv. Tuck", emoji: "📐", active: false },
@@ -796,12 +818,18 @@ const frontLeverMastery: Program = {
           rest: "2 min",
           intensity: "Strength",
           cues: [
-            "Start in tuck front lever hang",
-            "Pull bar to chest — maintain tuck throughout",
-            "Slow negative (3 seconds down)",
-            "This is the most strength-building exercise in this program",
+            "Start position: establish tuck front lever hang first — then initiate the row",
+            "Pull path: bar moves toward lower chest — elbows drive straight back",
+            "Maintain: tuck position throughout the entire pull — do not let hips drop",
+            "Top position: chest touches bar — maximum lat contraction",
+            "Negative: lower back to start over exactly 3 seconds — fight gravity every centimeter",
+            "Variation A (easier): tuck rows from an incline — feet on floor, body at 45°",
+            "Variation B (standard): full tuck front lever row as described",
+            "Variation C (harder): advanced tuck rows — hips extended during the pull",
+            "Common mistake: using momentum. Each rep must start from a dead stop in the hang",
+            "Progression signal: 5 clean reps = ready to progress lever position",
           ],
-          proTip: "If you can do 5+ clean reps, you are ready to progress the lever position. These rows are a stronger signal of readiness than hold time alone.",
+          proTip: "Front lever rows are a stronger indicator of readiness than hold time. If you can do 5 clean tuck rows, your pulling strength is ready for the next lever position — regardless of what your hold time says.",
         },
       ],
     },
@@ -862,12 +890,18 @@ const frontLeverMastery: Program = {
           rest: "3 min",
           intensity: "Maximum",
           cues: [
-            "Legs together, toes pointed, body rigid",
-            "Think: 'steel rod from head to toe'",
-            "Active shoulder depression is still required — don't disengage",
-            "The hold lives and dies by your lats and core working as one",
+            "Entry: from straddle lever, slowly bring legs together — do not kick or swing",
+            "Body alignment: perfectly horizontal — use a mirror or camera to verify",
+            "Legs: fully extended, toes pointed, inner thighs squeezed together",
+            "Core: hollow body — lower back flat, not arched. Think 'pelvis slightly tucked'",
+            "Scapulas: depressed AND retracted simultaneously — never release this tension",
+            "Lats: think 'pull the bar down into your hips' — this activates lats maximally",
+            "Breathing: one breath in before the hold, then hold — do not breathe out mid-hold",
+            "Tension cue: every single muscle from feet to hands must be contracted — steel rod",
+            "Micro-progressions: even 0.5s improvement per session is elite-level progress",
+            "Camera angle: film from the side — body must be perfectly horizontal, not angled",
           ],
-          proTip: "Your first full front lever will likely be a surprise — one rep where everything clicks. Have your camera ready. That moment is worth documenting.",
+          proTip: "Your first full front lever will likely be a surprise — one rep where everything clicks simultaneously. Keep your camera rolling during every attempt. Most athletes film 50+ sessions before that moment arrives. When it does, it is worth every rep.",
           progression: [
             { label: "Straddle", emoji: "↔️", active: false },
             { label: "1–2s", emoji: "⏱️", active: true },
@@ -998,7 +1032,6 @@ const hybridAthlete: Program = {
   price: "57",
   icon: "💪",
   glowColor: "rgba(168,85,247,0.15)",
-  badge: "BEST-SELLER",
   dualTrack: false,
   goals: [
     "Fuse calisthenics skill work with barbell/dumbbell hypertrophy",
@@ -1030,12 +1063,17 @@ const hybridAthlete: Program = {
           rest: "2.5 min",
           intensity: "Maximum Skill",
           cues: [
-            "Choose your skill: Planche OR Lever — not both in same session",
-            "Every rep must be your best — not just completed",
-            "If quality drops, stop the set immediately",
-            "Log every session: position held, seconds, quality rating /10",
+            "Rule #1: choose ONE skill per session — planche OR lever, never both",
+            "Rule #2: this always comes FIRST in the session — before any weighted work",
+            "Rule #3: if rep quality drops below 7/10, stop the set immediately",
+            "Planche track: follow your current phase (lean → tuck → adv. tuck → straddle)",
+            "Lever track: follow your current phase (tuck → adv. tuck → straddle → full)",
+            "Log format: date | position | hold time | quality /10 | next session goal",
+            "Rest quality: walk around between sets — do not sit down. Active recovery only",
+            "Progression rule: 3 sessions at 7s+ quality = advance to next position",
+            "Deload indicator: if quality drops 2 sessions in a row, take an extra rest day",
           ],
-          proTip: "Film every skill session from the side. Compare Week 1 to Week 4. The visual feedback is more valuable than any coach cue.",
+          proTip: "Film every skill session from the side. Compare Week 1 to Week 4 side by side. The visual feedback is worth more than any coaching cue — you will see things you cannot feel.",
         },
         {
           title: "Weighted Pull-Ups",
@@ -1044,12 +1082,19 @@ const hybridAthlete: Program = {
           rest: "2.5 min",
           intensity: "Strength",
           cues: [
-            "Add weight via belt, vest, or dumbbell between legs",
-            "Full hang to chin over bar — no kipping",
-            "3-second descent every rep",
-            "Scapular engagement throughout — do not disengage at bottom",
+            "Weight setup: belt is most stable, vest second, dumbbell between legs is least stable",
+            "Starting position: full dead hang — scapulas elevated, arms fully extended",
+            "Initiation: depress scapulas FIRST before bending elbows — this is the front lever pattern",
+            "Pull path: lead with the chest, not the chin — elbows drive straight down",
+            "Top position: chin clearly over bar — do not tilt head to cheat",
+            "Descent: exactly 3 seconds, controlled — fight gravity the entire way down",
+            "Bottom: return to full dead hang — do not bounce or use stretch reflex",
+            "Variation A: neutral grip — easier on elbows, slightly different lat angle",
+            "Variation B: wide overhand grip — more lat emphasis, closer to lever position",
+            "Variation C: rings — hardest, builds stabilization strength that transfers to lever",
+            "Progression: add 2.5kg every time you complete all 5 sets of 5 cleanly",
           ],
-          proTip: "Weighted pull-up strength directly transfers to front lever. If you increase your weighted pull-up max by 20%, your lever will improve measurably.",
+          proTip: "Weighted pull-up strength is the single best predictor of front lever progress outside of direct lever work. A +20% increase in your weighted pull-up max will produce a measurable improvement in your front lever hold time.",
         },
         {
           title: "Overhead Press (Barbell or DB)",
@@ -1140,6 +1185,55 @@ const hybridAthlete: Program = {
             "Lean forward slightly to engage chest more",
           ],
           proTip: "Ring dips are 3× harder than bar dips due to stabilization demand. The shoulder stability you build here directly transfers to all skills.",
+        },
+        {
+          title: "Weighted Push-Ups",
+          sets: "4",
+          reps: "8–10 reps",
+          rest: "90s",
+          intensity: "Strength-Hypertrophy",
+          cues: [
+            "Add weight via plate on back, weighted vest, or partner resistance",
+            "Hands shoulder-width, slight finger rotation outward (30°) — planche-specific angle",
+            "Lower chest to floor over 2 seconds — full range mandatory",
+            "Press up explosively — lock out at top with scapular protraction",
+            "Progression: start with 10kg, add 2.5kg every session you complete all reps cleanly",
+            "Advanced variation: weighted pseudo planche push-ups — hands rotated, forward lean",
+          ],
+          proTip: "Weighted push-ups with slight hand rotation directly transfer to planche lean strength. They build the specific anterior deltoid and serratus anterior pattern that no barbell exercise replicates.",
+        },
+        {
+          title: "Weighted Pull-Ups",
+          sets: "5",
+          reps: "5 reps @ 70–80% 1RM",
+          rest: "2.5 min",
+          intensity: "Strength",
+          cues: [
+            "Add weight via belt (most stable), vest, or dumbbell between legs",
+            "Start from dead hang — scapulas fully elevated, arms locked",
+            "Initiate by depressing scapulas before bending elbows — this is the lever pattern",
+            "Pull chest to bar — lead with chest, not chin",
+            "3-second descent — fight gravity the entire way",
+            "Variation: wide grip for lat width, neutral grip for lat thickness, rings for stabilization",
+            "Progression: add 2.5kg every session you hit all 5 sets of 5 cleanly",
+          ],
+          proTip: "Weighted pull-up strength is the single best predictor of front lever progress. Every +10% on your weighted pull-up max produces a measurable improvement in lever hold time.",
+        },
+        {
+          title: "Weighted Bar Dips",
+          sets: "4",
+          reps: "6–8 reps",
+          rest: "2 min",
+          intensity: "Strength",
+          cues: [
+            "Use parallel bars — add weight via belt or vest",
+            "Lower until upper arms are parallel to floor — full range builds more chest",
+            "Lean slightly forward (15°) to shift emphasis toward chest vs triceps",
+            "Press up to full lockout — squeeze chest at top",
+            "Variation: upright torso = more tricep. Forward lean = more chest/anterior delt",
+            "Ring dips alternative: rings dips are significantly harder — use lighter weight",
+          ],
+          proTip: "Weighted dips are the most direct strength carryover to planche push-ups and maltese work. The forward lean at the bottom of a weighted dip mimics the planche push-up bottom position exactly.",
         },
         {
           title: "Cable Face Pull",
@@ -1352,6 +1446,7 @@ const fullHypertrophy: Program = {
   price: "57",
   icon: "🔥",
   glowColor: "rgba(236,72,153,0.15)",
+  badge: "BEST-SELLER",
   dualTrack: false,
   goals: [
     "Maximize muscle size through evidence-based hypertrophy principles",
@@ -1381,16 +1476,24 @@ const fullHypertrophy: Program = {
           rest: "90s",
           intensity: "Moderate",
           cues: [
-            "Hips high — inverted V position",
-            "Lower until head touches floor",
-            "The steeper your pike, the more deltoid activation",
-            "Slow negative (3 seconds) for maximum time under tension",
+            "Start position: inverted V — hips as high as possible, heels on floor",
+            "Head position: head between arms, looking toward feet — not at the floor in front",
+            "Descent: lower head toward floor over 3 seconds — head nearly touches between hands",
+            "Bottom pause: 1 second with head at floor level — eliminates elastic energy",
+            "Press: push back up explosively to full lockout",
+            "Angle adjustment: the more vertical your torso, the more deltoid. The more horizontal, the more chest/tricep",
+            "Variation A (easier): standard pike, wide feet for stability",
+            "Variation B (moderate): feet elevated on chair — steeper angle, more deltoid",
+            "Variation C (hard): feet on table, nearly vertical — approaches HSPU mechanics",
+            "Variation D (hardest): pseudo-handstand pike — lean forward, maximum deltoid",
+            "Week 4 goal: 4 sets of 12 with feet elevated — then move to Variation C",
           ],
-          proTip: "Pike push-ups done with a 3-second negative and 1-second pause at bottom are as effective as overhead pressing for deltoid hypertrophy.",
+          proTip: "Pike push-ups with a 3-second negative and 1-second bottom pause build as much deltoid mass as a barbell overhead press at the same rep range. The pause is the key — most people skip it and lose 40% of the stimulus.",
           progression: [
             { label: "Standard Pike", emoji: "▽", active: true },
             { label: "Feet Elevated", emoji: "⬆️", active: false },
-            { label: "Pseudo-Handstand", emoji: "🤸", active: false },
+            { label: "Pseudo-HS", emoji: "🤸", active: false },
+            { label: "Wall HSPU", emoji: "👑", active: false },
           ],
         },
         {
@@ -1400,12 +1503,19 @@ const fullHypertrophy: Program = {
           rest: "90s",
           intensity: "Moderate-High",
           cues: [
-            "One arm extended fully to the side — no bend",
-            "Lower toward the bent arm (90° at elbow)",
-            "The extended arm provides counterbalance only",
-            "This is a unilateral chest exercise — feel the stretch deeply",
+            "Setup: wide hand position — working arm at shoulder width, other arm extended fully to side",
+            "Extended arm: stays fully locked — provides balance, not pushing assistance",
+            "Descent: lower toward the working (bent) arm — deep stretch at the bottom",
+            "Bottom position: chest at floor level on the working side — full range mandatory",
+            "Press: push back to center through the working arm only",
+            "Key cue: keep hips square throughout — do not rotate toward the working arm",
+            "Variation A (easier): extended hand on fist — slightly bent extended arm is OK",
+            "Variation B (standard): extended arm fully locked, flat on floor",
+            "Variation C (harder): extended arm elevated on a book — increases range on working side",
+            "Variation D (hardest): feet elevated archer push-ups — adds bodyweight",
+            "Progression toward OAP: as extended arm bends less and less, you approach one-arm push-up",
           ],
-          proTip: "Archer push-ups provide similar pectoral stretch to a cable fly or dumbbell press. The unilateral loading increases difficulty by ~40% vs regular push-ups.",
+          proTip: "Archer push-ups provide the same deep pectoral stretch as a cable fly with the pressing strength demand of a weighted push-up. The unilateral loading is ~40% harder than regular push-ups. Master these before attempting one-arm push-ups.",
         },
         {
           title: "Australian Pull-Ups (Bodyweight Row)",
@@ -1807,8 +1917,8 @@ const fullHypertrophy: Program = {
   ],
   benefits: [
     "Complete aesthetic physique — zero equipment needed",
-    "HSPU & 90° push-up — full technique",
-    "One arm push-up & one arm pull-up progression",
+    "Elite skills: HSPU, 90° push-up, one arm push-up",
+    "🌟 One arm pull-up — full progression",
     "Scientific hypertrophy protocol",
     "🌟 Bonus: One arm handstand progression",
   ],
@@ -2111,17 +2221,85 @@ function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
               ))}
             </div>
           </div>
-          <div style={{ background: "rgba(255,69,0,0.04)", borderLeft: "3px solid var(--orange)", borderRadius: "0 4px 4px 0", padding: "12px 14px" }}>
+          <div style={{ background: "rgba(255,69,0,0.04)", borderLeft: "3px solid var(--orange)", borderRadius: "0 4px 4px 0", padding: "12px 14px", marginBottom: 14 }}>
             <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 6 }}>💡 PRO TIP</div>
             <p className="t-body print-body" style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.55, fontStyle: "italic" }}>{ex.proTip}</p>
           </div>
+
+          {/* Interactive Set Tracker */}
+          <SetTracker totalSets={parseInt(ex.sets) || 3} reps={ex.reps} rest={ex.rest} />
         </div>
       )}
     </div>
   );
 }
 
-function PhaseBlock({ phase, index }: { phase: Phase; index: number }) {
+// ─── SET TRACKER ─────────────────────────────────────────────────────────────
+
+function SetTracker({ totalSets, reps, rest }: { totalSets: number; reps: string; rest: string }) {
+  const [completed, setCompleted] = useState<boolean[]>(Array(totalSets).fill(false));
+  const [resting, setResting] = useState(false);
+  const [restLeft, setRestLeft] = useState(0);
+  const restSeconds = parseInt(rest) || (rest.includes("min") ? parseInt(rest) * 60 : 90);
+
+  const toggleSet = (i: number) => {
+    const newCompleted = [...completed];
+    newCompleted[i] = !newCompleted[i];
+    setCompleted(newCompleted);
+    // Start rest timer when a set is completed
+    if (!newCompleted[i] === false && newCompleted[i]) {
+      const secs = rest.includes("min") ? parseFloat(rest) * 60 : parseInt(rest) || 90;
+      setRestLeft(Math.round(secs));
+      setResting(true);
+    }
+  };
+
+  useEffect(() => {
+    if (!resting || restLeft <= 0) { if (restLeft <= 0) setResting(false); return; }
+    const id = setInterval(() => setRestLeft(t => { if (t <= 1) { setResting(false); return 0; } return t - 1; }), 1000);
+    return () => clearInterval(id);
+  }, [resting, restLeft]);
+
+  const done = completed.filter(Boolean).length;
+  const allDone = done === totalSets;
+
+  return (
+    <div className="no-print" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)", borderRadius: 6, padding: "12px 14px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+        <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9 }}>📋 SET TRACKER</div>
+        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+          {resting && (
+            <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--orange)", fontWeight: 900 }}>
+              ⏱ {Math.floor(restLeft / 60)}:{String(restLeft % 60).padStart(2, "0")}
+            </div>
+          )}
+          {allDone && <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#22c55e" }}>✅ Done!</span>}
+          <button onClick={() => { setCompleted(Array(totalSets).fill(false)); setResting(false); }}
+            style={{ background: "transparent", border: "none", cursor: "pointer", color: "var(--text-faint)", fontSize: 10, fontFamily: "var(--fb)" }}>reset</button>
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        {completed.map((done, i) => (
+          <button key={i} onClick={() => toggleSet(i)}
+            style={{ width: 40, height: 40, borderRadius: 6, border: `2px solid ${done ? "#22c55e" : "var(--border-bright)"}`, background: done ? "rgba(34,197,94,0.15)" : "transparent", cursor: "pointer", fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, color: done ? "#22c55e" : "var(--text-faint)", transition: "all .2s" }}>
+            {done ? "✓" : i + 1}
+          </button>
+        ))}
+        <div style={{ display: "flex", alignItems: "center", marginLeft: 4 }}>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)" }}>{done}/{totalSets} sets · {reps}</span>
+        </div>
+      </div>
+      {!resting && !allDone && done > 0 && done < totalSets && (
+        <button onClick={() => {
+          const secs = rest.includes("2 min") ? 120 : rest.includes("3 min") ? 180 : rest.includes("90") ? 90 : rest.includes("60") ? 60 : 90;
+          setRestLeft(secs); setResting(true);
+        }} style={{ marginTop: 8, background: "var(--orange-dim)", border: "1px solid var(--orange-border)", color: "var(--orange)", padding: "5px 12px", borderRadius: 4, cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 1 }}>
+          ▶ Start rest ({rest})
+        </button>
+      )}
+    </div>
+  );
+}({ phase, index }: { phase: Phase; index: number }) {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div className="surface print-break-before print-avoid-break" style={{ borderRadius: 10, overflow: "hidden", border: "1px solid var(--border)", marginBottom: 24 }}>
