@@ -3494,7 +3494,7 @@ function AppInner() {
             Choose science. Choose structure. Choose results.
           </p>
         </div>
-        <h1 className="flicker hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 28 }}>
+        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 28 }}>
           DOMINATE<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>GRAVITY</span>
         </h1>
         <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 17, color: "#ffffff", maxWidth: 500, marginBottom: 32, lineHeight: 1.65 }}>Science-backed programs engineered to build elite skills and serious muscle. Planche. Front Lever. Hybrid. Aesthetics.</p>
