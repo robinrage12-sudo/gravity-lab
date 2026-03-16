@@ -2049,11 +2049,11 @@ const ultimateBundle: Program = {
 
 const allPrograms: Program[] = [
   plancheFoundation,
-  plancheElite,
   frontLeverMastery,
-  hybridAthlete,
-  fullHypertrophy,
   plancheLeverCombo,
+  plancheElite,
+  fullHypertrophy,
+  hybridAthlete,
   ultimateBundle,
 ];
 
@@ -2746,7 +2746,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         </ul>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
           <div>
-            <span className={p.category === "bundle" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
+            <span className={p.category === "bundle" || p.id === "combo-planche-lever" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" || p.id === "combo-planche-lever" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
             {p.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${p.originalPrice}</span>}
             <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", marginTop: 1 }}>lifetime access</div>
             {p.id === "combo-planche-lever" && (
@@ -2758,7 +2758,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
           <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
             {p.stripeUrl ? (
               <a href={p.stripeUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>
-                <button className={`btn-primary ${p.category === "bundle" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>Get Access →</button>
+                <button className={`btn-primary ${p.category === "bundle" || p.id === "combo-planche-lever" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>Get Access →</button>
               </a>
             ) : (
               <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={(e) => { e.stopPropagation(); onOpen(p); }}>Get Access →</button>
@@ -3571,11 +3571,11 @@ function AppInner() {
             <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,5vw,66px)", textTransform: "uppercase" }}>CHOOSE YOUR PATH</h2>
           </div>
           <CatSection label="STRENGTH & SKILLS" sublabel="Master gravity — Planche & Front Lever from beginner to elite" progs={skillProgs} onOpen={openProg} />
+          <CatSection label="COMBO — BEST DUO" sublabel="Planche Foundation + Front Lever — two iconic skills, one price" progs={comboGroup} onOpen={openProg} />
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 64 }} className="pg2">
-            <CatSection label="HYBRID" sublabel="Gym-based strength + calisthenics skills" progs={hybridProgs} onOpen={openProg} />
             <CatSection label="HYPERTROPHY" sublabel="No equipment — bodyweight muscle & skills" progs={hypertrophyProgs} onOpen={openProg} />
+            <CatSection label="HYBRID" sublabel="Gym-based strength + calisthenics skills" progs={hybridProgs} onOpen={openProg} />
           </div>
-          <CatSection label="COMBO" sublabel="Planche + Front Lever — two iconic skills, one price" progs={comboGroup} onOpen={openProg} />
         </div>
       </section>
 
