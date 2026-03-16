@@ -111,7 +111,7 @@ const plancheFoundation: Program = {
   id: "planche-foundation",
   title: "Planche Foundation",
   subtitle: "From Zero to Tuck Planche",
-  tagline: "The first 8 weeks that will define your calisthenics career. Push-ups, press & skill — all covered.",
+  tagline: "The program that will define your calisthenics career. Push-ups, press & skill — all covered.",
   level: "Beginner",
   levelColor: "#22c55e",
   category: "skill",
@@ -454,7 +454,7 @@ const plancheFoundation: Program = {
   ],
   cooldown: sharedCooldown,
   benefits: [
-    "5-second tuck planche hold by Week 8",
+    "Clean tuck planche hold achieved",
     "Tuck + advanced tuck push-ups & press — full technique",
     "Straddle push-ups & straddle press progression",
     "Pseudo planche push-up variations with full technique breakdown",
@@ -740,11 +740,11 @@ const plancheElite: Program = {
   ],
   cooldown: sharedCooldown,
   benefits: [
-    "Straddle planche in 10 weeks",
+    "Straddle planche mastered",
     "Full planche push-ups & planche press — full technique",
     "Maltese & maltese press progression",
     "Ring planche stability",
-    "Full planche approach within 6 months",
+    "Full planche approach — step by step",
     "🌟 Bonus: One arm handstand progression",
   ],
   stripeUrl: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f",
@@ -1011,7 +1011,7 @@ const frontLeverMastery: Program = {
   ],
   cooldown: leverCooldown,
   benefits: [
-    "Full front lever in 12 weeks",
+    "Full front lever achieved",
     "Front lever pull-ups — technique breakdown included",
     "Bonus: One arm pull-up progression (full technique guide)",
     "Scapular raises & Australian pull-up technique",
@@ -1451,7 +1451,7 @@ const fullHypertrophy: Program = {
   goals: [
     "Maximize muscle size through evidence-based hypertrophy principles",
     "Build an aesthetic physique with balanced proportions",
-    "Progressive overload across 12 structured weeks",
+    "Progressive overload — fully structured program",
     "Full access to both bodyweight and barbell/cable hypertrophy methods",
   ],
   mindset: "Hypertrophy is science. Mechanical tension × metabolic stress × muscle damage — that is the formula. This program removes the guesswork and replaces it with precision. Every set, every rep range, every rest period is chosen for a specific physiological reason. Your only job is to execute consistently and eat to grow.",
@@ -2299,7 +2299,9 @@ function SetTracker({ totalSets, reps, rest }: { totalSets: number; reps: string
       )}
     </div>
   );
-}({ phase, index }: { phase: Phase; index: number }) {
+}
+
+function PhaseBlock({ phase, index }: { phase: Phase; index: number }) {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div className="surface print-break-before print-avoid-break" style={{ borderRadius: 10, overflow: "hidden", border: "1px solid var(--border)", marginBottom: 24 }}>
