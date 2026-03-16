@@ -454,7 +454,6 @@ const plancheFoundation: Program = {
   ],
   cooldown: sharedCooldown,
   benefits: [
-    "Clean tuck planche hold achieved",
     "Tuck + advanced tuck push-ups & press — full technique",
     "Straddle push-ups & straddle press progression",
     "Pseudo planche push-up variations with full technique breakdown",
@@ -1013,7 +1012,7 @@ const frontLeverMastery: Program = {
   benefits: [
     "Full front lever achieved",
     "Front lever pull-ups — technique breakdown included",
-    "Bonus: One arm pull-up progression (full technique guide)",
+    "🌟 Bonus: One arm pull-up progression (full technique guide)",
     "Scapular raises & Australian pull-up technique",
     "Elite posterior chain conditioning",
   ],
@@ -1918,7 +1917,7 @@ const fullHypertrophy: Program = {
   benefits: [
     "Complete aesthetic physique — zero equipment needed",
     "Elite skills: HSPU, 90° push-up, one arm push-up",
-    "🌟 One arm pull-up — full progression",
+    "One arm pull-up — full progression",
     "Scientific hypertrophy protocol",
     "🌟 Bonus: One arm handstand progression",
   ],
