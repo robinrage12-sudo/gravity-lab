@@ -3427,7 +3427,8 @@ function AppInner() {
     );
   }
 
-  const skillProgs = PROGRAMS.filter(p => p.category === "skill" && p.id !== "combo-planche-lever");
+  const beginnerSkillProgs = PROGRAMS.filter(p => (p.id === "planche-foundation" || p.id === "front-lever"));
+  const advancedSkillProgs = PROGRAMS.filter(p => p.id === "planche-elite");
   const hybridProgs = PROGRAMS.filter(p => p.category === "hybrid");
   const hypertrophyProgs = PROGRAMS.filter(p => p.category === "hypertrophy");
   const bundleProg = PROGRAMS.find(p => p.category === "bundle")!;
@@ -3570,8 +3571,9 @@ function AppInner() {
             <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14 }}>PROGRAMS</div>
             <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,5vw,66px)", textTransform: "uppercase" }}>CHOOSE YOUR PATH</h2>
           </div>
-          <CatSection label="STRENGTH & SKILLS" sublabel="Master gravity — Planche & Front Lever from beginner to elite" progs={skillProgs} onOpen={openProg} />
+          <CatSection label="STRENGTH & SKILLS" sublabel="Master gravity — Planche & Front Lever from beginner to elite" progs={beginnerSkillProgs} onOpen={openProg} />
           <CatSection label="COMBO — BEST DUO" sublabel="Planche Foundation + Front Lever — two iconic skills, one price" progs={comboGroup} onOpen={openProg} />
+          <CatSection label="PLANCHE ELITE" sublabel="Advanced — master the full planche, maltese & finger planche" progs={advancedSkillProgs} onOpen={openProg} />
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 64 }} className="pg2">
             <CatSection label="HYPERTROPHY" sublabel="No equipment — bodyweight muscle & skills" progs={hypertrophyProgs} onOpen={openProg} />
             <CatSection label="HYBRID" sublabel="Gym-based strength + calisthenics skills" progs={hybridProgs} onOpen={openProg} />
