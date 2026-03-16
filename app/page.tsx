@@ -2747,12 +2747,12 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         {/* Format badge */}
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
           {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based"].map(tag => (
-            <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
+            <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
           <span style={{ fontSize: 12 }}>📱</span>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.35)" }}>Interactive digital manual · Instant access · Lifetime</span>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.75)" }}>Interactive digital manual · Instant access · Lifetime</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
           <div>
@@ -3275,7 +3275,7 @@ const CSS = `
   --orange:#FF4500;--orange-dim:rgba(255,69,0,.1);--orange-border:rgba(255,69,0,.28);
   --bg:#0A0A0A;--bg-card:#111;--bg-card2:#141414;
   --border:rgba(255,255,255,.07);--border-bright:rgba(255,255,255,.14);
-  --text:#FFF;--text-dim:rgba(255,255,255,.5);--text-faint:rgba(255,255,255,.25);
+  --text:#FFF;--text-dim:rgba(255,255,255,.7);--text-faint:rgba(255,255,255,.45);
   --fd:'Barlow Condensed',Impact,sans-serif;--fb:'Barlow',sans-serif;--fs:'Cormorant Garamond',Georgia,serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -3486,9 +3486,9 @@ function AppInner() {
 
         {/* Hook statement */}
         <div style={{ maxWidth: 560, marginBottom: 20, textAlign: "center" }}>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, marginBottom: 8 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.85)", lineHeight: 1.7, marginBottom: 8 }}>
             Tired of wasting time on random YouTube videos?<br />
-            <span style={{ color: "rgba(255,255,255,0.65)" }}>Stop following advice based on someone's personal experience.</span>
+            <span style={{ color: "#ffffff" }}>Stop following advice based on someone's personal experience.</span>
           </p>
           <p style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 17, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>
             Choose science. Choose structure. Choose results.
