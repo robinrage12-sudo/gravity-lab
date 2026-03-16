@@ -2736,7 +2736,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
             <span style={{ fontFamily: "var(--fb)", fontSize: 9, fontWeight: 700, color: "var(--orange)", letterSpacing: 1.5, textTransform: "uppercase" }}>All 5 Programs Included</span>
           </div>
         )}
-        <ul style={{ listStyle: "none", marginBottom: 18, display: "flex", flexDirection: "column", gap: 7, flex: 1 }}>
+        <ul style={{ listStyle: "none", marginBottom: 12, display: "flex", flexDirection: "column", gap: 7, flex: 1 }}>
           {p.benefits.map((b) => (
             <li key={b} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
               <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
@@ -2744,6 +2744,16 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
             </li>
           ))}
         </ul>
+        {/* Format badge */}
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
+          {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based"].map(tag => (
+            <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
+          ))}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+          <span style={{ fontSize: 12 }}>📱</span>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.35)" }}>Interactive digital manual · Instant access · Lifetime</span>
+        </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
           <div>
             <span className={p.category === "bundle" || p.id === "combo-planche-lever" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" || p.id === "combo-planche-lever" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
@@ -3473,6 +3483,17 @@ function AppInner() {
       <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "130px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
         <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Elite Calisthenics Programs — Premium Digital Coaching</div>
+
+        {/* Hook statement */}
+        <div style={{ maxWidth: 560, marginBottom: 20, textAlign: "center" }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, marginBottom: 8 }}>
+            Tired of wasting time on random YouTube videos?<br />
+            <span style={{ color: "rgba(255,255,255,0.65)" }}>Stop following advice based on someone's personal experience.</span>
+          </p>
+          <p style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 17, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>
+            Choose science. Choose structure. Choose results.
+          </p>
+        </div>
         <h1 className="flicker hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 28 }}>
           DOMINATE<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>GRAVITY</span>
         </h1>
