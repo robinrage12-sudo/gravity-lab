@@ -2023,8 +2023,8 @@ const ultimateBundle: Program = {
   levelColor: "#FF4500",
   category: "bundle",
   categoryGroup: "BUNDLE",
-  price: "127",
-  originalPrice: "285",
+  price: "157",
+  originalPrice: "247",
   icon: "👑",
   glowColor: "rgba(255,69,0,0.2)",
   badge: "BEST VALUE",
@@ -2041,10 +2041,10 @@ const ultimateBundle: Program = {
   cooldown: sharedCooldown,
   benefits: [
     "All 5 programs — no prerequisites, start from zero",
-    "Save $158 vs individual purchase",
+    "Save $90 vs individual purchase",
     "Future program updates included",
   ],
-  stripeUrl: "https://buy.stripe.com/7sYbJ3gHvgKZcnx6lf3ZK0c",
+  stripeUrl: "https://buy.stripe.com/fZu28t76VcuJdrBbFz3ZK0j",
 };
 
 const allPrograms: Program[] = [
@@ -2987,9 +2987,9 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 18px", background: "linear-gradient(90deg,rgba(255,69,0,0.12),rgba(255,69,0,0.04))" }}>
                 <div>
                   <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 14, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>Bundle Price</div>
-                  <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>You save ${total - 127}</div>
+                  <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>You save ${total - 157}</div>
                 </div>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "var(--orange)" }}>$127</span>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "var(--orange)" }}>$157</span>
               </div>
             </div>
           </div>
@@ -3017,7 +3017,7 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
             {/* CTA */}
             <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
               <button className="btn-primary pulse-glow cta-pulse" style={{ width: "100%", justifyContent: "center", padding: "16px", fontSize: 15, letterSpacing: 2 }}>
-                Get the Bundle — $127
+                Get the Bundle — $157
               </button>
             </a>
             <div style={{ display: "flex", gap: 16, marginTop: 14, justifyContent: "center", flexWrap: "wrap" }}>
@@ -3216,7 +3216,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
               <div style={{ textAlign: "center" }}>
                 <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginBottom: 12 }}>Want everything for the best value?</p>
                 <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="btn-secondary">👑 Get the Bundle — $127 (save $158)</button>
+                  <button className="btn-secondary">👑 Get the Bundle — $157 (save $90)</button>
                 </a>
               </div>
             )}
