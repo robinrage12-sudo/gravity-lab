@@ -2309,14 +2309,14 @@ function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
                   <div style={{ width: 18, height: 18, borderRadius: 2, background: "var(--orange-dim)", border: "1px solid var(--orange-border)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                     <span className="t-label" style={{ color: "var(--orange)", fontSize: 9 }}>{i + 1}</span>
                   </div>
-                  <p className="t-body" style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.5 }}>{cue}</p>
+                  <p className="t-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.5 }}>{cue}</p>
                 </div>
               ))}
             </div>
           </div>
           <div style={{ background: "rgba(255,69,0,0.04)", borderLeft: "3px solid var(--orange)", borderRadius: "0 4px 4px 0", padding: "12px 14px", marginBottom: 14 }}>
             <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 6 }}>💡 PRO TIP</div>
-            <p className="t-body print-body" style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.55, fontStyle: "italic" }}>{ex.proTip}</p>
+            <p className="t-body print-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.55, fontStyle: "italic" }}>{ex.proTip}</p>
           </div>
 
           {/* Interactive Set Tracker */}
@@ -2505,7 +2505,7 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
             {program.benefits.map((b, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <Check size={12} style={{ color: "var(--orange)" }} />
-                <span className="t-body" style={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }}>{b}</span>
+                <span className="t-body" style={{ fontSize: 12, color: "#ffffff" }}>{b}</span>
               </div>
             ))}
           </div>
@@ -2555,14 +2555,14 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
               {activeProg.goals.map((g, i) => (
                 <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
                   <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
-                  <span className="t-body" style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.45 }}>{g}</span>
+                  <span className="t-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.45 }}>{g}</span>
                 </li>
               ))}
             </ul>
           </div>
           <div className="surface" style={{ flex: 1, minWidth: 220, padding: "20px", borderRadius: 8 }}>
             <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 8 }}><Layers size={10} style={{ display: "inline", marginRight: 5, color: "var(--orange)" }} />STRUCTURE</div>
-            <p className="t-body" style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>{activeProg.weekStructure}</p>
+            <p className="t-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.5 }}>{activeProg.weekStructure}</p>
           </div>
         </div>
 
@@ -2643,7 +2643,7 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
                   {program.goals.map((g, i) => (
                     <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
                       <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
-                      <span className="t-body" style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.45 }}>{g}</span>
+                      <span className="t-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.45 }}>{g}</span>
                     </li>
                   ))}
                 </ul>
@@ -2652,7 +2652,7 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
                 <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 8 }}>
                   <Layers size={10} style={{ display: "inline", marginRight: 5, color: "var(--orange)" }} />STRUCTURE
                 </div>
-                <p className="t-body" style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>{program.weekStructure}</p>
+                <p className="t-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.5 }}>{program.weekStructure}</p>
               </div>
             </div>
           </div>
@@ -2740,7 +2740,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
           {p.benefits.map((b) => (
             <li key={b} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
               <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
-              <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,.62)", lineHeight: 1.4 }}>{b}</span>
+              <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.4 }}>{b}</span>
             </li>
           ))}
         </ul>
@@ -2838,11 +2838,11 @@ function BeforeAfterCard({ data }: { data: typeof beforeAfterData[0] }) {
         {/* Before/After toggle buttons */}
         <div style={{ position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)", display: "flex", background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", borderRadius: 20, overflow: "hidden", border: "1px solid rgba(255,255,255,0.15)" }}>
           <button onClick={() => setShowAfter(false)}
-            style={{ padding: "7px 18px", border: "none", cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, transition: "all .2s", background: !showAfter ? "var(--orange)" : "transparent", color: !showAfter ? "#fff" : "rgba(255,255,255,0.5)" }}>
+            style={{ padding: "7px 18px", border: "none", cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, transition: "all .2s", background: !showAfter ? "var(--orange)" : "transparent", color: !showAfter ? "#fff" : "#ffffff" }}>
             BEFORE
           </button>
           <button onClick={() => setShowAfter(true)}
-            style={{ padding: "7px 18px", border: "none", cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, transition: "all .2s", background: showAfter ? "var(--orange)" : "transparent", color: showAfter ? "#fff" : "rgba(255,255,255,0.5)" }}>
+            style={{ padding: "7px 18px", border: "none", cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, transition: "all .2s", background: showAfter ? "var(--orange)" : "transparent", color: showAfter ? "#fff" : "#ffffff" }}>
             AFTER
           </button>
         </div>
@@ -2866,7 +2866,7 @@ function BeforeAfterCard({ data }: { data: typeof beforeAfterData[0] }) {
           <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)" }}>{data.age} y.o. · {data.duration}</span>
         </div>
         {/* Quote */}
-        <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.65, marginBottom: 16, fontStyle: "italic" }}>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65, marginBottom: 16, fontStyle: "italic" }}>
           "{data.quote}"
         </p>
         {/* Stats */}
@@ -2933,7 +2933,7 @@ function FAQSection() {
               {open === i && (
                 <div style={{ padding: "0 20px 20px" }}>
                   <div style={{ width: "100%", height: 1, background: "var(--border)", marginBottom: 16 }} />
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>{faq.a}</p>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "#ffffff", lineHeight: 1.7 }}>{faq.a}</p>
                 </div>
               )}
             </div>
@@ -3185,7 +3185,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                 {result.goals.slice(0, 3).map((g, i) => (
                   <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                     <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.6)" }}>{g}</span>
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff" }}>{g}</span>
                   </div>
                 ))}
               </div>
@@ -3275,7 +3275,7 @@ const CSS = `
   --orange:#FF4500;--orange-dim:rgba(255,69,0,.1);--orange-border:rgba(255,69,0,.28);
   --bg:#0A0A0A;--bg-card:#111;--bg-card2:#141414;
   --border:rgba(255,255,255,.07);--border-bright:rgba(255,255,255,.14);
-  --text:#FFF;--text-dim:rgba(255,255,255,.7);--text-faint:rgba(255,255,255,.45);
+  --text:#FFF;--text-dim:#ffffff;--text-faint:rgba(255,255,255,.45);
   --fd:'Barlow Condensed',Impact,sans-serif;--fb:'Barlow',sans-serif;--fs:'Cormorant Garamond',Georgia,serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -3306,7 +3306,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .check-row:hover{background:rgba(255,69,0,.04)!important}
 .data-table{width:100%;border-collapse:collapse;font-family:var(--fb);font-size:13px}
 .data-table th{padding:11px 16px;text-align:left;font-size:10px;letter-spacing:2px;color:var(--text-faint);text-transform:uppercase;font-weight:600;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
-.data-table td{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.7);vertical-align:top}
+.data-table td{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.04);color:#ffffff;vertical-align:top}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover td{background:rgba(255,69,0,.03)}
 .section-line{display:flex;align-items:center;gap:16px;margin-bottom:28px}
@@ -3550,7 +3550,7 @@ function AppInner() {
                 ].map(([icon, text], i) => (
                   <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                     <span style={{ fontSize: 14, flexShrink: 0, marginTop: 2 }}>{icon}</span>
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.45)", lineHeight: 1.5 }}>{text}</span>
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.5 }}>{text}</span>
                   </div>
                 ))}
               </div>
@@ -3570,7 +3570,7 @@ function AppInner() {
                     <span style={{ fontSize: 20, flexShrink: 0, width: 32, textAlign: "center" }}>{item.icon}</span>
                     <div>
                       <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, color: "var(--text)", marginBottom: 4 }}>{item.title}</div>
-                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.45)", lineHeight: 1.5 }}>{item.desc}</p>
+                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.5 }}>{item.desc}</p>
                     </div>
                   </div>
                 ))}
