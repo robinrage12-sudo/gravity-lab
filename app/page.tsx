@@ -3508,7 +3508,7 @@ function AppInner() {
           ].map((item, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 14 }}>{item.icon}</span>
-              <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.45)", letterSpacing: 0.5 }}>{item.text}</span>
+              <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 0.5, fontWeight: 500 }}>{item.text}</span>
             </div>
           ))}
         </div>
