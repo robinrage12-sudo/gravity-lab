@@ -2704,16 +2704,16 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at top left, ${p.glowColor}, transparent 60%)` }} />
       </div>
       {p.badge && (
-        <div className="badge-bounce" style={{
-          position: "absolute", top: 12, right: -26,
+        <div style={{
+          position: "absolute", top: -1, right: -1,
           background: p.badge === "BEST DUO" ? "linear-gradient(135deg,#06b6d4,#0891b2)"
             : p.category === "bundle" ? "linear-gradient(135deg,var(--orange),#ff8c00)"
-            : "#fff",
-          color: p.badge === "BEST DUO" ? "#fff" : p.category === "bundle" ? "#fff" : "var(--orange)",
-          border: p.category !== "bundle" && p.badge !== "BEST DUO" ? "1.5px solid var(--orange)" : "none",
+            : "var(--orange)",
+          color: "#fff",
           fontSize: 9, fontWeight: 800, letterSpacing: 2, fontFamily: "var(--fb)",
-          padding: "4px 32px", transform: "rotate(35deg)", transformOrigin: "center",
-          whiteSpace: "nowrap", zIndex: 2
+          padding: "5px 12px", borderRadius: "0 8px 0 8px",
+          whiteSpace: "nowrap", zIndex: 10,
+          animation: "badgePop 2s ease-in-out infinite",
         }}>{p.badge}</div>
       )}
       <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
@@ -2749,6 +2749,11 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
             <span className={p.category === "bundle" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
             {p.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${p.originalPrice}</span>}
             <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", marginTop: 1 }}>lifetime access</div>
+            {p.id === "combo-planche-lever" && (
+              <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#06b6d4", marginTop: 4 }}>
+                🔗 Includes both programs
+              </div>
+            )}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
             {p.stripeUrl ? (
