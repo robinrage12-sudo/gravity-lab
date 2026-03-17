@@ -458,6 +458,7 @@ const plancheFoundation: Program = {
     "Complete roadmap: tuck → advanced tuck → straddle → full planche",
     "Every push-up & press variation — tuck, straddle, full — with full technique",
     "Bulletproof wrist & shoulder preparation from day one",
+    "Handstand progression included (standard — not a bonus)",
     "🌟 Bonus: One arm handstand progression",
   ],
   stripeUrl: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h",
@@ -794,6 +795,7 @@ const plancheElite: Program = {
     "Maltese & maltese press — elite progression",
     "Finger planche — full technique & progression",
     "Ring planche stability",
+    "Handstand & HSPU included (standard — not a bonus)",
     "🌟 Bonus: One arm handstand progression",
   ],
   stripeUrl: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f",
@@ -1488,6 +1490,7 @@ const frontLeverMastery: Program = {
     "Master all front lever variations & progressions — full technique",
     "Front lever pull-ups — technique breakdown included",
     "Pull-up mastery — every grip, variation & loading method",
+    "Handstand progression included (standard — not a bonus)",
     "🌟 Bonus: One arm pull-up progression (full technique guide)",
     "Zero prerequisite — start from absolute zero",
   ],
@@ -1901,9 +1904,10 @@ const hybridAthlete: Program = {
   benefits: [
     "Gym-based strength + calisthenics skill fusion — no skill prerequisite",
     "HSPU (Handstand Push-Up) & 90° push-up — full technique",
+    "Handstand progression included (standard — not a bonus)",
     "One arm pull-up progression",
     "Progressive overload with barbells & skills",
-    "🌟 Bonus: One arm handstand progression",
+    "🌟 Bonus: One arm handstand & one arm push-up progression",
   ],
   stripeUrl: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e",
 };
@@ -2391,6 +2395,7 @@ const fullHypertrophy: Program = {
   ],
   benefits: [
     "Complete aesthetic physique — zero equipment, no prerequisites needed",
+    "Handstand progression included (standard — not a bonus)",
     "Elite skills: HSPU (Handstand Push-Up), 90° push-up, one arm push-up",
     "One arm pull-up — full progression",
     "Scientific hypertrophy protocol",
@@ -2432,6 +2437,7 @@ const plancheLeverCombo: Program = {
     "Full Planche roadmap — every step with technique",
     "Full Front Lever — all variations & progressions",
     "Pull-up mastery — from first rep to front lever pull-ups",
+    "Handstand progression included in both programs (standard)",
     "Save $17 vs buying separately",
     "🌟 Bonus: One arm pull-up + One arm handstand",
   ],
@@ -3857,13 +3863,24 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
       ],
     },
     {
-      // Q2 — which skill (only shown if goal === 0)
+      // Q2 — which skill (shown if goal === 0 OR goal === 2)
       q: "Which skill are you going after?",
       sub: "Both is a valid answer.",
       opts: [
         { label: "Planche", desc: "Horizontal hold, straight arms — king of upper body strength" },
         { label: "Front Lever", desc: "Horizontal pull — lat dominance, elite back strength" },
         { label: "Both — Planche + Front Lever", desc: "There's a combo pack built exactly for this" },
+      ],
+    },
+    {
+      // Q2b — which skill type (only shown if goal === 2 and skill is one-arm family)
+      q: "What kind of skill are you aiming for?",
+      sub: "These are all included — this helps us point you to the right program.",
+      opts: [
+        { label: "Planche or Front Lever", desc: "The iconic horizontal holds" },
+        { label: "One arm skills", desc: "One arm pull-up, one arm push-up, one arm handstand" },
+        { label: "Handstand skills", desc: "Handstand, HSPU, 90° push-up — press to handstand" },
+        { label: "All of the above", desc: "I want the complete skills package" },
       ],
     },
     {
@@ -3879,34 +3896,62 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
     },
   ];
 
-  // Dynamic step flow: skip Q2 if goal !== 0
+  // Dynamic step flow
+  // Q0 → Q1 always
+  // Q1 → Q2 if goal === 0 or 2; skip to Q3 if goal === 1 or 3
+  // Q2 → Q2b if goal === 2; skip to Q3 if goal === 0
+  // Q2b → Q3
+  // Q3 → result
   const getNextStep = (currentStep: number, ans: number[]) => {
-    if (currentStep === 1 && ans[1] !== 0) return 3; // skip skill question
+    if (currentStep === 1) {
+      const goal = ans[1];
+      if (goal === 1 || goal === 3) return 4; // skip Q2 and Q2b → go to equipment
+      return 2; // show skill choice
+    }
+    if (currentStep === 2) {
+      if (ans[1] === 2) return 3; // physique+skills → ask skill type
+      return 4; // pure skill → skip Q2b → equipment
+    }
+    if (currentStep === 3) return 4;
     return currentStep + 1;
   };
 
-  const isLastStep = (currentStep: number, ans: number[]) => {
-    if (currentStep === 1 && ans[1] !== 0) return false; // go to Q3
-    if (currentStep === 2) return false; // go to Q3
-    if (currentStep === 3) return true;
-    return false;
+  const isLastStep = (currentStep: number, _ans: number[]) => {
+    return currentStep === 4;
   };
 
   const getRecommendation = (ans: number[]): Program => {
     const level = ans[0];
     const goal = ans[1];
-    const skill = ans[2]; // only set if goal === 0
-    const equip = ans[3];
+    const skill = ans[2];   // set if goal === 0 or 2
+    const skillType = ans[3]; // set if goal === 2 (Q2b answer)
+    const equip = ans[4];   // always last
 
     if (goal === 3 || equip === 3) return ultimateBundle;
-    if (goal === 2) return equip >= 2 ? hybridAthlete : fullHypertrophy;
+
     if (goal === 1) return fullHypertrophy;
-    if (goal === 0) {
-      if (skill === 2) return plancheLeverCombo;       // both skills
-      if (skill === 1) return frontLeverMastery;        // front lever
-      if (level === 3) return plancheElite;             // already has full planche
-      return plancheFoundation;                         // planche from scratch
+
+    if (goal === 2) {
+      // physique + skills
+      const wantsLever = skill === 1 || skill === 2;
+      const wantsPlanche = skill === 0 || skill === 2;
+      if (skill === 2) return plancheLeverCombo; // wants both → combo
+      if (skillType === 3) return ultimateBundle; // all skills → bundle
+      if (skillType === 0 && wantsLever) return frontLeverMastery;
+      if (skillType === 0 && wantsPlanche && level === 3) return plancheElite;
+      if (skillType === 0) return plancheFoundation;
+      // one arm or handstand skills → hybrid or hypertrophy
+      return equip >= 2 ? hybridAthlete : fullHypertrophy;
     }
+
+    if (goal === 0) {
+      // pure skill
+      if (skill === 2) return plancheLeverCombo;
+      if (skill === 1) return frontLeverMastery;
+      if (level === 3) return plancheElite;
+      return plancheFoundation;
+    }
+
     return plancheFoundation;
   };
 
@@ -3934,8 +3979,8 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
   const timerMin = Math.floor(quizTimer / 60);
   const timerSec = quizTimer % 60;
   const timerExpired = quizTimer <= 0;
-  // Max 3 steps shown (Q2 skipped if not skill goal), progress based on visible steps
-  const totalVisible = answers[1] === 0 ? 4 : 3;
+  // Progress: max 5 steps (Q0-Q4), but some are skipped
+  const totalVisible = answers[1] === 2 ? 5 : answers[1] === 0 ? 4 : 3;
   const progress = (step / (totalVisible - 1)) * 100;
 
   return (
@@ -4067,8 +4112,12 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
             {step > 0 && (
               <button className="btn-ghost" style={{ marginTop: 14, fontSize: 12 }} onClick={() => {
                 const prevAnswers = answers.slice(0, -1);
-                // If we're on Q3 and goal wasn't skills, go back to Q1 (skip Q2)
-                const prevStep = step === 3 && answers[1] !== 0 ? 1 : step - 1;
+                // Reverse-navigate skipped steps
+                let prevStep = step - 1;
+                if (step === 4 && answers[1] === 1) prevStep = 1; // skipped Q2+Q2b
+                if (step === 4 && answers[1] === 3) prevStep = 1; // skipped Q2+Q2b
+                if (step === 4 && answers[1] === 0) prevStep = 2; // skipped Q2b
+                if (step === 4 && answers[1] === 2) prevStep = 3; // came from Q2b
                 setStep(prevStep);
                 setAnswers(prevAnswers);
               }}>
