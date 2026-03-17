@@ -945,11 +945,11 @@ const frontLeverMastery: Program = {
       ],
     },
     {
-      name: "Phase 2 — Advanced Tuck & Straddle",
+      name: "Phase 2 — Advanced Tuck, One Leg & Straddle",
       tag: "Weeks 5–8",
       duration: "4 weeks",
       icon: "⬆️",
-      description: "Extending the hips changes the lever mechanics dramatically. Take the time you need here — most athletes spend 4–6 weeks.",
+      description: "Extending the hips changes the lever mechanics dramatically. One leg and straddle are both valid at this stage — use whichever feels more natural, or alternate both. Most athletes spend 4–6 weeks here.",
       exercises: [
         {
           title: "Advanced Tuck Front Lever",
@@ -963,27 +963,36 @@ const frontLeverMastery: Program = {
             "Core engaged like a plank — not just the lats",
             "Posterior pelvic tilt to prevent hip drop",
           ],
-          proTip: "Every 2 weeks, try straightening one leg while the other stays tucked (uneven lever). This bridges the gap to straddle effectively.",
+          proTip: "Every 2 weeks, try straightening one leg while the other stays tucked (one-leg lever). This bridges the gap to straddle effectively — both are valid progressions.",
           progression: [
             { label: "Tuck", emoji: "🧘", active: false },
             { label: "Adv. Tuck", emoji: "📐", active: true },
-            { label: "1-Leg", emoji: "🦵", active: false },
-            { label: "Straddle", emoji: "↔️", active: false },
+            { label: "1-Leg / Straddle", emoji: "🦵", active: false },
+            { label: "Full", emoji: "🎯", active: false },
           ],
         },
         {
-          title: "Straddle Front Lever Hold",
+          title: "One Leg / Straddle Front Lever Hold",
           sets: "5",
           reps: "5×4–6s",
           rest: "2.5 min",
           intensity: "Maximum",
           cues: [
-            "Wide leg split — wider is significantly easier",
-            "Squeeze glutes and point toes",
+            "One leg: one leg extended, one tucked — easier entry point than full straddle",
+            "Straddle: wide leg split — wider is significantly easier",
+            "Both are valid — use what works best for your body",
+            "Squeeze glutes and point toes on the extended leg(s)",
             "Fight the pull of gravity with your entire posterior chain",
             "Eyes looking at ceiling — helps maintain horizontal position",
+            "Progress signal: 8s clean hold on either variation → attempt full",
           ],
-          proTip: "The straddle front lever is approximately 75% of the difficulty of the full lever. Own 8+ seconds here before attempting full.",
+          proTip: "The straddle and one-leg lever are roughly equivalent in difficulty. Some athletes find one easier than the other — try both and use the one that lets you hold longer. Own 8+ seconds before attempting full.",
+          progression: [
+            { label: "Tuck", emoji: "🧘", active: false },
+            { label: "Adv. Tuck", emoji: "📐", active: false },
+            { label: "1-Leg / Straddle", emoji: "🦵", active: true },
+            { label: "Full", emoji: "🎯", active: false },
+          ],
         },
       ],
     },
@@ -3187,7 +3196,7 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
                 <span style={{ fontSize: 16 }}>{p.icon}</span>
                 <div style={{ textAlign: "left" }}>
                   <div>{p.title}</div>
-                  <div style={{ fontSize: 9, fontFamily: "var(--fb)", fontWeight: 300, color: activeProg.id === p.id ? "var(--orange)" : "var(--text-faint)", marginTop: 1 }}>{p.level}</div>
+                  <div style={{ fontSize: 9, fontFamily: "var(--fb)", fontWeight: 300, color: activeProg.id === p.id ? "var(--orange)" : "var(--text-faint)", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.level}</div>
                 </div>
                 {activeProg.id === p.id && <div style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--orange)", marginLeft: 4 }} />}
               </button>
@@ -3474,7 +3483,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
       )}
       <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
         <div style={{ fontSize: 30, marginBottom: 10 }}>{p.icon}</div>
-        <span className="badge" style={{ background: `${p.levelColor}18`, color: p.levelColor, border: `1px solid ${p.levelColor}30`, marginBottom: 10, alignSelf: "flex-start" }}>{p.level}</span>
+        <span className="badge" style={{ background: `${p.levelColor}18`, color: p.levelColor, border: `1px solid ${p.levelColor}30`, marginBottom: 10, alignSelf: "flex-start", whiteSpace: "nowrap" }}>{p.level}</span>
         <h3 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 21, textTransform: "uppercase", marginBottom: 3, lineHeight: 1.05, color: "var(--text)" }}>{p.title}</h3>
         <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", marginBottom: 12, lineHeight: 1.4 }}>{p.subtitle}</p>
         {p.dualTrack && p.trackLabels && (
@@ -4492,7 +4501,7 @@ function AppInner() {
                     onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : openProg(p)}>
                     <td style={{ fontWeight: 700, color: "var(--text)" }}>{p.title}</td>
                     <td><span className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border)", fontSize: 9 }}>{p.categoryGroup}</span></td>
-                    <td><span className="badge" style={{ background: `${p.levelColor}15`, color: p.levelColor, border: `1px solid ${p.levelColor}28` }}>{p.level}</span></td>
+                    <td><span className="badge" style={{ background: `${p.levelColor}15`, color: p.levelColor, border: `1px solid ${p.levelColor}28`, whiteSpace: "nowrap" }}>{p.level}</span></td>
                     <td style={{ fontSize: 12 }}>{(p as any).prereq ?? "—"}</td>
                     <td style={{ textAlign: "center" }}>{p.dualTrack ? <span style={{ color: "var(--orange)", fontWeight: 700 }}>✓</span> : <span style={{ color: "var(--text-faint)" }}>—</span>}</td>
                     <td>
