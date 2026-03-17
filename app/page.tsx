@@ -3918,16 +3918,14 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
     }
 
     if (goal === 2) {
-      // skills + physique
       if (skill === 2) return plancheLeverCombo;
-      if (skill === 3) return hasGym ? hybridAthlete : fullHypertrophy; // one arm/handstand
+      if (skill === 3) return hasGym ? hybridAthlete : fullHypertrophy;
       if (skill === 1) return frontLeverMastery;
       if (level === 3) return plancheElite;
       return plancheFoundation;
     }
 
     if (goal === 0) {
-      // pure skill — gym doesn't change the skill program
       if (skill === 2) return plancheLeverCombo;
       if (skill === 3) return hasGym ? hybridAthlete : fullHypertrophy;
       if (skill === 1) return frontLeverMastery;
@@ -3997,34 +3995,45 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
             <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, color: "var(--orange)", textTransform: "uppercase", textAlign: "center" }}>✅ Your exact match</div>
 
-            <div className="surface" style={{ borderRadius: 12, padding: "32px", border: `2px solid ${result.levelColor}40`, background: `${result.glowColor}`, marginBottom: 20, textAlign: "left", position: "relative", overflow: "hidden" }}>
+            <div className="surface" style={{ borderRadius: 12, padding: "28px", border: `2px solid ${result.levelColor}40`, background: `${result.glowColor}`, marginBottom: 20, textAlign: "left", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: -20, right: -20, fontSize: 100, opacity: 0.07 }}>{result.icon}</div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
-                <span style={{ fontSize: 40 }}>{result.icon}</span>
-                <div>
-                  <div className="t-display" style={{ fontSize: 26 }}>{result.title}</div>
-                  <div style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", marginTop: 3 }}>{result.subtitle}</div>
+              {/* Header — icon + title + level badge */}
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 12, flexWrap: "wrap" }}>
+                <span style={{ fontSize: 36, flexShrink: 0 }}>{result.icon}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
+                    <div className="t-display" style={{ fontSize: 22, lineHeight: 1.1 }}>{result.title}</div>
+                    <span className="badge" style={{ background: `${result.levelColor}20`, color: result.levelColor, border: `1px solid ${result.levelColor}40`, fontSize: 9, whiteSpace: "nowrap", flexShrink: 0 }}>{result.level}</span>
+                  </div>
+                  <div style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.4 }}>{result.subtitle}</div>
                 </div>
-                <span className="badge" style={{ marginLeft: "auto", background: `${result.levelColor}20`, color: result.levelColor, border: `1px solid ${result.levelColor}40`, fontSize: 10 }}>{result.level}</span>
               </div>
 
-              <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", lineHeight: 1.65, marginBottom: 20 }}>{result.tagline}</p>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.65, marginBottom: 18 }}>{result.tagline}</p>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}>
-                {result.goals.slice(0, 3).map((g, i) => (
+              {/* Full benefits list */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 7, marginBottom: 20 }}>
+                {result.benefits.map((b, i) => (
                   <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                     <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff" }}>{g}</span>
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.4 }}>{b}</span>
                   </div>
                 ))}
               </div>
 
+              {/* Format tags */}
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 18 }}>
+                {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal"].map(tag => (
+                  <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
+                ))}
+              </div>
+
               {/* Price block */}
-              <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 8, padding: "16px 18px", marginBottom: 20 }}>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 42, color: "var(--orange)", lineHeight: 1 }}>${result.price}</span>
+              <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 8, padding: "14px 18px", marginBottom: 18 }}>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 38, color: "var(--orange)", lineHeight: 1 }}>${result.price}</span>
                 {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.4)", marginLeft: 8, textDecoration: "line-through" }}>${result.originalPrice}</span>}
-                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 3 }}>one-time payment · lifetime access</div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>one-time payment · lifetime access</div>
               </div>
 
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
