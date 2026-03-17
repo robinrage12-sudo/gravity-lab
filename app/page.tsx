@@ -3856,31 +3856,21 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
       q: "What do you actually want?",
       sub: "Pick what gets you out of bed at 6am.",
       opts: [
-        { label: "Master a calisthenics skill", desc: "Planche, front lever — the stuff that turns heads" },
+        { label: "Master a calisthenics skill", desc: "Planche, front lever, one arm skills, handstand..." },
         { label: "Build a physique I'm proud of", desc: "Visible muscle, defined body — no gym required" },
         { label: "Both — skills AND muscle", desc: "I refuse to choose" },
         { label: "The full package", desc: "Everything, fastest route possible" },
       ],
     },
     {
-      // Q2 — which skill (shown if goal === 0 OR goal === 2)
-      q: "Which skill are you going after?",
-      sub: "Both is a valid answer.",
+      // Q2 — which skill (shown if goal === 0 or goal === 2)
+      q: "Which skill are you targeting?",
+      sub: "All programs include the handstand as standard. Pick your main focus.",
       opts: [
-        { label: "Planche", desc: "Horizontal hold, straight arms — king of upper body strength" },
-        { label: "Front Lever", desc: "Horizontal pull — lat dominance, elite back strength" },
-        { label: "Both — Planche + Front Lever", desc: "There's a combo pack built exactly for this" },
-      ],
-    },
-    {
-      // Q2b — which skill type (only shown if goal === 2 and skill is one-arm family)
-      q: "What kind of skill are you aiming for?",
-      sub: "These are all included — this helps us point you to the right program.",
-      opts: [
-        { label: "Planche or Front Lever", desc: "The iconic horizontal holds" },
-        { label: "One arm skills", desc: "One arm pull-up, one arm push-up, one arm handstand" },
-        { label: "Handstand skills", desc: "Handstand, HSPU, 90° push-up — press to handstand" },
-        { label: "All of the above", desc: "I want the complete skills package" },
+        { label: "Planche", desc: "Horizontal hold — the king of pushing strength" },
+        { label: "Front Lever", desc: "Horizontal pull — elite lat & back dominance" },
+        { label: "Planche + Front Lever", desc: "Both iconic skills — there's a combo for this" },
+        { label: "One arm & handstand skills", desc: "OAP, OAP push-up, OA handstand, HSPU, 90° push-up..." },
       ],
     },
     {
@@ -3896,57 +3886,51 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
     },
   ];
 
-  // Dynamic step flow
   // Q0 → Q1 always
   // Q1 → Q2 if goal === 0 or 2; skip to Q3 if goal === 1 or 3
-  // Q2 → Q2b if goal === 2; skip to Q3 if goal === 0
-  // Q2b → Q3
+  // Q2 → Q3 always
   // Q3 → result
   const getNextStep = (currentStep: number, ans: number[]) => {
     if (currentStep === 1) {
       const goal = ans[1];
-      if (goal === 1 || goal === 3) return 4; // skip Q2 and Q2b → go to equipment
-      return 2; // show skill choice
+      if (goal === 1 || goal === 3) return 3; // skip skill question
+      return 2;
     }
-    if (currentStep === 2) {
-      if (ans[1] === 2) return 3; // physique+skills → ask skill type
-      return 4; // pure skill → skip Q2b → equipment
-    }
-    if (currentStep === 3) return 4;
     return currentStep + 1;
   };
 
   const isLastStep = (currentStep: number, _ans: number[]) => {
-    return currentStep === 4;
+    return currentStep === 3;
   };
 
   const getRecommendation = (ans: number[]): Program => {
     const level = ans[0];
     const goal = ans[1];
-    const skill = ans[2];   // set if goal === 0 or 2
-    const skillType = ans[3]; // set if goal === 2 (Q2b answer)
-    const equip = ans[4];   // always last
+    const skill = ans[2]; // only set if goal === 0 or 2
+    const equip = ans[3]; // always last (index 3 when Q2 shown, index 2 when skipped)
+    // equip is at index 3 if Q2 was shown (goal 0 or 2), else at index 2
+    const equipIdx = (goal === 0 || goal === 2) ? ans[3] : ans[2];
 
-    if (goal === 3 || equip === 3) return ultimateBundle;
+    if (goal === 3 || equipIdx === 3) return ultimateBundle;
 
-    if (goal === 1) return fullHypertrophy;
+    if (goal === 1) {
+      // pure physique
+      return equipIdx >= 2 ? hybridAthlete : fullHypertrophy;
+    }
 
     if (goal === 2) {
-      // physique + skills
-      const wantsLever = skill === 1 || skill === 2;
-      const wantsPlanche = skill === 0 || skill === 2;
-      if (skill === 2) return plancheLeverCombo; // wants both → combo
-      if (skillType === 3) return ultimateBundle; // all skills → bundle
-      if (skillType === 0 && wantsLever) return frontLeverMastery;
-      if (skillType === 0 && wantsPlanche && level === 3) return plancheElite;
-      if (skillType === 0) return plancheFoundation;
-      // one arm or handstand skills → hybrid or hypertrophy
-      return equip >= 2 ? hybridAthlete : fullHypertrophy;
+      // skills + physique
+      if (skill === 2) return plancheLeverCombo;       // planche + front lever → combo
+      if (skill === 3) return equipIdx >= 2 ? hybridAthlete : fullHypertrophy; // one arm/handstand
+      if (skill === 1) return frontLeverMastery;        // front lever
+      if (level === 3) return plancheElite;             // planche but already has it
+      return plancheFoundation;                         // planche from scratch
     }
 
     if (goal === 0) {
       // pure skill
       if (skill === 2) return plancheLeverCombo;
+      if (skill === 3) return equipIdx >= 2 ? hybridAthlete : fullHypertrophy;
       if (skill === 1) return frontLeverMastery;
       if (level === 3) return plancheElite;
       return plancheFoundation;
@@ -3979,8 +3963,8 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
   const timerMin = Math.floor(quizTimer / 60);
   const timerSec = quizTimer % 60;
   const timerExpired = quizTimer <= 0;
-  // Progress: max 5 steps (Q0-Q4), but some are skipped
-  const totalVisible = answers[1] === 2 ? 5 : answers[1] === 0 ? 4 : 3;
+  // Progress: 4 steps if skill shown, 3 steps if skipped
+  const totalVisible = (answers[1] === 0 || answers[1] === 2) ? 4 : 3;
   const progress = (step / (totalVisible - 1)) * 100;
 
   return (
@@ -4112,12 +4096,9 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
             {step > 0 && (
               <button className="btn-ghost" style={{ marginTop: 14, fontSize: 12 }} onClick={() => {
                 const prevAnswers = answers.slice(0, -1);
-                // Reverse-navigate skipped steps
+                // If on Q3 (equipment) and goal was physique or full package, go back to Q1
                 let prevStep = step - 1;
-                if (step === 4 && answers[1] === 1) prevStep = 1; // skipped Q2+Q2b
-                if (step === 4 && answers[1] === 3) prevStep = 1; // skipped Q2+Q2b
-                if (step === 4 && answers[1] === 0) prevStep = 2; // skipped Q2b
-                if (step === 4 && answers[1] === 2) prevStep = 3; // came from Q2b
+                if (step === 3 && (answers[1] === 1 || answers[1] === 3)) prevStep = 1;
                 setStep(prevStep);
                 setAnswers(prevAnswers);
               }}>
