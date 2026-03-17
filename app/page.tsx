@@ -460,7 +460,7 @@ const plancheFoundation: Program = {
     "Bulletproof wrist & shoulder preparation from day one",
     "Handstand progression included",
     "🌟 Bonus: One arm handstand progression",
-    "8 years of training insights — the cues and details no YouTube video will give you",
+    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
   stripeUrl: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h",
 };
@@ -798,7 +798,7 @@ const plancheElite: Program = {
     "Ring planche stability",
     "Handstand & HSPU included",
     "🌟 Bonus: One arm handstand progression",
-    "8 years of training insights — the cues and details no YouTube video will give you",
+    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
   stripeUrl: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f",
 };
@@ -1503,7 +1503,7 @@ const frontLeverMastery: Program = {
     "Pull-up mastery — every grip, variation & loading method",
     "Handstand progression included",
     "🌟 Bonus: One arm pull-up progression (full technique guide)",
-    "8 years of training insights — the cues and details no YouTube video will give you",
+    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
   stripeUrl: "https://buy.stripe.com/8x2aEZ8aZamB5Z910V3ZK0g",
 };
@@ -1919,7 +1919,7 @@ const hybridAthlete: Program = {
     "One arm pull-up progression",
     "Progressive overload with barbells & skills",
     "🌟 Bonus: One arm handstand & one arm push-up progression",
-    "8 years of training insights — the cues and details no YouTube video will give you",
+    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
   stripeUrl: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e",
 };
@@ -2412,7 +2412,7 @@ const fullHypertrophy: Program = {
     "One arm pull-up — full progression",
     "Scientific hypertrophy protocol",
     "🌟 Bonus: One arm handstand progression",
-    "8 years of training insights — the cues and details no YouTube video will give you",
+    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
   stripeUrl: "https://buy.stripe.com/fZu6oJeznamB87hbFz3ZK0d",
 };
@@ -2453,7 +2453,7 @@ const plancheLeverCombo: Program = {
     "Handstand progression included in both programs",
     "Save $17 vs buying separately",
     "🌟 Bonus: One arm pull-up + One arm handstand",
-    "8 years of training insights — the cues and details no YouTube video will give you",
+    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
   bundlePrograms: [plancheFoundation, frontLeverMastery],
   stripeUrl: "https://buy.stripe.com/3cI8wRfDreCR3R19xr3ZK0i",
@@ -2488,7 +2488,7 @@ const ultimateBundle: Program = {
     "All 5 programs — no prerequisites, start from zero",
     "Save $90 vs individual purchase",
     "Future program updates included",
-    "8 years of training insights — the cues and details no YouTube video will give you",
+    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
   stripeUrl: "https://buy.stripe.com/fZu28t76VcuJdrBbFz3ZK0j",
 };
