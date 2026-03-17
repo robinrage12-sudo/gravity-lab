@@ -2876,10 +2876,10 @@ const EXERCISE_SUGGESTIONS: Record<string, string[]> = {
 };
 
 const REP_RANGES = {
-  Force:     { range: "1–5 RM", color: "#ef4444", desc: "Max strength — heavy, full rest" },
-  Moyen:     { range: "6–8 RM", color: "#f59e0b", desc: "Strength-hypertrophy — moderate load" },
-  Volume:    { range: "9–15 RM", color: "#3b82f6", desc: "Hypertrophy — higher reps, shorter rest" },
-  Technique: { range: "5–10 @ 50%", color: "#22c55e", desc: "Skill work — light, perfect form" },
+  Force:     { range: "1–5 RM",           color: "#ef4444", bg: "rgba(239,68,68,0.12)",   label: "FORCE",     desc: "Max strength — heavy, full rest" },
+  Moyen:     { range: "6–8 RM",           color: "#f59e0b", bg: "rgba(245,158,11,0.12)",  label: "MOYEN",     desc: "Strength-hypertrophy — moderate load" },
+  Volume:    { range: "9–15 RM",          color: "#3b82f6", bg: "rgba(59,130,246,0.12)",  label: "VOLUME",    desc: "Hypertrophy — higher reps, shorter rest" },
+  Technique: { range: "5–10 @ 50%",       color: "#22c55e", bg: "rgba(34,197,94,0.12)",   label: "TECHNIQUE", desc: "Skill work — light, perfect form" },
 };
 
 type SessionType = keyof typeof REP_RANGES;
