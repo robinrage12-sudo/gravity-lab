@@ -804,7 +804,7 @@ const frontLeverMastery: Program = {
   title: "Front Lever Mastery",
   subtitle: "The pull-up alone won't get you here. Zero prerequisites — but zero shortcuts either.",
   tagline: "From zero to full front lever — no prerequisites. Master every variation, pull-up & OAP progression.",
-  level: "All Levels",
+  level: "Beginner / Intermediate",
   levelColor: "#3b82f6",
   category: "skill",
   categoryGroup: "STRENGTH & SKILLS",
@@ -3834,26 +3834,39 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
   const questions = [
     {
+      // Q0 — level
       q: "Be honest — where are you right now?",
       sub: "No judgment. This determines everything.",
       opts: [
         { label: "Total beginner", desc: "Never trained seriously before" },
         { label: "Some experience", desc: "A few months in, inconsistent results" },
-        { label: "Trained 1+ year", desc: "Consistent but stuck on a plateau" },
-        { label: "I have some skills", desc: "Tuck planche, tuck lever — ready for more" },
+        { label: "Trained 1+ year", desc: "Consistent, solid base — ready to push harder" },
+        { label: "I already have the full planche", desc: "Looking for what comes next" },
       ],
     },
     {
+      // Q1 — goal
       q: "What do you actually want?",
       sub: "Pick what gets you out of bed at 6am.",
       opts: [
-        { label: "Elite skills", desc: "Planche. Front lever. The stuff that makes people stop and stare." },
-        { label: "A physique I'm proud of", desc: "Visible muscle, defined body — no gym required" },
+        { label: "Master a calisthenics skill", desc: "Planche, front lever — the stuff that turns heads" },
+        { label: "Build a physique I'm proud of", desc: "Visible muscle, defined body — no gym required" },
         { label: "Both — skills AND muscle", desc: "I refuse to choose" },
         { label: "The full package", desc: "Everything, fastest route possible" },
       ],
     },
     {
+      // Q2 — which skill (only shown if goal === 0)
+      q: "Which skill are you going after?",
+      sub: "Both is a valid answer.",
+      opts: [
+        { label: "Planche", desc: "Horizontal hold, straight arms — king of upper body strength" },
+        { label: "Front Lever", desc: "Horizontal pull — lat dominance, elite back strength" },
+        { label: "Both — Planche + Front Lever", desc: "There's a combo pack built exactly for this" },
+      ],
+    },
+    {
+      // Q3 — equipment
       q: "What's your setup?",
       sub: "Equipment is never an excuse — but we need to know.",
       opts: [
@@ -3863,30 +3876,35 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
         { label: "Home + gym", desc: "Best of both worlds" },
       ],
     },
-    {
-      q: "How serious are you, really?",
-      sub: "This determines which version of the program fits you.",
-      opts: [
-        { label: "Testing the waters", desc: "I want to try before committing fully" },
-        { label: "Ready to commit", desc: "3–4 sessions/week, I'll follow the plan" },
-        { label: "All in", desc: "I train every day I'm supposed to. No skipping." },
-        { label: "I want everything now", desc: "Give me the complete system" },
-      ],
-    },
   ];
 
+  // Dynamic step flow: skip Q2 if goal !== 0
+  const getNextStep = (currentStep: number, ans: number[]) => {
+    if (currentStep === 1 && ans[1] !== 0) return 3; // skip skill question
+    return currentStep + 1;
+  };
+
+  const isLastStep = (currentStep: number, ans: number[]) => {
+    if (currentStep === 1 && ans[1] !== 0) return false; // go to Q3
+    if (currentStep === 2) return false; // go to Q3
+    if (currentStep === 3) return true;
+    return false;
+  };
+
   const getRecommendation = (ans: number[]): Program => {
-    const [level, goal, equip, commitment] = ans;
-    if (goal === 3 || commitment === 3 || equip === 3) return ultimateBundle;
-    if (goal === 0) {
-      if (level <= 1) return plancheFoundation;
-      if (level === 2) return frontLeverMastery;
-      return plancheElite;
-    }
+    const level = ans[0];
+    const goal = ans[1];
+    const skill = ans[2]; // only set if goal === 0
+    const equip = ans[3];
+
+    if (goal === 3 || equip === 3) return ultimateBundle;
+    if (goal === 2) return equip >= 2 ? hybridAthlete : fullHypertrophy;
     if (goal === 1) return fullHypertrophy;
-    if (goal === 2) {
-      if (equip >= 2) return hybridAthlete;
-      return fullHypertrophy;
+    if (goal === 0) {
+      if (skill === 2) return plancheLeverCombo;       // both skills
+      if (skill === 1) return frontLeverMastery;        // front lever
+      if (level === 3) return plancheElite;             // already has full planche
+      return plancheFoundation;                         // planche from scratch
     }
     return plancheFoundation;
   };
@@ -3896,13 +3914,15 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
     setTimeout(() => {
       const newAnswers = [...answers, idx];
       setSelected(null);
-      if (step < questions.length - 1) {
-        setAnswers(newAnswers);
-        setStep(step + 1);
-      } else {
+      const next = getNextStep(step, newAnswers);
+      if (isLastStep(step, newAnswers) || next >= questions.length) {
         const rec = getRecommendation(newAnswers);
+        setAnswers(newAnswers);
         setResult(rec);
         setTimerStarted(true);
+      } else {
+        setAnswers(newAnswers);
+        setStep(next);
       }
     }, 280);
   };
@@ -3913,7 +3933,9 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
   const timerMin = Math.floor(quizTimer / 60);
   const timerSec = quizTimer % 60;
   const timerExpired = quizTimer <= 0;
-  const progress = ((step) / questions.length) * 100;
+  // Max 3 steps shown (Q2 skipped if not skill goal), progress based on visible steps
+  const totalVisible = answers[1] === 0 ? 4 : 3;
+  const progress = (step / (totalVisible - 1)) * 100;
 
   return (
     <section style={{ padding: "80px 22px", position: "relative", zIndex: 1, background: "rgba(255,69,0,0.02)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
@@ -3923,7 +3945,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
           <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4vw,50px)", textTransform: "uppercase" }}>
             Stop guessing.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Find your program.</span>
           </h2>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", marginTop: 12 }}>4 questions. Your exact starting point. No fluff.</p>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", marginTop: 12 }}>3–4 questions. Your exact starting point. No fluff.</p>
         </div>
 
         {result ? (
@@ -4042,7 +4064,13 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
             </div>
 
             {step > 0 && (
-              <button className="btn-ghost" style={{ marginTop: 14, fontSize: 12 }} onClick={() => { setStep(step - 1); setAnswers(answers.slice(0, -1)); }}>
+              <button className="btn-ghost" style={{ marginTop: 14, fontSize: 12 }} onClick={() => {
+                const prevAnswers = answers.slice(0, -1);
+                // If we're on Q3 and goal wasn't skills, go back to Q1 (skip Q2)
+                const prevStep = step === 3 && answers[1] !== 0 ? 1 : step - 1;
+                setStep(prevStep);
+                setAnswers(prevAnswers);
+              }}>
                 ← Back
               </button>
             )}
