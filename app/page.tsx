@@ -1482,6 +1482,7 @@ const frontLeverMastery: Program = {
         },
       ],
     },
+  ],
   benefits: [
     "Master all front lever variations & progressions — full technique",
     "Front lever pull-ups — technique breakdown included",
