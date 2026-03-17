@@ -3446,6 +3446,7 @@ function StickyTopBar() {
 // PROGRAM CARD
 // ═══════════════════════════════════════════════════════
 
+function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Program) => void }) {
   return (
     <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }} onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : onOpen(p)}>
       {/* Clip inner content but allow badge to overflow */}
