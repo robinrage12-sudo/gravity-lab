@@ -2746,13 +2746,13 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         </ul>
         {/* Format badge */}
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-          {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based"].map(tag => (
+          {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal"].map(tag => (
             <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
           <span style={{ fontSize: 12 }}>📱</span>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.75)" }}>Interactive digital manual · Instant access · Lifetime</span>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.75)" }}>Interactive digital manual · Training journal included · Lifetime access</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
           <div>
@@ -3155,19 +3155,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
         {result ? (
           <div>
-            {/* Urgency timer banner */}
-            {!timerExpired ? (
-              <div style={{ background: "rgba(255,69,0,0.1)", border: "1px solid var(--orange-border)", borderRadius: 6, padding: "12px 18px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)" }}>
-                  🔥 <strong style={{ color: "var(--text)" }}>Personal offer active</strong> — discounted price reserved for <strong style={{ color: "var(--orange)" }}>{pad(timerMin)}:{pad(timerSec)}</strong>
-                </span>
-                <span className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", fontSize: 9 }}>LIMITED</span>
-              </div>
-            ) : (
-              <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", borderRadius: 6, padding: "12px 18px", marginBottom: 20 }}>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)" }}>Offer expired — standard pricing applies.</span>
-              </div>
-            )}
+
 
             <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 13, letterSpacing: 2, color: "var(--text-faint)", textTransform: "uppercase", textAlign: "center" }}>Your perfect match</div>
             <div className="surface" style={{ borderRadius: 12, padding: "32px", border: `2px solid ${result.levelColor}40`, background: `${result.glowColor}`, marginBottom: 24, textAlign: "left", position: "relative", overflow: "hidden" }}>
@@ -3190,19 +3178,11 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                 ))}
               </div>
 
-              {/* Price + urgency */}
-              <div style={{ background: "rgba(0,0,0,0.2)", borderRadius: 8, padding: "16px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-                <div>
-                  <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 38, color: "var(--orange)" }}>${result.price}</span>
-                  {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 8, textDecoration: "line-through" }}>${result.originalPrice}</span>}
-                  <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>one-time · lifetime access</div>
-                </div>
-                {!timerExpired && (
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 22, color: "var(--orange)", fontVariantNumeric: "tabular-nums" }}>{pad(timerMin)}:{pad(timerSec)}</div>
-                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", letterSpacing: 1 }}>OFFER EXPIRES</div>
-                  </div>
-                )}
+              {/* Price */}
+              <div style={{ background: "rgba(0,0,0,0.2)", borderRadius: 8, padding: "16px", marginBottom: 20 }}>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 38, color: "var(--orange)" }}>${result.price}</span>
+                {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.5)", marginLeft: 8, textDecoration: "line-through" }}>${result.originalPrice}</span>}
+                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>one-time · lifetime access</div>
               </div>
 
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -3543,10 +3523,13 @@ function AppInner() {
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[
                   ["❌", "Copying an exercise without knowing its prerequisites"],
+                  ["❌", "Not knowing which muscles to engage or how — for every figure and movement"],
+                  ["❌", "Following a program with no logic, no progression, and no adaptability"],
                   ["❌", "Training 7 days a week without understanding recovery"],
                   ["❌", "Skipping warm-ups — the fastest route to injury"],
                   ["❌", "Skipping intermediate progressions and jumping ahead"],
                   ["❌", "Ignoring rest times between sets"],
+                  ["❌", "Using a program that doesn't evolve with your level"],
                 ].map(([icon, text], i) => (
                   <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                     <span style={{ fontSize: 14, flexShrink: 0, marginTop: 2 }}>{icon}</span>
