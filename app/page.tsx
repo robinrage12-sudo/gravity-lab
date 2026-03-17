@@ -111,7 +111,7 @@ const plancheFoundation: Program = {
   id: "planche-foundation",
   title: "Planche Foundation",
   subtitle: "Most people quit before week 3. This is for the ones who don't.",
-  tagline: "Zero to full planche — no prerequisites, no gym needed. Built for anyone starting from scratch.",
+  tagline: "Zero to full planche. No prerequisites, no gym needed. Built for anyone starting from scratch.",
   level: "Beginner / Intermediate",
   levelColor: "#22c55e",
   category: "skill",
@@ -807,7 +807,7 @@ const frontLeverMastery: Program = {
   id: "front-lever",
   title: "Front Lever Mastery",
   subtitle: "The pull-up alone won't get you here. Zero prerequisites — but zero shortcuts either.",
-  tagline: "From zero to full front lever — no prerequisites. Master every variation, pull-up & OAP progression.",
+  tagline: "From zero to full front lever. No prerequisites. Master every variation, pull-up & OAP progression.",
   level: "Beginner / Intermediate",
   levelColor: "#3b82f6",
   category: "skill",
@@ -2532,7 +2532,7 @@ const testimonials = [
     avatarColor: "#22c55e",
     rating: 5,
     weeks: "8 weeks in",
-    result: "Hit my first clean tuck planche hold this morning. 6 seconds. I've been trying on my own for 4 months with zero progress. The warm-up protocol alone changed everything — my wrists stopped hurting after week 2.",
+    result: "Hit my first clean tuck planche hold this morning. 6 seconds. I've been trying on my own for 4 months with zero progress. The warm-up protocol alone changed everything. My wrists stopped hurting after week 2.",
   },
   {
     name: "Jordan K.",
@@ -2542,7 +2542,7 @@ const testimonials = [
     avatarColor: "#a855f7",
     rating: 5,
     weeks: "12 weeks in",
-    result: "I was skeptical about combining barbell and calisthenics. Gained 4kg of muscle while actually improving my advanced tuck hold. The dual-track format is genius — gym days and home days both programmed.",
+    result: "I was skeptical about combining barbell and calisthenics. Gained 4kg of muscle while actually improving my advanced tuck hold. The dual-track format is genius. Gym days and home days both programmed.",
   },
   {
     name: "Alex R.",
@@ -2562,7 +2562,7 @@ const testimonials = [
     avatarColor: "#ec4899",
     rating: 5,
     weeks: "12 weeks in",
-    result: "No gym? No problem. The bodyweight track alone gave me more muscle than a year of random gym sessions. The progressive overload is real — I went from 8 archer push-ups to 15 clean reps each side.",
+    result: "No gym? No problem. The bodyweight track alone gave me more muscle than a year of random gym sessions. The progressive overload is real. I went from 8 archer push-ups to 15 clean reps each side.",
   },
   {
     name: "Tom B.",
@@ -2582,7 +2582,7 @@ const testimonials = [
     avatarColor: "#FF4500",
     rating: 5,
     weeks: "16 weeks in",
-    result: "Got the bundle and I'm alternating between Hypertrophy and Front Lever. The programs complement each other perfectly. Best $127 I've ever spent on fitness — this replaced a $80/month PT I was paying for.",
+    result: "Got the bundle and I'm alternating between Hypertrophy and Front Lever. The programs complement each other perfectly. Best $127 I've ever spent on fitness. Replaced a $80/month PT I was paying for.",
   },
 ];
 
@@ -3575,7 +3575,7 @@ const beforeAfterData = [
     duration: "9 months",
     before: "/Leo_Before.png",
     after: "/Leo_After.png",
-    quote: "9 months of Hybrid Athlete. I went from a skinny guy with zero skill to a straddle planche hold and a physique I'm actually proud of. The dual-track format kept me consistent — gym days and home days both planned.",
+    quote: "9 months of Hybrid Athlete. I went from a skinny guy with zero skill to a straddle planche hold and a physique I'm actually proud of. The dual-track format kept me consistent. Gym days and home days both planned.",
     stats: [{ label: "Duration", val: "9 months" }, { label: "Program", val: "Hybrid Athlete" }, { label: "Skill reached", val: "Straddle Planche" }],
   },
   {
@@ -3586,7 +3586,7 @@ const beforeAfterData = [
     duration: "7 months",
     before: "/Jordan_Before.png",
     after: "/Jordan_After.png",
-    quote: "4 months of Full Hypertrophy bodyweight, then 3 months of Front Lever Mastery on top. Ended up with both — a physique transformation AND a full front lever. Didn't think both were possible at the same time.",
+    quote: "4 months of Full Hypertrophy bodyweight, then 3 months of Front Lever Mastery on top. Ended up with both: a physique transformation and a full front lever. Didn't think both were possible at the same time.",
     stats: [{ label: "Duration", val: "7 months" }, { label: "Programs", val: "2 programs" }, { label: "Skill reached", val: "Full Front Lever" }],
   },
 ];
@@ -3862,7 +3862,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
       opts: [
         { label: "Total beginner", desc: "Never trained seriously before" },
         { label: "Some experience", desc: "A few months in, inconsistent results" },
-        { label: "Trained 1+ year", desc: "Consistent, solid base — ready to push harder" },
+        { label: "Trained 1+ year", desc: "Consistent, solid base. Ready to push harder." },
         { label: "I already have the full planche", desc: "Looking for what comes next" },
       ],
     },
@@ -3872,7 +3872,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
       sub: "Pick what gets you out of bed at 6am.",
       opts: [
         { label: "Master a calisthenics skill", desc: "Planche, front lever, one arm skills, handstand..." },
-        { label: "Build a physique I'm proud of", desc: "Visible muscle, defined body — no gym required" },
+        { label: "Build a physique I'm proud of", desc: "Visible muscle, defined body. No gym required." },
         { label: "Both — skills AND muscle", desc: "I refuse to choose" },
         { label: "The full package", desc: "Everything, fastest route possible" },
       ],
@@ -3882,9 +3882,9 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
       q: "Which skill are you targeting?",
       sub: "All programs include the handstand as standard. Pick your main focus.",
       opts: [
-        { label: "Planche", desc: "Horizontal hold — the king of pushing strength" },
-        { label: "Front Lever", desc: "Horizontal pull — elite lat & back dominance" },
-        { label: "Planche + Front Lever", desc: "Both iconic skills — there's a combo for this" },
+        { label: "Planche", desc: "Horizontal hold. The king of pushing strength." },
+        { label: "Front Lever", desc: "Horizontal pull. Elite lat & back dominance." },
+        { label: "Planche + Front Lever", desc: "Both iconic skills. There's a combo built for this." },
         { label: "One arm & handstand skills", desc: "OAP, OAP push-up, OA handstand, HSPU, 90° push-up..." },
       ],
     },
@@ -3895,7 +3895,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
       opts: [
         { label: "Just the floor", desc: "Zero equipment. Zero excuses." },
         { label: "Bar + parallettes", desc: "The only tools a calisthenics athlete actually needs" },
-        { label: "Gym access", desc: "Barbells, cables, the works — home setup included" },
+        { label: "Gym access", desc: "Barbells, cables, the works. Home setup included." },
       ],
     },
   ];
