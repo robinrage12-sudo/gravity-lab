@@ -460,6 +460,7 @@ const plancheFoundation: Program = {
     "Bulletproof wrist & shoulder preparation from day one",
     "Handstand progression included",
     "🌟 Bonus: One arm handstand progression",
+    "8 years of training insights — the cues and details no YouTube video will give you",
   ],
   stripeUrl: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h",
 };
@@ -797,6 +798,7 @@ const plancheElite: Program = {
     "Ring planche stability",
     "Handstand & HSPU included",
     "🌟 Bonus: One arm handstand progression",
+    "8 years of training insights — the cues and details no YouTube video will give you",
   ],
   stripeUrl: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f",
 };
@@ -1501,7 +1503,7 @@ const frontLeverMastery: Program = {
     "Pull-up mastery — every grip, variation & loading method",
     "Handstand progression included",
     "🌟 Bonus: One arm pull-up progression (full technique guide)",
-    "Zero prerequisite — start from absolute zero",
+    "8 years of training insights — the cues and details no YouTube video will give you",
   ],
   stripeUrl: "https://buy.stripe.com/8x2aEZ8aZamB5Z910V3ZK0g",
 };
@@ -1917,6 +1919,7 @@ const hybridAthlete: Program = {
     "One arm pull-up progression",
     "Progressive overload with barbells & skills",
     "🌟 Bonus: One arm handstand & one arm push-up progression",
+    "8 years of training insights — the cues and details no YouTube video will give you",
   ],
   stripeUrl: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e",
 };
@@ -2409,6 +2412,7 @@ const fullHypertrophy: Program = {
     "One arm pull-up — full progression",
     "Scientific hypertrophy protocol",
     "🌟 Bonus: One arm handstand progression",
+    "8 years of training insights — the cues and details no YouTube video will give you",
   ],
   stripeUrl: "https://buy.stripe.com/fZu6oJeznamB87hbFz3ZK0d",
 };
@@ -2449,6 +2453,7 @@ const plancheLeverCombo: Program = {
     "Handstand progression included in both programs",
     "Save $17 vs buying separately",
     "🌟 Bonus: One arm pull-up + One arm handstand",
+    "8 years of training insights — the cues and details no YouTube video will give you",
   ],
   bundlePrograms: [plancheFoundation, frontLeverMastery],
   stripeUrl: "https://buy.stripe.com/3cI8wRfDreCR3R19xr3ZK0i",
@@ -2483,6 +2488,7 @@ const ultimateBundle: Program = {
     "All 5 programs — no prerequisites, start from zero",
     "Save $90 vs individual purchase",
     "Future program updates included",
+    "8 years of training insights — the cues and details no YouTube video will give you",
   ],
   stripeUrl: "https://buy.stripe.com/fZu28t76VcuJdrBbFz3ZK0j",
 };
@@ -4458,6 +4464,45 @@ function AppInner() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHO IS AXEL ───────────────────────────────────────── */}
+      <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)" }}>
+        <div style={{ maxWidth: 860, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }} className="pg2">
+            <div>
+              <div className="badge" style={{ background: "rgba(255,69,0,.08)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 9 }}>👤 THE MIND BEHIND THE PROGRAMS</div>
+              <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(30px,4vw,52px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 24 }}>
+                8 years.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>No shortcuts.</span>
+              </h2>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 18 }}>
+                My name is Axel. I've been training calisthenics for 8 years — not casually, obsessively. Every progression, every plateau, every injury, every breakthrough. I've lived all of it.
+              </p>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 18 }}>
+                These programs aren't built from theory. They're built from <strong style={{ color: "var(--text)" }}>8 years of personal experimentation</strong> — combined with deep research into biomechanics, periodization, and connective tissue adaptation. The kind of knowledge you don't find in YouTube comments.
+              </p>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75 }}>
+                What I'm sharing isn't just what works. It's what works <strong style={{ color: "var(--text)" }}>specifically</strong> — the exact cues, the exact rest times, the exact progressions that most coaches skip because they never had to figure them out the hard way.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {[
+                { icon: "🧠", title: "8 years of first-hand research", desc: "Every program is the result of training, failing, adjusting, and training again. No theory without practice." },
+                { icon: "🔬", title: "Biomechanics-driven methodology", desc: "Understanding why a movement works — joint angles, muscle activation, lever mechanics — is what separates real progress from random effort." },
+                { icon: "⚡", title: "Training insights you won't find elsewhere", desc: "The specific cues, timing details, and progression triggers that took years to identify. Condensed into every session." },
+                { icon: "🎯", title: "Built for real athletes, not ideal conditions", desc: "No gym? No experience? Plateau after months of training? Every scenario has been accounted for." },
+              ].map((item, i) => (
+                <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, padding: "16px 18px" }}>
+                  <span style={{ fontSize: 20, flexShrink: 0 }}>{item.icon}</span>
+                  <div>
+                    <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, color: "var(--text)", marginBottom: 4 }}>{item.title}</div>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.55 }}>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
