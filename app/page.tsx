@@ -3402,7 +3402,50 @@ function SessionTable({ type, rows, onUpdate }: {
 // PROGRAM CARD
 // ═══════════════════════════════════════════════════════
 
-function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Program) => void }) {
+// ═══════════════════════════════════════════════════════
+// STICKY TOP BAR
+// ═══════════════════════════════════════════════════════
+
+function StickyTopBar() {
+  const { h, m, s } = useCountdown();
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  return (
+    <div className="no-print" style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 300,
+      background: "linear-gradient(90deg, rgba(255,69,0,0.95), rgba(200,40,0,0.95))",
+      backdropFilter: "blur(12px)",
+      height: 36,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      gap: 20, padding: "0 16px",
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.9)", whiteSpace: "nowrap" }}>
+          🔥 Bundle launch price — disappears in{" "}
+          <strong style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#fff", letterSpacing: 1 }}>
+            {pad(h)}:{pad(m)}:{pad(s)}
+          </strong>
+        </span>
+      </div>
+
+      <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 12 }} className="hide-mobile">|</span>
+
+      <a href="#programs" className="hide-mobile" style={{ textDecoration: "none", flexShrink: 0 }}>
+        <span style={{
+          fontFamily: "var(--fd)", fontSize: 10, fontWeight: 900, letterSpacing: 2,
+          color: "#fff", textTransform: "uppercase",
+          background: "rgba(255,255,255,0.2)", border: "1px solid rgba(255,255,255,0.35)",
+          borderRadius: 20, padding: "3px 12px", whiteSpace: "nowrap", cursor: "pointer",
+        }}>Lock in now →</span>
+      </a>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════
+// PROGRAM CARD
+// ═══════════════════════════════════════════════════════
+
   return (
     <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }} onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : onOpen(p)}>
       {/* Clip inner content but allow badge to overflow */}
@@ -3779,8 +3822,9 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<Program | null>(null);
-  const [quizTimer, setQuizTimer] = useState(900); // 15 min countdown on result
+  const [quizTimer, setQuizTimer] = useState(600); // 10 min countdown on result
   const [timerStarted, setTimerStarted] = useState(false);
+  const [selected, setSelected] = useState<number | null>(null);
 
   useEffect(() => {
     if (!timerStarted || quizTimer <= 0) return;
@@ -3790,82 +3834,121 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
   const questions = [
     {
-      q: "What is your current physical level?",
+      q: "Be honest — where are you right now?",
+      sub: "No judgment. This determines everything.",
       opts: [
-        "Beginner — just starting out with training",
-        "Intermediate — a few months of consistent training",
-        "Advanced — training for over a year",
-        "Expert — I already have some skills (tuck planche, tuck front lever...)",
+        { label: "Total beginner", desc: "Never trained seriously before" },
+        { label: "Some experience", desc: "A few months in, inconsistent results" },
+        { label: "Trained 1+ year", desc: "Consistent but stuck on a plateau" },
+        { label: "I have some skills", desc: "Tuck planche, tuck lever — ready for more" },
       ],
     },
     {
-      q: "What is your main goal?",
+      q: "What do you actually want?",
+      sub: "Pick what gets you out of bed at 6am.",
       opts: [
-        "Learn calisthenics skills (planche, front lever...)",
-        "Build an aesthetic, muscular physique",
-        "Both — skills AND physique",
-        "Everything — the complete package",
+        { label: "Elite skills", desc: "Planche. Front lever. The stuff that makes people stop and stare." },
+        { label: "A physique I'm proud of", desc: "Visible muscle, defined body — no gym required" },
+        { label: "Both — skills AND muscle", desc: "I refuse to choose" },
+        { label: "The full package", desc: "Everything, fastest route possible" },
       ],
     },
     {
-      q: "What equipment do you have access to?",
+      q: "What's your setup?",
+      sub: "Equipment is never an excuse — but we need to know.",
       opts: [
-        "Nothing — just the floor and my bodyweight",
-        "Pull-up bar + parallettes",
-        "Full gym access",
-        "Everything — home setup AND gym",
+        { label: "Just the floor", desc: "Zero equipment. Zero excuses." },
+        { label: "Bar + parallettes", desc: "The only tools a calisthenics athlete actually needs" },
+        { label: "Full gym access", desc: "Barbells, cables, the works" },
+        { label: "Home + gym", desc: "Best of both worlds" },
+      ],
+    },
+    {
+      q: "How serious are you, really?",
+      sub: "This determines which version of the program fits you.",
+      opts: [
+        { label: "Testing the waters", desc: "I want to try before committing fully" },
+        { label: "Ready to commit", desc: "3–4 sessions/week, I'll follow the plan" },
+        { label: "All in", desc: "I train every day I'm supposed to. No skipping." },
+        { label: "I want everything now", desc: "Give me the complete system" },
       ],
     },
   ];
 
   const getRecommendation = (ans: number[]): Program => {
-    const [level, goal, equip] = ans;
-    if (goal === 3 || equip === 3) return ultimateBundle;
+    const [level, goal, equip, commitment] = ans;
+    if (goal === 3 || commitment === 3 || equip === 3) return ultimateBundle;
     if (goal === 0) {
       if (level <= 1) return plancheFoundation;
       if (level === 2) return frontLeverMastery;
       return plancheElite;
     }
     if (goal === 1) return fullHypertrophy;
-    if (goal === 2) return hybridAthlete;
+    if (goal === 2) {
+      if (equip >= 2) return hybridAthlete;
+      return fullHypertrophy;
+    }
     return plancheFoundation;
   };
 
   const handleAnswer = (idx: number) => {
-    const newAnswers = [...answers, idx];
-    if (step < questions.length - 1) {
-      setAnswers(newAnswers);
-      setStep(step + 1);
-    } else {
-      const rec = getRecommendation(newAnswers);
-      setResult(rec);
-      setTimerStarted(true);
-    }
+    setSelected(idx);
+    setTimeout(() => {
+      const newAnswers = [...answers, idx];
+      setSelected(null);
+      if (step < questions.length - 1) {
+        setAnswers(newAnswers);
+        setStep(step + 1);
+      } else {
+        const rec = getRecommendation(newAnswers);
+        setResult(rec);
+        setTimerStarted(true);
+      }
+    }, 280);
   };
 
-  const reset = () => { setStep(0); setAnswers([]); setResult(null); setQuizTimer(900); setTimerStarted(false); };
+  const reset = () => { setStep(0); setAnswers([]); setResult(null); setQuizTimer(600); setTimerStarted(false); setSelected(null); };
 
   const pad = (n: number) => String(n).padStart(2, "0");
   const timerMin = Math.floor(quizTimer / 60);
   const timerSec = quizTimer % 60;
   const timerExpired = quizTimer <= 0;
+  const progress = ((step) / questions.length) * 100;
 
   return (
     <section style={{ padding: "80px 22px", position: "relative", zIndex: 1, background: "rgba(255,69,0,0.02)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-      <div style={{ maxWidth: 720, margin: "0 auto" }}>
+      <div style={{ maxWidth: 680, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 44 }}>
-          <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>🎯 FIND YOUR PROGRAM</div>
-          <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4vw,50px)", textTransform: "uppercase" }}>Which program<br />is right for you?</h2>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", marginTop: 12 }}>Answer 3 questions — we'll guide you to the right starting point.</p>
+          <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>🎯 30-SECOND PROGRAM FINDER</div>
+          <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4vw,50px)", textTransform: "uppercase" }}>
+            Stop guessing.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Find your program.</span>
+          </h2>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", marginTop: 12 }}>4 questions. Your exact starting point. No fluff.</p>
         </div>
 
         {result ? (
           <div>
+            {/* Urgency timer */}
+            {!timerExpired ? (
+              <div style={{ background: "rgba(255,69,0,0.08)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "12px 18px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)" }}>
+                  🔥 Your result is reserved for
+                </span>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 20, color: "var(--orange)", letterSpacing: 2 }}>
+                  {pad(timerMin)}:{pad(timerSec)}
+                </span>
+              </div>
+            ) : (
+              <div style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 8, padding: "12px 18px", marginBottom: 20, textAlign: "center" }}>
+                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ef4444", letterSpacing: 1 }}>⏰ Your reserved price expired — retake the quiz to unlock it again</span>
+              </div>
+            )}
 
+            <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, color: "var(--orange)", textTransform: "uppercase", textAlign: "center" }}>✅ Your exact match</div>
 
-            <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 13, letterSpacing: 2, color: "var(--text-faint)", textTransform: "uppercase", textAlign: "center" }}>Your perfect match</div>
-            <div className="surface" style={{ borderRadius: 12, padding: "32px", border: `2px solid ${result.levelColor}40`, background: `${result.glowColor}`, marginBottom: 24, textAlign: "left", position: "relative", overflow: "hidden" }}>
+            <div className="surface" style={{ borderRadius: 12, padding: "32px", border: `2px solid ${result.levelColor}40`, background: `${result.glowColor}`, marginBottom: 20, textAlign: "left", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", top: -20, right: -20, fontSize: 100, opacity: 0.07 }}>{result.icon}</div>
+
               <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
                 <span style={{ fontSize: 40 }}>{result.icon}</span>
                 <div>
@@ -3874,7 +3957,9 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                 </div>
                 <span className="badge" style={{ marginLeft: "auto", background: `${result.levelColor}20`, color: result.levelColor, border: `1px solid ${result.levelColor}40`, fontSize: 10 }}>{result.level}</span>
               </div>
+
               <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", lineHeight: 1.65, marginBottom: 20 }}>{result.tagline}</p>
+
               <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 24 }}>
                 {result.goals.slice(0, 3).map((g, i) => (
                   <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
@@ -3884,61 +3969,78 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                 ))}
               </div>
 
-              {/* Price */}
-              <div style={{ background: "rgba(0,0,0,0.2)", borderRadius: 8, padding: "16px", marginBottom: 20 }}>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 38, color: "var(--orange)" }}>${result.price}</span>
-                {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.5)", marginLeft: 8, textDecoration: "line-through" }}>${result.originalPrice}</span>}
-                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>one-time · lifetime access</div>
+              {/* Price block */}
+              <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 8, padding: "16px 18px", marginBottom: 20 }}>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 42, color: "var(--orange)", lineHeight: 1 }}>${result.price}</span>
+                {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.4)", marginLeft: 8, textDecoration: "line-through" }}>${result.originalPrice}</span>}
+                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 3 }}>one-time payment · lifetime access</div>
               </div>
 
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                 {result.stripeUrl ? (
                   <a href={result.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ flex: 1 }}>
-                    <button className="btn-primary" style={{ width: "100%", justifyContent: "center" }}>
-                      Get Access — ${result.price} →
+                    <button className="btn-primary cta-pulse" style={{ width: "100%", justifyContent: "center" }}>
+                      This is my program — ${result.price} →
                     </button>
                   </a>
                 ) : (
                   <button className="btn-primary" style={{ flex: 1 }} onClick={() => onOpen(result)}>
-                    View Program — ${result.price}
+                    See the full program →
                   </button>
                 )}
-                <button className="btn-ghost" onClick={reset}>← Retake</button>
+                <button className="btn-ghost" onClick={reset}>↩ Retake</button>
               </div>
             </div>
 
-            {/* Also consider */}
+            {/* Bundle upsell */}
             {result.category !== "bundle" && (
-              <div style={{ textAlign: "center" }}>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginBottom: 12 }}>Want everything for the best value?</p>
+              <div style={{ textAlign: "center", padding: "20px", background: "rgba(255,69,0,0.04)", border: "1px solid var(--orange-border)", borderRadius: 8 }}>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", marginBottom: 12 }}>
+                  Not sure you want just one? The Bundle gives you everything — and saves you <strong style={{ color: "var(--orange)" }}>${247 - 157}</strong>.
+                </p>
                 <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="btn-secondary">👑 Get the Bundle — $157 (save $90)</button>
+                  <button className="btn-secondary">👑 Get the full Bundle — $157 instead of $247</button>
                 </a>
               </div>
             )}
           </div>
         ) : (
           <div>
-            <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 32 }}>
-              {questions.map((_, i) => (
-                <div key={i} style={{ width: i === step ? 24 : 8, height: 8, borderRadius: 4, background: i < step ? "var(--orange)" : i === step ? "var(--orange)" : "var(--border)", transition: "all .3s" }} />
-              ))}
+            {/* Progress bar */}
+            <div style={{ height: 3, background: "var(--border)", borderRadius: 2, marginBottom: 32, overflow: "hidden" }}>
+              <div style={{ height: "100%", width: `${progress}%`, background: "var(--orange)", borderRadius: 2, transition: "width .4s ease" }} />
             </div>
+
             <div className="surface" style={{ borderRadius: 12, padding: "32px 28px", border: "1px solid var(--border-bright)" }}>
-              <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 10 }}>Question {step + 1} / {questions.length}</div>
-              <h3 className="t-display" style={{ fontSize: "clamp(18px,3vw,26px)", marginBottom: 28, lineHeight: 1.2 }}>{questions[step].q}</h3>
+              <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
+                Question {step + 1} / {questions.length}
+              </div>
+              <h3 className="t-display" style={{ fontSize: "clamp(20px,3vw,28px)", marginBottom: 6, lineHeight: 1.15 }}>{questions[step].q}</h3>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--orange)", marginBottom: 28, fontStyle: "italic" }}>{questions[step].sub}</p>
+
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {questions[step].opts.map((opt, i) => (
                   <button key={i} onClick={() => handleAnswer(i)}
-                    style={{ padding: "14px 18px", borderRadius: 8, border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text-dim)", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 14, textAlign: "left", transition: "all .2s" }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--text)"; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--text-dim)"; }}>
-                    <span style={{ color: "var(--orange)", fontFamily: "var(--fd)", marginRight: 10 }}>{String.fromCharCode(65 + i)}.</span>
-                    {opt}
+                    style={{
+                      padding: "14px 18px", borderRadius: 8,
+                      border: `1px solid ${selected === i ? "var(--orange)" : "var(--border)"}`,
+                      background: selected === i ? "rgba(255,69,0,0.1)" : "var(--bg-card)",
+                      color: selected === i ? "var(--text)" : "var(--text-dim)",
+                      cursor: "pointer", textAlign: "left", transition: "all .2s",
+                      display: "flex", alignItems: "center", gap: 14,
+                    }}
+                    onMouseEnter={e => { if (selected !== i) { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange-border)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--text)"; }}}
+                    onMouseLeave={e => { if (selected !== i) { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--text-dim)"; }}}>
+                    <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, color: "var(--orange)", flexShrink: 0, width: 20 }}>{String.fromCharCode(65 + i)}</span>
+                    <div>
+                      <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 15, lineHeight: 1.2 }}>{opt.label}</div>
+                      <div style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-faint)", marginTop: 2 }}>{opt.desc}</div>
+                    </div>
                   </button>
                 ))}
               </div>
             </div>
+
             {step > 0 && (
               <button className="btn-ghost" style={{ marginTop: 14, fontSize: 12 }} onClick={() => { setStep(step - 1); setAnswers(answers.slice(0, -1)); }}>
                 ← Back
@@ -4007,6 +4109,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 @keyframes ctaPulse{0%,100%{transform:translateY(0);box-shadow:0 4px 20px rgba(255,69,0,.35)}50%{transform:translateY(-3px);box-shadow:0 12px 36px rgba(255,69,0,.6)}}
 @keyframes borderGlow{0%,100%{border-color:rgba(255,69,0,.28)}50%{border-color:rgba(255,69,0,.7)}}
 @keyframes priceReveal{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
 .shimmer-text{background:linear-gradient(90deg,var(--orange) 0%,#ffb347 40%,var(--orange) 60%,#ff8c00 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
 .badge-bounce{animation:badgeBounce 2s ease-in-out infinite}
 .cta-pulse{animation:ctaPulse 2.2s ease-in-out infinite}
@@ -4041,6 +4144,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
   .hero-ctas{flex-direction:column!important;width:100%!important;align-items:stretch!important}
   .hero-ctas a{width:100%!important}
   .hero-ctas button{width:100%!important;justify-content:center!important}
+  .hide-mobile{display:none!important}
   body{padding-bottom:80px}
 }
 @media print{
@@ -4134,7 +4238,10 @@ function AppInner() {
       <style>{CSS}</style>
       <div className="noise" /><div className="grid-bg" />
 
-      <nav className="no-print" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
+      {/* ── STICKY TOP BAR ────────────────────────────────────── */}
+      <StickyTopBar />
+
+      <nav className="no-print" style={{ position: "fixed", top: 36, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 19, letterSpacing: 4, color: "var(--orange)" }}>GRAVITY<span style={{ color: "var(--text)" }}>LAB</span></div>
         <div className="desktop-nav-links" style={{ display: "flex", gap: 22 }}>
           {["Programs", "Method", "Guide"].map(l => (
@@ -4166,7 +4273,7 @@ function AppInner() {
       </nav>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "130px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "166px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
         <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
@@ -4199,7 +4306,7 @@ function AppInner() {
           ))}
         </div>
 
-        <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 32 }}>
+        <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 48 }}>
           <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs <span className="wiggle" style={{display:"inline-block"}}><ChevronDown size={13} /></span></button></a>
           <a href="#results-section"><button className="btn-secondary">📸 Proof it works</button></a>
         </div>
