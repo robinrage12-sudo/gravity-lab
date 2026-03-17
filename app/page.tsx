@@ -110,7 +110,7 @@ const leverCooldown: CooldownExercise[] = [
 const plancheFoundation: Program = {
   id: "planche-foundation",
   title: "Planche Foundation",
-  subtitle: "From Zero to Full Planche — No Prerequisites, Start From Scratch",
+  subtitle: "Most people quit before week 3. This is for the ones who don't.",
   tagline: "Zero to full planche — no prerequisites, no gym needed. Built for anyone starting from scratch.",
   level: "Beginner / Intermediate",
   levelColor: "#22c55e",
@@ -466,7 +466,7 @@ const plancheFoundation: Program = {
 const plancheElite: Program = {
   id: "planche-elite",
   title: "Planche Elite",
-  subtitle: "Master the Full Planche — Maltese & Finger Planche Included",
+  subtitle: "Less than 1% of athletes ever reach this. You probably won't either — unless you use this.",
   tagline: "The program where the full planche is just the beginning — Maltese, finger planche & beyond.",
   level: "Advanced",
   levelColor: "#f97316",
@@ -802,7 +802,7 @@ const plancheElite: Program = {
 const frontLeverMastery: Program = {
   id: "front-lever",
   title: "Front Lever Mastery",
-  subtitle: "Full Front Lever + OAP Bonus — Zero Prerequisite",
+  subtitle: "The pull-up alone won't get you here. Zero prerequisites — but zero shortcuts either.",
   tagline: "From zero to full front lever — no prerequisites. Master every variation, pull-up & OAP progression.",
   level: "All Levels",
   levelColor: "#3b82f6",
@@ -1497,7 +1497,7 @@ const frontLeverMastery: Program = {
 const hybridAthlete: Program = {
   id: "hybrid-athlete",
   title: "Hybrid Athlete",
-  subtitle: "Gym-Based Strength + Calisthenics Skills",
+  subtitle: "Gym guys skip skills. Calisthenics guys skip strength. This fixes both — if you can handle it.",
   tagline: "Build serious muscle with barbells while mastering elite bodyweight skills.",
   level: "Intermediate",
   levelColor: "#a855f7",
@@ -1911,7 +1911,7 @@ const hybridAthlete: Program = {
 const fullHypertrophy: Program = {
   id: "hypertrophy",
   title: "Full Hypertrophy",
-  subtitle: "No Equipment — Bodyweight Muscle Building",
+  subtitle: "No gym. No excuses. No results either — unless you follow this exactly.",
   tagline: "Build a complete aesthetic physique with zero equipment. No gym needed.",
   level: "Beginner / Intermediate",
   levelColor: "#ec4899",
@@ -2404,7 +2404,7 @@ const fullHypertrophy: Program = {
 const plancheLeverCombo: Program = {
   id: "combo-planche-lever",
   title: "Planche & Front Lever Combo",
-  subtitle: "Foundation + Front Lever Mastery",
+  subtitle: "Two skills most athletes never achieve. One program. One decision.",
   tagline: "The two most iconic calisthenics skills — one package, one price.",
   level: "Beginner / Intermediate",
   levelColor: "#06b6d4",
@@ -2442,7 +2442,7 @@ const plancheLeverCombo: Program = {
 const ultimateBundle: Program = {
   id: "bundle",
   title: "Ultimate Gravity Bundle",
-  subtitle: "Access to ALL 5 Programs",
+  subtitle: "Everything. For the ones who don't do things halfway.",
   tagline: "The complete calisthenics & physique library — one price, lifetime access.",
   level: "All Levels",
   levelColor: "#FF4500",
@@ -2571,36 +2571,36 @@ const testimonials = [
 
 const faqs = [
   {
-    q: "What format are the programs? PDF, video, app?",
-    a: "Programs are delivered as a structured digital manual (PDF + web access). Every exercise includes written cues, progression paths, and pro tips. No app subscription needed — lifetime access means you own it forever.",
+    q: "Is this actually worth it or just another PDF program?",
+    a: "Fair question. These aren't 'download and forget' PDFs. Every program is a structured digital manual with interactive web access — exercise cues, progression paths, pro tips, and a built-in training journal. Lifetime access, no subscription. If you're looking for a free 30-day challenge, this isn't it. If you want a system that actually progresses you, this is built for that.",
   },
   {
-    q: "I have zero experience with calisthenics. Where do I start?",
-    a: "Start with Planche Foundation. It's designed from absolute zero — the first 3 weeks build the connective tissue and scapular control you need before attempting any skill. If physique is your main goal with no skill focus, start with Full Hypertrophy instead.",
+    q: "I've never trained before. Am I even ready for this?",
+    a: "Probably not — and that's exactly why Planche Foundation exists. It starts from absolute zero: the first 3 weeks are only about wrist prep, scapular control, and body positioning. No experience required. If physique is your main goal with no skill focus, Full Hypertrophy is your starting point. Either way, you don't need to be ready — the program builds you from where you are.",
   },
   {
-    q: "Do I need a gym or special equipment?",
-    a: "For skill programs (Planche, Front Lever), you need parallettes or a pull-up bar — both under $50. For Hybrid Athlete and Full Hypertrophy, there are dual tracks: one fully bodyweight (floor only), one for gym access. You pick what fits your setup.",
+    q: "I don't have a gym. Does that disqualify me?",
+    a: "For skill programs (Planche, Front Lever) you need parallettes or a pull-up bar — both under $50. That's it. For Hybrid Athlete and Full Hypertrophy, there's a fully bodyweight track that needs nothing but floor space. No excuses left.",
   },
   {
-    q: "How long until I see real results?",
-    a: "Most athletes notice strength changes within 2–3 weeks and visible skill progression by Week 4–6. The programs are designed for measurable results at every phase — you'll be testing and recording holds so you can see the exact progress over time.",
+    q: "How long until something actually changes?",
+    a: "Strength shifts are noticeable within 2–3 weeks. Visible skill progression shows by Week 4–6. Every phase includes hold time tests and strength benchmarks — so you're not guessing, you're measuring. Progress is built into the structure. The only variable is whether you show up.",
   },
   {
-    q: "What if the program is too hard or too easy?",
-    a: "Every exercise includes a progression path (easier and harder variants). If the main exercise is too hard, the previous progression step is listed. If too easy, the next step is there. The program adapts to where you actually are — not where you think you should be.",
+    q: "What if it's too hard — or too easy?",
+    a: "Every exercise has a documented progression path — easier variant below, harder variant above. If the main exercise destroys you, step back. If it feels too easy, step up. The program doesn't care where you think you should be — it meets you where you actually are.",
   },
   {
-    q: "Is there any support if I have questions?",
-    a: "Yes — you get direct access via email. Questions about form, programming adjustments, or exercise substitutions are answered personally. This isn't an automated bot response system.",
+    q: "Can I get actual help if I'm stuck?",
+    a: "Yes. Direct email access — not a bot, not a Discord server with 10,000 people. Real answers on form, programming adjustments, and substitutions. Most replies within 24 hours.",
   },
   {
-    q: "Can I run multiple programs at the same time?",
-    a: "Generally no — one primary program at a time. The exception is the Hybrid Athlete, which is specifically designed to combine skill and strength work. The Bundle includes guidance on how to sequence programs intelligently over a 6–12 month period.",
+    q: "Can I run two programs at the same time?",
+    a: "No — and if someone tells you otherwise, they're selling you overtraining. One primary program at a time. The exception is Hybrid Athlete, which is purpose-built to combine skill and strength in the same week. The Bundle includes a sequencing guide for running programs intelligently across 6–12 months.",
   },
   {
-    q: "What's the refund policy?",
-    a: "If you complete the first 2 weeks of the program and aren't seeing any progress or finding value, reach out within 30 days for a full refund. The program works if you work it — that's the only condition.",
+    q: "What if it doesn't work for me?",
+    a: "Complete the first 2 weeks. If you're following the program and seeing zero progress or zero value, email within 30 days for a full refund. No hoops, no justification needed. The program works if you work it — that's the entire deal.",
   },
 ];
 
@@ -3474,10 +3474,10 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
           <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
             {p.stripeUrl ? (
               <a href={p.stripeUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>
-                <button className={`btn-primary ${p.category === "bundle" || p.id === "combo-planche-lever" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>Get Access →</button>
+                <button className={`btn-primary ${p.category === "bundle" || p.id === "combo-planche-lever" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>I want this →</button>
               </a>
             ) : (
-              <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={(e) => { e.stopPropagation(); onOpen(p); }}>Get Access →</button>
+              <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={(e) => { e.stopPropagation(); onOpen(p); }}>I want this →</button>
             )}
           </div>
         </div>
@@ -3596,10 +3596,10 @@ function TestimonialsSection() {
         <div style={{ textAlign: "center", marginBottom: 56 }}>
           <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>RESULTS</div>
           <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4vw,52px)", textTransform: "uppercase", marginBottom: 12 }}>
-            Real athletes.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Real results.</span>
+            No stock photos.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>No paid reviews.</span>
           </h2>
           <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", maxWidth: 480, margin: "0 auto" }}>
-            Click BEFORE / AFTER to see the transformation. No filters, no editing.
+            Real people. Real timelines. Real results. Toggle BEFORE / AFTER yourself.
           </p>
         </div>
 
@@ -3623,7 +3623,7 @@ function FAQSection() {
         <div style={{ textAlign: "center", marginBottom: 52 }}>
           <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>FAQ</div>
           <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4vw,52px)", textTransform: "uppercase" }}>
-            Every question.<br />Answered honestly.
+            Real questions.<br />Straight answers.
           </h2>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -3649,7 +3649,7 @@ function FAQSection() {
         {/* Still unsure CTA */}
         <div style={{ marginTop: 40, textAlign: "center", padding: "28px", background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)", borderRadius: 8 }}>
           <AlertCircle size={20} style={{ color: "var(--orange)", marginBottom: 10 }} />
-          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", marginBottom: 16 }}>Still not sure which program is right for you?</p>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", marginBottom: 16 }}>Still not sure? Ask directly — you'll get a real answer, not an FAQ link.</p>
           <a href="mailto:contact@gravitylab.com">
             <button className="btn-secondary">Ask directly →</button>
           </a>
@@ -3683,7 +3683,7 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
           <div>
             <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 18 }}>BUNDLE — BEST VALUE</div>
             <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,4vw,52px)", textTransform: "uppercase", lineHeight: .9, marginBottom: 28 }}>
-              Everything.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>One price.</span>
+              All in.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>One shot.</span>
             </h2>
             {/* Price breakdown */}
             <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden", marginBottom: 20 }}>
@@ -3714,7 +3714,7 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
           <div>
             {/* Countdown */}
             <div style={{ background: "var(--bg-card)", border: "1px solid var(--orange-border)", borderRadius: 10, padding: "24px", marginBottom: 20, textAlign: "center" }}>
-              <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 14 }}>⏰ Launch price expires in</div>
+              <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 14 }}>🔥 Launch price — disappears in</div>
               <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 14 }}>
                 {[{ label: "HRS", val: pad(h) }, { label: "MIN", val: pad(m) }, { label: "SEC", val: pad(s) }].map((unit, i) => (
                   <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
@@ -3726,18 +3726,18 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
                 ))}
               </div>
               <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-faint)", lineHeight: 1.55 }}>
-                After the timer runs out, the bundle returns to full price.
+                When this hits zero, the bundle goes back to full price — no exceptions, no extensions.
               </p>
             </div>
 
             {/* CTA */}
             <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
               <button className="btn-primary pulse-glow cta-pulse" style={{ width: "100%", justifyContent: "center", padding: "16px", fontSize: 15, letterSpacing: 2 }}>
-                Get the Bundle — $157
+                Lock in the Bundle — $157
               </button>
             </a>
             <div style={{ display: "flex", gap: 16, marginTop: 14, justifyContent: "center", flexWrap: "wrap" }}>
-              {["Lifetime access", "30-day guarantee", "Instant delivery"].map((t, i) => (
+              {["Lifetime access", "30-day money-back", "Instant delivery"].map((t, i) => (
                 <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", display: "flex", alignItems: "center", gap: 5 }}>
                   <Check size={10} style={{ color: "var(--orange)" }} />{t}
                 </span>
@@ -4168,29 +4168,29 @@ function AppInner() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "130px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Elite Calisthenics Programs — Premium Digital Coaching</div>
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
         {/* Hook statement */}
         <div style={{ maxWidth: 560, marginBottom: 20, textAlign: "center" }}>
           <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.7, marginBottom: 8 }}>
-            Tired of wasting time on random YouTube videos?<br />
-            <span style={{ color: "#ffffff" }}>Stop following advice based on someone's personal experience.</span>
+            Most people will read this page and do nothing.<br />
+            <span style={{ color: "#ffffff" }}>This is built for the ones who actually show up.</span>
           </p>
           <p style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 17, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>
-            Choose science. Choose structure. Choose results.
+            Are you one of them?
           </p>
         </div>
         <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 28 }}>
           DOMINATE<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>GRAVITY</span>
         </h1>
-        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 17, color: "#ffffff", maxWidth: 500, marginBottom: 32, lineHeight: 1.65 }}>Science-backed programs engineered to build elite skills and serious muscle. Planche. Front Lever. Hybrid. Aesthetics.</p>
+        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 17, color: "#ffffff", maxWidth: 500, marginBottom: 32, lineHeight: 1.65 }}>No fluff. No random YouTube sets. Structured programs engineered for people serious about Planche, Front Lever, Muscle & Hybrid training.</p>
 
         {/* Social proof line */}
         <div style={{ display: "flex", gap: 20, marginBottom: 40, flexWrap: "wrap", justifyContent: "center" }}>
           {[
             { icon: "🤸", text: "Planche & Front Lever" },
-            { icon: "💪", text: "Skill + Muscle" },
-            { icon: "🌟", text: "OAH & OAP Bonuses" },
+            { icon: "💪", text: "Real Muscle. No BS." },
+            { icon: "🌟", text: "For the 1% who commit" },
           ].map((item, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 14 }}>{item.icon}</span>
@@ -4200,8 +4200,8 @@ function AppInner() {
         </div>
 
         <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 32 }}>
-          <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>Start Training <span className="wiggle" style={{display:"inline-block"}}><ChevronDown size={13} /></span></button></a>
-          <a href="#results-section"><button className="btn-secondary">📸 Real Results</button></a>
+          <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs <span className="wiggle" style={{display:"inline-block"}}><ChevronDown size={13} /></span></button></a>
+          <a href="#results-section"><button className="btn-secondary">📸 Proof it works</button></a>
         </div>
 
         {/* Scroll indicator */}
@@ -4216,26 +4216,26 @@ function AppInner() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "center" }} className="pg2">
             <div>
-              <div className="badge" style={{ background: "rgba(255,69,0,.08)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 9 }}>⚠️ THE HARD TRUTH</div>
+              <div className="badge" style={{ background: "rgba(255,69,0,.08)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 9 }}>⚠️ NOBODY WANTS TO HEAR THIS</div>
               <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,58px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 28 }}>
-                TikTok won't<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>build your</span><br />body.
+                You're not<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>making progress</span><br />on purpose.
               </h2>
               <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 20 }}>
-                You spend hours scrolling physiques on TikTok. You watch "30 push-up challenge" videos. You try random exercises without understanding why, in what order, or how long to rest.
+                You copy exercises from TikTok. You run a "30-day challenge." You train 6 days a week with zero structure and wonder why nothing changes. It's not about effort — you have plenty of that.
               </p>
               <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 32 }}>
-                <strong style={{ color: "var(--text)" }}>The result:</strong> you get injured, you plateau, you quit. That's not a lack of willpower — it's a lack of method.
+                <strong style={{ color: "var(--text)" }}>The uncomfortable truth:</strong> without method, hard work just digs you deeper into the same plateau. That's not a motivational problem — it's a structural one.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[
-                  ["❌", "Copying an exercise without knowing its prerequisites"],
-                  ["❌", "Not knowing which muscles to engage or how — for every figure and movement"],
-                  ["❌", "Following a program with no logic, no progression, and no adaptability"],
-                  ["❌", "Training 7 days a week without understanding recovery"],
-                  ["❌", "Skipping warm-ups — the fastest route to injury"],
-                  ["❌", "Skipping intermediate progressions and jumping ahead"],
-                  ["❌", "Ignoring rest times between sets"],
-                  ["❌", "Using a program that doesn't evolve with your level"],
+                  ["❌", "Training without knowing which muscle is supposed to fire — and why"],
+                  ["❌", "Skipping progressions because they look too easy — then wondering why you're stuck"],
+                  ["❌", "Resting 30 seconds between sets when your nervous system needs 3 minutes"],
+                  ["❌", "Training every day because 'more = better' — until your tendons disagree"],
+                  ["❌", "Skipping warm-ups on the exercises that destroy shoulders and wrists"],
+                  ["❌", "Following a random program you found for free — with no logic, no progression curve"],
+                  ["❌", "Jumping to the advanced version before owning the basics"],
+                  ["❌", "Quitting after 3 weeks because you had no idea what week 4 was supposed to look like"],
                 ].map(([icon, text], i) => (
                   <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                     <span style={{ fontSize: 14, flexShrink: 0, marginTop: 2 }}>{icon}</span>
@@ -4246,14 +4246,14 @@ function AppInner() {
             </div>
             <div>
               <div style={{ background: "linear-gradient(135deg, rgba(255,69,0,0.06), rgba(255,69,0,0.02))", border: "1px solid var(--orange-border)", borderRadius: 12, padding: "32px 30px" }}>
-                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, letterSpacing: 3, color: "var(--orange)", marginBottom: 20, textTransform: "uppercase" }}>✅ What you actually need</div>
+                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, letterSpacing: 3, color: "var(--orange)", marginBottom: 20, textTransform: "uppercase" }}>✅ What actually moves the needle</div>
                 {[
-                  { icon: "🗓️", title: "A structured multi-week plan", desc: "Every session is designed to prepare the next. No improvisation, no guesswork." },
-                  { icon: "🔥", title: "A mandatory specific warm-up", desc: "Joints, tendons, nervous system — properly prepare your body before every effort." },
-                  { icon: "⏱️", title: "Precise rest times between sets", desc: "Too short = accumulated fatigue. Too long = lost adaptation. Every second matters." },
-                  { icon: "📈", title: "Progressive intermediate exercises", desc: "A full planche doesn't appear from nowhere. There are 6 progressions before it. Each one matters." },
-                  { icon: "🛑", title: "Knowing when NOT to train", desc: "Rest days are adaptation days. Remove rest, you remove gains. Simple as that." },
-                  { icon: "🧠", title: "Understanding the why, not just the what", desc: "Every exercise has biomechanical logic. Understand it and you multiply your results." },
+                  { icon: "🗓️", title: "A plan where every session builds on the last", desc: "Not a random workout. A system. Each session is engineered to prepare the next one." },
+                  { icon: "🔥", title: "A warm-up that's not optional", desc: "Wrists, shoulders, tendons — if you skip this, you're not brave, you're just injuring yourself slowly." },
+                  { icon: "⏱️", title: "Rest times that are part of the program", desc: "60 seconds vs 3 minutes produces completely different adaptations. This is not a detail." },
+                  { icon: "📈", title: "Progressions you actually have to earn", desc: "There are 6 steps before a full planche. Skipping them doesn't make you advanced — it makes you stuck." },
+                  { icon: "🛑", title: "Knowing exactly when to rest — and respecting it", desc: "Your muscles grow during recovery. Training through fatigue doesn't build — it breaks." },
+                  { icon: "🧠", title: "Understanding why — not just what to do", desc: "When you know the biomechanics, you fix your own mistakes in real time. That's when progress compounds." },
                 ].map((item, i) => (
                   <div key={i} style={{ display: "flex", gap: 14, marginBottom: i < 5 ? 20 : 0, paddingBottom: i < 5 ? 20 : 0, borderBottom: i < 5 ? "1px solid rgba(255,255,255,.06)" : "none" }}>
                     <span style={{ fontSize: 20, flexShrink: 0, width: 32, textAlign: "center" }}>{item.icon}</span>
@@ -4344,10 +4344,10 @@ function AppInner() {
       <section style={{ padding: "80px 22px", position: "relative", zIndex: 1, background: "linear-gradient(180deg, transparent, rgba(255,69,0,0.04))", borderTop: "1px solid var(--border)", textAlign: "center" }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
           <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,5vw,56px)", textTransform: "uppercase", lineHeight: .9, marginBottom: 16 }}>
-            Stop scrolling.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Start training.</span>
+            Still reading?<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Time to act.</span>
           </h2>
           <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", marginBottom: 32, lineHeight: 1.65 }}>
-            Every day without a structured program is a day of spinning in place. Pick your program and start today.
+            The people who got results didn't wait for the perfect moment. They picked a program and started. That's the only difference between them and you right now.
           </p>
           <a href="#programs">
             <button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "16px 48px", letterSpacing: 3 }}>
