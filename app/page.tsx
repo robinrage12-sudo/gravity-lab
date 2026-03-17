@@ -458,7 +458,7 @@ const plancheFoundation: Program = {
     "Complete roadmap: tuck → advanced tuck → straddle → full planche",
     "Every push-up & press variation — tuck, straddle, full — with full technique",
     "Bulletproof wrist & shoulder preparation from day one",
-    "Handstand progression included (standard — not a bonus)",
+    "Handstand progression included",
     "🌟 Bonus: One arm handstand progression",
   ],
   stripeUrl: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h",
@@ -795,7 +795,7 @@ const plancheElite: Program = {
     "Maltese & maltese press — elite progression",
     "Finger planche — full technique & progression",
     "Ring planche stability",
-    "Handstand & HSPU included (standard — not a bonus)",
+    "Handstand & HSPU included",
     "🌟 Bonus: One arm handstand progression",
   ],
   stripeUrl: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f",
@@ -1499,7 +1499,7 @@ const frontLeverMastery: Program = {
     "Master all front lever variations & progressions — full technique",
     "Front lever pull-ups — technique breakdown included",
     "Pull-up mastery — every grip, variation & loading method",
-    "Handstand progression included (standard — not a bonus)",
+    "Handstand progression included",
     "🌟 Bonus: One arm pull-up progression (full technique guide)",
     "Zero prerequisite — start from absolute zero",
   ],
@@ -1913,7 +1913,7 @@ const hybridAthlete: Program = {
   benefits: [
     "Gym-based strength + calisthenics skill fusion — no skill prerequisite",
     "HSPU (Handstand Push-Up) & 90° push-up — full technique",
-    "Handstand progression included (standard — not a bonus)",
+    "Handstand progression included",
     "One arm pull-up progression",
     "Progressive overload with barbells & skills",
     "🌟 Bonus: One arm handstand & one arm push-up progression",
@@ -2404,7 +2404,7 @@ const fullHypertrophy: Program = {
   ],
   benefits: [
     "Complete aesthetic physique — zero equipment, no prerequisites needed",
-    "Handstand progression included (standard — not a bonus)",
+    "Handstand progression included",
     "Elite skills: HSPU (Handstand Push-Up), 90° push-up, one arm push-up",
     "One arm pull-up — full progression",
     "Scientific hypertrophy protocol",
@@ -2446,7 +2446,7 @@ const plancheLeverCombo: Program = {
     "Full Planche roadmap — every step with technique",
     "Full Front Lever — all variations & progressions",
     "Pull-up mastery — from first rep to front lever pull-ups",
-    "Handstand progression included in both programs (standard)",
+    "Handstand progression included in both programs",
     "Save $17 vs buying separately",
     "🌟 Bonus: One arm pull-up + One arm handstand",
   ],
@@ -4004,60 +4004,71 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
             <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, color: "var(--orange)", textTransform: "uppercase", textAlign: "center" }}>✅ Your exact match</div>
 
-            <div className="surface" style={{ borderRadius: 12, padding: "28px", border: `2px solid ${result.levelColor}40`, background: `${result.glowColor}`, marginBottom: 20, textAlign: "left", position: "relative", overflow: "hidden" }}>
-              <div style={{ position: "absolute", top: -20, right: -20, fontSize: 100, opacity: 0.07 }}>{result.icon}</div>
+            <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", border: `2px solid ${result.levelColor}40`, background: result.glowColor, marginBottom: 20, position: "relative", overflow: "visible" }}>
+              <div style={{ position: "absolute", inset: 0, borderRadius: 8, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
+                <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at top left, ${result.glowColor}, transparent 60%)` }} />
+              </div>
+              <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
+                <div style={{ fontSize: 30, marginBottom: 10 }}>{result.icon}</div>
+                <span className="badge" style={{ background: `${result.levelColor}18`, color: result.levelColor, border: `1px solid ${result.levelColor}30`, marginBottom: 10, alignSelf: "flex-start", whiteSpace: "nowrap" }}>{result.level}</span>
+                <h3 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 21, textTransform: "uppercase", marginBottom: 3, lineHeight: 1.05, color: "var(--text)" }}>{result.title}</h3>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", marginBottom: 12, lineHeight: 1.4 }}>{result.subtitle}</p>
 
-              {/* Header — icon + title + level badge */}
-              <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 12, flexWrap: "wrap" }}>
-                <span style={{ fontSize: 36, flexShrink: 0 }}>{result.icon}</span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-                    <div className="t-display" style={{ fontSize: 22, lineHeight: 1.1 }}>{result.title}</div>
-                    <span className="badge" style={{ background: `${result.levelColor}20`, color: result.levelColor, border: `1px solid ${result.levelColor}40`, fontSize: 9, whiteSpace: "nowrap", flexShrink: 0 }}>{result.level}</span>
+                {result.dualTrack && result.trackLabels && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, background: "var(--orange-dim)", border: "1px solid var(--orange-border)", borderRadius: 3, padding: "4px 10px", marginBottom: 12, alignSelf: "flex-start" }}>
+                    <RefreshCw size={10} style={{ color: "var(--orange)" }} />
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 9, fontWeight: 700, color: "var(--orange)", letterSpacing: 1.5, textTransform: "uppercase" }}>2 Tracks:</span>
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-dim)" }}>{result.trackLabels[0]}</span>
+                    <span style={{ color: "var(--text-faint)" }}>|</span>
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-dim)" }}>{result.trackLabels[1]}</span>
                   </div>
-                  <div style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.4 }}>{result.subtitle}</div>
-                </div>
-              </div>
-
-              <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.65, marginBottom: 18 }}>{result.tagline}</p>
-
-              {/* Full benefits list */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 7, marginBottom: 20 }}>
-                {result.benefits.map((b, i) => (
-                  <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                    <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.4 }}>{b}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Format tags */}
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 18 }}>
-                {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal"].map(tag => (
-                  <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
-                ))}
-              </div>
-
-              {/* Price block */}
-              <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 8, padding: "14px 18px", marginBottom: 18 }}>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 38, color: "var(--orange)", lineHeight: 1 }}>${result.price}</span>
-                {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.4)", marginLeft: 8, textDecoration: "line-through" }}>${result.originalPrice}</span>}
-                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>one-time payment · lifetime access</div>
-              </div>
-
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                {result.stripeUrl ? (
-                  <a href={result.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ flex: 1 }}>
-                    <button className="btn-primary cta-pulse" style={{ width: "100%", justifyContent: "center" }}>
-                      This is my program — ${result.price} →
-                    </button>
-                  </a>
-                ) : (
-                  <button className="btn-primary" style={{ flex: 1 }} onClick={() => onOpen(result)}>
-                    See the full program →
-                  </button>
                 )}
-                <button className="btn-ghost" onClick={reset}>↩ Retake</button>
+                {result.category === "bundle" && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,69,0,.07)", border: "1px solid var(--orange-border)", borderRadius: 3, padding: "4px 10px", marginBottom: 12, alignSelf: "flex-start" }}>
+                    <Package size={10} style={{ color: "var(--orange)" }} />
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 9, fontWeight: 700, color: "var(--orange)", letterSpacing: 1.5, textTransform: "uppercase" }}>All 5 Programs Included</span>
+                  </div>
+                )}
+
+                <ul style={{ listStyle: "none", marginBottom: 12, display: "flex", flexDirection: "column", gap: 7, flex: 1 }}>
+                  {result.benefits.map((b, i) => (
+                    <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                      <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
+                      <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.4 }}>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
+                  {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal"].map(tag => (
+                    <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
+                  ))}
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+                  <span style={{ fontSize: 12 }}>📱</span>
+                  <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.75)" }}>Interactive manual · Customizable training journal · Lifetime access</span>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
+                  <div>
+                    <span className={result.category === "bundle" || result.id === "combo-planche-lever" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: result.category === "bundle" || result.id === "combo-planche-lever" ? undefined : "var(--text)", lineHeight: 1 }}>${result.price}</span>
+                    {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${result.originalPrice}</span>}
+                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", marginTop: 1 }}>lifetime access</div>
+                    {result.id === "combo-planche-lever" && (
+                      <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#06b6d4", marginTop: 4 }}>🔗 Includes both programs</div>
+                    )}
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
+                    {result.stripeUrl ? (
+                      <a href={result.stripeUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>
+                        <button className={`btn-primary cta-pulse ${result.category === "bundle" || result.id === "combo-planche-lever" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>I want this →</button>
+                      </a>
+                    ) : (
+                      <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => onOpen(result)}>I want this →</button>
+                    )}
+                    <button className="btn-ghost" style={{ fontSize: 11 }} onClick={reset}>↩ Retake</button>
+                  </div>
+                </div>
               </div>
             </div>
 
