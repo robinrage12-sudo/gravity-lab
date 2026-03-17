@@ -817,8 +817,8 @@ const frontLeverMastery: Program = {
     "Master the tuck → straddle → full progression",
     "Develop pulling strength applicable to muscle-ups and rows",
   ],
-  mindset: "Zero prerequisites. This program is built for athletes who have never touched a pull-up bar, all the way to those who already have their tuck front lever. The front lever is the ultimate test of pulling strength and body tension — it is not a lat exercise, it is a full-body isometric. Every single muscle from feet to hands must be contracted simultaneously. Think of it as a horizontal plank in the air. The program gives you every variation, every progression step, and every technique cue to get there regardless of your starting level.",
-  weekStructure: "3 sessions/week (Mon · Wed · Sat). Can be combined with pull day in any program. Front lever work always comes FIRST in the session when fresh.",
+  mindset: "Zero prerequisites — built for complete beginners to advanced athletes.\n\nMuscle engagement breakdown: ~80% lats, ~15% traps/rhomboids/rear delts/triceps, ~5% forearms and core. The front lever is lat-dominant. Being able to do weighted pull-ups at +50kg does NOT mean you can front lever — strength is specific. Train in front lever conditions from day one.\n\nTechnique priority order: Grip width → Scapular retraction → Lat engagement → Arms locked → Hip height → Leg position.\n\nGrip: shoulder-width or narrower. Wider grip shifts load to rear delts and makes it harder. Scapulas: retract toward spine, open chest, engage mid-traps. Arms: fully locked — any bend means failed form. Hips: aim for shoulder height, slight drop from fatigue is acceptable. Legs: keep straight and horizontal — slight elevation is OK and can increase time under tension.",
+  weekStructure: "4 ways to integrate skill work — choose what fits your schedule:\n\n① Start of session (attempts): Begin every session with front lever holds or pull-ups. High intensity, rest 5 min between sets.\n\n② First 5 sets: Dedicate the first 4–6 sets to specific skill work (3–15 reps, 5–20s hold). Rest 3–5 min.\n\n③ Finisher sets: If your main goal is hypertrophy, add 3–5 skill sets at the END of your session with lighter progressions. Rest 1–3 min.\n\n④ Dedicated sessions: Full sessions focused only on front lever. Start with attempts, then intense sets, finish with easier variations. Max 4 sessions/week for beginners.",
   warmup: [
     { name: "Band Pull-Aparts", duration: "3×20", notes: "Light band. Targets rear delts and external rotators. Critical for lever shoulder health." },
     { name: "Scapular Pull-Ups", duration: "3×10", notes: "Dead hang. Without bending arms, depress and retract scapulas. Pause 1s at top." },
@@ -827,6 +827,66 @@ const frontLeverMastery: Program = {
     { name: "Inverted Hang", duration: "3×15s", notes: "Pull up and hold horizontal. Feel the lat engagement." },
   ],
   phases: [
+    {
+      name: "Phase 0 — Muscle Engagement & Technical Foundations",
+      tag: "Read Before Starting",
+      duration: "Essential",
+      icon: "🧠",
+      description: "Before touching the bar, understand exactly what muscles drive the front lever and the technical priority order. This knowledge will save you months of wasted training.",
+      exercises: [
+        {
+          title: "Muscle Engagement — What Actually Drives the Front Lever",
+          sets: "—",
+          reps: "Read carefully",
+          rest: "—",
+          intensity: "Education",
+          cues: [
+            "80% of the front lever is driven by the LATS — this is the primary mover",
+            "15% comes from rear deltoids, traps/rhomboids, and triceps — scapular retraction and arm lockout",
+            "5% from forearms and core — supporting roles only",
+            "Key insight: being able to do weighted pull-ups at +50kg does NOT mean you can front lever",
+            "Strength is SPECIFIC — you must train in front lever conditions to build front lever strength",
+            "Do NOT wait years doing basic pulling exercises before starting lever progressions",
+            "Start tuck front lever holds, advanced tuck raises, and banded lever work as early as possible",
+            "Direct front lever training from day one is more effective than indirect preparation",
+          ],
+          proTip: "The most common mistake is spending months on lat pulldowns and pull-ups expecting them to transfer automatically. They don't. Train specifically in the front lever position from your very first session.",
+        },
+        {
+          title: "Technical Priority Order — Master This Sequence",
+          sets: "—",
+          reps: "Apply to every rep",
+          rest: "—",
+          intensity: "Technical",
+          cues: [
+            "Priority 1 — GRIP: shoulder-width or narrower. Wider grip shifts emphasis to rear delts and makes it significantly harder",
+            "Priority 2 — SCAPULAR RETRACTION: pull shoulder blades toward your spine. Open chest, engage mid-traps. This protects shoulders and improves alignment",
+            "Priority 3 — LAT ENGAGEMENT: once scapulas are set, activate lats to progressively increase the lever arm",
+            "Priority 4 — ELBOW LOCKOUT: arms must be fully straight. Slightly bent = not a real front lever. Use tricep activation to reinforce this",
+            "Priority 5 — HIP HEIGHT: aim for hips at shoulder height or slightly above. Some sag under fatigue is acceptable — it increases time under tension",
+            "Priority 6 — LEGS: least important. Keep straight and horizontal when possible, but slight elevation or bend is acceptable during holds",
+            "Note on false grip: useful for pull-ups (reduces distance to bar) but use normal grip for holds and raises",
+          ],
+          proTip: "Never sacrifice Priority 1-3 for Priority 4-6. A hold with perfect scapular retraction and slightly bent knees is worth more than a 'clean' hold with retracted scapulas.",
+        },
+        {
+          title: "4 Ways to Integrate Front Lever Training Into Your Routine",
+          sets: "Choose 1 method",
+          reps: "Apply consistently",
+          rest: "See each method",
+          intensity: "Programming",
+          cues: [
+            "METHOD 1 — Attempts at session start: begin every session with 2-3 lever attempts/holds. High intensity, rest 5 min between sets. Best for skill-focused athletes",
+            "METHOD 2 — First 4-6 sets: dedicate the opening block to specific lever work (holds, raises, pull-ups). Rest 3-5 min. 3-15 reps or 5-20s holds. Most effective overall method",
+            "METHOD 3 — Reinforcement sets at end: add 3-5 lever sets after your main workout. Use easier variations — you will be fatigued. Rest 1-3 min. Good for beginners or hypertrophy-focused athletes",
+            "METHOD 4 — Dedicated sessions: entire sessions focused only on front lever. Start with attempts, then intense specific work, finish with easier movements. Max 4 sessions/week for beginners",
+            "Vary between methods to benefit from different frequencies, intensities, and volumes",
+            "Beginners: do not exceed 4 dedicated skill sessions per week — build the base first",
+          ],
+          proTip: "Method 2 (first 4-6 sets) produces the fastest results for most athletes because your CNS is freshest at the start of a session. Skill work done when fatigued produces 40-50% less neural adaptation.",
+        },
+      ],
+    },
     {
       name: "Phase 1 — Tuck Front Lever",
       tag: "Weeks 1–4",
@@ -974,6 +1034,97 @@ const frontLeverMastery: Program = {
       ],
     },
     {
+      name: "Advanced Pull Workouts — Easy / Normal / Hard",
+      tag: "Adaptive Training",
+      duration: "Ongoing",
+      icon: "⚡",
+      description: "Three difficulty tracks for your pull sessions. Choose based on your energy level that day. Rotate between them for optimal adaptation. All workouts are designed around front lever specificity.",
+      exercises: [
+        {
+          title: "Pull Workout — EASY",
+          sets: "2–3",
+          reps: "5–15 reps",
+          rest: "2–5 min",
+          intensity: "Moderate",
+          cues: [
+            "A — Tuck Front Lever Raises: 2×5–10r · 5 min rest",
+            "B — Wide Grip Pull-Ups: 2×5–10r · 5 min rest",
+            "C — Close Grip Chin-Ups: 3×8–15r · 3 min rest",
+            "D — Incline Biceps Curl: 3×8–15r · 3 min rest",
+            "E — Face Pull: 2×10–20r · 2 min rest",
+            "Use this workout on low-energy days or as active recovery",
+            "Focus on form and lat engagement on every rep",
+          ],
+          proTip: "Even on easy days, the tuck front lever raises must be done with perfect form. Quality over quantity — 5 perfect raises build more strength than 15 sloppy ones.",
+        },
+        {
+          title: "Pull Workout — NORMAL",
+          sets: "2–3",
+          reps: "5–15 reps",
+          rest: "3–5 min",
+          intensity: "Standard",
+          cues: [
+            "A — Chest to Bar Pull-Ups: 2×5–10r · 5 min rest",
+            "B — Impossible Dips on Straight Bar: 2×3–8r · 5 min rest",
+            "C — L-Sit Pull-Ups: 3×8–15r · 3 min rest",
+            "D — Pull-Ups: 3×8–15r · 3 min rest",
+            "E — Chin-Ups: 2×10–20r · 2 min rest",
+            "This is your standard weekly session — aim for this 2x/week",
+            "Chest to bar pull-ups directly build front lever pulling strength",
+          ],
+          proTip: "The chest to bar pull-up is one of the most underrated front lever builders. The extra range of motion at the top activates the same lat pattern as the front lever pull-up.",
+        },
+        {
+          title: "Pull Workout — HARD",
+          sets: "2–3",
+          reps: "3–10 reps",
+          rest: "3–5 min",
+          intensity: "High",
+          cues: [
+            "A — Full Front Lever Kicks: 2×5–10s · 5 min rest",
+            "B — Tuck Front Lever Pull-Ups: 2×5–10r · 5 min rest",
+            "C — Dragon Flag Reps: 3×3–8r · 3 min rest",
+            "D — Pelican Biceps Curl: 3×5–10r · 3 min rest",
+            "E — Incline Biceps Curl: 2×10–20r · 2 min rest",
+            "Use this on peak days — full recovery required before this session",
+            "Front lever kicks are explosive holds that build maximal lat strength",
+          ],
+          proTip: "Pelican curls are one of the most effective bicep exercises for front lever strength. The extreme stretch position builds the elbow flexor strength needed to maintain fully locked arms under load.",
+        },
+        {
+          title: "Isolation Pull — Lats / Rear Delts / Biceps",
+          sets: "2",
+          reps: "5–20 reps",
+          rest: "2–5 min",
+          intensity: "Targeted",
+          cues: [
+            "LATS: Full Front Lever Raises → Dragon Flag → Tuck FL Pull-Ups → L-Sit Pull-Ups → Wide Grip Pull-Ups",
+            "REAR DELTS: Tuck FL Pull-Ups → Adv. Tuck FL Raises → Chest to Bar → Face Pull → Wide Grip Australian Pull-Ups",
+            "BICEPS: Back Lever Touch Hold → Pelican Curl → Close Grip Chin-Ups → Incline Biceps Curl → Commando Pull-Ups",
+            "Choose one muscle focus per session — do not combine",
+            "These isolation sessions are used when you want to target a specific weak point",
+          ],
+          proTip: "If your front lever is failing due to a specific muscle, use these isolation workouts to directly address it. Most athletes fail due to lat weakness — start with the lats workout.",
+        },
+        {
+          title: "Specific Pull — Front Lever Focused",
+          sets: "5",
+          reps: "5–10 reps/secs",
+          rest: "3–5 min",
+          intensity: "Maximum Specificity",
+          cues: [
+            "Session 1: Full Front Lever Kicks 5×5–10s · Tuck FL Pull-Ups 5×5–10r · Tuck FL Raises 2×MAX",
+            "Session 2: Full Front Lever Raises 5×5–10r · Adv. Tuck FL Raises 5×5–10r · Dragon Flag 2×MAX",
+            "Session 3: Full FL Kicks 3×5–10s · Chest to Bar 3×5–10r · Tuck FL Pull-Ups 2×5–10r · Impossible Dips 2×5–10r · Tuck FL Raises 2×MAX",
+            "These are your dedicated front lever sessions — use them for peak weeks",
+            "Rest 5 minutes between the main sets — this is CNS-intensive work",
+            "Max 4 dedicated sessions per week for beginners — build the base first",
+          ],
+          proTip: "Dedicated front lever sessions are the fastest way to progress when front lever is your primary goal. The high rest periods are mandatory — reducing them kills the quality of the skill work.",
+        },
+      ],
+    },
+    {
       name: "Phase 4 — Pull-Ups, Raises & Bonus Skills",
       tag: "Weeks 13–16",
       duration: "4 weeks",
@@ -1057,8 +1208,280 @@ const frontLeverMastery: Program = {
         },
       ],
     },
-  ],
-  cooldown: leverCooldown,
+    {
+      name: "📋 Complete Workout Plans — Pull 1, 2, 3",
+      tag: "Advanced Pull Programs",
+      duration: "Rotate weekly",
+      icon: "📋",
+      description: "Three complete pull workout plans, each with Easy / Normal / Hard difficulty variants. Rotate between Pull 1, 2, and 3 across your training week. Choose the difficulty that matches your current level for each session.",
+      exercises: [
+        {
+          title: "PULL 1 — Easy",
+          sets: "2–3",
+          reps: "5–15 reps",
+          rest: "2–5 min",
+          intensity: "Easy",
+          cues: [
+            "2 sets × Tuck Front Lever Raises — 5–10 reps — 5 min rest",
+            "2 sets × Wide Grip Pull-Ups — 5–10 reps — 5 min rest",
+            "3 sets × Close Grip Chin-Ups — 8–15 reps — 3 min rest",
+            "3 sets × Incline Biceps Curl — 8–15 reps — 3 min rest",
+            "2 sets × Face Pull — 10–20 reps — 2 min rest",
+          ],
+          proTip: "The tuck front lever raises are the most important exercise in this session. If you cannot do them yet, replace with inverted rows and scapular pull-ups.",
+        },
+        {
+          title: "PULL 1 — Normal",
+          sets: "2–3",
+          reps: "5–15 reps",
+          rest: "2–5 min",
+          intensity: "Normal",
+          cues: [
+            "2 sets × Chest to Bar Pull-Ups — 5–10 reps — 5 min rest",
+            "2 sets × Impossible Dips on Straight Bar — 3–8 reps — 5 min rest",
+            "3 sets × L-Sit Pull-Ups — 8–15 reps — 3 min rest",
+            "3 sets × Pull-Ups — 8–15 reps — 3 min rest",
+            "2 sets × Chin-Ups — 10–20 reps — 2 min rest",
+          ],
+          proTip: "Impossible dips on straight bar are a skill movement — treat them like a front lever attempt. Full rest between sets is mandatory.",
+        },
+        {
+          title: "PULL 1 — Hard",
+          sets: "2–3",
+          reps: "3–10 reps",
+          rest: "3–5 min",
+          intensity: "Hard",
+          cues: [
+            "2 sets × Full Front Lever Kicks — 5–10s — 5 min rest",
+            "2 sets × Tuck Front Lever Pull-Ups — 5–10 reps — 5 min rest",
+            "3 sets × Dragon Flag Reps — 3–8 reps — 3 min rest",
+            "3 sets × Pelican Biceps Curl — 5–10 reps — 3 min rest",
+            "2 sets × Incline Biceps Curl — 10–20 reps — 2 min rest",
+          ],
+          proTip: "Full front lever kicks are maximum effort — treat each kick as an attempt, not a rep. Rest fully between sets.",
+        },
+        {
+          title: "PULL 2 — Easy",
+          sets: "2–3",
+          reps: "5–20 reps",
+          rest: "2–5 min",
+          intensity: "Easy",
+          cues: [
+            "2 sets × Chest to Bar Pull-Ups — 5–10 reps — 5 min rest",
+            "2 sets × Archer Pull-Ups — 5–10 reps — 5 min rest",
+            "3 sets × Close Grip Pull-Ups — 8–15 reps — 3 min rest",
+            "3 sets × Chin-Ups — 8–15 reps — 3 min rest",
+            "2 sets × Incline Biceps Curl — 10–20 reps — 2 min rest",
+          ],
+          proTip: "Archer pull-ups are the key exercise here — they directly bridge toward one arm pull-up. Focus on keeping the extended arm fully locked.",
+        },
+        {
+          title: "PULL 2 — Normal",
+          sets: "2–3",
+          reps: "5–15 reps",
+          rest: "2–5 min",
+          intensity: "Normal",
+          cues: [
+            "2 sets × Advanced Tuck Front Lever Raises — 5–10 reps — 5 min rest",
+            "2 sets × L-Sit Pull-Ups — 5–10 reps — 5 min rest",
+            "3 sets × Wide Grip Pull-Ups — 8–15 reps — 3 min rest",
+            "3 sets × Close Grip Chin-Ups — 8–15 reps — 3 min rest",
+            "2 sets × Face Pull — 10–20 reps — 2 min rest",
+          ],
+          proTip: "Advanced tuck lever raises — hips fully extended, back flat. Do not allow rounding at the top of the raise.",
+        },
+        {
+          title: "PULL 2 — Hard",
+          sets: "2–3",
+          reps: "5–15 reps",
+          rest: "2–5 min",
+          intensity: "Hard",
+          cues: [
+            "2 sets × Muscle-Ups — 5–10 reps — 5 min rest",
+            "2 sets × Impossible Dips on Straight Bar — 5–10 reps — 5 min rest",
+            "3 sets × Chest to Bar Pull-Ups — 5–10 reps — 3 min rest",
+            "3 sets × Advanced Tuck Front Lever Raises — 5–10 reps — 3 min rest",
+            "2 sets × Pelican Biceps Curl — 8–15 reps — 2 min rest",
+          ],
+          proTip: "Muscle-ups should be explosive — slow muscle-ups defeat the purpose. If you cannot do explosive muscle-ups, replace with chest-to-bar pull-ups.",
+        },
+        {
+          title: "PULL 3 — Easy",
+          sets: "2–4",
+          reps: "5–15 reps",
+          rest: "2–5 min",
+          intensity: "Easy",
+          cues: [
+            "4 sets × Weighted Pull-Ups — 5–10 reps — 5 min rest",
+            "2 sets × Wide Grip Pull-Ups — 8–15 reps — 3 min rest",
+            "2 sets × Close Grip Pull-Ups — 8–15 reps — 3 min rest",
+            "2 sets × Incline Biceps Curl — 8–15 reps — 2 min rest",
+            "2 sets × Chin-Ups — 8–15 reps — 2 min rest",
+          ],
+          proTip: "4 sets of weighted pull-ups is the strength foundation. Add 2.5kg every session you complete all reps cleanly.",
+        },
+        {
+          title: "PULL 3 — Normal",
+          sets: "2–4",
+          reps: "3–15 reps",
+          rest: "2–5 min",
+          intensity: "Normal",
+          cues: [
+            "4 sets × Dragon Flag Reps — 3–8 reps — 5 min rest",
+            "2 sets × Chest to Bar Pull-Ups — 5–10 reps — 3 min rest",
+            "2 sets × L-Sit Pull-Ups — 5–10 reps — 3 min rest",
+            "2 sets × Pull-Ups — 8–15 reps — 2 min rest",
+            "2 sets × Face Pull — 8–15 reps — 2 min rest",
+          ],
+          proTip: "Dragon flags are a full posterior chain movement. Keep the body rigid throughout — no piking at the hips.",
+        },
+        {
+          title: "PULL 3 — Hard",
+          sets: "2–4",
+          reps: "5–10 reps",
+          rest: "2–5 min",
+          intensity: "Hard",
+          cues: [
+            "4 sets × Full Front Lever Raises — 5–10 reps — 5 min rest",
+            "2 sets × Advanced Tuck Front Lever Raises — 5–10 reps — 3 min rest",
+            "2 sets × Wide Grip Pull-Ups — 5–10 reps — 3 min rest",
+            "2 sets × Impossible Dips on Straight Bar — 8–15 reps — 2 min rest",
+            "2 sets × Pelican Biceps Curl — 8–15 reps — 2 min rest",
+          ],
+          proTip: "Full front lever raises are the premium exercise — 4 sets here means this session is high CNS demand. Sleep and nutrition must be optimal the day before.",
+        },
+      ],
+    },
+    {
+      name: "🎯 Isolation Pull — Lats, Rear Delts & Biceps",
+      tag: "Targeted Muscle Work",
+      duration: "Use as needed",
+      icon: "🎯",
+      description: "Isolated workouts targeting specific muscle groups. Use these when you want to bring up a weak point or add extra volume to a specific area.",
+      exercises: [
+        {
+          title: "Isolation — Lats Focus",
+          sets: "2",
+          reps: "3–15 reps",
+          rest: "2–5 min",
+          intensity: "Targeted",
+          cues: [
+            "2 sets × Full Front Lever Raises — 3–8 reps — 5 min rest",
+            "2 sets × Dragon Flag Reps — 3–8 reps — 5 min rest",
+            "2 sets × Tuck Front Lever Pull-Ups — 5–10 reps — 3 min rest",
+            "2 sets × L-Sit Pull-Ups — 5–10 reps — 3 min rest",
+            "2 sets × Wide Grip Pull-Ups — 8–15 reps — 2 min rest",
+          ],
+          proTip: "This session targets the lat engagement pattern specific to the front lever. The combination of raises and pull-ups hits all angles of lat activation.",
+        },
+        {
+          title: "Isolation — Rear Delts Focus",
+          sets: "2",
+          reps: "5–20 reps",
+          rest: "2–5 min",
+          intensity: "Targeted",
+          cues: [
+            "2 sets × Tuck Front Lever Pull-Ups — 5–10 reps — 5 min rest",
+            "2 sets × Advanced Tuck Front Lever Raises — 5–10 reps — 5 min rest",
+            "2 sets × Chest to Bar Pull-Ups — 5–10 reps — 3 min rest",
+            "2 sets × Face Pull — 5–10 reps — 3 min rest",
+            "2 sets × Wide Grip Australian Pull-Ups — 10–20 reps — 2 min rest",
+          ],
+          proTip: "Rear deltoid strength is critical for scapular retraction — the #2 technical priority in the front lever. Never skip rear delt work.",
+        },
+        {
+          title: "Isolation — Biceps Focus",
+          sets: "2",
+          reps: "5–20 reps",
+          rest: "2–5 min",
+          intensity: "Targeted",
+          cues: [
+            "2 sets × Back Lever Touch Hold — 8–15s — 5 min rest",
+            "2 sets × Pelican Biceps Curl — 5–10 reps — 5 min rest",
+            "2 sets × Close Grip Chin-Ups — 8–15 reps — 3 min rest",
+            "2 sets × Incline Biceps Curl — 8–15 reps — 3 min rest",
+            "2 sets × Commando Pull-Ups — 10–20 reps — 2 min rest",
+          ],
+          proTip: "Pelican curls are the most effective bodyweight biceps exercise. The stretch at the bottom is extreme — start very light and progress slowly to avoid bicep tendon issues.",
+        },
+      ],
+    },
+    {
+      name: "⚡ Specific Pull — Muscle-Up & Front Lever Sessions",
+      tag: "Skill-Specific Training",
+      duration: "Choose your focus",
+      icon: "⚡",
+      description: "Dedicated skill sessions for muscle-up and front lever. Use these as standalone sessions or as your primary training block. Choose based on your current goal.",
+      exercises: [
+        {
+          title: "Specific 1 — Muscle-Up Focus",
+          sets: "2–5",
+          reps: "3–10 reps",
+          rest: "3–5 min",
+          intensity: "High Skill",
+          cues: [
+            "5 sets × Muscle-Ups — 3–8 reps — 5 min rest",
+            "5 sets × Chest to Bar Pull-Ups — 3–8 reps — 5 min rest",
+            "2 sets × Impossible Dips on Straight Bar → L-Sit Pull-Ups — MAX — 3 min rest",
+          ],
+          proTip: "This session is pure muscle-up specificity. The chest-to-bar pull-ups reinforce the pulling height needed for the muscle-up transition.",
+        },
+        {
+          title: "Specific 1 — Front Lever Focus",
+          sets: "2–5",
+          reps: "5–10 reps",
+          rest: "3–5 min",
+          intensity: "High Skill",
+          cues: [
+            "5 sets × Full Front Lever Kicks — 5–10s — 5 min rest",
+            "5 sets × Tuck Front Lever Pull-Ups — 5–10 reps — 5 min rest",
+            "2 sets × Tuck Front Lever Raises — MAX reps — 3 min rest",
+          ],
+          proTip: "Full front lever kicks are attempts — treat each second as maximum effort. The tuck pull-ups directly build the pulling pattern for full lever rows.",
+        },
+        {
+          title: "Specific 2 — Muscle-Up Focus",
+          sets: "2–5",
+          reps: "5–10 reps",
+          rest: "3–5 min",
+          intensity: "High Skill",
+          cues: [
+            "5 sets × Chest to Bar Pull-Ups — 5–10 reps — 5 min rest",
+            "5 sets × Impossible Dips on Straight Bar — 5–10 reps — 5 min rest",
+            "2 sets × Weighted Pull-Ups — 5–10 reps — 3 min rest",
+          ],
+          proTip: "Volume-focused muscle-up session. The weighted pull-ups at the end build the absolute strength that makes explosive muscle-ups easier.",
+        },
+        {
+          title: "Specific 2 — Front Lever Focus",
+          sets: "2–5",
+          reps: "5–10 reps",
+          rest: "3–5 min",
+          intensity: "High Skill",
+          cues: [
+            "5 sets × Full Front Lever Raises — 5–10 reps — 5 min rest",
+            "5 sets × Advanced Tuck Front Lever Raises — 5–10 reps — 5 min rest",
+            "2 sets × Dragon Flag Reps — MAX reps — 3 min rest",
+          ],
+          proTip: "Double raises session — this is the highest volume front lever-specific workout. Only do this when fully recovered. Sleep 8+ hours the night before.",
+        },
+        {
+          title: "Specific 3 — Muscle-Up + Front Lever Combined",
+          sets: "2–3",
+          reps: "5–10 reps",
+          rest: "2–5 min",
+          intensity: "Combined",
+          cues: [
+            "3 sets × Full Front Lever Kicks — 5–10s — 5 min rest",
+            "3 sets × Chest to Bar Pull-Ups — 5–10 reps — 5 min rest",
+            "2 sets × Tuck Front Lever Pull-Ups — 5–10 reps — 3 min rest",
+            "2 sets × Impossible Dips on Straight Bar — 5–10 reps — 3 min rest",
+            "2 sets × Tuck Front Lever Raises — MAX reps — 2 min rest",
+          ],
+          proTip: "The combined session trains both skills in one workout. Lever work first (when CNS is fresh), muscle-up work second. Never reverse this order.",
+        },
+      ],
+    },
   benefits: [
     "Master all front lever variations & progressions — full technique",
     "Front lever pull-ups — technique breakdown included",
@@ -2423,6 +2846,242 @@ function PhaseBlock({ phase, index }: { phase: Phase; index: number }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════
+// TRAINING JOURNAL / WEEKLY PLANNER
+// ═══════════════════════════════════════════════════════
+
+const EXERCISE_SUGGESTIONS: Record<string, string[]> = {
+  push: [
+    "Pseudo Planche Push-Ups", "Planche Lean", "Tuck Planche Hold", "Straddle Push-Ups",
+    "Pike Push-Ups", "HSPU (Wall)", "Dips", "Weighted Dips", "Weighted Push-Ups",
+    "Ring Dips", "Bench Press", "Overhead Press", "Incline DB Press", "90° Push-Up Progression",
+    "Archer Push-Ups", "One Arm Push-Up Progression", "Maltese Hold",
+  ],
+  pull: [
+    "Pull-Ups", "Weighted Pull-Ups", "Tuck Front Lever Hold", "Front Lever Rows",
+    "Scapular Raises", "Australian Pull-Ups", "Lat Pulldown", "Cable Row",
+    "Face Pulls", "Band Pull-Aparts", "One Arm Pull-Up Progression",
+    "Full Front Lever Hold", "Straddle Front Lever", "Archer Pull-Ups",
+  ],
+  legs: [
+    "Squat", "Romanian Deadlift", "Bulgarian Split Squat", "Leg Press",
+    "Nordic Hamstring Curl", "Pistol Squat Progression", "Box Jump",
+  ],
+  core: [
+    "Hollow Body Hold", "L-Sit", "Tuck L-Sit", "Dragon Flag", "Ab Wheel",
+    "Hanging Leg Raises", "Plank Variations",
+  ],
+};
+
+const REP_RANGES = {
+  Force:     { range: "1–5 RM", color: "#ef4444", desc: "Max strength — heavy, full rest" },
+  Moyen:     { range: "6–8 RM", color: "#f59e0b", desc: "Strength-hypertrophy — moderate load" },
+  Volume:    { range: "9–15 RM", color: "#3b82f6", desc: "Hypertrophy — higher reps, shorter rest" },
+  Technique: { range: "5–10 @ 50%", color: "#22c55e", desc: "Skill work — light, perfect form" },
+};
+
+type SessionType = keyof typeof REP_RANGES;
+type ExerciseRow = { name: string; sets: string; reps: string; rest: string };
+
+const emptyRow = (): ExerciseRow => ({ name: "", sets: "4", reps: "", rest: "2 min" });
+
+function ExerciseInputRow({ row, onChange, suggestions }: {
+  row: ExerciseRow;
+  onChange: (r: ExerciseRow) => void;
+  suggestions: string[];
+}) {
+  const [showSug, setShowSug] = useState(false);
+  const filtered = suggestions.filter(s => s.toLowerCase().includes(row.name.toLowerCase()) && row.name.length > 0);
+
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 6, position: "relative" }}>
+      <div style={{ position: "relative" }}>
+        <input
+          value={row.name}
+          onChange={e => { onChange({ ...row, name: e.target.value }); setShowSug(true); }}
+          onFocus={() => setShowSug(true)}
+          onBlur={() => setTimeout(() => setShowSug(false), 150)}
+          placeholder="Exercise..."
+          style={{ width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", borderRadius: 4, padding: "7px 10px", color: "#fff", fontFamily: "var(--fb)", fontSize: 12, outline: "none" }}
+        />
+        {showSug && filtered.length > 0 && (
+          <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "#1a1a1a", border: "1px solid var(--border)", borderRadius: 4, zIndex: 100, maxHeight: 160, overflowY: "auto" }}>
+            {filtered.slice(0, 6).map(s => (
+              <div key={s} onMouseDown={() => { onChange({ ...row, name: s }); setShowSug(false); }}
+                style={{ padding: "7px 10px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 12, color: "#fff", borderBottom: "1px solid var(--border)" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,69,0,0.1)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
+                {s}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      {(["sets", "reps", "rest"] as const).map(field => (
+        <input key={field} value={row[field]}
+          onChange={e => onChange({ ...row, [field]: e.target.value })}
+          placeholder={field === "sets" ? "Sets" : field === "reps" ? "Reps" : "Rest"}
+          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", borderRadius: 4, padding: "7px 6px", color: "#fff", fontFamily: "var(--fb)", fontSize: 11, textAlign: "center", outline: "none" }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function SessionBlock({ type, rows, onChangeRow, onAddRow, isAdvanced }: {
+  type: SessionType;
+  rows: ExerciseRow[];
+  onChangeRow: (i: number, r: ExerciseRow) => void;
+  onAddRow: () => void;
+  isAdvanced: boolean;
+}) {
+  const info = REP_RANGES[type];
+  const [category, setCategory] = useState<"push" | "pull">("push");
+
+  return (
+    <div style={{ marginBottom: 24 }}>
+      <div style={{ background: info.color, borderRadius: "6px 6px 0 0", padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 16, color: "#fff", letterSpacing: 2 }}>{type.toUpperCase()}</span>
+        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.85)" }}>{info.range} · {info.desc}</span>
+      </div>
+      <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderTop: "none", borderRadius: "0 0 6px 6px", padding: "14px" }}>
+        {/* Push/Pull toggle */}
+        <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+          <div className="t-label" style={{ color: "rgba(255,255,255,0.5)", fontSize: 9, marginRight: 4, alignSelf: "center" }}>CATEGORY:</div>
+          {(["push", "pull"] as const).map(cat => (
+            <button key={cat} onClick={() => setCategory(cat)}
+              style={{ padding: "4px 12px", borderRadius: 4, border: `1px solid ${category === cat ? "var(--orange)" : "var(--border)"}`, background: category === cat ? "var(--orange-dim)" : "transparent", color: category === cat ? "var(--orange)" : "rgba(255,255,255,0.5)", fontFamily: "var(--fd)", fontSize: 11, cursor: "pointer", letterSpacing: 1, textTransform: "uppercase" }}>
+              {cat}
+            </button>
+          ))}
+        </div>
+        {/* Header */}
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 8 }}>
+          {["Exercise", "Sets", "Reps", "Rest"].map(h => (
+            <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
+          ))}
+        </div>
+        {rows.map((row, i) => (
+          <ExerciseInputRow key={i} row={row} onChange={r => onChangeRow(i, r)} suggestions={EXERCISE_SUGGESTIONS[category]} />
+        ))}
+        <button onClick={onAddRow}
+          style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "rgba(255,255,255,0.4)", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.4)"; }}>
+          + Add exercise
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function TrainingJournal({ isAdvanced }: { isAdvanced: boolean }) {
+  // Beginner: Day1=Force, Day3=Moyen, Day5=Volume
+  // Advanced: Day1=Force, Day2=Volume, Day4=Moyen, Day5=Technique
+  const schedule = isAdvanced
+    ? [
+        { day: "Day 1", type: "Force" as SessionType },
+        { day: "Day 2", type: "Volume" as SessionType },
+        { day: "Day 3", type: null },
+        { day: "Day 4", type: "Moyen" as SessionType },
+        { day: "Day 5", type: "Technique" as SessionType },
+        { day: "Day 6", type: null },
+      ]
+    : [
+        { day: "Day 1", type: "Force" as SessionType },
+        { day: "Day 2", type: null },
+        { day: "Day 3", type: "Moyen" as SessionType },
+        { day: "Day 4", type: null },
+        { day: "Day 5", type: "Volume" as SessionType },
+        { day: "Day 6", type: null },
+      ];
+
+  const activeSessions = schedule.filter(s => s.type !== null) as { day: string; type: SessionType }[];
+  const defaultRows = isAdvanced ? 3 : 4; // 3 exos advanced, 4 beginner (2 normal + 1 technique per push/pull)
+
+  const [sessionRows, setSessionRows] = useState<Record<string, ExerciseRow[]>>(
+    Object.fromEntries(activeSessions.map(s => [s.type, Array(defaultRows).fill(null).map(() => emptyRow())]))
+  );
+
+  const updateRow = (type: SessionType, i: number, row: ExerciseRow) => {
+    setSessionRows(prev => ({ ...prev, [type]: prev[type].map((r, idx) => idx === i ? row : r) }));
+  };
+
+  const addRow = (type: SessionType) => {
+    setSessionRows(prev => ({ ...prev, [type]: [...prev[type], emptyRow()] }));
+  };
+
+  return (
+    <div style={{ marginBottom: 48 }}>
+      <SectionBar title="TRAINING JOURNAL" tag={isAdvanced ? "Advanced — 4 sessions/week" : "Beginner/Intermediate — 3 sessions/week"} />
+
+      {/* Info box */}
+      <div style={{ background: "rgba(255,69,0,0.05)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "16px 20px", marginBottom: 28 }}>
+        <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 10 }}>📓 HOW TO USE YOUR TRAINING JOURNAL</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginBottom: 14 }}>
+          {Object.entries(REP_RANGES).map(([type, info]) => (
+            <div key={type} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+              <div style={{ width: 10, height: 10, borderRadius: 2, background: info.color, flexShrink: 0, marginTop: 3 }} />
+              <div>
+                <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fff", fontWeight: 700 }}>{type} — {info.range}</div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.6)" }}>{info.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Weekly schedule visual */}
+        <div className="t-label" style={{ color: "rgba(255,255,255,0.5)", fontSize: 9, marginBottom: 8 }}>WEEKLY SCHEDULE</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 4 }}>
+          {schedule.map(({ day, type }) => (
+            <div key={day} style={{ textAlign: "center" }}>
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", marginBottom: 4 }}>{day}</div>
+              <div style={{ background: type ? REP_RANGES[type].color : "rgba(255,255,255,0.05)", borderRadius: 4, padding: "6px 4px", fontFamily: "var(--fd)", fontSize: 10, fontWeight: 900, color: type ? "#fff" : "rgba(255,255,255,0.2)", letterSpacing: 0.5 }}>
+                {type ?? "REST"}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {!isAdvanced && (
+          <div style={{ marginTop: 12, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", borderTop: "1px solid var(--border)", paddingTop: 10 }}>
+            💡 <strong style={{ color: "#fff" }}>Recommendations:</strong> 2 normal exercises + 1 technique exercise per category (push & pull) · 4 sets per exercise
+          </div>
+        )}
+        {isAdvanced && (
+          <div style={{ marginTop: 12, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", borderTop: "1px solid var(--border)", paddingTop: 10 }}>
+            💡 <strong style={{ color: "#fff" }}>Recommendations:</strong> 3 exercises per category (push & pull) · 3 sets per exercise · Technique session varies · Optional rest day before Force
+          </div>
+        )}
+      </div>
+
+      {/* Customization note */}
+      <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)", borderRadius: 6, padding: "12px 16px", marginBottom: 24 }}>
+        <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--orange)", marginBottom: 4 }}>🎯 CUSTOMIZE YOUR PROGRAM</div>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.6 }}>
+          The sessions below are pre-filled with the recommended protocol from this program. You can keep them as-is or customize each exercise to match your preferences. Use the exercise suggestions (type to search) to replace any movement. The rep ranges and rest times are scientifically calibrated — keep them even if you change exercises.
+        </p>
+      </div>
+
+      {/* Session blocks */}
+      {activeSessions.map(({ day, type }) => (
+        <div key={type}>
+          <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
+            📅 {day}
+          </div>
+          <SessionBlock
+            type={type}
+            rows={sessionRows[type]}
+            onChangeRow={(i, r) => updateRow(type, i, r)}
+            onAddRow={() => addRow(type)}
+            isAdvanced={isAdvanced}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function WarmupCooldown({ items, title, icon, tag }: { items: { name: string; duration: string; notes: string }[]; title: string; icon: React.ReactNode; tag: string }) {
   const [checkedMap, setCheckedMap] = useState<Record<number, boolean>>({});
   return (
@@ -2572,6 +3231,7 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
           {phases.map((phase, i) => <PhaseBlock key={`${activeProg.id}-${i}`} phase={phase} index={i} />)}
         </section>
         <WarmupCooldown items={activeProg.cooldown} title="COOL DOWN & RECOVERY" icon={<Wind size={16} />} tag={`${activeProg.cooldown.length} exercises · ~12 min`} />
+        <TrainingJournal isAdvanced={activeProg.level === "Advanced" || activeProg.level === "Intermediate"} />
 
         <div className="no-print" style={{ marginTop: 56, paddingTop: 28, borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <button className="btn-ghost" onClick={onBack}><ArrowLeft size={13} /> Back to Programs</button>
@@ -2656,14 +3316,7 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
               </div>
             </div>
           </div>
-          <div className="no-print glass" style={{ padding: "18px 22px", borderRadius: 8, display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 180 }}>
-              <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 8 }}>YOUR PROGRESS</div>
-              <div className="progress-bar"><div className="progress-fill" style={{ width: `${(progressWeek / totalWeeks) * 100}%` }} /></div>
-            </div>
-            <div className="t-display" style={{ fontSize: 28, color: "var(--orange)" }}>{Math.round((progressWeek / totalWeeks) * 100)}%</div>
-            <div className="t-body" style={{ fontSize: 13, color: "var(--text-faint)" }}>Week {progressWeek} / {totalWeeks}</div>
-          </div>
+
         </section>
 
         {program.dualTrack && program.trackLabels && (
@@ -2683,10 +3336,236 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
         </section>
         <WarmupCooldown items={program.cooldown} title="COOL DOWN & RECOVERY" icon={<Wind size={16} />} tag={`${program.cooldown.length} exercises · ~12 min`} />
 
+        {/* Training Journal */}
+        <TrainingJournal isAdvanced={program.level === "Advanced" || program.level === "Intermediate / Advanced" || program.level === "Intermediate"} />
+
         <div className="no-print" style={{ marginTop: 56, paddingTop: 28, borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <button className="btn-ghost" onClick={onBack}><ArrowLeft size={13} /> Back to Programs</button>
           <button className="btn-primary" onClick={() => window.print()}><Download size={13} /> Download Full Manual</button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+const REP_RANGES = {
+  Force:     { range: "1–5 RM", color: "#ef4444", bg: "rgba(239,68,68,0.12)", label: "FORCE" },
+  Moyen:     { range: "6–8 RM", color: "#f59e0b", bg: "rgba(245,158,11,0.12)", label: "MOYEN" },
+  Volume:    { range: "9–15 RM", color: "#3b82f6", bg: "rgba(59,130,246,0.12)", label: "VOLUME" },
+  Technique: { range: "5–10 reps @ 50% max", color: "#22c55e", bg: "rgba(34,197,94,0.12)", label: "TECHNIQUE" },
+};
+
+type SessionType = keyof typeof REP_RANGES;
+
+interface JournalRow { exercise: string; sets: string; reps: string; rest: string; }
+
+function SessionTable({ type, rows, onUpdate }: {
+  type: SessionType;
+  rows: JournalRow[];
+  onUpdate: (i: number, field: keyof JournalRow, val: string) => void;
+}) {
+  const { color, bg, label, range } = REP_RANGES[type];
+  return (
+    <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${color}33`, marginBottom: 20 }}>
+      <div style={{ background: color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 16, color: "#fff", letterSpacing: 2 }}>{label}</span>
+        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.8)", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{range}</span>
+      </div>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--fb)" }}>
+          <thead>
+            <tr style={{ background: bg }}>
+              {["EXERCISES", "SETS", "REPS", "REST"].map(h => (
+                <th key={h} style={{ padding: "10px 14px", textAlign: "left", fontSize: 10, letterSpacing: 2, color: color, fontWeight: 700, borderBottom: `1px solid ${color}33` }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, i) => (
+              <tr key={i} style={{ borderBottom: "1px solid var(--border)", background: i % 2 === 0 ? "var(--bg-card)" : "var(--bg-card2)" }}>
+                {(["exercise", "sets", "reps", "rest"] as (keyof JournalRow)[]).map(field => (
+                  <td key={field} style={{ padding: "8px 10px" }}>
+                    <input
+                      value={row[field]}
+                      onChange={e => onUpdate(i, field, e.target.value)}
+                      placeholder={field === "exercise" ? "Exercise name..." : field === "sets" ? "4" : field === "reps" ? "5" : "3 min"}
+                      style={{
+                        background: "transparent", border: "none", outline: "none",
+                        fontFamily: "var(--fb)", fontSize: 13, color: "#fff",
+                        width: "100%", minWidth: field === "exercise" ? 160 : 60,
+                      }}
+                    />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function TrainingJournal({ program }: { program: Program }) {
+  const isAdvanced = program.category === "skill" && (program.id === "planche-elite" || program.id === "front-lever" || program.id === "combo-planche-lever");
+  const isSkill = program.category === "skill" || program.id === "combo-planche-lever";
+
+  // Program 1 (Beginner/Intermediate): Day1=Force, Day3=Moyen, Day5=Volume
+  // Program 2 (Advanced): Day1=Force, Day2=Volume, Day4=Moyen, Day5=Technique
+  const scheduleBegin: { day: string; session: SessionType | null }[] = [
+    { day: "Day 1", session: "Force" },
+    { day: "Day 2", session: null },
+    { day: "Day 3", session: "Moyen" },
+    { day: "Day 4", session: null },
+    { day: "Day 5", session: "Volume" },
+    { day: "Day 6", session: null },
+  ];
+  const scheduleAdv: { day: string; session: SessionType | null }[] = [
+    { day: "Day 1", session: "Force" },
+    { day: "Day 2", session: "Volume" },
+    { day: "Day 3", session: null },
+    { day: "Day 4", session: "Moyen" },
+    { day: "Day 5", session: "Technique" },
+    { day: "Day 6", session: null },
+  ];
+
+  const schedule = isAdvanced ? scheduleAdv : scheduleBegin;
+  const sessionTypes = isAdvanced
+    ? ["Force", "Volume", "Moyen", "Technique"] as SessionType[]
+    : ["Force", "Moyen", "Volume"] as SessionType[];
+
+  const emptyRows = (n: number): JournalRow[] => Array(n).fill({ exercise: "", sets: "", reps: "", rest: "" }).map(() => ({ exercise: "", sets: "", reps: "", rest: "" }));
+
+  const [tables, setTables] = useState<Record<SessionType, JournalRow[]>>({
+    Force: emptyRows(isAdvanced ? 3 : 4),
+    Moyen: emptyRows(isAdvanced ? 3 : 4),
+    Volume: emptyRows(isAdvanced ? 3 : 4),
+    Technique: emptyRows(3),
+  });
+
+  const [week, setWeek] = useState(1);
+  const [notes, setNotes] = useState("");
+
+  const updateRow = (type: SessionType, i: number, field: keyof JournalRow, val: string) => {
+    setTables(prev => ({
+      ...prev,
+      [type]: prev[type].map((r, idx) => idx === i ? { ...r, [field]: val } : r),
+    }));
+  };
+
+  const addRow = (type: SessionType) => {
+    setTables(prev => ({ ...prev, [type]: [...prev[type], { exercise: "", sets: "", reps: "", rest: "" }] }));
+  };
+
+  const sessionColors: Record<SessionType, string> = {
+    Force: "#ef4444", Volume: "#3b82f6", Moyen: "#f59e0b", Technique: "#22c55e"
+  };
+
+  return (
+    <div className="no-print" style={{ marginBottom: 52 }}>
+      <SectionBar title="TRAINING JOURNAL" tag={isAdvanced ? "Advanced — 4 sessions/week" : "Beginner/Intermediate — 3 sessions/week"} />
+
+      {/* Rep range legend */}
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
+        {Object.entries(REP_RANGES).map(([key, val]) => (
+          <div key={key} style={{ display: "flex", alignItems: "center", gap: 6, background: val.bg, border: `1px solid ${val.color}44`, borderRadius: 20, padding: "5px 12px" }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: val.color }} />
+            <span style={{ fontFamily: "var(--fd)", fontSize: 11, color: val.color, letterSpacing: 1 }}>{val.label}</span>
+            <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff" }}>{val.range}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Weekly planning grid */}
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 12 }}>WEEKLY PLANNING</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 6 }}>
+          {schedule.map(({ day, session }, i) => (
+            <div key={i} style={{ borderRadius: 6, overflow: "hidden", border: "1px solid var(--border)" }}>
+              <div style={{ background: "rgba(255,255,255,0.05)", padding: "6px 8px", textAlign: "center", fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: 1 }}>{day.toUpperCase()}</div>
+              <div style={{ padding: "8px 6px", textAlign: "center", background: session ? `${sessionColors[session]}22` : "transparent", minHeight: 36, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {session ? (
+                  <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 11, color: sessionColors[session], letterSpacing: 1 }}>{session.toUpperCase()}</span>
+                ) : (
+                  <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.2)" }}>REST</span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Skill note for planche/lever programs */}
+      {isSkill && (
+        <div style={{ background: "rgba(255,69,0,0.06)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "14px 18px", marginBottom: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
+          <span style={{ fontSize: 18, flexShrink: 0 }}>💡</span>
+          <div>
+            <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--orange)", marginBottom: 4 }}>SKILL SESSIONS — YOUR CHOICE</div>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff" }}>
+              You can focus exclusively on <strong>Planche</strong>, exclusively on <strong>Front Lever</strong>, or mix both in the same session. Skill work always comes <strong>first</strong> before any strength exercise — never after.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Recommendations */}
+      <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, padding: "16px 20px", marginBottom: 28 }}>
+        <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "var(--orange)", letterSpacing: 2, marginBottom: 12 }}>📋 RECOMMENDATIONS</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {(isAdvanced ? [
+            "3 exercises per category (push & pull)",
+            "3 sets per exercise",
+            "Technique session: varied — focus on form, not load",
+            "Option to add a rest day before Force session",
+          ] : [
+            "2 standard exercises + 1 Technique exercise per category (push & pull)",
+            "4 sets per exercise",
+            "Respect rest periods — every second matters",
+          ]).map((rec, i) => (
+            <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+              <span style={{ color: "var(--orange)", fontSize: 14, flexShrink: 0 }}>→</span>
+              <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff" }}>{rec}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Week selector */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
+        <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2 }}>WEEK</div>
+        <div style={{ display: "flex", gap: 6 }}>
+          {[1, 2, 3, 4].map(w => (
+            <button key={w} onClick={() => setWeek(w)}
+              style={{ width: 36, height: 36, borderRadius: 6, border: `2px solid ${week === w ? "var(--orange)" : "var(--border)"}`, background: week === w ? "var(--orange-dim)" : "transparent", fontFamily: "var(--fd)", fontWeight: 900, fontSize: 14, color: week === w ? "var(--orange)" : "rgba(255,255,255,0.4)", cursor: "pointer", transition: "all .2s" }}>
+              {w}
+            </button>
+          ))}
+        </div>
+        <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.4)" }}>Select week to log</span>
+      </div>
+
+      {/* Session tables */}
+      {sessionTypes.map(type => (
+        <div key={type}>
+          <SessionTable type={type} rows={tables[type]} onUpdate={(i, f, v) => updateRow(type, i, f, v)} />
+          <button onClick={() => addRow(type)}
+            style={{ marginBottom: 20, marginTop: -12, background: "transparent", border: "1px dashed var(--border)", color: "rgba(255,255,255,0.4)", padding: "6px 16px", borderRadius: 4, cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
+            onMouseEnter={e => { (e.currentTarget.style.borderColor = "var(--orange)"); (e.currentTarget.style.color = "var(--orange)"); }}
+            onMouseLeave={e => { (e.currentTarget.style.borderColor = "var(--border)"); (e.currentTarget.style.color = "rgba(255,255,255,0.4)"); }}>
+            + Add exercise
+          </button>
+        </div>
+      ))}
+
+      {/* Session notes */}
+      <div style={{ marginTop: 8 }}>
+        <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>📝 Session Notes</div>
+        <textarea
+          value={notes}
+          onChange={e => setNotes(e.target.value)}
+          placeholder="How did this session feel? What to improve next time? Any PRs?"
+          style={{ width: "100%", minHeight: 90, background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, padding: "12px 16px", fontFamily: "var(--fb)", fontSize: 13, color: "#fff", resize: "vertical", outline: "none" }}
+        />
       </div>
     </div>
   );
@@ -2752,7 +3631,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
           <span style={{ fontSize: 12 }}>📱</span>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.75)" }}>Interactive digital manual · Training journal included · Lifetime access</span>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.75)" }}>Interactive manual · Customizable training journal · Lifetime access</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
           <div>
