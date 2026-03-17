@@ -3880,8 +3880,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
       opts: [
         { label: "Just the floor", desc: "Zero equipment. Zero excuses." },
         { label: "Bar + parallettes", desc: "The only tools a calisthenics athlete actually needs" },
-        { label: "Full gym access", desc: "Barbells, cables, the works" },
-        { label: "Home + gym", desc: "Best of both worlds" },
+        { label: "Gym access", desc: "Barbells, cables, the works — home setup included" },
       ],
     },
   ];
@@ -3906,31 +3905,31 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
   const getRecommendation = (ans: number[]): Program => {
     const level = ans[0];
     const goal = ans[1];
-    const skill = ans[2]; // only set if goal === 0 or 2
-    const equip = ans[3]; // always last (index 3 when Q2 shown, index 2 when skipped)
+    const skill = ans[2]; // set if goal === 0 or 2
     // equip is at index 3 if Q2 was shown (goal 0 or 2), else at index 2
     const equipIdx = (goal === 0 || goal === 2) ? ans[3] : ans[2];
+    const hasGym = equipIdx === 2;
 
-    if (goal === 3 || equipIdx === 3) return ultimateBundle;
+    if (goal === 3) return ultimateBundle;
 
     if (goal === 1) {
-      // pure physique
-      return equipIdx >= 2 ? hybridAthlete : fullHypertrophy;
+      // pure physique — gym → hybrid, no gym → hypertrophy
+      return hasGym ? hybridAthlete : fullHypertrophy;
     }
 
     if (goal === 2) {
       // skills + physique
-      if (skill === 2) return plancheLeverCombo;       // planche + front lever → combo
-      if (skill === 3) return equipIdx >= 2 ? hybridAthlete : fullHypertrophy; // one arm/handstand
-      if (skill === 1) return frontLeverMastery;        // front lever
-      if (level === 3) return plancheElite;             // planche but already has it
-      return plancheFoundation;                         // planche from scratch
+      if (skill === 2) return plancheLeverCombo;
+      if (skill === 3) return hasGym ? hybridAthlete : fullHypertrophy; // one arm/handstand
+      if (skill === 1) return frontLeverMastery;
+      if (level === 3) return plancheElite;
+      return plancheFoundation;
     }
 
     if (goal === 0) {
-      // pure skill
+      // pure skill — gym doesn't change the skill program
       if (skill === 2) return plancheLeverCombo;
-      if (skill === 3) return equipIdx >= 2 ? hybridAthlete : fullHypertrophy;
+      if (skill === 3) return hasGym ? hybridAthlete : fullHypertrophy;
       if (skill === 1) return frontLeverMastery;
       if (level === 3) return plancheElite;
       return plancheFoundation;
