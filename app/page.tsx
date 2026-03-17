@@ -3348,15 +3348,6 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
   );
 }
 
-const REP_RANGES = {
-  Force:     { range: "1–5 RM", color: "#ef4444", bg: "rgba(239,68,68,0.12)", label: "FORCE" },
-  Moyen:     { range: "6–8 RM", color: "#f59e0b", bg: "rgba(245,158,11,0.12)", label: "MOYEN" },
-  Volume:    { range: "9–15 RM", color: "#3b82f6", bg: "rgba(59,130,246,0.12)", label: "VOLUME" },
-  Technique: { range: "5–10 reps @ 50% max", color: "#22c55e", bg: "rgba(34,197,94,0.12)", label: "TECHNIQUE" },
-};
-
-type SessionType = keyof typeof REP_RANGES;
-
 interface JournalRow { exercise: string; sets: string; reps: string; rest: string; }
 
 function SessionTable({ type, rows, onUpdate }: {
