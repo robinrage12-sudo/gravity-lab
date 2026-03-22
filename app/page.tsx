@@ -2425,7 +2425,7 @@ const plancheLeverCombo: Program = {
   id: "combo-planche-lever",
   title: "Planche & Front Lever Combo",
   subtitle: "Two skills most athletes never achieve. One program. One decision.",
-  tagline: "The two most iconic calisthenics skills — one package, one price.",
+  tagline: "Push and pull mastery — the two pillars of calisthenics strength, health and performance.",
   level: "Beginner / Intermediate",
   levelColor: "#06b6d4",
   category: "skill",
@@ -2442,8 +2442,8 @@ const plancheLeverCombo: Program = {
     "Pull-up mastery + One Arm Pull-Up bonus",
     "One Arm Handstand bonus from both programs",
   ],
-  mindset: "The planche and front lever are the two pillars of calisthenics. One tests your pushing strength, the other your pulling. Train them together and they reinforce each other — the body tension from the lever improves your planche, the protraction from the planche improves your lever. This combo is the most efficient path to mastering both.",
-  weekStructure: "Run both programs simultaneously or sequentially. Recommended: alternate push days (planche) and pull days (lever) for maximum efficiency with minimum fatigue.",
+  mindset: "The planche and front lever are the two pillars of calisthenics. One tests your pushing strength, the other your pulling. Training both together isn't just about skill — it's the smartest approach for long-term shoulder health, postural balance and overall performance.\n\nMost athletes who only train pushing develop anterior shoulder dominance over time, leading to imbalances and eventual injury. Adding the front lever — a pure pulling skill — counteracts this directly. The body tension from the lever improves your planche. The protraction from the planche improves your lever. They reinforce each other at every stage.\n\nThis combo is the most efficient path to mastering both skills while building a body that performs AND stays healthy.",
+  weekStructure: "Alternate push days (planche) and pull days (lever) for maximum efficiency with minimum fatigue. This push/pull split is also the healthiest way to train — each session actively recovers the previous one.",
   warmup: plancheFoundation.warmup,
   phases: plancheFoundation.phases,
   cooldown: sharedCooldown,
@@ -2451,9 +2451,11 @@ const plancheLeverCombo: Program = {
     "Zero prerequisite — start from absolute zero, no sport background needed",
     "Full Planche roadmap — every step with technique",
     "Full Front Lever — all variations & progressions",
-    "Pull-up mastery — from first rep to front lever pull-ups",
+    "Push/pull balance — better shoulder health, posture & longevity",
+    "Both skills reinforce each other — faster progress on both",
     "Handstand progression included in both programs",
     "Save $17 vs buying separately",
+    "Follow the program OR build your own — full exercise library + training methods included",
     "🌟 Bonus: One arm pull-up + One arm handstand",
     "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
@@ -2900,7 +2902,6 @@ const EXERCISE_SUGGESTIONS: Record<string, string[]> = {
 
 const REP_RANGES = {
   Force:     { range: "1–5 RM",           color: "#ef4444", bg: "rgba(239,68,68,0.12)",   label: "FORCE",     desc: "Max strength — heavy, full rest" },
-  Moyen:     { range: "6–8 RM",           color: "#f59e0b", bg: "rgba(245,158,11,0.12)",  label: "MOYEN",     desc: "Strength-hypertrophy — moderate load" },
   Volume:    { range: "9–15 RM",          color: "#3b82f6", bg: "rgba(59,130,246,0.12)",  label: "VOLUME",    desc: "Hypertrophy — higher reps, shorter rest" },
   Technique: { range: "5–10 @ 50%",       color: "#22c55e", bg: "rgba(34,197,94,0.12)",   label: "TECHNIQUE", desc: "Skill work — light, perfect form" },
 };
@@ -3510,6 +3511,36 @@ function ProgramBuilder({ programId }: { programId: string }) {
                 </div>
               ))}
             </div>
+            <div style={{ marginTop: 14, padding: "14px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 6 }}>
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 8 }}>🔀 HOW TO VARY THE STIMULUS</div>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>
+                Two ways to vary when you stagnate: <strong style={{ color: "rgba(255,255,255,0.85)" }}>change the method</strong> (same exercise, different execution — switch from negatives to push-ups, from max holds to EMOM) or <strong style={{ color: "rgba(255,255,255,0.85)" }}>change the exercise</strong> (same type, harder variant — advance from tuck negatives to straddle negatives, from tuck rows to one-leg rows). You don't need to change both at once — one variable at a time produces the clearest progress signal.
+              </p>
+            </div>
+
+            {/* Cross-link push/pull */}
+            {(isPlanche && !isFrontLever) && (
+              <div style={{ marginTop: 14, padding: "16px 18px", background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.2)", borderRadius: 8 }}>
+                <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#60a5fa", letterSpacing: 2, marginBottom: 8 }}>💡 HEALTH & PERFORMANCE TIP</div>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
+                  Training only pushing (planche) without pulling creates anterior shoulder dominance over time — a common cause of shoulder imbalances and injury. Adding the <strong style={{ color: "#60a5fa" }}>Front Lever</strong> as your pulling counterpart directly fixes this. Both skills also reinforce each other: the body tension from the lever improves planche stability, and the protraction from the planche improves lever positioning.
+                </p>
+                <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(59,130,246,0.8)" }}>
+                  → The Planche & Front Lever Combo includes both programs at a reduced price.
+                </div>
+              </div>
+            )}
+            {(isFrontLever && !isPlanche) && (
+              <div style={{ marginTop: 14, padding: "16px 18px", background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.2)", borderRadius: 8 }}>
+                <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#fb923c", letterSpacing: 2, marginBottom: 8 }}>💡 HEALTH & PERFORMANCE TIP</div>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
+                  The front lever builds elite pulling strength — but without a pushing counterpart, postural imbalances can develop over time. Adding the <strong style={{ color: "#fb923c" }}>Planche</strong> as your pushing skill creates a complete push/pull system: better shoulder health, more balanced strength, and faster progress on both movements.
+                </p>
+                <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(249,115,22,0.8)" }}>
+                  → The Planche & Front Lever Combo includes both programs at a reduced price.
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -3629,16 +3660,16 @@ function TrainingJournal({ isAdvanced }: { isAdvanced: boolean }) {
         { day: "Day 1", type: "Force" as SessionType },
         { day: "Day 2", type: "Volume" as SessionType },
         { day: "Day 3", type: null },
-        { day: "Day 4", type: "Moyen" as SessionType },
+        { day: "Day 4", type: "Force" as SessionType },
         { day: "Day 5", type: "Technique" as SessionType },
         { day: "Day 6", type: null },
       ]
     : [
         { day: "Day 1", type: "Force" as SessionType },
         { day: "Day 2", type: null },
-        { day: "Day 3", type: "Moyen" as SessionType },
+        { day: "Day 3", type: "Volume" as SessionType },
         { day: "Day 4", type: null },
-        { day: "Day 5", type: "Volume" as SessionType },
+        { day: "Day 5", type: "Force" as SessionType },
         { day: "Day 6", type: null },
       ];
 
@@ -4783,7 +4814,7 @@ const CSS = `
   --orange:#FF4500;--orange-dim:rgba(255,69,0,.1);--orange-border:rgba(255,69,0,.28);
   --bg:#0A0A0A;--bg-card:#111;--bg-card2:#141414;
   --border:rgba(255,255,255,.07);--border-bright:rgba(255,255,255,.14);
-  --text:#FFF;--text-dim:#ffffff;--text-faint:rgba(255,255,255,.45);
+  --text:#FFF;--text-dim:#ffffff;--text-faint:rgba(255,255,255,.65);
   --fd:'Barlow Condensed',Impact,sans-serif;--fb:'Barlow',sans-serif;--fs:'Cormorant Garamond',Georgia,serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
