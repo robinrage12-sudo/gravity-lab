@@ -2998,6 +2998,287 @@ function SessionBlock({ type, rows, onChangeRow, onAddRow, isAdvanced }: {
   );
 }
 
+// ═══════════════════════════════════════════════════════
+// PROGRAM BUILDER
+// ═══════════════════════════════════════════════════════
+
+const PLANCHE_EXERCISES = [
+  { name: "Planche Lean", type: "Hold", focus: "Shoulders · Control", desc: "Shift forward until shoulders pass wrists. Arms locked, posterior pelvic tilt. The foundation of every planche progression." },
+  { name: "Tuck Planche Hold", type: "Hold", focus: "Full body · Shoulders", desc: "Knees tucked to chest, hips at shoulder height, maximum scapular protraction. Start with 3s, build to 10s+" },
+  { name: "Advanced Tuck Hold", type: "Hold", focus: "Shoulders · Core", desc: "Hips extended to 180°, thighs parallel to floor, knees still bent. Harder than tuck — bridge to straddle." },
+  { name: "Straddle Planche Hold", type: "Hold", focus: "Full body", desc: "Legs wide apart. Wider = easier. Own 8s+ before attempting full planche." },
+  { name: "Full Planche Hold", type: "Hold", focus: "Full body · Control", desc: "Legs together, body perfectly horizontal. The goal. Even 1-2s unassisted is elite." },
+  { name: "Planche Negatives", type: "Eccentric", focus: "Strength · Form", desc: "Start in planche (or banded), lower slowly over 3-5s. Best strength builder. Do these at the start of every session." },
+  { name: "Straddle Negatives", type: "Eccentric", focus: "Strength", desc: "From straddle planche, lower hips down over 4s. Builds 3× more specific strength than holds alone." },
+  { name: "Tuck Planche Push-Ups", type: "Push-Up", focus: "Arms · Shoulders", desc: "From tuck hold, lower 3-5cm and press back. Even 1 clean rep is significant progress." },
+  { name: "Straddle Push-Ups", type: "Push-Up", focus: "Arms · Shoulders · Control", desc: "From straddle planche, lower 3-5cm. One of the hardest push movements in calisthenics." },
+  { name: "Full Planche Push-Ups", type: "Push-Up", focus: "Full body", desc: "From full planche, lower and press. World-class level. Banded version is still elite." },
+  { name: "Planche Press (Negative)", type: "Press", focus: "Strength · Technique", desc: "From planche, lower chest to floor over 4s with straight arms. Different path from push-up. Builds pressing strength." },
+  { name: "Straddle Press", type: "Press", focus: "Shoulders · Control", desc: "From L-sit or handstand, press to straddle planche. Works both strength and technique simultaneously." },
+  { name: "Pseudo Planche Push-Ups", type: "Accessory", focus: "Shoulders · Arms", desc: "Hands rotated out, shoulders over or past wrists. Planche-specific push-up. More rotation = harder." },
+  { name: "Zanetti Fly", type: "Accessory", focus: "Shoulders", desc: "Lateral raise variation targeting anterior deltoid in planche-specific angle. Max reps + isometric hold at end." },
+  { name: "L-sit", type: "Accessory", focus: "Core · Hip flexors", desc: "Legs parallel to floor, arms straight. Builds hip flexor strength needed for tuck compression. Essential." },
+  { name: "Banded Planche Hold", type: "Assisted", focus: "Form · Technique", desc: "Band around hips reduces load. Use light resistance — it should still be hard. Progress: 3 bands → 2 → 1 → free." },
+];
+
+const FRONT_LEVER_EXERCISES = [
+  { name: "Tuck Front Lever Hold", type: "Hold", focus: "Lats · Control", desc: "Knees tight to chest, hips at bar height, back flat. The most important cue: flat back. Build to 10s before progressing." },
+  { name: "Advanced Tuck Hold", type: "Hold", focus: "Lats · Core", desc: "Hips extended 180°, thighs parallel to floor, knees bent. 2-3× harder than tuck. Film every session." },
+  { name: "One Leg / Straddle Hold", type: "Hold", focus: "Lats · Full body", desc: "One leg extended or wide straddle. Both are valid — use whichever holds longer. Own 8s before attempting full." },
+  { name: "Full Front Lever Hold", type: "Hold", focus: "Full body · Lats", desc: "Body perfectly horizontal, legs together. Think 'pull the bar toward your hips' for max lat activation." },
+  { name: "Front Lever Negatives", type: "Eccentric", focus: "Strength · Form", desc: "From full or straddle lever, lower slowly over 4-5s. Single most effective strength builder for the front lever." },
+  { name: "Tuck Lever Raises", type: "Dynamic", focus: "Lats · Shoulders", desc: "From dead hang, raise to tuck front lever. 5-10 reps. Do these at start of session when CNS is fresh." },
+  { name: "Advanced Tuck Raises", type: "Dynamic", focus: "Lats", desc: "From dead hang, raise to advanced tuck position. Harder than tuck raises. Key exercise for full lever progression." },
+  { name: "Full Lever Raises", type: "Dynamic", focus: "Full body · Lats", desc: "From dead hang, raise to full front lever. Elite movement. Even partial reps build massive lat strength." },
+  { name: "Tuck Front Lever Rows", type: "Row", focus: "Lats · Arms", desc: "From tuck lever, pull bar to chest. Maintain tuck throughout. 5 clean reps = ready for next lever position." },
+  { name: "Full Front Lever Rows", type: "Row", focus: "Full body", desc: "Maintain horizontal position while pulling bar to chest. World-class pulling movement. Film every attempt." },
+  { name: "Scapular Raises", type: "Accessory", focus: "Lats · Scapulas", desc: "Dead hang, depress scapulas without bending arms. Hold 1s at bottom. Most underrated exercise for front lever." },
+  { name: "Dragon Flag", type: "Accessory", focus: "Full posterior chain", desc: "Lying, raise and lower body as one rigid unit. Builds the full posterior chain needed for front lever." },
+  { name: "Pelican Curl", type: "Accessory", focus: "Biceps · Elbow stability", desc: "Ring dip position, let arms extend forward into extreme stretch. Best exercise for lever-specific bicep strength." },
+  { name: "Archer Pull-Ups", type: "Accessory", focus: "Lats · One arm", desc: "One arm pulls, other arm extended on bar. Direct progression toward one arm pull-up and lever strength." },
+  { name: "Banded Front Lever", type: "Assisted", focus: "Form · Technique", desc: "Band supports hips. Use light band — you should still feel it working. Best for form work at end of session." },
+  { name: "Chest to Bar Pull-Ups", type: "Accessory", focus: "Lats · Pulling height", desc: "Pull until chest touches bar. Extra range at top activates same lat pattern as front lever. Underrated builder." },
+];
+
+const TRAINING_METHODS = [
+  {
+    name: "Negatives (Eccentric)",
+    emoji: "⬇️",
+    difficulty: "★★★★",
+    desc: "Lower the movement slowly over 3-5 seconds instead of holding or pushing up. Eccentric strength builds 3× faster than concentric. Always do these at the START of your session when your nervous system is fresh.",
+    example: "Planche: start in banded planche, lower over 4s. Front lever: from full position, lower over 5s.",
+    restTime: "3-4 min",
+  },
+  {
+    name: "Max Hold Sets",
+    emoji: "⏱️",
+    difficulty: "★★★",
+    desc: "Hold your current variation as long as possible with perfect form. The moment form breaks, the set ends. 3 consecutive max holds with 30s breathing between each.",
+    example: "Tuck planche hold × 3 max attempts. Rest 2-3 min between sets.",
+    restTime: "2-3 min",
+  },
+  {
+    name: "20s On / 20s Off",
+    emoji: "🔁",
+    difficulty: "★★★",
+    desc: "Attempt your movement for 20 seconds, rest 20 seconds, repeat. Perfect for skill work and nervous system training. High volume without burning out. Can repeat 5-8 rounds.",
+    example: "20s planche lean attempt → 20s rest → repeat 6 times.",
+    restTime: "20s",
+  },
+  {
+    name: "Pyramid Sets",
+    emoji: "🔺",
+    difficulty: "★★★",
+    desc: "Increase volume progressively then decrease: 1 rep → 2 → 3 → 4 → 3 → 2 → 1. Or for holds: 3s → 5s → 8s → 5s → 3s. Maximizes volume without going to failure too early.",
+    example: "Tuck push-ups: 1 rep, rest 90s, 2 reps, rest 90s, 3 reps, rest 90s, back down.",
+    restTime: "90s - 2 min",
+  },
+  {
+    name: "Supersets",
+    emoji: "⚡",
+    difficulty: "★★",
+    desc: "Two exercises back to back with minimal rest between them, then full rest. Pair a push with a pull to maximize volume while one muscle group recovers. Classic: planche hold + front lever hold.",
+    example: "Tuck planche hold 5s → immediately tuck front lever hold 5s → rest 3 min.",
+    restTime: "3-4 min after pair",
+  },
+  {
+    name: "EMOM (Every Minute On the Minute)",
+    emoji: "🕐",
+    difficulty: "★★★",
+    desc: "At the start of every minute, perform your exercise. Rest for the remainder of the minute. High density training — great for volume weeks. If the exercise takes 20s, you get 40s rest.",
+    example: "EMOM 10 min: 3 tuck planche push-ups at the start of each minute.",
+    restTime: "Remainder of minute",
+  },
+  {
+    name: "Dead Stop Reps",
+    emoji: "🛑",
+    difficulty: "★★★★",
+    desc: "Come to a complete stop between each rep — no momentum, no bounce. Every rep starts from zero. Much harder than continuous reps but builds more specific strength and control.",
+    example: "Straddle push-ups: lower, touch floor, full stop, press back up. Count only clean reps.",
+    restTime: "3-4 min",
+  },
+  {
+    name: "Combination Sets",
+    emoji: "🔗",
+    difficulty: "★★★★★",
+    desc: "String multiple skills together without stopping. Start with hardest variation, end with easiest. Builds nervous endurance and massive volume. Don't stop on technical failure — degrade to easier variant.",
+    example: "Straddle planche → L-sit → tuck push-ups → planche lean → repeat to failure.",
+    restTime: "4-5 min",
+  },
+];
+
+function ProgramBuilder({ programId }: { programId: string }) {
+  const isPlanche = programId.includes("planche") || programId === "combo-planche-lever" || programId === "bundle";
+  const isFrontLever = programId.includes("front") || programId === "combo-planche-lever" || programId === "bundle";
+  const exercises = [
+    ...(isPlanche ? PLANCHE_EXERCISES.map(e => ({ ...e, skill: "Planche" })) : []),
+    ...(isFrontLever ? FRONT_LEVER_EXERCISES.map(e => ({ ...e, skill: "Front Lever" })) : []),
+  ];
+  const [activeSkill, setActiveSkill] = useState<"Planche" | "Front Lever">(isPlanche ? "Planche" : "Front Lever");
+  const [openMethod, setOpenMethod] = useState<string | null>(null);
+  const [openExo, setOpenExo] = useState<string | null>(null);
+  const filteredExos = exercises.filter(e => e.skill === activeSkill);
+
+  if (!isPlanche && !isFrontLever) return null;
+
+  const typeColors: Record<string, string> = {
+    "Hold": "#22c55e",
+    "Eccentric": "#f97316",
+    "Push-Up": "#3b82f6",
+    "Press": "#a855f7",
+    "Row": "#06b6d4",
+    "Dynamic": "#eab308",
+    "Accessory": "#ec4899",
+    "Assisted": "#6b7280",
+  };
+
+  return (
+    <div style={{ marginBottom: 48 }}>
+      <SectionBar title="BUILD YOUR OWN PROGRAM" tag="The best program is the one built for you" />
+
+      {/* Two choices intro */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 32 }} className="pg2">
+        <div style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 8, padding: "20px" }}>
+          <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#22c55e", letterSpacing: 2, marginBottom: 8 }}>✅ OPTION 1 — FOLLOW THE PROGRAM</div>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.65 }}>
+            The structured phases above are already designed for you. Follow them as-is, session by session. Zero thinking required — just show up and execute. Best if you want to focus entirely on training.
+          </p>
+        </div>
+        <div style={{ background: "rgba(255,69,0,0.06)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "20px" }}>
+          <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--orange)", letterSpacing: 2, marginBottom: 8 }}>🧠 OPTION 2 — BUILD YOUR OWN</div>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.65 }}>
+            Learn how to program yourself. You'll understand which exercises to pick, how to structure sessions, and how to progress every 3-5 weeks. You leave with the ability to train independently forever.
+          </p>
+        </div>
+      </div>
+
+      {/* Session structure */}
+      <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, padding: "24px", marginBottom: 28 }}>
+        <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 16 }}>📐 SESSION STRUCTURE — THE TEMPLATE</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {[
+            { step: "01", label: "Eccentric / Negatives", time: "~15 min", color: "#f97316", desc: "Always first. Your nervous system is freshest — this is where max strength gains happen. 3-5 sets, 3-5s negatives, full rest between." },
+            { step: "02", label: "Hold Work", time: "~15 min", color: "#22c55e", desc: "Current variation max holds. Film every set. If hold time drops below 50% of your best, stop — you're too fatigued." },
+            { step: "03", label: "Skill-Specific Hypertrophy", time: "~20 min", color: "#3b82f6", desc: "Push-ups, rows, raises — adapted to your level. If you can do pull-ups but not front lever rows, do pull-ups at max effort. Progress = doing harder variations over time." },
+            { step: "04", label: "Technical Work (Assisted)", time: "~10 min", color: "#a855f7", desc: "End every session with banded holds or lean practice. Light resistance, focus on perfect positioning. This is where you fix form issues." },
+          ].map((item) => (
+            <div key={item.step} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+              <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${item.color}20`, border: `2px solid ${item.color}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span style={{ fontFamily: "var(--fd)", fontSize: 11, color: item.color, fontWeight: 900 }}>{item.step}</span>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 4 }}>
+                  <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "var(--text)", fontWeight: 700 }}>{item.label}</span>
+                  <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: item.color, background: `${item.color}15`, padding: "2px 8px", borderRadius: 20 }}>{item.time}</span>
+                </div>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.55 }}>{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
+          <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 10 }}>📅 WEEKLY RHYTHM</div>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.65 }}>
+            Train every other day — alternating <strong style={{ color: "#ef4444" }}>Force</strong> sessions and <strong style={{ color: "#3b82f6" }}>Volume</strong> sessions.
+            Force = heavy, low reps, full rest (3-5 min). Volume = moderate weight, higher reps, shorter rest (90s-2 min).
+            Never train two days in a row when starting. Your tendons need 48h to recover even when your muscles feel fine.
+          </p>
+        </div>
+      </div>
+
+      {/* Cycles */}
+      <div style={{ background: "rgba(255,69,0,0.04)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "20px", marginBottom: 28 }}>
+        <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 12 }}>🔄 TRAINING CYCLES — HOW TO PROGRESS</div>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.65, marginBottom: 16 }}>
+          Each cycle lasts <strong style={{ color: "var(--text)" }}>3 to 5 weeks</strong>. After that, the stimulus becomes too familiar for your nervous system and muscles — you need to change something to keep progressing.
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }} className="pg3">
+          {[
+            { week: "Week 1-2", label: "Adaptation", color: "#22c55e", desc: "New exercises feel awkward. Volume is low. Focus on learning the movement pattern." },
+            { week: "Week 3-4", label: "Peak stimulus", color: "#f97316", desc: "Your body has adapted. Push volume and intensity. This is where most gains happen." },
+            { week: "Week 5+", label: "Deload or rotate", color: "#3b82f6", desc: "If still progressing, continue. If stagnating, swap exercises for harder variants or change method." },
+          ].map((c) => (
+            <div key={c.week} style={{ background: "var(--bg-card)", border: `1px solid ${c.color}30`, borderRadius: 6, padding: "14px" }}>
+              <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: c.color, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 6 }}>{c.week}</div>
+              <div style={{ fontFamily: "var(--fd)", fontSize: 14, color: "var(--text)", fontWeight: 700, marginBottom: 6 }}>{c.label}</div>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.5 }}>{c.desc}</p>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 14, padding: "12px 16px", background: "rgba(255,255,255,0.03)", borderRadius: 6, border: "1px solid var(--border)" }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.6 }}>
+            <strong style={{ color: "var(--text)" }}>How to rotate:</strong> if you were doing negatives, switch to press negatives. If doing tuck holds, advance to advanced tuck. The key is always moving slightly beyond what's comfortable — not a massive jump, just one step harder.
+          </p>
+        </div>
+      </div>
+
+      {/* Exercise library */}
+      <div style={{ marginBottom: 28 }}>
+        <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 14 }}>📚 EXERCISE LIBRARY</div>
+
+        {isPlanche && isFrontLever && (
+          <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+            {(["Planche", "Front Lever"] as const).map(skill => (
+              <button key={skill} onClick={() => setActiveSkill(skill)}
+                style={{ padding: "8px 18px", borderRadius: 4, border: `1px solid ${activeSkill === skill ? "var(--orange)" : "var(--border)"}`, background: activeSkill === skill ? "var(--orange-dim)" : "transparent", color: activeSkill === skill ? "var(--orange)" : "var(--text-dim)", fontFamily: "var(--fd)", fontSize: 12, cursor: "pointer", letterSpacing: 1, transition: "all .2s" }}>
+                {skill}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {filteredExos.map((exo) => (
+            <div key={exo.name} style={{ background: "var(--bg-card)", border: `1px solid ${openExo === exo.name ? "var(--orange-border)" : "var(--border)"}`, borderRadius: 6, overflow: "hidden", transition: "border-color .2s" }}>
+              <button onClick={() => setOpenExo(openExo === exo.name ? null : exo.name)}
+                style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "14px 18px", display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: typeColors[exo.type] || "var(--orange)", background: `${typeColors[exo.type]}20` || "var(--orange-dim)", padding: "2px 8px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.type}</span>
+                <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "var(--text)", fontWeight: 700, flex: 1 }}>{exo.name}</span>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", flexShrink: 0 }}>{exo.focus}</span>
+                {openExo === exo.name ? <ChevronUp size={13} style={{ color: "var(--text-faint)", flexShrink: 0 }} /> : <ChevronDown size={13} style={{ color: "var(--text-faint)", flexShrink: 0 }} />}
+              </button>
+              {openExo === exo.name && (
+                <div style={{ padding: "0 18px 16px", borderTop: "1px solid var(--border)" }}>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65, marginTop: 12 }}>{exo.desc}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Training methods */}
+      <div>
+        <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 14 }}>⚙️ TRAINING METHODS</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {TRAINING_METHODS.map((method) => (
+            <div key={method.name} style={{ background: "var(--bg-card)", border: `1px solid ${openMethod === method.name ? "var(--orange-border)" : "var(--border)"}`, borderRadius: 6, overflow: "hidden", transition: "border-color .2s" }}>
+              <button onClick={() => setOpenMethod(openMethod === method.name ? null : method.name)}
+                style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "14px 18px", display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
+                <span style={{ fontSize: 20, flexShrink: 0 }}>{method.emoji}</span>
+                <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "var(--text)", fontWeight: 700, flex: 1 }}>{method.name}</span>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", flexShrink: 0 }}>Rest: {method.restTime}</span>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", flexShrink: 0 }}>{method.difficulty}</span>
+                {openMethod === method.name ? <ChevronUp size={13} style={{ color: "var(--text-faint)", flexShrink: 0 }} /> : <ChevronDown size={13} style={{ color: "var(--text-faint)", flexShrink: 0 }} />}
+              </button>
+              {openMethod === method.name && (
+                <div style={{ padding: "0 18px 16px", borderTop: "1px solid var(--border)" }}>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65, marginTop: 12, marginBottom: 10 }}>{method.desc}</p>
+                  <div style={{ background: "rgba(255,69,0,0.04)", borderLeft: "3px solid var(--orange)", padding: "10px 14px", borderRadius: "0 4px 4px 0" }}>
+                    <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 4 }}>💡 EXAMPLE</div>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.55, fontStyle: "italic" }}>{method.example}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function TrainingJournal({ isAdvanced }: { isAdvanced: boolean }) {
   // Beginner: Day1=Force, Day3=Moyen, Day5=Volume
   // Advanced: Day1=Force, Day2=Volume, Day4=Moyen, Day5=Technique
@@ -3254,6 +3535,7 @@ function BundleDashboard({ program, onBack }: { program: Program; onBack: () => 
           {phases.map((phase, i) => <PhaseBlock key={`${activeProg.id}-${i}`} phase={phase} index={i} />)}
         </section>
         <WarmupCooldown items={activeProg.cooldown} title="COOL DOWN & RECOVERY" icon={<Wind size={16} />} tag={`${activeProg.cooldown.length} exercises · ~12 min`} />
+        <ProgramBuilder programId={activeProg.id} />
         <TrainingJournal isAdvanced={activeProg.level === "Advanced" || activeProg.level === "Intermediate"} />
 
         <div className="no-print" style={{ marginTop: 56, paddingTop: 28, borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
@@ -3359,6 +3641,7 @@ function Dashboard({ program, onBack }: { program: Program; onBack: () => void }
         <WarmupCooldown items={program.cooldown} title="COOL DOWN & RECOVERY" icon={<Wind size={16} />} tag={`${program.cooldown.length} exercises · ~12 min`} />
 
         {/* Training Journal */}
+        <ProgramBuilder programId={program.id} />
         <TrainingJournal isAdvanced={program.level === "Advanced" || program.level === "Intermediate / Advanced" || program.level === "Intermediate"} />
 
         <div className="no-print" style={{ marginTop: 56, paddingTop: 28, borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
@@ -3530,6 +3813,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
             <span className={p.category === "bundle" || p.id === "combo-planche-lever" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" || p.id === "combo-planche-lever" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
             {p.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${p.originalPrice}</span>}
             <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", marginTop: 1 }}>lifetime access</div>
+            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", marginTop: 2 }}>⚡ Instant access · Web app · PDF download available</div>
             {p.id === "combo-planche-lever" && (
               <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#06b6d4", marginTop: 4 }}>
                 🔗 Includes both programs
@@ -4060,6 +4344,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                     <span className={result.category === "bundle" || result.id === "combo-planche-lever" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: result.category === "bundle" || result.id === "combo-planche-lever" ? undefined : "var(--text)", lineHeight: 1 }}>${result.price}</span>
                     {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${result.originalPrice}</span>}
                     <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", marginTop: 1 }}>lifetime access</div>
+                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", marginTop: 2 }}>⚡ Instant access · Web app · PDF download available</div>
                     {result.id === "combo-planche-lever" && (
                       <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#06b6d4", marginTop: 4 }}>🔗 Includes both programs</div>
                     )}
