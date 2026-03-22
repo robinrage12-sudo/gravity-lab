@@ -3801,16 +3801,6 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
   );
 }
 
-      {/* Info box */}
-      <div style={{ background: "rgba(255,69,0,0.05)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "16px 20px", marginBottom: 28 }}>
-        <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 10 }}>📓 HOW TO USE YOUR TRAINING JOURNAL</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginBottom: 14 }}>
-          {Object.entries(REP_RANGES).map(([type, info]) => (
-            <div key={type} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-    </div>
-  );
-}
-
 function WarmupCooldown({ items, title, icon, tag }: { items: { name: string; duration: string; notes: string }[]; title: string; icon: React.ReactNode; tag: string }) {
   const [checkedMap, setCheckedMap] = useState<Record<number, boolean>>({});
   return (
