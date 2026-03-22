@@ -459,6 +459,7 @@ const plancheFoundation: Program = {
     "Every push-up & press variation — tuck, straddle, full — with full technique",
     "Bulletproof wrist & shoulder preparation from day one",
     "Handstand progression included",
+    "Follow the program OR build your own — full exercise library + training methods included",
     "🌟 Bonus: One arm handstand progression",
     "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
@@ -1502,6 +1503,7 @@ const frontLeverMastery: Program = {
     "Front lever pull-ups — technique breakdown included",
     "Pull-up mastery — every grip, variation & loading method",
     "Handstand progression included",
+    "Follow the program OR build your own — full exercise library + training methods included",
     "🌟 Bonus: One arm pull-up progression (full technique guide)",
     "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
@@ -3003,41 +3005,277 @@ function SessionBlock({ type, rows, onChangeRow, onAddRow, isAdvanced }: {
 // ═══════════════════════════════════════════════════════
 
 const PLANCHE_EXERCISES = [
-  { name: "Planche Lean", type: "Hold", focus: "Shoulders · Control", desc: "Shift forward until shoulders pass wrists. Arms locked, posterior pelvic tilt. The foundation of every planche progression." },
-  { name: "Tuck Planche Hold", type: "Hold", focus: "Full body · Shoulders", desc: "Knees tucked to chest, hips at shoulder height, maximum scapular protraction. Start with 3s, build to 10s+" },
-  { name: "Advanced Tuck Hold", type: "Hold", focus: "Shoulders · Core", desc: "Hips extended to 180°, thighs parallel to floor, knees still bent. Harder than tuck — bridge to straddle." },
-  { name: "Straddle Planche Hold", type: "Hold", focus: "Full body", desc: "Legs wide apart. Wider = easier. Own 8s+ before attempting full planche." },
-  { name: "Full Planche Hold", type: "Hold", focus: "Full body · Control", desc: "Legs together, body perfectly horizontal. The goal. Even 1-2s unassisted is elite." },
-  { name: "Planche Negatives", type: "Eccentric", focus: "Strength · Form", desc: "Start in planche (or banded), lower slowly over 3-5s. Best strength builder. Do these at the start of every session." },
-  { name: "Straddle Negatives", type: "Eccentric", focus: "Strength", desc: "From straddle planche, lower hips down over 4s. Builds 3× more specific strength than holds alone." },
-  { name: "Tuck Planche Push-Ups", type: "Push-Up", focus: "Arms · Shoulders", desc: "From tuck hold, lower 3-5cm and press back. Even 1 clean rep is significant progress." },
-  { name: "Straddle Push-Ups", type: "Push-Up", focus: "Arms · Shoulders · Control", desc: "From straddle planche, lower 3-5cm. One of the hardest push movements in calisthenics." },
-  { name: "Full Planche Push-Ups", type: "Push-Up", focus: "Full body", desc: "From full planche, lower and press. World-class level. Banded version is still elite." },
-  { name: "Planche Press (Negative)", type: "Press", focus: "Strength · Technique", desc: "From planche, lower chest to floor over 4s with straight arms. Different path from push-up. Builds pressing strength." },
-  { name: "Straddle Press", type: "Press", focus: "Shoulders · Control", desc: "From L-sit or handstand, press to straddle planche. Works both strength and technique simultaneously." },
-  { name: "Pseudo Planche Push-Ups", type: "Accessory", focus: "Shoulders · Arms", desc: "Hands rotated out, shoulders over or past wrists. Planche-specific push-up. More rotation = harder." },
-  { name: "Zanetti Fly", type: "Accessory", focus: "Shoulders", desc: "Lateral raise variation targeting anterior deltoid in planche-specific angle. Max reps + isometric hold at end." },
-  { name: "L-sit", type: "Accessory", focus: "Core · Hip flexors", desc: "Legs parallel to floor, arms straight. Builds hip flexor strength needed for tuck compression. Essential." },
-  { name: "Banded Planche Hold", type: "Assisted", focus: "Form · Technique", desc: "Band around hips reduces load. Use light resistance — it should still be hard. Progress: 3 bands → 2 → 1 → free." },
+  // ── HOLDS ──────────────────────────────────────────────────────────────
+  {
+    name: "Planche Lean",
+    type: "Hold", level: "Beginner", focus: "Shoulders · Control",
+    desc: "The entry point of all planche training. Lean forward from a straight-arm plank until your shoulders pass your wrists. Arms fully locked — any elbow bend cancels the stimulus. Posterior pelvic tilt throughout: tuck your tailbone, brace core like a hollow body. Your gaze should be 10-15cm in front of your hands. Think: 'push the floor away and grow forward' — not 'hold a fall.' Film from the side every session. Week 1 target: shoulders 5cm past wrists. Week 4 target: 15cm+.",
+    cues: ["Shoulders past wrists — measure with camera", "Arms fully locked at 0° — non-negotiable", "Posterior pelvic tilt: tailbone tucked, hollow body", "Gaze 10-15cm in front of hands, not straight down", "Push the floor away — grow forward, don't fall forward"],
+  },
+  {
+    name: "Tuck Planche Hold",
+    type: "Hold", level: "Beginner", focus: "Full body · Shoulders",
+    desc: "First true planche position. From a lean, compress knees to chest and lift feet. Hips must be at shoulder height — not below. Maximum scapular protraction: upper back visibly rounded, serratus anterior firing hard. Short shallow breaths — a full exhale collapses the position. Every sloppy second is worth less than a clean 3s hold.",
+    cues: ["Knees tight to chest — tighter = easier", "Hips at shoulder height or above — sagging hips = failed rep", "Maximum scapular protraction: round the upper back hard", "Short breaths only — don't exhale fully", "Film from the side: hips should be level with shoulders"],
+  },
+  {
+    name: "Advanced Tuck Hold",
+    type: "Hold", level: "Intermediate", focus: "Shoulders · Core",
+    desc: "Extend the hips to 180° — thighs parallel to floor, knees still bent. This is 2-3× harder than tuck. The lean angle increases significantly as you extend, loading the wrists and anterior deltoids much more. Squeeze glutes to maintain hip extension. This position bridges the gap to straddle — spend time here.",
+    cues: ["Hips extended to 180° — thighs parallel to floor", "Knees still bent but body nearly horizontal", "Squeeze glutes hard to prevent hip drop", "Core engaged like a plank — not just shoulders", "Hold until hips drop, then stop — quality over time"],
+  },
+  {
+    name: "Straddle Planche Hold",
+    type: "Hold", level: "Intermediate", focus: "Full body",
+    desc: "Legs spread wide apart. The wider the straddle, the shorter the lever arm — making it significantly easier than full planche. Point toes, squeeze glutes, maximum protraction. 8s+ clean hold = ready to attempt full. On parallettes first, then floor.",
+    cues: ["Legs as wide as possible — wider = easier", "Point toes and squeeze glutes throughout", "Eyes looking at ceiling helps maintain horizontal", "Breathe shallow — full exhale drops the hips", "8s clean = attempt full planche"],
+  },
+  {
+    name: "Full Planche Hold",
+    type: "Hold", level: "Advanced", focus: "Full body · Control",
+    desc: "Legs together, body perfectly horizontal. Every muscle from feet to hands fully contracted — steel rod. Think 'push forward and up' not 'hold a fall.' Even 1-2s unassisted places you in the top 1% of athletes worldwide. Use a camera every single attempt.",
+    cues: ["Legs together, toes pointed, inner thighs squeezed", "Full body tension from head to toe — nothing relaxed", "Think: push forward and grow, not resist gravity", "Film every attempt — progress is measured in millimeters", "1 clean second is worth more than 5 sloppy ones"],
+  },
+  // ── ECCENTRICS ─────────────────────────────────────────────────────────
+  {
+    name: "Tuck Planche Negative",
+    type: "Eccentric", level: "Beginner", focus: "Strength · Form",
+    desc: "Start in tuck planche, lower hips slowly over 3-4 seconds until feet touch. Eccentric strength builds faster than any other method — do these at the VERY START of every session before your CNS fatigues. 3-5 sets of clean negatives beats 10 sloppy holds every time.",
+    cues: ["Start in perfect tuck hold position", "Lower over exactly 3-4 seconds — count out loud", "Fight gravity every millimeter of the descent", "Stop the moment form breaks", "Do these first in the session — always"],
+  },
+  {
+    name: "Advanced Tuck Negative",
+    type: "Eccentric", level: "Intermediate", focus: "Strength",
+    desc: "From advanced tuck planche, lower over 4-5s. Significantly harder than tuck negative. The extended hip position creates much greater mechanical demand on the anterior deltoid and wrist. 3 clean reps here will transform your shoulder strength.",
+    cues: ["Hips extended throughout the descent", "Control every centimeter — no dropping", "Maintain hollow body as you lower", "If hips drop during descent, go back to tuck negatives"],
+  },
+  {
+    name: "Straddle Planche Negative",
+    type: "Eccentric", level: "Intermediate", focus: "Strength",
+    desc: "From straddle planche, lower chest toward floor over 4-5s. The specific eccentric stimulus at straddle level builds the exact strength needed for full planche attempts. 4 weeks of consistent straddle negatives will produce more full planche specific strength than months of holds alone.",
+    cues: ["Legs stay wide throughout the descent", "Hips must stay level — any drop ends the rep", "Lower at exactly the same rate on both sides", "Keep scapulas protracted all the way down"],
+  },
+  {
+    name: "Full Planche Negative",
+    type: "Eccentric", level: "Advanced", focus: "Strength · Control",
+    desc: "Start in full planche (use band if needed), lower chest to floor over 5s. The hardest eccentric in the planche progression. Even banded, this places you in the elite tier of planche training. The path of descent is slightly diagonal — this is normal.",
+    cues: ["Legs together throughout — no splaying", "Lower over exactly 5 seconds — not faster", "Body remains perfectly horizontal during descent", "Use band if needed — quality over ego"],
+  },
+  // ── PRESSES ────────────────────────────────────────────────────────────
+  {
+    name: "Tuck Press",
+    type: "Press", level: "Beginner", focus: "Shoulders · Core",
+    desc: "From L-sit or floor, press into tuck planche. The pressing motion is fundamentally different from a push-up — elbows stay locked while shoulders push forward and down. Think 'push the floor toward your feet.' This teaches the press mechanics needed for all higher variations.",
+    cues: ["Start from L-sit or tuck L-sit position", "Elbows stay locked — no bending at all", "Think: push floor toward your feet, not push up", "Compress knees to chest as you press", "Stop when hips drop below shoulder level"],
+  },
+  {
+    name: "Advanced Tuck Press",
+    type: "Press", level: "Intermediate", focus: "Shoulders · Control",
+    desc: "From L-sit, press into advanced tuck position — hips extended, thighs parallel. Much harder than tuck press. The extended hip position increases the lever arm significantly. Master the tuck press before attempting this. Band assistance is encouraged.",
+    cues: ["From L-sit: first press into tuck, then extend hips", "Or use band: practice the full ROM with assistance", "Hips must reach shoulder height with legs extended", "The press path is slightly forward — not straight up"],
+  },
+  {
+    name: "Straddle Press",
+    type: "Press", level: "Intermediate", focus: "Shoulders · Technique",
+    desc: "From L-sit or straddle L-sit, press to straddle planche. Works pressing strength and technique simultaneously. The wide leg position makes the lever shorter — use this as your main press exercise before tackling full press. Negative version (press to floor) builds as much strength as the concentric.",
+    cues: ["Start from straddle L-sit for easiest entry", "Open legs wide as soon as you start pressing", "Push floor toward feet — not toward ceiling", "Negative: from straddle planche, lower to floor over 4s", "Band assistance for concentric, no band for negative"],
+  },
+  {
+    name: "Full Planche Press",
+    type: "Press", level: "Advanced", focus: "Full body · Technique",
+    desc: "From L-sit or handstand negative, press to full planche. One of the hardest movements in calisthenics. The pressing path requires both extreme shoulder strength AND precise body positioning. Master the negative (from planche to floor) before attempting the full concentric press.",
+    cues: ["Negative version: from planche, lower to floor over 5s", "Keep legs together throughout the entire movement", "The press path goes forward and down — not up", "Hollow body position maintained throughout"],
+  },
+  // ── PUSH-UPS ───────────────────────────────────────────────────────────
+  {
+    name: "Tuck Planche Push-Ups",
+    type: "Push-Up", level: "Beginner", focus: "Arms · Shoulders",
+    desc: "From tuck planche hold, lower 3-5cm and press back up. The range of motion is minimal — this is correct. Even 1 clean rep puts you ahead of most athletes. Dead stop between reps for maximum stimulus. Arms bend slightly backward — not to the sides.",
+    cues: ["Start from solid tuck hold — don't rush in", "Lower only 3-5cm — range is intentionally small", "Elbows bend slightly backward, not sideways", "Dead stop at bottom before pressing back", "Zero hip drop throughout — any sag ends the set"],
+  },
+  {
+    name: "Advanced Tuck Push-Ups",
+    type: "Push-Up", level: "Intermediate", focus: "Arms · Shoulders",
+    desc: "From advanced tuck position (hips extended), lower and press. The extended hips make this significantly harder than tuck push-ups. Master 3 clean advanced tuck push-ups before attempting straddle push-ups. 3-second negative version builds more strength.",
+    cues: ["Hips extended throughout — don't tuck during the rep", "Lower over 3 seconds, press explosively", "If hips drop during push-up, regress to tuck push-ups", "Every rep counts — this is elite output"],
+  },
+  {
+    name: "Straddle Push-Ups",
+    type: "Push-Up", level: "Advanced", focus: "Arms · Control",
+    desc: "From straddle planche, lower and press. One of the hardest push movements in calisthenics. Range is 3-5cm — the load is in the position, not the range. Even 1 partial rep is elite. Dead stop mandatory.",
+    cues: ["Enter straddle planche fully before initiating push-up", "Lower only 3-5cm — any more and form breaks", "Elbows track slightly backward", "Press back explosively even if range is minimal", "1 clean rep = ahead of 99% of athletes"],
+  },
+  {
+    name: "Full Planche Push-Ups",
+    type: "Push-Up", level: "Elite", focus: "Full body",
+    desc: "From full planche, lower and press. Rarest push movement in calisthenics. Banded version is still world-class. Every rep matters. Dead stop mandatory. Film every attempt.",
+    cues: ["Legs together, toes pointed throughout", "Lower 3-5cm over 3 seconds", "Press back explosively to full lockout", "Maximum protraction at top — upper back domes", "Even banded reps at this level: top 0.5% worldwide"],
+  },
+  // ── ACCESSORY ──────────────────────────────────────────────────────────
+  {
+    name: "Pseudo Planche Push-Ups",
+    type: "Accessory", level: "Beginner", focus: "Shoulders · Arms",
+    desc: "Hands rotated outward (45-90°), shoulders over or past wrists. The more rotation and lean, the harder. Lower chest to floor over 3s. Think 'push forward not up' at the top. The bridge between regular push-ups and planche-specific work.",
+    cues: ["Hands rotated 45-90° outward — more rotation = harder", "Lean forward: shoulders must be over or past wrists", "Think 'push forward not up' at the top", "3-second negative on every rep", "Full lockout with scapular protraction at top"],
+  },
+  {
+    name: "L-sit",
+    type: "Accessory", level: "Beginner", focus: "Core · Hip flexors",
+    desc: "Legs parallel to floor, arms straight, pushing down hard. Pure hip flexor and compression strength. Essential for tuck planche — if you can't L-sit, you can't tuck planche. Progressing from tuck L-sit → L-sit → V-sit mirrors the planche compression progression.",
+    cues: ["Push down hard — think anti-gravity", "Arms fully locked — no bending", "Legs parallel to floor — not dropping", "Point toes and squeeze legs together", "Build from tuck L-sit if full L-sit is too hard"],
+  },
+  {
+    name: "Zanetti Fly",
+    type: "Accessory", level: "Beginner", focus: "Shoulders",
+    desc: "Specific anterior deltoid isolation in planche angle. Arms extended to sides in planche lean position, raise and lower. Targets the exact shoulder angle needed for planche. Max reps followed by isometric hold at peak contraction.",
+    cues: ["Maintain planche lean position throughout", "Arms at planche angle — not straight to sides", "Controlled throughout — no swinging", "Hold at top for 2s on every rep", "Max reps then hold to failure at end"],
+  },
+  {
+    name: "Banded Planche (Assisted)",
+    type: "Assisted", level: "Beginner", focus: "Form · Technique",
+    desc: "Band around hips from above reduces body weight. Use the lightest band that lets you hold the target position for 5s+. Heavier band = less stimulus. The band should not make it easy — just possible. Use at end of session for form work. Progress: 3 bands → 2 → 1 → free.",
+    cues: ["Position hands one step forward of band anchor point", "Lightest band that makes it possible — not easy", "Use to practice form you can't hold unassisted", "Always do unassisted attempts BEFORE banded work", "Band assistance is valid at all levels — not a shortcut"],
+  },
 ];
 
 const FRONT_LEVER_EXERCISES = [
-  { name: "Tuck Front Lever Hold", type: "Hold", focus: "Lats · Control", desc: "Knees tight to chest, hips at bar height, back flat. The most important cue: flat back. Build to 10s before progressing." },
-  { name: "Advanced Tuck Hold", type: "Hold", focus: "Lats · Core", desc: "Hips extended 180°, thighs parallel to floor, knees bent. 2-3× harder than tuck. Film every session." },
-  { name: "One Leg / Straddle Hold", type: "Hold", focus: "Lats · Full body", desc: "One leg extended or wide straddle. Both are valid — use whichever holds longer. Own 8s before attempting full." },
-  { name: "Full Front Lever Hold", type: "Hold", focus: "Full body · Lats", desc: "Body perfectly horizontal, legs together. Think 'pull the bar toward your hips' for max lat activation." },
-  { name: "Front Lever Negatives", type: "Eccentric", focus: "Strength · Form", desc: "From full or straddle lever, lower slowly over 4-5s. Single most effective strength builder for the front lever." },
-  { name: "Tuck Lever Raises", type: "Dynamic", focus: "Lats · Shoulders", desc: "From dead hang, raise to tuck front lever. 5-10 reps. Do these at start of session when CNS is fresh." },
-  { name: "Advanced Tuck Raises", type: "Dynamic", focus: "Lats", desc: "From dead hang, raise to advanced tuck position. Harder than tuck raises. Key exercise for full lever progression." },
-  { name: "Full Lever Raises", type: "Dynamic", focus: "Full body · Lats", desc: "From dead hang, raise to full front lever. Elite movement. Even partial reps build massive lat strength." },
-  { name: "Tuck Front Lever Rows", type: "Row", focus: "Lats · Arms", desc: "From tuck lever, pull bar to chest. Maintain tuck throughout. 5 clean reps = ready for next lever position." },
-  { name: "Full Front Lever Rows", type: "Row", focus: "Full body", desc: "Maintain horizontal position while pulling bar to chest. World-class pulling movement. Film every attempt." },
-  { name: "Scapular Raises", type: "Accessory", focus: "Lats · Scapulas", desc: "Dead hang, depress scapulas without bending arms. Hold 1s at bottom. Most underrated exercise for front lever." },
-  { name: "Dragon Flag", type: "Accessory", focus: "Full posterior chain", desc: "Lying, raise and lower body as one rigid unit. Builds the full posterior chain needed for front lever." },
-  { name: "Pelican Curl", type: "Accessory", focus: "Biceps · Elbow stability", desc: "Ring dip position, let arms extend forward into extreme stretch. Best exercise for lever-specific bicep strength." },
-  { name: "Archer Pull-Ups", type: "Accessory", focus: "Lats · One arm", desc: "One arm pulls, other arm extended on bar. Direct progression toward one arm pull-up and lever strength." },
-  { name: "Banded Front Lever", type: "Assisted", focus: "Form · Technique", desc: "Band supports hips. Use light band — you should still feel it working. Best for form work at end of session." },
-  { name: "Chest to Bar Pull-Ups", type: "Accessory", focus: "Lats · Pulling height", desc: "Pull until chest touches bar. Extra range at top activates same lat pattern as front lever. Underrated builder." },
+  // ── HOLDS ──────────────────────────────────────────────────────────────
+  {
+    name: "Tuck Front Lever Hold",
+    type: "Hold", level: "Beginner", focus: "Lats · Control",
+    desc: "The foundation. Hang from bar, pull knees tight to chest, depress scapulas, raise hips to bar height. The most important cue of all: flat back. A rounded back is a compensated lever that won't transfer to higher variations. Build 10s+ before progressing. Film from the side every session.",
+    cues: ["Knees as tight to chest as possible — tighter = easier", "Scapulas depressed AND retracted simultaneously", "Hips at bar height or slightly above", "FLAT back — this is the non-negotiable", "Arms fully locked — any bend = not a real front lever"],
+  },
+  {
+    name: "Advanced Tuck Hold",
+    type: "Hold", level: "Beginner-Intermediate", focus: "Lats · Core",
+    desc: "Extend hips to 180° — thighs parallel to floor, knees still bent. 2-3× harder than tuck. The extended hip position dramatically increases the lever arm on your lats. Posterior pelvic tilt prevents hip drop. Most athletes spend 4-8 weeks here.",
+    cues: ["Hips extended to 180° — thighs parallel to floor", "Knees still bent but body nearly horizontal", "Posterior pelvic tilt: prevent hip drop", "Core engaged like a plank throughout", "Film from side — hips must be at shoulder height"],
+  },
+  {
+    name: "Half Lay Hold",
+    type: "Hold", level: "Intermediate", focus: "Lats · Full body",
+    desc: "Between advanced tuck and one-leg — one leg extended straight, one bent. The extended leg increases the lever arm significantly. Some athletes find this easier than straddle as a progression step. Valid intermediate position.",
+    cues: ["One leg extended straight, one knee bent to chest", "Extended leg: squeeze glute, point toe", "Hips must remain at shoulder height", "Rotate between which leg is extended each set", "This bridges advanced tuck to one-leg lever"],
+  },
+  {
+    name: "One Leg / Straddle Hold",
+    type: "Hold", level: "Intermediate", focus: "Lats · Full body",
+    desc: "One leg fully extended (one-leg) or wide leg split (straddle). Both are valid and roughly equivalent in difficulty — use whichever lets you hold longer. The one-leg lever: extended leg drives the lever arm, tucked leg reduces it. Wide straddle is significantly easier than narrow straddle.",
+    cues: ["One-leg: extend one leg, keep other tucked", "Straddle: wide split — wider = significantly easier", "Try both and use whichever holds longer", "Point toes on extended leg(s)", "8s clean on either = attempt full lever"],
+  },
+  {
+    name: "Full Front Lever Hold",
+    type: "Hold", level: "Advanced", focus: "Full body · Lats",
+    desc: "Body perfectly horizontal, legs together. 80% lats, 15% rear delts/traps/triceps, 5% core. Think 'pull the bar down toward your hips' — this activates lats maximally. Entry from straddle (bring legs together slowly) — never kick into position. Even 1-2s is elite.",
+    cues: ["Think: pull the bar toward your hips — max lat activation", "Legs together, toes pointed, inner thighs squeezed", "Lower back flat — not arched", "Scapulas depressed AND retracted throughout", "1 breath in before hold — don't breathe mid-hold"],
+  },
+  // ── ECCENTRICS ─────────────────────────────────────────────────────────
+  {
+    name: "Tuck Lever Negative",
+    type: "Eccentric", level: "Beginner", focus: "Strength · Form",
+    desc: "From tuck front lever, lower slowly over 4-5s to dead hang. Best way to build lat strength when you can't hold the full position. Always do these at the START of your session. 3 clean negatives builds more strength than 20 sloppy holds.",
+    cues: ["Start from solid tuck hold", "Lower over 4-5 seconds — count out loud", "Fight gravity throughout the descent", "Flat back throughout — don't round as you fatigue", "Do these first in every session — always"],
+  },
+  {
+    name: "Straddle / One-Leg Negative",
+    type: "Eccentric", level: "Intermediate", focus: "Strength",
+    desc: "From straddle or one-leg position, lower to dead hang over 5s. The specific eccentric stimulus at this level builds the exact lat strength needed for full lever. 4 weeks of consistent negatives here will produce dramatic improvements.",
+    cues: ["Maintain leg position throughout descent", "Lower at exactly the same rate — don't rush", "Hips stay level — no dropping one side", "Fight gravity every centimeter"],
+  },
+  {
+    name: "Full Lever Negative",
+    type: "Eccentric", level: "Advanced", focus: "Strength · Control",
+    desc: "From full front lever (use band if needed), lower to dead hang over 5-6s. The most powerful lever strength builder available. Even with band assistance this is elite training. Every second of controlled descent produces massive lat adaptation.",
+    cues: ["Legs together throughout the descent", "Lower over 5-6 seconds — not faster", "Body remains perfectly horizontal as you lower", "Use band if needed — quality over ego", "Film every rep — check body alignment"],
+  },
+  // ── RAISES ─────────────────────────────────────────────────────────────
+  {
+    name: "Tuck Lever Raises",
+    type: "Dynamic", level: "Beginner", focus: "Lats · Explosiveness",
+    desc: "From dead hang, raise hips to tuck front lever position. Dynamic version of the hold — builds explosive lat strength. Initiate with scapular depression, then lat engagement. 5-10 clean reps. Do at start of session. The raising motion teaches the exact neural pattern for the lever.",
+    cues: ["From dead hang: depress scapulas FIRST before pulling", "Pull with lats — elbows drive down and back", "Raise to full tuck position: hips at bar height", "Control the descent — 2 seconds down", "5 reps > 10 sloppy reps"],
+  },
+  {
+    name: "Advanced Tuck Raises",
+    type: "Dynamic", level: "Intermediate", focus: "Lats",
+    desc: "From dead hang, raise to advanced tuck position. Significantly harder than tuck raises. The extended hip position requires much more lat activation. Key exercise for full lever progression — if you can do 5 clean advanced tuck raises, you're close to the full lever.",
+    cues: ["Same initiation as tuck raise: scapulas first", "Hips must extend to 180° at the top", "Controlled descent over 3 seconds", "5 clean reps = approaching full lever territory"],
+  },
+  {
+    name: "One-Leg / Straddle Raises",
+    type: "Dynamic", level: "Intermediate", focus: "Lats · Full body",
+    desc: "From dead hang, raise to one-leg or straddle position. High specificity to the front lever. Builds the exact pulling pattern needed for full lever rows. 3-5 clean reps is excellent.",
+    cues: ["Open legs to straddle or extend one leg as you raise", "Hips must reach shoulder height at top", "Don't swing or use momentum", "Control the entire movement — 3s up, 3s down"],
+  },
+  {
+    name: "Full Lever Raises",
+    type: "Dynamic", level: "Advanced", focus: "Full body · Lats",
+    desc: "From dead hang, raise to full front lever position. Elite movement. Even partial raises (to straddle then bring legs together) build enormous strength. Film every attempt. 1 clean full raise means you have the full lever.",
+    cues: ["Start from straddle and bring legs together at top", "Or attempt directly from dead hang", "Full body tension throughout the raise", "Film every attempt — don't miss progress"],
+  },
+  // ── ROWS ───────────────────────────────────────────────────────────────
+  {
+    name: "Tuck Front Lever Rows",
+    type: "Row", level: "Beginner", focus: "Lats · Arms",
+    desc: "From tuck front lever hang, pull bar to chest. Maintain tuck throughout the entire pull. The pull path: bar moves toward lower chest, elbows drive straight back. 5 clean reps = pulling strength ready for next lever position. 3-second negative on every rep.",
+    cues: ["Establish tuck lever hang first — then initiate row", "Pull bar toward lower chest — not chin", "Elbows drive straight back", "Maintain tuck throughout — hips don't drop", "3-second controlled descent on every rep"],
+  },
+  {
+    name: "Half Lay / One-Leg Rows",
+    type: "Row", level: "Intermediate", focus: "Lats · Full body",
+    desc: "From one-leg or half-lay position, pull bar to chest. Much harder than tuck rows due to extended lever arm. Maintain the leg position throughout. Even 2-3 clean reps is excellent. This directly prepares you for full lever rows.",
+    cues: ["Maintain leg position throughout the pull", "Pull with lats — don't just use arms", "Lower back flat throughout", "3-5 reps target — quality over quantity"],
+  },
+  {
+    name: "Full Front Lever Rows",
+    type: "Row", level: "Elite", focus: "Full body · Lats",
+    desc: "Maintain full horizontal position while pulling bar to chest. The hardest pulling movement in bodyweight training. Even 1 rep places you in the top 0.1% of athletes worldwide. Film every attempt — you'll want the evidence.",
+    cues: ["Full horizontal position maintained throughout", "Pull bar to chest — elbows drive back and down", "Every muscle firing simultaneously", "Film every attempt — even failed ones show progress"],
+  },
+  // ── PUSH-UPS (for lever programs) ──────────────────────────────────────
+  {
+    name: "Pull-Ups (Lever Variation)",
+    type: "Accessory", level: "Beginner", focus: "Lats · General pulling",
+    desc: "Standard pull-up adapted to front lever training. Initiate by depressing scapulas before bending elbows — this is the lever pattern. Lead with chest, not chin. Wide grip for lat width, close grip for lat thickness. This is the foundation if your lever isn't there yet.",
+    cues: ["Initiate with scapular depression BEFORE bending elbows", "Lead with chest — not chin", "3-second controlled descent", "Wide grip = lat width, close grip = lat thickness", "Chest to bar pull-ups for maximum range"],
+  },
+  {
+    name: "One-Leg Pull-Ups",
+    type: "Accessory", level: "Intermediate", focus: "Lats · Core",
+    desc: "Pull-up performed while holding one leg extended horizontally — simulates the core and lat demand of the front lever. Much harder than standard pull-ups. Alternate legs each set.",
+    cues: ["Extend one leg horizontally before pulling", "Keep extended leg at lever height throughout", "Maintain flat back — no arching", "Alternate legs between sets"],
+  },
+  {
+    name: "Scapular Raises",
+    type: "Accessory", level: "Beginner", focus: "Lats · Scapulas",
+    desc: "Dead hang from bar. Without bending arms, depress scapulas (pull shoulder blades down). Hold 1-2s at bottom. Return to full elevation slowly. Directly strengthens the exact muscles that initiate the front lever. Most underrated exercise in lever training — 6 weeks will add 3-5s to your hold.",
+    cues: ["Start in full dead hang — scapulas fully elevated", "WITHOUT bending arms: pull shoulder blades DOWN", "Hold 2s at bottom — feel the lat engagement", "Return slowly to full elevation", "Add 2s hold at bottom as you progress"],
+  },
+  {
+    name: "Dragon Flag",
+    type: "Accessory", level: "Intermediate", focus: "Full posterior chain",
+    desc: "Lying on bench, raise body as one rigid unit. Builds the full posterior chain and core stiffness needed for front lever. The body must remain straight — any pike or bend reduces the stimulus. Slow negatives are the money phase.",
+    cues: ["Body must be rigid — straight line from shoulders to toes", "Raise with legs first, core follows", "Lower as slowly as possible — 4-5s", "Pike (bending at hips) defeats the purpose", "Tuck version is valid if full is too hard"],
+  },
+  {
+    name: "Pelican Curl",
+    type: "Accessory", level: "Intermediate", focus: "Biceps · Elbow stability",
+    desc: "On rings in dip position, let forearms extend forward until extreme bicep stretch. Best exercise for lever-specific bicep and elbow stability. The extreme stretch position builds the connective tissue needed to maintain locked elbows under heavy lever load. Start very light — this is intense on tendons.",
+    cues: ["Start in ring support position", "Let arms extend forward into extreme stretch position", "Control the stretch — no dropping", "Return to start position actively", "Start 1-2 reps only — build very slowly over weeks"],
+  },
+  {
+    name: "Chest-to-Bar Pull-Ups",
+    type: "Accessory", level: "Intermediate", focus: "Lats · Pulling height",
+    desc: "Pull until chest touches the bar. The extra range at the top activates the same lat depression pattern as the front lever. Underrated builder — 6 weeks of chest-to-bar will noticeably improve lever hold time. Add weight when 8 clean reps become easy.",
+    cues: ["Pull until chest contacts the bar — not just chin", "Lead with the chest, drive elbows down", "The extra top range = lever-specific activation", "3-second controlled descent every rep", "Add weight when 8 reps feel moderate"],
+  },
+  {
+    name: "Banded Front Lever (Assisted)",
+    type: "Assisted", level: "Beginner", focus: "Form · Technique",
+    desc: "Band supports the hips/legs, reducing lever load. Use the lightest band that makes the target position achievable. Do unassisted attempts FIRST, then use band for form work at session end. Best for practicing positions above your current level.",
+    cues: ["Do unassisted attempts before banded work", "Lightest band that makes it possible — not easy", "Use to practice form at higher variations", "Band at hips: position hands slightly forward of anchor", "Taper band use over time: 3 bands → 2 → 1 → free"],
+  },
 ];
 
 const TRAINING_METHODS = [
@@ -3045,236 +3283,340 @@ const TRAINING_METHODS = [
     name: "Negatives (Eccentric)",
     emoji: "⬇️",
     difficulty: "★★★★",
-    desc: "Lower the movement slowly over 3-5 seconds instead of holding or pushing up. Eccentric strength builds 3× faster than concentric. Always do these at the START of your session when your nervous system is fresh.",
-    example: "Planche: start in banded planche, lower over 4s. Front lever: from full position, lower over 5s.",
+    desc: "Lower the movement slowly over 3-5 seconds. Eccentric strength builds 3× faster than concentric. Always do these at the START of your session when your nervous system is fresh. This is the single most effective method for both planche and front lever.",
+    example: "Planche: banded planche → lower over 4s. Front lever: full lever → lower over 5s. 3-5 sets, full rest between.",
     restTime: "3-4 min",
   },
   {
     name: "Max Hold Sets",
     emoji: "⏱️",
     difficulty: "★★★",
-    desc: "Hold your current variation as long as possible with perfect form. The moment form breaks, the set ends. 3 consecutive max holds with 30s breathing between each.",
-    example: "Tuck planche hold × 3 max attempts. Rest 2-3 min between sets.",
+    desc: "Hold your current variation as long as possible with perfect form. The moment form breaks, the set ends — don't count sloppy seconds. 3 consecutive max holds with 30s breathing between each. Track your best hold every session.",
+    example: "Tuck planche × 3 max holds. Rest 2-3 min between sets. Log the time every session.",
     restTime: "2-3 min",
   },
   {
     name: "20s On / 20s Off",
     emoji: "🔁",
     difficulty: "★★★",
-    desc: "Attempt your movement for 20 seconds, rest 20 seconds, repeat. Perfect for skill work and nervous system training. High volume without burning out. Can repeat 5-8 rounds.",
-    example: "20s planche lean attempt → 20s rest → repeat 6 times.",
+    desc: "Attempt your movement for 20 seconds, rest 20 seconds, repeat 5-8 rounds. Perfect for skill work and nervous system training. High volume without burning out. The brief rest keeps quality high throughout.",
+    example: "20s planche lean attempt → 20s rest → repeat 6 rounds. Total: 4 min of quality work.",
     restTime: "20s",
   },
   {
     name: "Pyramid Sets",
     emoji: "🔺",
     difficulty: "★★★",
-    desc: "Increase volume progressively then decrease: 1 rep → 2 → 3 → 4 → 3 → 2 → 1. Or for holds: 3s → 5s → 8s → 5s → 3s. Maximizes volume without going to failure too early.",
-    example: "Tuck push-ups: 1 rep, rest 90s, 2 reps, rest 90s, 3 reps, rest 90s, back down.",
+    desc: "Increase volume then decrease: 1 rep → 2 → 3 → 4 → 3 → 2 → 1. For holds: 3s → 5s → 8s → 5s → 3s. Maximizes total volume without hitting failure too early. Great for volume sessions.",
+    example: "Tuck push-ups: 1 rep · rest 90s · 2 reps · rest 90s · 3 reps · rest 90s · 2 reps · rest 90s · 1 rep.",
     restTime: "90s - 2 min",
   },
   {
     name: "Supersets",
     emoji: "⚡",
     difficulty: "★★",
-    desc: "Two exercises back to back with minimal rest between them, then full rest. Pair a push with a pull to maximize volume while one muscle group recovers. Classic: planche hold + front lever hold.",
-    example: "Tuck planche hold 5s → immediately tuck front lever hold 5s → rest 3 min.",
+    desc: "Two exercises back to back with minimal rest, then full rest after the pair. Pair push with pull to maximize volume while one muscle group recovers. Doubles your training density without doubling session time.",
+    example: "Tuck planche hold 5s → immediately tuck front lever hold 5s → rest 3 min. Repeat 4-5 times.",
     restTime: "3-4 min after pair",
   },
   {
     name: "EMOM (Every Minute On the Minute)",
     emoji: "🕐",
     difficulty: "★★★",
-    desc: "At the start of every minute, perform your exercise. Rest for the remainder of the minute. High density training — great for volume weeks. If the exercise takes 20s, you get 40s rest.",
-    example: "EMOM 10 min: 3 tuck planche push-ups at the start of each minute.",
+    desc: "At the start of every minute, perform your exercise. Rest for the remainder of the minute. High density training — great for volume weeks. If your exercise takes 20s, you get 40s rest. Run for 8-12 minutes.",
+    example: "EMOM 10 min: 3 tuck planche push-ups at the start of each minute. Total: 30 quality reps.",
     restTime: "Remainder of minute",
   },
   {
     name: "Dead Stop Reps",
     emoji: "🛑",
     difficulty: "★★★★",
-    desc: "Come to a complete stop between each rep — no momentum, no bounce. Every rep starts from zero. Much harder than continuous reps but builds more specific strength and control.",
-    example: "Straddle push-ups: lower, touch floor, full stop, press back up. Count only clean reps.",
+    desc: "Full stop between every rep — no momentum, no bounce. Every rep starts from zero. Eliminates elastic energy, forces pure strength. Much harder than continuous reps but builds more specific strength and control.",
+    example: "Straddle push-ups: lower, pause 1s at bottom, press back up. Count only clean reps.",
     restTime: "3-4 min",
   },
   {
     name: "Combination Sets",
     emoji: "🔗",
     difficulty: "★★★★★",
-    desc: "String multiple skills together without stopping. Start with hardest variation, end with easiest. Builds nervous endurance and massive volume. Don't stop on technical failure — degrade to easier variant.",
-    example: "Straddle planche → L-sit → tuck push-ups → planche lean → repeat to failure.",
+    desc: "String multiple skills together without stopping. Start with hardest variation, degrade progressively. Don't stop on technical failure — drop to easier variant and continue. Builds nervous endurance and massive volume. Best for intermediate-advanced.",
+    example: "Straddle planche → L-sit → tuck push-ups → planche lean → repeat until failure. Rest 4-5 min.",
     restTime: "4-5 min",
   },
 ];
 
+// Sample programs Force / Volume
+const SAMPLE_PROGRAMS: Record<string, { force: string[]; volume: string[] }> = {
+  planche: {
+    force: [
+      "Tuck / Adv. Tuck Negatives — 4×3-5s eccentric · 4 min rest",
+      "Straddle Negatives (banded) — 4×4s eccentric · 4 min rest",
+      "Tuck Planche Hold — 5× max hold · 3 min rest",
+      "Tuck Press or Adv. Tuck Press — 4×2-4 reps · 3 min rest",
+    ],
+    volume: [
+      "Planche Lean — EMOM 10 min · 15s attempt each minute",
+      "Pseudo Planche Push-Ups — 4×8-12 reps · 90s rest",
+      "Tuck Push-Ups — pyramid 1-2-3-2-1 · 90s rest",
+      "L-sit — 4× max hold · 60s rest",
+      "Banded Straddle Hold (form work) — 3×10s · 2 min rest",
+    ],
+  },
+  front: {
+    force: [
+      "Tuck / Adv. Tuck Lever Negatives — 4×4-5s eccentric · 4 min rest",
+      "Straddle Lever Negatives (banded) — 4×5s eccentric · 4 min rest",
+      "Advanced Tuck / One-Leg Hold — 5× max hold · 3 min rest",
+      "Tuck / One-Leg Rows — 4×3-5 reps · 3 min rest",
+    ],
+    volume: [
+      "Scapular Raises — 4×12-15 reps · 60s rest",
+      "Tuck Lever Raises — EMOM 10 min · 3 raises each minute",
+      "Chest-to-Bar Pull-Ups — 4×5-8 reps · 2 min rest",
+      "Dragon Flag — 3×3-5 reps · 2 min rest",
+      "Banded Full Lever Hold (form work) — 3×8s · 2 min rest",
+    ],
+  },
+};
+
 function ProgramBuilder({ programId }: { programId: string }) {
   const isPlanche = programId.includes("planche") || programId === "combo-planche-lever" || programId === "bundle";
   const isFrontLever = programId.includes("front") || programId === "combo-planche-lever" || programId === "bundle";
-  const exercises = [
-    ...(isPlanche ? PLANCHE_EXERCISES.map(e => ({ ...e, skill: "Planche" })) : []),
-    ...(isFrontLever ? FRONT_LEVER_EXERCISES.map(e => ({ ...e, skill: "Front Lever" })) : []),
-  ];
   const [activeSkill, setActiveSkill] = useState<"Planche" | "Front Lever">(isPlanche ? "Planche" : "Front Lever");
+  const [activeTab, setActiveTab] = useState<"structure" | "exercises" | "methods" | "program">("structure");
   const [openMethod, setOpenMethod] = useState<string | null>(null);
   const [openExo, setOpenExo] = useState<string | null>(null);
-  const filteredExos = exercises.filter(e => e.skill === activeSkill);
+  const [filterType, setFilterType] = useState<string>("All");
 
   if (!isPlanche && !isFrontLever) return null;
 
+  const currentExos = activeSkill === "Planche" ? PLANCHE_EXERCISES : FRONT_LEVER_EXERCISES;
+  const types = ["All", ...Array.from(new Set(currentExos.map(e => e.type)))];
+  const filteredExos = filterType === "All" ? currentExos : currentExos.filter(e => e.type === filterType);
+
   const typeColors: Record<string, string> = {
-    "Hold": "#22c55e",
-    "Eccentric": "#f97316",
-    "Push-Up": "#3b82f6",
-    "Press": "#a855f7",
-    "Row": "#06b6d4",
-    "Dynamic": "#eab308",
-    "Accessory": "#ec4899",
-    "Assisted": "#6b7280",
+    "Hold": "#22c55e", "Eccentric": "#f97316", "Push-Up": "#3b82f6",
+    "Press": "#a855f7", "Row": "#06b6d4", "Dynamic": "#eab308",
+    "Accessory": "#ec4899", "Assisted": "#6b7280",
   };
+  const levelColors: Record<string, string> = {
+    "Beginner": "#22c55e", "Beginner-Intermediate": "#84cc16",
+    "Intermediate": "#f59e0b", "Advanced": "#f97316", "Elite": "#ef4444",
+  };
+
+  const sampleKey = activeSkill === "Planche" ? "planche" : "front";
+  const sample = SAMPLE_PROGRAMS[sampleKey];
+
+  const tabs = [
+    { id: "structure", label: "📐 Session Structure" },
+    { id: "exercises", label: "📚 Exercise Library" },
+    { id: "methods", label: "⚙️ Training Methods" },
+    { id: "program", label: "🗓️ Sample Program" },
+  ] as const;
 
   return (
     <div style={{ marginBottom: 48 }}>
       <SectionBar title="BUILD YOUR OWN PROGRAM" tag="The best program is the one built for you" />
 
-      {/* Two choices intro */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 32 }} className="pg2">
-        <div style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.3)", borderRadius: 8, padding: "20px" }}>
-          <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#22c55e", letterSpacing: 2, marginBottom: 8 }}>✅ OPTION 1 — FOLLOW THE PROGRAM</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.65 }}>
-            The structured phases above are already designed for you. Follow them as-is, session by session. Zero thinking required — just show up and execute. Best if you want to focus entirely on training.
+      {/* Two choices */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }} className="pg2">
+        <div style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.25)", borderRadius: 8, padding: "20px" }}>
+          <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#4ade80", letterSpacing: 2, marginBottom: 10 }}>✅ OPTION 1 — FOLLOW THE PROGRAM</div>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>
+            The structured phases above are already designed. Follow them session by session. Zero thinking required — just show up and execute.
           </p>
         </div>
-        <div style={{ background: "rgba(255,69,0,0.06)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "20px" }}>
-          <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--orange)", letterSpacing: 2, marginBottom: 8 }}>🧠 OPTION 2 — BUILD YOUR OWN</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.65 }}>
-            Learn how to program yourself. You'll understand which exercises to pick, how to structure sessions, and how to progress every 3-5 weeks. You leave with the ability to train independently forever.
+        <div style={{ background: "rgba(255,69,0,0.06)", border: "1px solid rgba(255,69,0,0.25)", borderRadius: 8, padding: "20px" }}>
+          <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fb923c", letterSpacing: 2, marginBottom: 10 }}>🧠 OPTION 2 — BUILD YOUR OWN</div>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>
+            Learn to program yourself using the exercise library, methods and session templates below. You leave with the ability to train independently forever — and build a custom program with the interactive journal above.
           </p>
         </div>
       </div>
 
-      {/* Session structure */}
-      <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, padding: "24px", marginBottom: 28 }}>
-        <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 16 }}>📐 SESSION STRUCTURE — THE TEMPLATE</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {[
-            { step: "01", label: "Eccentric / Negatives", time: "~15 min", color: "#f97316", desc: "Always first. Your nervous system is freshest — this is where max strength gains happen. 3-5 sets, 3-5s negatives, full rest between." },
-            { step: "02", label: "Hold Work", time: "~15 min", color: "#22c55e", desc: "Current variation max holds. Film every set. If hold time drops below 50% of your best, stop — you're too fatigued." },
-            { step: "03", label: "Skill-Specific Hypertrophy", time: "~20 min", color: "#3b82f6", desc: "Push-ups, rows, raises — adapted to your level. If you can do pull-ups but not front lever rows, do pull-ups at max effort. Progress = doing harder variations over time." },
-            { step: "04", label: "Technical Work (Assisted)", time: "~10 min", color: "#a855f7", desc: "End every session with banded holds or lean practice. Light resistance, focus on perfect positioning. This is where you fix form issues." },
-          ].map((item) => (
-            <div key={item.step} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-              <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${item.color}20`, border: `2px solid ${item.color}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <span style={{ fontFamily: "var(--fd)", fontSize: 11, color: item.color, fontWeight: 900 }}>{item.step}</span>
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 4 }}>
-                  <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "var(--text)", fontWeight: 700 }}>{item.label}</span>
-                  <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: item.color, background: `${item.color}15`, padding: "2px 8px", borderRadius: 20 }}>{item.time}</span>
+      {/* Skill selector */}
+      {isPlanche && isFrontLever && (
+        <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+          {(["Planche", "Front Lever"] as const).map(skill => (
+            <button key={skill} onClick={() => setActiveSkill(skill)}
+              style={{ padding: "8px 18px", borderRadius: 4, border: `1px solid ${activeSkill === skill ? "var(--orange)" : "rgba(255,255,255,0.15)"}`, background: activeSkill === skill ? "rgba(255,69,0,0.12)" : "transparent", color: activeSkill === skill ? "#ff6b35" : "rgba(255,255,255,0.6)", fontFamily: "var(--fd)", fontSize: 12, cursor: "pointer", letterSpacing: 1, transition: "all .2s" }}>
+              {skill}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Tabs */}
+      <div style={{ display: "flex", gap: 4, marginBottom: 20, flexWrap: "wrap" }}>
+        {tabs.map(tab => (
+          <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+            style={{ padding: "8px 14px", borderRadius: 4, border: `1px solid ${activeTab === tab.id ? "var(--orange)" : "rgba(255,255,255,0.1)"}`, background: activeTab === tab.id ? "rgba(255,69,0,0.12)" : "rgba(255,255,255,0.03)", color: activeTab === tab.id ? "#ff6b35" : "rgba(255,255,255,0.55)", fontFamily: "var(--fb)", fontSize: 12, cursor: "pointer", transition: "all .2s", whiteSpace: "nowrap" }}>
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ── SESSION STRUCTURE ── */}
+      {activeTab === "structure" && (
+        <div>
+          <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "24px", marginBottom: 20 }}>
+            <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "rgba(255,165,0,0.9)", letterSpacing: 2, marginBottom: 18 }}>📐 SESSION TEMPLATE — IN THIS ORDER</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {[
+                { step: "01", label: "Eccentrics / Negatives", time: "~15 min", color: "#f97316", desc: "Always first. CNS freshest here — max strength gains. 3-5 sets, 3-5s negatives, full rest between. If you skip this, you lose 30% of the session's strength stimulus." },
+                { step: "02", label: "Hold Work", time: "~15 min", color: "#4ade80", desc: "Current variation max holds. Film every set. If hold drops below 50% of your best, stop — too fatigued for quality work." },
+                { step: "03", label: "Skill-Specific Hypertrophy", time: "~20 min", color: "#60a5fa", desc: "Push-ups, rows, raises — at YOUR level. Can't do front lever rows? Do chest-to-bar pull-ups at max effort. Progress = doing harder variations over time." },
+                { step: "04", label: "Technical Work (Assisted)", time: "~10 min", color: "#c084fc", desc: "Banded holds or lean practice. Light resistance, perfect positioning. Fix form issues here. Always do unassisted attempts BEFORE banded work." },
+              ].map((item) => (
+                <div key={item.step} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${item.color}18`, border: `2px solid ${item.color}60`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <span style={{ fontFamily: "var(--fd)", fontSize: 11, color: item.color, fontWeight: 900 }}>{item.step}</span>
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 5 }}>
+                      <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "rgba(255,255,255,0.95)", fontWeight: 700 }}>{item.label}</span>
+                      <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: item.color, background: `${item.color}15`, padding: "2px 8px", borderRadius: 20 }}>{item.time}</span>
+                    </div>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{item.desc}</p>
+                  </div>
                 </div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.55 }}>{item.desc}</p>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-
-        <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
-          <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 10 }}>📅 WEEKLY RHYTHM</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.65 }}>
-            Train every other day — alternating <strong style={{ color: "#ef4444" }}>Force</strong> sessions and <strong style={{ color: "#3b82f6" }}>Volume</strong> sessions.
-            Force = heavy, low reps, full rest (3-5 min). Volume = moderate weight, higher reps, shorter rest (90s-2 min).
-            Never train two days in a row when starting. Your tendons need 48h to recover even when your muscles feel fine.
-          </p>
-        </div>
-      </div>
-
-      {/* Cycles */}
-      <div style={{ background: "rgba(255,69,0,0.04)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "20px", marginBottom: 28 }}>
-        <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 12 }}>🔄 TRAINING CYCLES — HOW TO PROGRESS</div>
-        <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.65, marginBottom: 16 }}>
-          Each cycle lasts <strong style={{ color: "var(--text)" }}>3 to 5 weeks</strong>. After that, the stimulus becomes too familiar for your nervous system and muscles — you need to change something to keep progressing.
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }} className="pg3">
-          {[
-            { week: "Week 1-2", label: "Adaptation", color: "#22c55e", desc: "New exercises feel awkward. Volume is low. Focus on learning the movement pattern." },
-            { week: "Week 3-4", label: "Peak stimulus", color: "#f97316", desc: "Your body has adapted. Push volume and intensity. This is where most gains happen." },
-            { week: "Week 5+", label: "Deload or rotate", color: "#3b82f6", desc: "If still progressing, continue. If stagnating, swap exercises for harder variants or change method." },
-          ].map((c) => (
-            <div key={c.week} style={{ background: "var(--bg-card)", border: `1px solid ${c.color}30`, borderRadius: 6, padding: "14px" }}>
-              <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: c.color, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 6 }}>{c.week}</div>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 14, color: "var(--text)", fontWeight: 700, marginBottom: 6 }}>{c.label}</div>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.5 }}>{c.desc}</p>
+            <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 10 }}>📅 WEEKLY RHYTHM</div>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
+                Train every other day alternating <strong style={{ color: "#ef4444" }}>Force</strong> (heavy, low reps, 3-5 min rest) and <strong style={{ color: "#60a5fa" }}>Volume</strong> (moderate, higher reps, 90s-2 min rest).
+                Never two days in a row when starting — your tendons need 48h even when muscles feel fine.
+              </p>
             </div>
-          ))}
-        </div>
-        <div style={{ marginTop: 14, padding: "12px 16px", background: "rgba(255,255,255,0.03)", borderRadius: 6, border: "1px solid var(--border)" }}>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.6 }}>
-            <strong style={{ color: "var(--text)" }}>How to rotate:</strong> if you were doing negatives, switch to press negatives. If doing tuck holds, advance to advanced tuck. The key is always moving slightly beyond what's comfortable — not a massive jump, just one step harder.
-          </p>
-        </div>
-      </div>
+          </div>
 
-      {/* Exercise library */}
-      <div style={{ marginBottom: 28 }}>
-        <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 14 }}>📚 EXERCISE LIBRARY</div>
+          {/* Cycles */}
+          <div style={{ background: "rgba(255,69,0,0.04)", border: "1px solid rgba(255,69,0,0.2)", borderRadius: 8, padding: "20px" }}>
+            <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "rgba(255,130,0,0.9)", letterSpacing: 2, marginBottom: 14 }}>🔄 TRAINING CYCLES — 3 TO 5 WEEKS</div>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.65, marginBottom: 16 }}>
+              After 3-5 weeks, the same stimulus stops producing gains. Change something — swap exercises for harder variants, change method, or increase load.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }} className="pg3">
+              {[
+                { week: "Week 1-2", label: "Adaptation", color: "#4ade80", desc: "New exercises feel awkward. Keep volume moderate. Learn the movement pattern." },
+                { week: "Week 3-4", label: "Peak Stimulus", color: "#f97316", desc: "Body adapted. Push volume and intensity. This is where most gains happen." },
+                { week: "Week 5+", label: "Rotate or Progress", color: "#60a5fa", desc: "If still progressing, continue. If stagnating — advance to harder variation." },
+              ].map((c) => (
+                <div key={c.week} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${c.color}25`, borderRadius: 6, padding: "14px" }}>
+                  <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: c.color, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 5 }}>{c.week}</div>
+                  <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, marginBottom: 5 }}>{c.label}</div>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>{c.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
-        {isPlanche && isFrontLever && (
-          <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-            {(["Planche", "Front Lever"] as const).map(skill => (
-              <button key={skill} onClick={() => setActiveSkill(skill)}
-                style={{ padding: "8px 18px", borderRadius: 4, border: `1px solid ${activeSkill === skill ? "var(--orange)" : "var(--border)"}`, background: activeSkill === skill ? "var(--orange-dim)" : "transparent", color: activeSkill === skill ? "var(--orange)" : "var(--text-dim)", fontFamily: "var(--fd)", fontSize: 12, cursor: "pointer", letterSpacing: 1, transition: "all .2s" }}>
-                {skill}
+      {/* ── EXERCISE LIBRARY ── */}
+      {activeTab === "exercises" && (
+        <div>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
+            {types.map(t => (
+              <button key={t} onClick={() => setFilterType(t)}
+                style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${filterType === t ? (typeColors[t] || "var(--orange)") : "rgba(255,255,255,0.1)"}`, background: filterType === t ? `${typeColors[t] || "var(--orange)"}20` : "transparent", color: filterType === t ? (typeColors[t] || "#ff6b35") : "rgba(255,255,255,0.5)", fontFamily: "var(--fb)", fontSize: 11, cursor: "pointer", transition: "all .2s" }}>
+                {t}
               </button>
             ))}
           </div>
-        )}
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {filteredExos.map((exo) => (
-            <div key={exo.name} style={{ background: "var(--bg-card)", border: `1px solid ${openExo === exo.name ? "var(--orange-border)" : "var(--border)"}`, borderRadius: 6, overflow: "hidden", transition: "border-color .2s" }}>
-              <button onClick={() => setOpenExo(openExo === exo.name ? null : exo.name)}
-                style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "14px 18px", display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: typeColors[exo.type] || "var(--orange)", background: `${typeColors[exo.type]}20` || "var(--orange-dim)", padding: "2px 8px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.type}</span>
-                <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "var(--text)", fontWeight: 700, flex: 1 }}>{exo.name}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", flexShrink: 0 }}>{exo.focus}</span>
-                {openExo === exo.name ? <ChevronUp size={13} style={{ color: "var(--text-faint)", flexShrink: 0 }} /> : <ChevronDown size={13} style={{ color: "var(--text-faint)", flexShrink: 0 }} />}
-              </button>
-              {openExo === exo.name && (
-                <div style={{ padding: "0 18px 16px", borderTop: "1px solid var(--border)" }}>
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65, marginTop: 12 }}>{exo.desc}</p>
-                </div>
-              )}
-            </div>
-          ))}
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {filteredExos.map((exo) => (
+              <div key={exo.name} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${openExo === exo.name ? "rgba(255,100,0,0.4)" : "rgba(255,255,255,0.08)"}`, borderRadius: 6, overflow: "hidden", transition: "border-color .2s" }}>
+                <button onClick={() => setOpenExo(openExo === exo.name ? null : exo.name)}
+                  style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "13px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
+                  <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: typeColors[exo.type] || "#fff", background: `${typeColors[exo.type] || "#fff"}18`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.type}</span>
+                  <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, flex: 1 }}>{exo.name}</span>
+                  <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: levelColors[exo.level] || "#fff", background: `${levelColors[exo.level] || "#fff"}15`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.level}</span>
+                  {openExo === exo.name ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />}
+                </button>
+                {openExo === exo.name && (
+                  <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginTop: 12, marginBottom: 12 }}>{exo.desc}</p>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                      {exo.cues.map((cue, i) => (
+                        <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+                          <div style={{ width: 16, height: 16, borderRadius: 2, background: "rgba(255,100,0,0.15)", border: "1px solid rgba(255,100,0,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
+                            <span style={{ fontFamily: "var(--fd)", fontSize: 8, color: "#f97316" }}>{i + 1}</span>
+                          </div>
+                          <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{cue}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Training methods */}
-      <div>
-        <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 14 }}>⚙️ TRAINING METHODS</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      {/* ── TRAINING METHODS ── */}
+      {activeTab === "methods" && (
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {TRAINING_METHODS.map((method) => (
-            <div key={method.name} style={{ background: "var(--bg-card)", border: `1px solid ${openMethod === method.name ? "var(--orange-border)" : "var(--border)"}`, borderRadius: 6, overflow: "hidden", transition: "border-color .2s" }}>
+            <div key={method.name} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${openMethod === method.name ? "rgba(255,100,0,0.4)" : "rgba(255,255,255,0.08)"}`, borderRadius: 6, overflow: "hidden", transition: "border-color .2s" }}>
               <button onClick={() => setOpenMethod(openMethod === method.name ? null : method.name)}
-                style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "14px 18px", display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
-                <span style={{ fontSize: 20, flexShrink: 0 }}>{method.emoji}</span>
-                <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "var(--text)", fontWeight: 700, flex: 1 }}>{method.name}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", flexShrink: 0 }}>Rest: {method.restTime}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", flexShrink: 0 }}>{method.difficulty}</span>
-                {openMethod === method.name ? <ChevronUp size={13} style={{ color: "var(--text-faint)", flexShrink: 0 }} /> : <ChevronDown size={13} style={{ color: "var(--text-faint)", flexShrink: 0 }} />}
+                style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "13px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
+                <span style={{ fontSize: 18, flexShrink: 0 }}>{method.emoji}</span>
+                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, flex: 1 }}>{method.name}</span>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,130,0,0.8)", flexShrink: 0 }}>Rest: {method.restTime}</span>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", flexShrink: 0 }}>{method.difficulty}</span>
+                {openMethod === method.name ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />}
               </button>
               {openMethod === method.name && (
-                <div style={{ padding: "0 18px 16px", borderTop: "1px solid var(--border)" }}>
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65, marginTop: 12, marginBottom: 10 }}>{method.desc}</p>
-                  <div style={{ background: "rgba(255,69,0,0.04)", borderLeft: "3px solid var(--orange)", padding: "10px 14px", borderRadius: "0 4px 4px 0" }}>
-                    <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 4 }}>💡 EXAMPLE</div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.55, fontStyle: "italic" }}>{method.example}</p>
+                <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginTop: 12, marginBottom: 10 }}>{method.desc}</p>
+                  <div style={{ background: "rgba(255,69,0,0.05)", borderLeft: "2px solid rgba(255,100,0,0.4)", padding: "10px 14px", borderRadius: "0 4px 4px 0" }}>
+                    <div style={{ fontFamily: "var(--fd)", fontSize: 9, color: "rgba(255,130,0,0.8)", letterSpacing: 1.5, marginBottom: 4 }}>💡 EXAMPLE</div>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.55, fontStyle: "italic" }}>{method.example}</p>
                   </div>
                 </div>
               )}
             </div>
           ))}
         </div>
-      </div>
+      )}
+
+      {/* ── SAMPLE PROGRAM ── */}
+      {activeTab === "program" && (
+        <div>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, marginBottom: 20 }}>
+            Example cycle for {activeSkill}. Adapt exercises to your current level using the library above. Run this for 3-5 weeks then progress to harder variations.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="pg2">
+            {[
+              { label: "FORCE DAY", color: "#ef4444", items: sample.force, desc: "Heavy · Low reps · 3-5 min rest · Every other day" },
+              { label: "VOLUME DAY", color: "#60a5fa", items: sample.volume, desc: "Moderate · Higher reps · 90s-2 min rest · Every other day" },
+            ].map((day) => (
+              <div key={day.label} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${day.color}25`, borderRadius: 8, padding: "20px" }}>
+                <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: day.color, letterSpacing: 2, marginBottom: 4 }}>{day.label}</div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 14 }}>{day.desc}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {day.items.map((item, i) => (
+                    <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                      <div style={{ width: 18, height: 18, borderRadius: "50%", background: `${day.color}15`, border: `1px solid ${day.color}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                        <span style={{ fontFamily: "var(--fd)", fontSize: 9, color: day.color }}>{i + 1}</span>
+                      </div>
+                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: 14, padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6 }}>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
+              <strong style={{ color: "rgba(255,255,255,0.8)" }}>How to progress:</strong> when Force exercises feel manageable (you could do 1-2 more reps), advance to the next harder variation in the library. When Volume exercises become easy at given reps, add reps or advance variation. Every 3-5 weeks, rotate to keep the stimulus fresh.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
