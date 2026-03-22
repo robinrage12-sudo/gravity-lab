@@ -3484,27 +3484,34 @@ function ProgramBuilder({ programId }: { programId: string }) {
               ))}
             </div>
             <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 12 }}>📅 WEEKLY RHYTHM — THE CYCLE</div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4, marginBottom: 12 }}>
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 12 }}>📅 THE TRAINING CYCLE — NOT A WEEKLY SCHEDULE</div>
+
+              {/* Rolling cycle visual */}
+              <div style={{ display: "flex", gap: 4, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
                 {[
-                  { day: "Mon", type: "FORCE", color: "#ef4444" },
-                  { day: "Tue", type: "REST", color: "rgba(255,255,255,0.15)" },
-                  { day: "Wed", type: "VOLUME", color: "#60a5fa" },
-                  { day: "Thu", type: "REST", color: "rgba(255,255,255,0.15)" },
-                  { day: "Fri", type: "FORCE", color: "#ef4444" },
-                  { day: "Sat", type: "REST", color: "rgba(255,255,255,0.15)" },
-                  { day: "Sun", type: "VOLUME", color: "#60a5fa" },
-                ].map((d) => (
-                  <div key={d.day} style={{ textAlign: "center" }}>
-                    <div style={{ fontFamily: "var(--fb)", fontSize: 9, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>{d.day}</div>
-                    <div style={{ background: d.type === "REST" ? "rgba(255,255,255,0.04)" : `${d.color}18`, border: `1px solid ${d.type === "REST" ? "rgba(255,255,255,0.08)" : `${d.color}40`}`, borderRadius: 4, padding: "6px 2px", fontFamily: "var(--fd)", fontSize: 9, fontWeight: 900, color: d.type === "REST" ? "rgba(255,255,255,0.2)" : d.color, letterSpacing: 0.5 }}>
-                      {d.type}
+                  { label: "SESSION 1", sub: "Force", color: "#ef4444" },
+                  { label: "REST", sub: "48h min", color: null },
+                  { label: "SESSION 2", sub: "Volume", color: "#60a5fa" },
+                  { label: "REST", sub: "48h min", color: null },
+                  { label: "SESSION 3", sub: "Force", color: "#ef4444" },
+                  { label: "REST", sub: "48h min", color: null },
+                  { label: "SESSION 4", sub: "Volume", color: "#60a5fa" },
+                  { label: "...", sub: "", color: null },
+                ].map((item, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <div style={{ textAlign: "center" }}>
+                      <div style={{ background: item.color ? `${item.color}18` : "rgba(255,255,255,0.04)", border: `1px solid ${item.color ? `${item.color}40` : "rgba(255,255,255,0.08)"}`, borderRadius: 4, padding: "6px 8px", minWidth: item.label === "..." ? 20 : 60 }}>
+                        <div style={{ fontFamily: "var(--fd)", fontSize: 9, fontWeight: 900, color: item.color || "rgba(255,255,255,0.2)", letterSpacing: 0.5 }}>{item.label}</div>
+                        {item.sub && <div style={{ fontFamily: "var(--fb)", fontSize: 8, color: item.color ? `${item.color}90` : "rgba(255,255,255,0.2)", marginTop: 2 }}>{item.sub}</div>}
+                      </div>
                     </div>
+                    {i < 7 && <div style={{ width: 8, height: 1, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />}
                   </div>
                 ))}
               </div>
+
               <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.65 }}>
-                Always one rest day between sessions — tendons need 48h even when muscles feel fine. The cycle repeats: <strong style={{ color: "#ef4444" }}>Force</strong> → rest → <strong style={{ color: "#60a5fa" }}>Volume</strong> → rest → <strong style={{ color: "#ef4444" }}>Force</strong> → rest → <strong style={{ color: "#60a5fa" }}>Volume</strong>...
+                This is <strong style={{ color: "rgba(255,255,255,0.85)" }}>not a fixed weekly schedule</strong> — it's a rolling cycle. Train every other day minimum. If life gets in the way and you rest 2 days, no problem — just pick up where you left off. Force day always followed by rest, Volume day always followed by rest. The pattern continues regardless of which day of the week it falls on.
               </p>
             </div>
           </div>
@@ -3669,45 +3676,130 @@ function ProgramBuilder({ programId }: { programId: string }) {
   );
 }
 
-function TrainingJournal({ isAdvanced }: { isAdvanced: boolean }) {
-  // Beginner: Day1=Force, Day3=Moyen, Day5=Volume
-  // Advanced: Day1=Force, Day2=Volume, Day4=Moyen, Day5=Technique
-  const schedule = isAdvanced
-    ? [
-        { day: "Day 1", type: "Force" as SessionType },
-        { day: "Day 2", type: "Volume" as SessionType },
-        { day: "Day 3", type: null },
-        { day: "Day 4", type: "Force" as SessionType },
-        { day: "Day 5", type: "Technique" as SessionType },
-        { day: "Day 6", type: null },
-      ]
-    : [
-        { day: "Day 1", type: "Force" as SessionType },
-        { day: "Day 2", type: null },
-        { day: "Day 3", type: "Volume" as SessionType },
-        { day: "Day 4", type: null },
-        { day: "Day 5", type: "Force" as SessionType },
-        { day: "Day 6", type: null },
-      ];
+function TrainingJournal({ }: { isAdvanced?: boolean }) {
+  // Rolling cycle: Force → rest → Volume → rest → repeat
+  // Not a weekly schedule — sessions are numbered, not day-named
+  const sessions = [
+    { label: "Session 1", type: "Force" as SessionType },
+    { label: "Session 2", type: "Volume" as SessionType },
+    { label: "Session 3", type: "Force" as SessionType },
+    { label: "Session 4", type: "Volume" as SessionType },
+  ];
 
-  const activeSessions = schedule.filter(s => s.type !== null) as { day: string; type: SessionType }[];
-  const defaultRows = isAdvanced ? 3 : 4; // 3 exos advanced, 4 beginner (2 normal + 1 technique per push/pull)
+  const activeSessions = sessions;
+  const defaultRows = 4;
 
   const [sessionRows, setSessionRows] = useState<Record<string, ExerciseRow[]>>(
-    Object.fromEntries(activeSessions.map(s => [s.type, Array(defaultRows).fill(null).map(() => emptyRow())]))
+    Object.fromEntries(activeSessions.map(s => [s.label, Array(defaultRows).fill(null).map(() => emptyRow())]))
   );
 
-  const updateRow = (type: SessionType, i: number, row: ExerciseRow) => {
-    setSessionRows(prev => ({ ...prev, [type]: prev[type].map((r, idx) => idx === i ? row : r) }));
+  const updateRow = (label: string, i: number, row: ExerciseRow) => {
+    setSessionRows(prev => ({ ...prev, [label]: prev[label].map((r, idx) => idx === i ? row : r) }));
   };
 
-  const addRow = (type: SessionType) => {
-    setSessionRows(prev => ({ ...prev, [type]: [...prev[type], emptyRow()] }));
+  const addRow = (label: string) => {
+    setSessionRows(prev => ({ ...prev, [label]: [...prev[label], emptyRow()] }));
+  };
+
+  const repInfo = {
+    Force: REP_RANGES.Force,
+    Volume: REP_RANGES.Volume,
+    Technique: REP_RANGES.Technique,
   };
 
   return (
     <div style={{ marginBottom: 48 }}>
-      <SectionBar title="TRAINING JOURNAL" tag={isAdvanced ? "Advanced — 4 sessions/week" : "Beginner/Intermediate — 3 sessions/week"} />
+      <SectionBar title="TRAINING JOURNAL" tag="Rolling cycle — Force → rest → Volume → rest → repeat" />
+
+      {/* Cycle explanation */}
+      <div style={{ background: "rgba(255,69,0,0.05)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "16px 20px", marginBottom: 28 }}>
+        <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 12 }}>📓 HOW THE CYCLE WORKS</div>
+
+        {/* Rolling cycle visual */}
+        <div style={{ display: "flex", gap: 4, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
+          {[
+            { label: "SESSION", sub: "Force", color: "#ef4444" },
+            { label: "REST", sub: "48h+", color: null },
+            { label: "SESSION", sub: "Volume", color: "#60a5fa" },
+            { label: "REST", sub: "48h+", color: null },
+            { label: "SESSION", sub: "Force", color: "#ef4444" },
+            { label: "REST", sub: "48h+", color: null },
+            { label: "SESSION", sub: "Volume", color: "#60a5fa" },
+            { label: "→ ...", sub: "", color: null },
+          ].map((item, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <div style={{ textAlign: "center", minWidth: item.label === "→ ..." ? 24 : 52 }}>
+                <div style={{ background: item.color ? `${item.color}18` : "rgba(255,255,255,0.04)", border: `1px solid ${item.color ? `${item.color}40` : "rgba(255,255,255,0.08)"}`, borderRadius: 4, padding: "5px 4px" }}>
+                  <div style={{ fontFamily: "var(--fd)", fontSize: 8, fontWeight: 900, color: item.color || "rgba(255,255,255,0.2)", letterSpacing: 0.3 }}>{item.label}</div>
+                  {item.sub && <div style={{ fontFamily: "var(--fb)", fontSize: 8, color: item.color ? `${item.color}80` : "rgba(255,255,255,0.18)", marginTop: 1 }}>{item.sub}</div>}
+                </div>
+              </div>
+              {i < 7 && <div style={{ width: 6, height: 1, background: "rgba(255,255,255,0.08)", flexShrink: 0 }} />}
+            </div>
+          ))}
+        </div>
+
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, marginBottom: 14 }}>
+          This is <strong style={{ color: "#ffffff" }}>not a weekly schedule</strong> — it's a rolling cycle. Always one rest day (48h minimum) between sessions. If life gets in the way and you rest 2 days, no problem — just resume where you left off. The pattern continues regardless of which day of the week it falls on.
+        </p>
+
+        {/* Rep ranges */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10 }}>
+          {Object.entries(repInfo).map(([type, info]) => (
+            <div key={type} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+              <div style={{ width: 10, height: 10, borderRadius: 2, background: info.color, flexShrink: 0, marginTop: 3 }} />
+              <div>
+                <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fff", fontWeight: 700 }}>{type} — {info.range}</div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.55)" }}>{info.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Session blocks */}
+      {activeSessions.map(({ label, type }) => {
+        const info = REP_RANGES[type];
+        const rows = sessionRows[label];
+        return (
+          <div key={label} style={{ marginBottom: 24 }}>
+            <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
+              📅 {label} <span style={{ color: info.color, marginLeft: 6 }}>({type})</span>
+              <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.25)", marginLeft: 8 }}>→ rest day after</span>
+            </div>
+            <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${info.color}33`, marginBottom: 4 }}>
+              <div style={{ background: info.color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "#fff", letterSpacing: 2 }}>{type.toUpperCase()}</span>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.8)", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{info.range}</span>
+              </div>
+              <div style={{ background: "var(--bg-card)", padding: "14px" }}>
+                <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
+                  {(["push", "pull"] as const).map(cat => (
+                    <span key={cat} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.4)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 4, padding: "3px 10px", letterSpacing: 1.5, textTransform: "uppercase" }}>{cat}</span>
+                  ))}
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 8 }}>
+                  {["Exercise", "Sets", "Reps", "Rest"].map(h => (
+                    <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "rgba(255,255,255,0.35)", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
+                  ))}
+                </div>
+                {rows.map((row, i) => (
+                  <ExerciseInputRow key={i} row={row} onChange={r => updateRow(label, i, r)} suggestions={[...EXERCISE_SUGGESTIONS.push, ...EXERCISE_SUGGESTIONS.pull]} />
+                ))}
+                <button onClick={() => addRow(label)}
+                  style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "rgba(255,255,255,0.3)", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.3)"; }}>
+                  + Add exercise
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
       {/* Info box */}
       <div style={{ background: "rgba(255,69,0,0.05)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "16px 20px", marginBottom: 28 }}>
@@ -3715,63 +3807,6 @@ function TrainingJournal({ isAdvanced }: { isAdvanced: boolean }) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginBottom: 14 }}>
           {Object.entries(REP_RANGES).map(([type, info]) => (
             <div key={type} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-              <div style={{ width: 10, height: 10, borderRadius: 2, background: info.color, flexShrink: 0, marginTop: 3 }} />
-              <div>
-                <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fff", fontWeight: 700 }}>{type} — {info.range}</div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.6)" }}>{info.desc}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Weekly schedule visual */}
-        <div className="t-label" style={{ color: "rgba(255,255,255,0.5)", fontSize: 9, marginBottom: 8 }}>WEEKLY SCHEDULE</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 4 }}>
-          {schedule.map(({ day, type }) => (
-            <div key={day} style={{ textAlign: "center" }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", marginBottom: 4 }}>{day}</div>
-              <div style={{ background: type ? REP_RANGES[type].color : "rgba(255,255,255,0.05)", borderRadius: 4, padding: "6px 4px", fontFamily: "var(--fd)", fontSize: 10, fontWeight: 900, color: type ? "#fff" : "rgba(255,255,255,0.2)", letterSpacing: 0.5 }}>
-                {type ?? "REST"}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {!isAdvanced && (
-          <div style={{ marginTop: 12, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", borderTop: "1px solid var(--border)", paddingTop: 10 }}>
-            💡 <strong style={{ color: "#fff" }}>Recommendations:</strong> 2 normal exercises + 1 technique exercise per category (push & pull) · 4 sets per exercise
-          </div>
-        )}
-        {isAdvanced && (
-          <div style={{ marginTop: 12, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", borderTop: "1px solid var(--border)", paddingTop: 10 }}>
-            💡 <strong style={{ color: "#fff" }}>Recommendations:</strong> 3 exercises per category (push & pull) · 3 sets per exercise · Technique session varies · Optional rest day before Force
-          </div>
-        )}
-      </div>
-
-      {/* Customization note */}
-      <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)", borderRadius: 6, padding: "12px 16px", marginBottom: 24 }}>
-        <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--orange)", marginBottom: 4 }}>🎯 CUSTOMIZE YOUR PROGRAM</div>
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.6 }}>
-          The sessions below are pre-filled with the recommended protocol from this program. You can keep them as-is or customize each exercise to match your preferences. Use the exercise suggestions (type to search) to replace any movement. The rep ranges and rest times are scientifically calibrated — keep them even if you change exercises.
-        </p>
-      </div>
-
-      {/* Session blocks */}
-      {activeSessions.map(({ day, type }) => (
-        <div key={type}>
-          <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
-            📅 {day}
-          </div>
-          <SessionBlock
-            type={type}
-            rows={sessionRows[type]}
-            onChangeRow={(i, r) => updateRow(type, i, r)}
-            onAddRow={() => addRow(type)}
-            isAdvanced={isAdvanced}
-          />
-        </div>
-      ))}
     </div>
   );
 }
