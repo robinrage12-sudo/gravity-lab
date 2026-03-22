@@ -3484,10 +3484,27 @@ function ProgramBuilder({ programId }: { programId: string }) {
               ))}
             </div>
             <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 10 }}>📅 WEEKLY RHYTHM</div>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
-                Train every other day alternating <strong style={{ color: "#ef4444" }}>Force</strong> (heavy, low reps, 3-5 min rest) and <strong style={{ color: "#60a5fa" }}>Volume</strong> (moderate, higher reps, 90s-2 min rest).
-                Never two days in a row when starting — your tendons need 48h even when muscles feel fine.
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 12 }}>📅 WEEKLY RHYTHM — THE CYCLE</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4, marginBottom: 12 }}>
+                {[
+                  { day: "Mon", type: "FORCE", color: "#ef4444" },
+                  { day: "Tue", type: "REST", color: "rgba(255,255,255,0.15)" },
+                  { day: "Wed", type: "VOLUME", color: "#60a5fa" },
+                  { day: "Thu", type: "REST", color: "rgba(255,255,255,0.15)" },
+                  { day: "Fri", type: "FORCE", color: "#ef4444" },
+                  { day: "Sat", type: "REST", color: "rgba(255,255,255,0.15)" },
+                  { day: "Sun", type: "VOLUME", color: "#60a5fa" },
+                ].map((d) => (
+                  <div key={d.day} style={{ textAlign: "center" }}>
+                    <div style={{ fontFamily: "var(--fb)", fontSize: 9, color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>{d.day}</div>
+                    <div style={{ background: d.type === "REST" ? "rgba(255,255,255,0.04)" : `${d.color}18`, border: `1px solid ${d.type === "REST" ? "rgba(255,255,255,0.08)" : `${d.color}40`}`, borderRadius: 4, padding: "6px 2px", fontFamily: "var(--fd)", fontSize: 9, fontWeight: 900, color: d.type === "REST" ? "rgba(255,255,255,0.2)" : d.color, letterSpacing: 0.5 }}>
+                      {d.type}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.65 }}>
+                Always one rest day between sessions — tendons need 48h even when muscles feel fine. The cycle repeats: <strong style={{ color: "#ef4444" }}>Force</strong> → rest → <strong style={{ color: "#60a5fa" }}>Volume</strong> → rest → <strong style={{ color: "#ef4444" }}>Force</strong> → rest → <strong style={{ color: "#60a5fa" }}>Volume</strong>...
               </p>
             </div>
           </div>
@@ -4172,21 +4189,22 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
           ))}
         </ul>
         {/* Format badge */}
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-          {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal"].map(tag => (
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+          {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
             <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
           ))}
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-          <span style={{ fontSize: 12 }}>📱</span>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.75)" }}>Interactive manual · Customizable training journal · Lifetime access</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 6, padding: "8px 10px" }}>
+          <span style={{ fontSize: 13 }}>📱</span>
+          <div>
+            <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#ffffff", fontWeight: 700, letterSpacing: 1 }}>LIFETIME ACCESS</div>
+            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.6)", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
+          </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
           <div>
             <span className={p.category === "bundle" || p.id === "combo-planche-lever" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" || p.id === "combo-planche-lever" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
             {p.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${p.originalPrice}</span>}
-            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", marginTop: 1 }}>lifetime access</div>
-            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", marginTop: 2 }}>⚡ Instant access · Web app · PDF download available</div>
             {p.id === "combo-planche-lever" && (
               <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#06b6d4", marginTop: 4 }}>
                 🔗 Includes both programs
@@ -4702,22 +4720,23 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                   ))}
                 </ul>
 
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-                  {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal"].map(tag => (
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+                  {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
                     <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
                   ))}
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-                  <span style={{ fontSize: 12 }}>📱</span>
-                  <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.75)" }}>Interactive manual · Customizable training journal · Lifetime access</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 6, padding: "8px 10px" }}>
+                  <span style={{ fontSize: 13 }}>📱</span>
+                  <div>
+                    <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#ffffff", fontWeight: 700, letterSpacing: 1 }}>LIFETIME ACCESS</div>
+                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.6)", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
+                  </div>
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
                   <div>
                     <span className={result.category === "bundle" || result.id === "combo-planche-lever" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: result.category === "bundle" || result.id === "combo-planche-lever" ? undefined : "var(--text)", lineHeight: 1 }}>${result.price}</span>
                     {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${result.originalPrice}</span>}
-                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", marginTop: 1 }}>lifetime access</div>
-                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", marginTop: 2 }}>⚡ Instant access · Web app · PDF download available</div>
                     {result.id === "combo-planche-lever" && (
                       <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#06b6d4", marginTop: 4 }}>🔗 Includes both programs</div>
                     )}
