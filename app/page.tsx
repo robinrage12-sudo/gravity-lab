@@ -5023,7 +5023,7 @@ function AppInner() {
         <div style={{ marginBottom: 36, display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
           <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", letterSpacing: 2, fontSize: 10, lineHeight: 1.5, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: "10px 18px", borderRadius: 4 }}>
             <span>⚡ NOT FOR EVERYONE — ELITE CALISTHENICS PROGRAMS</span>
-            <span style={{ fontFamily: "var(--fs)", fontStyle: "italic", fontWeight: 400, fontSize: 12, letterSpacing: 0.5, color: "rgba(255,130,0,0.75)", textTransform: "none" }}>From 0 to your prime.</span>
+            <span style={{ fontFamily: "var(--fs)", fontStyle: "italic", fontWeight: 400, fontSize: 10, letterSpacing: 2, color: "var(--orange)", textTransform: "none" }}>From 0 to your prime.</span>
           </div>
         </div>
 
@@ -5224,7 +5224,10 @@ function AppInner() {
                   <tr key={p.id} style={{ cursor: "pointer" }}
                     onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,69,0,.04)")}
                     onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-                    onClick={() => openProg(p)}>
+                    onClick={() => {
+                      const el = document.getElementById("programs");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }}>
                     <td style={{ fontWeight: 700, color: "var(--text)" }}>{p.title}</td>
                     <td><span className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border)", fontSize: 9 }}>{p.categoryGroup}</span></td>
                     <td><span className="badge" style={{ background: `${p.levelColor}15`, color: p.levelColor, border: `1px solid ${p.levelColor}28`, whiteSpace: "nowrap" }}>{p.level}</span></td>
