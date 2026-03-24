@@ -4658,22 +4658,6 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
         {result ? (
           <div>
-            {/* Urgency timer */}
-            {!timerExpired ? (
-              <div style={{ background: "rgba(255,69,0,0.08)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "12px 18px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)" }}>
-                  🔥 Your result is reserved for
-                </span>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 20, color: "var(--orange)", letterSpacing: 2 }}>
-                  {pad(timerMin)}:{pad(timerSec)}
-                </span>
-              </div>
-            ) : (
-              <div style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 8, padding: "12px 18px", marginBottom: 20, textAlign: "center" }}>
-                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ef4444", letterSpacing: 1 }}>⏰ Your reserved price expired — retake the quiz to unlock it again</span>
-              </div>
-            )}
-
             <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, color: "var(--orange)", textTransform: "uppercase", textAlign: "center" }}>✅ Your exact match</div>
 
             <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", border: `2px solid ${result.levelColor}40`, background: result.glowColor, marginBottom: 20, position: "relative", overflow: "visible" }}>
@@ -5036,44 +5020,65 @@ function AppInner() {
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
 
         {/* ── PROGRAMME BUTTONS ─────────────────────────────── */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", marginBottom: 36 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", marginBottom: 40, maxWidth: 860 }}>
           {[
-            { label: "🤸 Planche Foundation", id: "planche-foundation" },
-            { label: "🎯 Front Lever", id: "front-lever" },
-            { label: "🔥 Planche + Lever", id: "combo-planche-lever" },
-            { label: "⚡ Planche Elite", id: "planche-elite" },
-            { label: "💪 Hypertrophy", id: "hypertrophy" },
-            { label: "🏋️ Hybrid", id: "hybrid-athlete" },
-            { label: "👑 Bundle", id: "bundle", highlight: true },
-          ].map(btn => (
-            <a key={btn.id} href="#programs" style={{ textDecoration: "none" }}
-              onClick={e => {
-                e.preventDefault();
-                const el = document.getElementById("programs");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}>
-              <button style={{
-                fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, letterSpacing: 1.5,
-                textTransform: "uppercase", cursor: "pointer", transition: "all .2s",
-                padding: "13px 22px", borderRadius: 4,
-                background: (btn as any).highlight ? "var(--orange)" : "rgba(255,255,255,0.05)",
-                color: (btn as any).highlight ? "#fff" : "rgba(255,255,255,0.85)",
-                border: `1px solid ${(btn as any).highlight ? "var(--orange)" : "rgba(255,255,255,0.18)"}`,
-              }}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLButtonElement;
-                if (!(btn as any).highlight) { el.style.background = "rgba(255,69,0,0.12)"; el.style.borderColor = "rgba(255,69,0,0.5)"; el.style.color = "#fff"; }
-                else { el.style.background = "#ff6030"; el.style.transform = "translateY(-2px)"; el.style.boxShadow = "0 8px 24px rgba(255,69,0,.4)"; }
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLButtonElement;
-                if (!(btn as any).highlight) { el.style.background = "rgba(255,255,255,0.05)"; el.style.borderColor = "rgba(255,255,255,0.18)"; el.style.color = "rgba(255,255,255,0.85)"; }
-                else { el.style.background = "var(--orange)"; el.style.transform = "translateY(0)"; el.style.boxShadow = "none"; }
-              }}>
-                {btn.label}
+            { emoji: "🤸", label: "Planche Foundation", sub: "Beginner → Full Planche", id: "planche-foundation" },
+            { emoji: "🎯", label: "Front Lever", sub: "Zero → Elite Hold", id: "front-lever" },
+            { emoji: "🔥", label: "Planche + Front Lever", sub: "Best Duo — Save $19", id: "combo-planche-lever", accent: true },
+            { emoji: "⚡", label: "Planche Elite", sub: "Straddle → Maltese", id: "planche-elite" },
+            { emoji: "💪", label: "Hypertrophy", sub: "Muscle No Equipment", id: "hypertrophy" },
+            { emoji: "🏋️", label: "Hybrid Athlete", sub: "Gym + Calisthenics", id: "hybrid-athlete" },
+            { emoji: "👑", label: "Bundle — All 5", sub: "Best Value · $157", id: "bundle", highlight: true },
+          ].map(btn => {
+            const prog = PROGRAMS.find(p => p.id === btn.id);
+            const isHighlight = (btn as any).highlight;
+            const isAccent = (btn as any).accent;
+            return (
+              <button key={btn.id}
+                onClick={() => { if (prog) openProg(prog); }}
+                style={{
+                  fontFamily: "var(--fd)", cursor: "pointer",
+                  transition: "all .22s cubic-bezier(.4,0,.2,1)",
+                  padding: "14px 20px", borderRadius: 8,
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
+                  minWidth: 148,
+                  background: isHighlight
+                    ? "linear-gradient(135deg, var(--orange), #ff8c00)"
+                    : isAccent
+                    ? "rgba(6,182,212,0.08)"
+                    : "rgba(255,255,255,0.04)",
+                  color: "#fff",
+                  border: isHighlight
+                    ? "1px solid rgba(255,120,0,0.6)"
+                    : isAccent
+                    ? "1px solid rgba(6,182,212,0.35)"
+                    : "1px solid rgba(255,255,255,0.12)",
+                  boxShadow: isHighlight
+                    ? "0 4px 20px rgba(255,69,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15)"
+                    : isAccent
+                    ? "0 4px 16px rgba(6,182,212,0.12)"
+                    : "inset 0 1px 0 rgba(255,255,255,0.05)",
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLButtonElement;
+                  el.style.transform = "translateY(-3px)";
+                  if (isHighlight) { el.style.boxShadow = "0 10px 32px rgba(255,69,0,0.55), inset 0 1px 0 rgba(255,255,255,0.2)"; }
+                  else if (isAccent) { el.style.background = "rgba(6,182,212,0.15)"; el.style.borderColor = "rgba(6,182,212,0.6)"; el.style.boxShadow = "0 8px 24px rgba(6,182,212,0.2)"; }
+                  else { el.style.background = "rgba(255,69,0,0.1)"; el.style.borderColor = "rgba(255,69,0,0.4)"; el.style.boxShadow = "0 8px 24px rgba(255,69,0,0.15)"; }
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLButtonElement;
+                  el.style.transform = "translateY(0)";
+                  if (isHighlight) { el.style.boxShadow = "0 4px 20px rgba(255,69,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15)"; }
+                  else if (isAccent) { el.style.background = "rgba(6,182,212,0.08)"; el.style.borderColor = "rgba(6,182,212,0.35)"; el.style.boxShadow = "0 4px 16px rgba(6,182,212,0.12)"; }
+                  else { el.style.background = "rgba(255,255,255,0.04)"; el.style.borderColor = "rgba(255,255,255,0.12)"; el.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.05)"; }
+                }}>
+                <span style={{ fontSize: 22, lineHeight: 1 }}>{btn.emoji}</span>
+                <span style={{ fontWeight: 900, fontSize: 13, letterSpacing: 1.5, textTransform: "uppercase", lineHeight: 1.2, marginTop: 2 }}>{btn.label}</span>
+                <span style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 10, letterSpacing: 0.5, color: isHighlight ? "rgba(255,255,255,0.85)" : isAccent ? "rgba(6,182,212,0.9)" : "rgba(255,255,255,0.45)", textTransform: "none" }}>{btn.sub}</span>
               </button>
-            </a>
-          ))}
+            );
+          })}
         </div>
 
         <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
