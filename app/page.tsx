@@ -4126,9 +4126,6 @@ function SessionTable({ type, rows, onUpdate }: {
 // ═══════════════════════════════════════════════════════
 
 function StickyTopBar() {
-  const { h, m, s } = useCountdown();
-  const pad = (n: number) => String(n).padStart(2, "0");
-
   return (
     <div className="no-print" style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 300,
@@ -4138,24 +4135,13 @@ function StickyTopBar() {
       display: "flex", alignItems: "center", justifyContent: "center",
       gap: 20, padding: "0 16px",
     }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.9)", whiteSpace: "nowrap" }}>
-          🔥 Bundle launch price — disappears in{" "}
-          <strong style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#fff", letterSpacing: 1 }}>
-            {pad(h)}:{pad(m)}:{pad(s)}
-          </strong>
-        </span>
-      </div>
-
-      <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 12 }} className="hide-mobile">|</span>
-
-      <a href="#programs" className="hide-mobile" style={{ textDecoration: "none", flexShrink: 0 }}>
+      <a href="#programs" style={{ textDecoration: "none", flexShrink: 0 }}>
         <span style={{
-          fontFamily: "var(--fd)", fontSize: 10, fontWeight: 900, letterSpacing: 2,
+          fontFamily: "var(--fd)", fontSize: 11, fontWeight: 900, letterSpacing: 2,
           color: "#fff", textTransform: "uppercase",
           background: "rgba(255,255,255,0.2)", border: "1px solid rgba(255,255,255,0.35)",
           borderRadius: 20, padding: "3px 12px", whiteSpace: "nowrap", cursor: "pointer",
-        }}>Lock in now →</span>
+        }}>Choose your program →</span>
       </a>
     </div>
   );
@@ -5070,7 +5056,7 @@ function AppInner() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "166px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Built for those serious about actually progressing Programs</div>
 
         {/* Hook statement */}
         <div style={{ maxWidth: 560, marginBottom: 20, textAlign: "center" }}>
