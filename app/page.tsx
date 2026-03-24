@@ -2968,12 +2968,12 @@ function SessionBlock({ type, rows, onChangeRow, onAddRow, isAdvanced }: {
     <div style={{ marginBottom: 24 }}>
       <div style={{ background: info.color, borderRadius: "6px 6px 0 0", padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 16, color: "#fff", letterSpacing: 2 }}>{type.toUpperCase()}</span>
-        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff" }}>{info.range} · {info.desc}</span>
+        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.85)" }}>{info.range} · {info.desc}</span>
       </div>
       <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderTop: "none", borderRadius: "0 0 6px 6px", padding: "14px" }}>
         {/* Push/Pull toggle */}
         <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-          <div className="t-label" style={{ color: "#ffffff", fontSize: 9, marginRight: 4, alignSelf: "center" }}>CATEGORY:</div>
+          <div className="t-label" style={{ color: "rgba(255,255,255,0.5)", fontSize: 9, marginRight: 4, alignSelf: "center" }}>CATEGORY:</div>
           {(["push", "pull"] as const).map(cat => (
             <button key={cat} onClick={() => setCategory(cat)}
               style={{ padding: "4px 12px", borderRadius: 4, border: `1px solid ${category === cat ? "var(--orange)" : "var(--border)"}`, background: category === cat ? "var(--orange-dim)" : "transparent", color: category === cat ? "var(--orange)" : "rgba(255,255,255,0.5)", fontFamily: "var(--fd)", fontSize: 11, cursor: "pointer", letterSpacing: 1, textTransform: "uppercase" }}>
@@ -2984,14 +2984,14 @@ function SessionBlock({ type, rows, onChangeRow, onAddRow, isAdvanced }: {
         {/* Header */}
         <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 8 }}>
           {["Exercise", "Sets", "Reps", "Rest"].map(h => (
-            <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "#ffffff", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
+            <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
           ))}
         </div>
         {rows.map((row, i) => (
           <ExerciseInputRow key={i} row={row} onChange={r => onChangeRow(i, r)} suggestions={EXERCISE_SUGGESTIONS[category]} />
         ))}
         <button onClick={onAddRow}
-          style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "#ffffff", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
+          style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "rgba(255,255,255,0.4)", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.4)"; }}>
           + Add exercise
@@ -3423,13 +3423,13 @@ function ProgramBuilder({ programId }: { programId: string }) {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }} className="pg2">
         <div style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.25)", borderRadius: 8, padding: "20px" }}>
           <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#4ade80", letterSpacing: 2, marginBottom: 10 }}>✅ OPTION 1 — FOLLOW THE PROGRAM</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>
             The structured phases above are already designed. Follow them session by session. Zero thinking required — just show up and execute.
           </p>
         </div>
         <div style={{ background: "rgba(255,69,0,0.06)", border: "1px solid rgba(255,69,0,0.25)", borderRadius: 8, padding: "20px" }}>
           <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fb923c", letterSpacing: 2, marginBottom: 10 }}>🧠 OPTION 2 — BUILD YOUR OWN</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>
             Learn to program yourself using the exercise library, methods and session templates below. You leave with the ability to train independently forever — and build a custom program with the interactive journal above.
           </p>
         </div>
@@ -3475,16 +3475,16 @@ function ProgramBuilder({ programId }: { programId: string }) {
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 5 }}>
-                      <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "#ffffff", fontWeight: 700 }}>{item.label}</span>
+                      <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "rgba(255,255,255,0.95)", fontWeight: 700 }}>{item.label}</span>
                       <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: item.color, background: `${item.color}15`, padding: "2px 8px", borderRadius: 20 }}>{item.time}</span>
                     </div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.6 }}>{item.desc}</p>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
             <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "#ffffff", letterSpacing: 2, marginBottom: 12 }}>📅 THE TRAINING CYCLE — NOT A WEEKLY SCHEDULE</div>
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 12 }}>📅 THE TRAINING CYCLE — NOT A WEEKLY SCHEDULE</div>
 
               {/* Rolling cycle visual */}
               <div style={{ display: "flex", gap: 4, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
@@ -3510,8 +3510,8 @@ function ProgramBuilder({ programId }: { programId: string }) {
                 ))}
               </div>
 
-              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.65 }}>
-                This is <strong style={{ color: "#ffffff" }}>not a fixed weekly schedule</strong> — it's a rolling cycle. Train every other day minimum. If life gets in the way and you rest 2 days, no problem — just pick up where you left off. Force day always followed by rest, Volume day always followed by rest. The pattern continues regardless of which day of the week it falls on.
+              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.65 }}>
+                This is <strong style={{ color: "rgba(255,255,255,0.85)" }}>not a fixed weekly schedule</strong> — it's a rolling cycle. Train every other day minimum. If life gets in the way and you rest 2 days, no problem — just pick up where you left off. Force day always followed by rest, Volume day always followed by rest. The pattern continues regardless of which day of the week it falls on.
               </p>
             </div>
           </div>
@@ -3519,7 +3519,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
           {/* Cycles */}
           <div style={{ background: "rgba(255,69,0,0.04)", border: "1px solid rgba(255,69,0,0.2)", borderRadius: 8, padding: "20px" }}>
             <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "rgba(255,130,0,0.9)", letterSpacing: 2, marginBottom: 14 }}>🔄 TRAINING CYCLES — 3 TO 5 WEEKS</div>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65, marginBottom: 16 }}>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.65, marginBottom: 16 }}>
               After 3-5 weeks, the same stimulus stops producing gains. Change something — swap exercises for harder variants, change method, or increase load.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }} className="pg3">
@@ -3530,15 +3530,15 @@ function ProgramBuilder({ programId }: { programId: string }) {
               ].map((c) => (
                 <div key={c.week} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${c.color}25`, borderRadius: 6, padding: "14px" }}>
                   <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: c.color, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 5 }}>{c.week}</div>
-                  <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ffffff", fontWeight: 700, marginBottom: 5 }}>{c.label}</div>
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", lineHeight: 1.5 }}>{c.desc}</p>
+                  <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, marginBottom: 5 }}>{c.label}</div>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>{c.desc}</p>
                 </div>
               ))}
             </div>
             <div style={{ marginTop: 14, padding: "14px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 6 }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "#ffffff", letterSpacing: 2, marginBottom: 8 }}>🔀 HOW TO VARY THE STIMULUS</div>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.65 }}>
-                Two ways to vary when you stagnate: <strong style={{ color: "#ffffff" }}>change the method</strong> (same exercise, different execution — switch from negatives to push-ups, from max holds to EMOM) or <strong style={{ color: "#ffffff" }}>change the exercise</strong> (same type, harder variant — advance from tuck negatives to straddle negatives, from tuck rows to one-leg rows). You don't need to change both at once — one variable at a time produces the clearest progress signal.
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 8 }}>🔀 HOW TO VARY THE STIMULUS</div>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>
+                Two ways to vary when you stagnate: <strong style={{ color: "rgba(255,255,255,0.85)" }}>change the method</strong> (same exercise, different execution — switch from negatives to push-ups, from max holds to EMOM) or <strong style={{ color: "rgba(255,255,255,0.85)" }}>change the exercise</strong> (same type, harder variant — advance from tuck negatives to straddle negatives, from tuck rows to one-leg rows). You don't need to change both at once — one variable at a time produces the clearest progress signal.
               </p>
             </div>
 
@@ -3546,7 +3546,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
             {(isPlanche && !isFrontLever) && (
               <div style={{ marginTop: 14, padding: "16px 18px", background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.2)", borderRadius: 8 }}>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#60a5fa", letterSpacing: 2, marginBottom: 8 }}>💡 HEALTH & PERFORMANCE TIP</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65 }}>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
                   Training only pushing (planche) without pulling creates anterior shoulder dominance over time — a common cause of shoulder imbalances and injury. Adding the <strong style={{ color: "#60a5fa" }}>Front Lever</strong> as your pulling counterpart directly fixes this. Both skills also reinforce each other: the body tension from the lever improves planche stability, and the protraction from the planche improves lever positioning.
                 </p>
                 <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(59,130,246,0.8)" }}>
@@ -3557,7 +3557,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
             {(isFrontLever && !isPlanche) && (
               <div style={{ marginTop: 14, padding: "16px 18px", background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.2)", borderRadius: 8 }}>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#fb923c", letterSpacing: 2, marginBottom: 8 }}>💡 HEALTH & PERFORMANCE TIP</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65 }}>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
                   The front lever builds elite pulling strength — but without a pushing counterpart, postural imbalances can develop over time. Adding the <strong style={{ color: "#fb923c" }}>Planche</strong> as your pushing skill creates a complete push/pull system: better shoulder health, more balanced strength, and faster progress on both movements.
                 </p>
                 <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(249,115,22,0.8)" }}>
@@ -3586,20 +3586,20 @@ function ProgramBuilder({ programId }: { programId: string }) {
                 <button onClick={() => setOpenExo(openExo === exo.name ? null : exo.name)}
                   style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "13px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
                   <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: typeColors[exo.type] || "#fff", background: `${typeColors[exo.type] || "#fff"}18`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.type}</span>
-                  <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ffffff", fontWeight: 700, flex: 1 }}>{exo.name}</span>
+                  <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, flex: 1 }}>{exo.name}</span>
                   <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: levelColors[exo.level] || "#fff", background: `${levelColors[exo.level] || "#fff"}15`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.level}</span>
-                  {openExo === exo.name ? <ChevronUp size={12} style={{ color: "#ffffff", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "#ffffff", flexShrink: 0 }} />}
+                  {openExo === exo.name ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />}
                 </button>
                 {openExo === exo.name && (
                   <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.7, marginTop: 12, marginBottom: 12 }}>{exo.desc}</p>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginTop: 12, marginBottom: 12 }}>{exo.desc}</p>
                     <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
                       {exo.cues.map((cue, i) => (
                         <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
                           <div style={{ width: 16, height: 16, borderRadius: 2, background: "rgba(255,100,0,0.15)", border: "1px solid rgba(255,100,0,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
                             <span style={{ fontFamily: "var(--fd)", fontSize: 8, color: "#f97316" }}>{i + 1}</span>
                           </div>
-                          <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.5 }}>{cue}</p>
+                          <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{cue}</p>
                         </div>
                       ))}
                     </div>
@@ -3619,17 +3619,17 @@ function ProgramBuilder({ programId }: { programId: string }) {
               <button onClick={() => setOpenMethod(openMethod === method.name ? null : method.name)}
                 style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "13px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
                 <span style={{ fontSize: 18, flexShrink: 0 }}>{method.emoji}</span>
-                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ffffff", fontWeight: 700, flex: 1 }}>{method.name}</span>
+                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, flex: 1 }}>{method.name}</span>
                 <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,130,0,0.8)", flexShrink: 0 }}>Rest: {method.restTime}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", flexShrink: 0 }}>{method.difficulty}</span>
-                {openMethod === method.name ? <ChevronUp size={12} style={{ color: "#ffffff", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "#ffffff", flexShrink: 0 }} />}
+                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", flexShrink: 0 }}>{method.difficulty}</span>
+                {openMethod === method.name ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />}
               </button>
               {openMethod === method.name && (
                 <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.7, marginTop: 12, marginBottom: 10 }}>{method.desc}</p>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginTop: 12, marginBottom: 10 }}>{method.desc}</p>
                   <div style={{ background: "rgba(255,69,0,0.05)", borderLeft: "2px solid rgba(255,100,0,0.4)", padding: "10px 14px", borderRadius: "0 4px 4px 0" }}>
                     <div style={{ fontFamily: "var(--fd)", fontSize: 9, color: "rgba(255,130,0,0.8)", letterSpacing: 1.5, marginBottom: 4 }}>💡 EXAMPLE</div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.55, fontStyle: "italic" }}>{method.example}</p>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.55, fontStyle: "italic" }}>{method.example}</p>
                   </div>
                 </div>
               )}
@@ -3641,7 +3641,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
       {/* ── SAMPLE PROGRAM ── */}
       {activeTab === "program" && (
         <div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65, marginBottom: 20 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, marginBottom: 20 }}>
             Example cycle for {activeSkill}. Adapt exercises to your current level using the library above. Run this for 3-5 weeks then progress to harder variations.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="pg2">
@@ -3651,14 +3651,14 @@ function ProgramBuilder({ programId }: { programId: string }) {
             ].map((day) => (
               <div key={day.label} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${day.color}25`, borderRadius: 8, padding: "20px" }}>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: day.color, letterSpacing: 2, marginBottom: 4 }}>{day.label}</div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", marginBottom: 14 }}>{day.desc}</div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 14 }}>{day.desc}</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {day.items.map((item, i) => (
                     <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                       <div style={{ width: 18, height: 18, borderRadius: "50%", background: `${day.color}15`, border: `1px solid ${day.color}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                         <span style={{ fontFamily: "var(--fd)", fontSize: 9, color: day.color }}>{i + 1}</span>
                       </div>
-                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.5 }}>{item}</p>
+                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{item}</p>
                     </div>
                   ))}
                 </div>
@@ -3666,8 +3666,8 @@ function ProgramBuilder({ programId }: { programId: string }) {
             ))}
           </div>
           <div style={{ marginTop: 14, padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6 }}>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.65 }}>
-              <strong style={{ color: "#ffffff" }}>How to progress:</strong> when Force exercises feel manageable (you could do 1-2 more reps), advance to the next harder variation in the library. When Volume exercises become easy at given reps, add reps or advance variation. Every 3-5 weeks, rotate to keep the stimulus fresh.
+            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
+              <strong style={{ color: "rgba(255,255,255,0.8)" }}>How to progress:</strong> when Force exercises feel manageable (you could do 1-2 more reps), advance to the next harder variation in the library. When Volume exercises become easy at given reps, add reps or advance variation. Every 3-5 weeks, rotate to keep the stimulus fresh.
             </p>
           </div>
         </div>
@@ -3739,7 +3739,7 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
           ))}
         </div>
 
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.65, marginBottom: 14 }}>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, marginBottom: 14 }}>
           This is <strong style={{ color: "#ffffff" }}>not a weekly schedule</strong> — it's a rolling cycle. Always one rest day (48h minimum) between sessions. If life gets in the way and you rest 2 days, no problem — just resume where you left off. The pattern continues regardless of which day of the week it falls on.
         </p>
 
@@ -3750,7 +3750,7 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
               <div style={{ width: 10, height: 10, borderRadius: 2, background: info.color, flexShrink: 0, marginTop: 3 }} />
               <div>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fff", fontWeight: 700 }}>{type} — {info.range}</div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff" }}>{info.desc}</div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.55)" }}>{info.desc}</div>
               </div>
             </div>
           ))}
@@ -3763,31 +3763,31 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
         const rows = sessionRows[label];
         return (
           <div key={label} style={{ marginBottom: 24 }}>
-            <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
+            <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
               📅 {label} <span style={{ color: info.color, marginLeft: 6 }}>({type})</span>
-              <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", marginLeft: 8 }}>→ rest day after</span>
+              <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.25)", marginLeft: 8 }}>→ rest day after</span>
             </div>
             <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${info.color}33`, marginBottom: 4 }}>
               <div style={{ background: info.color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "#fff", letterSpacing: 2 }}>{type.toUpperCase()}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{info.range}</span>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.8)", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{info.range}</span>
               </div>
               <div style={{ background: "var(--bg-card)", padding: "14px" }}>
                 <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
                   {(["push", "pull"] as const).map(cat => (
-                    <span key={cat} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 4, padding: "3px 10px", letterSpacing: 1.5, textTransform: "uppercase" }}>{cat}</span>
+                    <span key={cat} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.4)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 4, padding: "3px 10px", letterSpacing: 1.5, textTransform: "uppercase" }}>{cat}</span>
                   ))}
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 8 }}>
                   {["Exercise", "Sets", "Reps", "Rest"].map(h => (
-                    <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "#ffffff", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
+                    <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "rgba(255,255,255,0.35)", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
                   ))}
                 </div>
                 {rows.map((row, i) => (
                   <ExerciseInputRow key={i} row={row} onChange={r => updateRow(label, i, r)} suggestions={[...EXERCISE_SUGGESTIONS.push, ...EXERCISE_SUGGESTIONS.pull]} />
                 ))}
                 <button onClick={() => addRow(label)}
-                  style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "#ffffff", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
+                  style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "rgba(255,255,255,0.3)", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.3)"; }}>
                   + Add exercise
@@ -4080,7 +4080,7 @@ function SessionTable({ type, rows, onUpdate }: {
     <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${color}33`, marginBottom: 20 }}>
       <div style={{ background: color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 16, color: "#fff", letterSpacing: 2 }}>{label}</span>
-        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{range}</span>
+        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.8)", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{range}</span>
       </div>
       <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--fb)" }}>
@@ -4125,7 +4125,50 @@ function SessionTable({ type, rows, onUpdate }: {
 // STICKY TOP BAR
 // ═══════════════════════════════════════════════════════
 
-// StickyTopBar removed
+function StickyTopBar() {
+  const quickLinks = [
+    { label: "🤸 Planche", id: "planche-foundation", stripe: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h" },
+    { label: "🎯 Front Lever", id: "front-lever", stripe: "https://buy.stripe.com/8x2aEZ8aZamB5Z910V3ZK0g" },
+    { label: "🔥 Planche + Lever", id: "combo-planche-lever", stripe: "https://buy.stripe.com/3cI8wRfDreCR3R19xr3ZK0i" },
+    { label: "⚡ Planche Elite", id: "planche-elite", stripe: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f" },
+    { label: "🔥 Hypertrophy", id: "hypertrophy", stripe: "https://buy.stripe.com/fZu6oJeznamB87hbFz3ZK0d" },
+    { label: "💪 Hybrid", id: "hybrid-athlete", stripe: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e" },
+    { label: "👑 Bundle $157", id: "bundle", stripe: "https://buy.stripe.com/fZu28t76VcuJdrBbFz3ZK0j" },
+  ];
+
+  return (
+    <div className="no-print" style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 300,
+      background: "rgba(10,10,10,0.97)",
+      backdropFilter: "blur(16px)",
+      borderBottom: "1px solid rgba(255,69,0,0.2)",
+      height: 36,
+      display: "flex", alignItems: "center",
+      padding: "0 12px",
+      overflowX: "auto",
+      gap: 4,
+    }}>
+      <span style={{ fontFamily: "var(--fd)", fontSize: 9, color: "var(--orange)", letterSpacing: 2, whiteSpace: "nowrap", marginRight: 6, flexShrink: 0 }}>PROGRAMS →</span>
+      {quickLinks.map(link => (
+        <a key={link.id} href={link.stripe} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", flexShrink: 0 }}>
+          <span style={{
+            fontFamily: "var(--fd)", fontSize: 10, fontWeight: 700, letterSpacing: 1,
+            color: link.id === "bundle" ? "var(--orange)" : "rgba(255,255,255,0.75)",
+            background: link.id === "bundle" ? "rgba(255,69,0,0.15)" : "rgba(255,255,255,0.05)",
+            border: `1px solid ${link.id === "bundle" ? "rgba(255,69,0,0.4)" : "rgba(255,255,255,0.1)"}`,
+            borderRadius: 3, padding: "3px 10px", whiteSpace: "nowrap", cursor: "pointer",
+            display: "inline-block",
+            transition: "all .15s",
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,69,0,0.5)"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = link.id === "bundle" ? "var(--orange)" : "rgba(255,255,255,0.75)"; (e.currentTarget as HTMLElement).style.borderColor = link.id === "bundle" ? "rgba(255,69,0,0.4)" : "rgba(255,255,255,0.1)"; }}>
+            {link.label}
+          </span>
+        </a>
+      ))}
+    </div>
+  );
+}
 
 // ═══════════════════════════════════════════════════════
 // PROGRAM CARD
@@ -4133,7 +4176,7 @@ function SessionTable({ type, rows, onUpdate }: {
 
 function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Program) => void }) {
   return (
-    <div id={`card-${p.id}`} className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }} >
+    <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }} onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : onOpen(p)}>
       {/* Clip inner content but allow badge to overflow */}
       <div style={{ position: "absolute", inset: 0, borderRadius: 8, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at top left, ${p.glowColor}, transparent 60%)` }} />
@@ -4182,14 +4225,14 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         {/* Format badge */}
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
           {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
-            <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
+            <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 6, padding: "8px 10px" }}>
           <span style={{ fontSize: 13 }}>📱</span>
           <div>
             <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#ffffff", fontWeight: 700, letterSpacing: 1 }}>LIFETIME ACCESS</div>
-            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
+            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.6)", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
@@ -4208,7 +4251,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
                 <button className={`btn-primary ${p.category === "bundle" || p.id === "combo-planche-lever" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>I want this →</button>
               </a>
             ) : (
-              <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => { document.getElementById("programs")?.scrollIntoView({behavior:"smooth"}); }}>See programs →</button>
+              <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={(e) => { e.stopPropagation(); onOpen(p); }}>I want this →</button>
             )}
           </div>
         </div>
@@ -4658,6 +4701,22 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
         {result ? (
           <div>
+            {/* Urgency timer */}
+            {!timerExpired ? (
+              <div style={{ background: "rgba(255,69,0,0.08)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "12px 18px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)" }}>
+                  🔥 Your result is reserved for
+                </span>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 20, color: "var(--orange)", letterSpacing: 2 }}>
+                  {pad(timerMin)}:{pad(timerSec)}
+                </span>
+              </div>
+            ) : (
+              <div style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 8, padding: "12px 18px", marginBottom: 20, textAlign: "center" }}>
+                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ef4444", letterSpacing: 1 }}>⏰ Your reserved price expired — retake the quiz to unlock it again</span>
+              </div>
+            )}
+
             <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, color: "var(--orange)", textTransform: "uppercase", textAlign: "center" }}>✅ Your exact match</div>
 
             <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", border: `2px solid ${result.levelColor}40`, background: result.glowColor, marginBottom: 20, position: "relative", overflow: "visible" }}>
@@ -4697,14 +4756,14 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
                   {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
-                    <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
+                    <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
                   ))}
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 6, padding: "8px 10px" }}>
                   <span style={{ fontSize: 13 }}>📱</span>
                   <div>
                     <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#ffffff", fontWeight: 700, letterSpacing: 1 }}>LIFETIME ACCESS</div>
-                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
+                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.6)", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
                   </div>
                 </div>
 
@@ -4722,7 +4781,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                         <button className={`btn-primary cta-pulse ${result.category === "bundle" || result.id === "combo-planche-lever" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>I want this →</button>
                       </a>
                     ) : (
-                      <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => { document.getElementById("programs")?.scrollIntoView({behavior:"smooth"}); }}>See programs →</button>
+                      <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => onOpen(result)}>I want this →</button>
                     )}
                     <button className="btn-ghost" style={{ fontSize: 11 }} onClick={reset}>↩ Retake</button>
                   </div>
@@ -4808,7 +4867,7 @@ const CSS = `
   --orange:#FF4500;--orange-dim:rgba(255,69,0,.1);--orange-border:rgba(255,69,0,.28);
   --bg:#0A0A0A;--bg-card:#111;--bg-card2:#141414;
   --border:rgba(255,255,255,.07);--border-bright:rgba(255,255,255,.14);
-  --text:#FFF;--text-dim:#ffffff;--text-faint:#ffffff;
+  --text:#FFF;--text-dim:#ffffff;--text-faint:rgba(255,255,255,.65);
   --fd:'Barlow Condensed',Impact,sans-serif;--fb:'Barlow',sans-serif;--fs:'Cormorant Garamond',Georgia,serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -4825,7 +4884,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .btn-secondary{background:transparent;color:var(--orange);border:1px solid var(--orange-border);padding:11px 22px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
 .btn-secondary:hover{background:var(--orange-dim)}
 .btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-bright);padding:9px 16px;font-family:var(--fd);font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
-.btn-ghost:hover{color:var(--text);border-color:#fff}
+.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.28)}
 .card-lift{transition:transform .3s cubic-bezier(.4,0,.2,1),border-color .3s,box-shadow .3s;cursor:pointer}
 .card-lift:hover{transform:translateY(-5px);border-color:var(--orange-border)!important;box-shadow:0 20px 56px rgba(255,69,0,.14)}
 .progress-bar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
@@ -4880,7 +4939,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
   .ex-grid{grid-template-columns:1fr!important}
   .dash-head{flex-direction:column!important;align-items:flex-start!important;gap:14px!important}
   .hero-title{font-size:clamp(52px,14vw,90px)!important}
-  .hero-section{padding-top:100px!important}
   .track-btn{padding:8px 12px!important;font-size:11px!important}
   .testimonial-grid{grid-template-columns:1fr!important}
   .bottom-nav{display:flex!important}
@@ -4953,7 +5011,7 @@ function AppInner() {
                 <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "#fff", letterSpacing: 1 }}>
                   Payment confirmed — welcome to {active.title}!
                 </div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", marginTop: 2 }}>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.8)", marginTop: 2 }}>
                   Your full program is unlocked below. Bookmark this page for future access.
                 </div>
               </div>
@@ -4984,7 +5042,10 @@ function AppInner() {
       <style>{CSS}</style>
       <div className="noise" /><div className="grid-bg" />
 
-      <nav className="no-print" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
+      {/* ── STICKY TOP BAR ────────────────────────────────────── */}
+      <StickyTopBar />
+
+      <nav className="no-print" style={{ position: "fixed", top: 36, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 19, letterSpacing: 4, color: "var(--orange)" }}>GRAVITY<span style={{ color: "var(--text)" }}>LAB</span></div>
         <div className="desktop-nav-links" style={{ display: "flex", gap: 22 }}>
           {["Programs", "Method", "Guide"].map(l => (
@@ -5016,65 +5077,46 @@ function AppInner() {
       </nav>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "100px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "166px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
-        {/* Badge */}
-        <div style={{ marginBottom: 36, display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
-          <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", letterSpacing: 2, fontSize: 10, lineHeight: 1.5, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: "10px 18px", borderRadius: 4 }}>
-            <span>⚡ NOT FOR EVERYONE — ELITE CALISTHENICS PROGRAMS</span>
-            <span style={{ fontFamily: "var(--fs)", fontStyle: "italic", fontWeight: 400, fontSize: 15, letterSpacing: 1, color: "#ffffff", textTransform: "none", fontWeight: 700 }}>From 0 to your prime.</span>
-          </div>
-        </div>
-
-        {/* Hook */}
-        <div style={{ maxWidth: 500, marginBottom: 20, textAlign: "center" }}>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8, marginBottom: 10 }}>
-            Most people train for months and go nowhere.<br />
-            <strong style={{ color: "#fff" }}>Not because they lack effort. Because they lack structure.</strong>
+        {/* Hook statement */}
+        <div style={{ maxWidth: 560, marginBottom: 20, textAlign: "center" }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.7, marginBottom: 8 }}>
+            Most people will read this page, feel inspired — and do nothing.<br />
+            <span style={{ color: "#ffffff" }}>This is built for the ones who actually follow through.</span>
           </p>
-          <p style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "var(--orange)", letterSpacing: 2, textTransform: "uppercase" }}>
-            This fixes that. Are you in?
+          <p style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 17, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>
+            Whatever your level — are you one of them?
           </p>
         </div>
-
-        {/* Title */}
-        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 20 }}>
+        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 28 }}>
           DOMINATE<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>GRAVITY</span>
         </h1>
+        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 17, color: "#ffffff", maxWidth: 500, marginBottom: 32, lineHeight: 1.65 }}>No fluff. No random YouTube sets. Structured programs engineered for people serious about Planche, Front Lever, Muscle & Hybrid training.</p>
 
-        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 16, color: "#ffffff", maxWidth: 420, marginBottom: 32, lineHeight: 1.7 }}>
-          Planche. Front Lever. Muscle. Hybrid.<br />Engineered programs — not random workouts.
-        </p>
-
-        {/* Trust pills */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 36, flexWrap: "wrap", justifyContent: "center" }}>
+        {/* Social proof line */}
+        <div style={{ display: "flex", gap: 20, marginBottom: 40, flexWrap: "wrap", justifyContent: "center" }}>
           {[
-            { icon: "🏆", text: "8 years of R&D" },
-            { icon: "🔬", text: "Biomechanics-driven" },
-            { icon: "📱", text: "Lifetime access" },
+            { icon: "🤸", text: "Planche & Front Lever" },
+            { icon: "💪", text: "Real Muscle. No BS." },
+            { icon: "🌟", text: "For the 1% who commit" },
           ].map((item, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: "6px 14px" }}>
-              <span style={{ fontSize: 12 }}>{item.icon}</span>
-              <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 0.5 }}>{item.text}</span>
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ fontSize: 14 }}>{item.icon}</span>
+              <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 0.5, fontWeight: 500 }}>{item.text}</span>
             </div>
           ))}
         </div>
 
-        {/* CTAs */}
-        <div className="hero-ctas" style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 48 }}>
-          <a href="#programs">
-            <button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "16px 44px", letterSpacing: 2.5 }}>
-              Choose your program <span className="wiggle" style={{ display: "inline-block", marginLeft: 4 }}><ChevronDown size={13} /></span>
-            </button>
-          </a>
-          <a href="#results-section">
-            <button className="btn-secondary">📸 See real results</button>
-          </a>
+        <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 48 }}>
+          <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs <span className="wiggle" style={{display:"inline-block"}}><ChevronDown size={13} /></span></button></a>
+          <a href="#results-section"><button className="btn-secondary">📸 Proof it works</button></a>
         </div>
 
         {/* Scroll indicator */}
-        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, opacity: 0.3 }}>
+        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, opacity: 0.35 }}>
           <span style={{ fontFamily: "var(--fb)", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "var(--text-faint)" }}>Scroll</span>
           <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, var(--orange), transparent)" }} />
         </div>
@@ -5085,49 +5127,50 @@ function AppInner() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "center" }} className="pg2">
             <div>
-              <div className="badge" style={{ background: "rgba(255,69,0,.08)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 9 }}>⚠️ THE REAL REASON YOU'RE NOT PROGRESSING</div>
+              <div className="badge" style={{ background: "rgba(255,69,0,.08)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 9 }}>⚠️ NOBODY WANTS TO HEAR THIS</div>
               <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,58px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 28 }}>
-                Hard work<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>without structure</span><br />is just damage.
+                You're not<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>making progress</span><br />on purpose.
               </h2>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8, marginBottom: 20 }}>
-                You're not stuck because you're lazy. You're stuck because no one gave you a real plan. YouTube workouts, 30-day challenges, random sets — they all share the same flaw: <strong style={{ color: "#fff" }}>zero progression logic.</strong>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 20 }}>
+                You copy exercises from TikTok. You run a "30-day challenge." You train 6 days a week with zero structure and wonder why nothing changes. It's not about effort — you have plenty of that.
               </p>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8, marginBottom: 28 }}>
-                Without structure, effort accumulates into fatigue — not results. That's a system problem, not a willpower problem.
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 32 }}>
+                <strong style={{ color: "var(--text)" }}>The uncomfortable truth:</strong> without method, hard work just digs you deeper into the same plateau. That's not a motivational problem — it's a structural one.
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[
-                  "Training without knowing which muscle should fire — and why",
-                  "Skipping progressions because they look too easy — then wondering why you plateau",
-                  "Resting 30s when your nervous system needs 3 minutes",
-                  "Training 6 days a week until your tendons quit",
-                  "Skipping warm-ups on the exercises that destroy shoulders and wrists",
-                  "Jumping to advanced before owning the basics",
-                  "Quitting at week 3 because week 4 never existed in your plan",
-                ].map((text, i) => (
+                  ["❌", "Training without knowing which muscle is supposed to fire — and why"],
+                  ["❌", "Skipping progressions because they look too easy — then wondering why you're stuck"],
+                  ["❌", "Resting 30 seconds between sets when your nervous system needs 3 minutes"],
+                  ["❌", "Training every day because 'more = better' — until your tendons disagree"],
+                  ["❌", "Skipping warm-ups on the exercises that destroy shoulders and wrists"],
+                  ["❌", "Following a random program you found for free — with no logic, no progression curve"],
+                  ["❌", "Jumping to the advanced version before owning the basics"],
+                  ["❌", "Quitting after 3 weeks because you had no idea what week 4 was supposed to look like"],
+                ].map(([icon, text], i) => (
                   <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <span style={{ fontSize: 13, flexShrink: 0, marginTop: 2, color: "#ef4444" }}>✕</span>
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.55 }}>{text}</span>
+                    <span style={{ fontSize: 14, flexShrink: 0, marginTop: 2 }}>{icon}</span>
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.5 }}>{text}</span>
                   </div>
                 ))}
               </div>
             </div>
             <div>
-              <div style={{ background: "linear-gradient(135deg, rgba(255,69,0,0.07), rgba(255,69,0,0.02))", border: "1px solid var(--orange-border)", borderRadius: 12, padding: "32px 30px" }}>
-                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 12, letterSpacing: 3, color: "var(--orange)", marginBottom: 24, textTransform: "uppercase" }}>✅ What actually moves the needle</div>
+              <div style={{ background: "linear-gradient(135deg, rgba(255,69,0,0.06), rgba(255,69,0,0.02))", border: "1px solid var(--orange-border)", borderRadius: 12, padding: "32px 30px" }}>
+                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, letterSpacing: 3, color: "var(--orange)", marginBottom: 20, textTransform: "uppercase" }}>✅ What actually moves the needle</div>
                 {[
-                  { icon: "🗓️", title: "Every session builds on the last", desc: "Not a workout. A system. Each session is architected to prepare the next one — week by week." },
-                  { icon: "⏱️", title: "Rest times are part of the program", desc: "60s vs 3min produces completely different adaptations. This is not a detail — it's the program." },
-                  { icon: "📈", title: "Progressions you have to earn", desc: "6 steps before a full planche. Skip them and you don't get advanced — you get stuck." },
-                  { icon: "🔥", title: "Warm-ups that are non-negotiable", desc: "Wrists, shoulders, tendons. Skip this and you're not brave — you're just injuring yourself slowly." },
-                  { icon: "🧠", title: "Understanding why, not just what", desc: "When you know the biomechanics, you correct your own errors in real time. That's when progress compounds." },
-                  { icon: "🛑", title: "Knowing exactly when to rest", desc: "Muscle is built in recovery. Training through fatigue doesn't build — it breaks." },
+                  { icon: "🗓️", title: "A plan where every session builds on the last", desc: "Not a random workout. A system. Each session is engineered to prepare the next one." },
+                  { icon: "🔥", title: "A warm-up that's not optional", desc: "Wrists, shoulders, tendons — if you skip this, you're not brave, you're just injuring yourself slowly." },
+                  { icon: "⏱️", title: "Rest times that are part of the program", desc: "60 seconds vs 3 minutes produces completely different adaptations. This is not a detail." },
+                  { icon: "📈", title: "Progressions you actually have to earn", desc: "There are 6 steps before a full planche. Skipping them doesn't make you advanced — it makes you stuck." },
+                  { icon: "🛑", title: "Knowing exactly when to rest — and respecting it", desc: "Your muscles grow during recovery. Training through fatigue doesn't build — it breaks." },
+                  { icon: "🧠", title: "Understanding why — not just what to do", desc: "When you know the biomechanics, you fix your own mistakes in real time. That's when progress compounds." },
                 ].map((item, i) => (
-                  <div key={i} style={{ display: "flex", gap: 14, marginBottom: i < 5 ? 20 : 0, paddingBottom: i < 5 ? 20 : 0, borderBottom: i < 5 ? "1px solid rgba(255,255,255,.05)" : "none" }}>
+                  <div key={i} style={{ display: "flex", gap: 14, marginBottom: i < 5 ? 20 : 0, paddingBottom: i < 5 ? 20 : 0, borderBottom: i < 5 ? "1px solid rgba(255,255,255,.06)" : "none" }}>
                     <span style={{ fontSize: 20, flexShrink: 0, width: 32, textAlign: "center" }}>{item.icon}</span>
                     <div>
-                      <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, color: "#fff", marginBottom: 4 }}>{item.title}</div>
-                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.55 }}>{item.desc}</p>
+                      <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, color: "var(--text)", marginBottom: 4 }}>{item.title}</div>
+                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.5 }}>{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -5142,32 +5185,32 @@ function AppInner() {
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }} className="pg2">
             <div>
-              <div className="badge" style={{ background: "rgba(255,69,0,.08)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 9 }}>👤 WHO BUILT THIS</div>
+              <div className="badge" style={{ background: "rgba(255,69,0,.08)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 9 }}>👤 THE MIND BEHIND THE PROGRAMS</div>
               <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(30px,4vw,52px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 24 }}>
-                8 years.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Every rep.</span>
+                8 years.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>No shortcuts.</span>
               </h2>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8, marginBottom: 18 }}>
-                I'm Axel. 8 years of calisthenics — not casually. Obsessively. Every progression, every plateau, every injury, every breakthrough. I didn't just train the planche — I failed it for 2 years before I figured out why.
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 18 }}>
+                My name is Axel. I've been training calisthenics for 8 years — not casually, obsessively. Every progression, every plateau, every injury, every breakthrough. I've lived all of it.
               </p>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8, marginBottom: 18 }}>
-                These programs aren't theory. They're the <strong style={{ color: "#fff" }}>exact system</strong> I used — rebuilt, refined, and structured so you don't spend years figuring out what I had to.
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 18 }}>
+                These programs aren't built from theory. They're built from <strong style={{ color: "var(--text)" }}>8 years of personal experimentation</strong> — combined with deep research into biomechanics, periodization, and connective tissue adaptation. The kind of knowledge you don't find in YouTube comments.
               </p>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8 }}>
-                The cues, the rest times, the progressions — these details took years to identify. <strong style={{ color: "#fff" }}>They're not in any YouTube video.</strong> They're here.
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75 }}>
+                What I'm sharing isn't just what works. It's what works <strong style={{ color: "var(--text)" }}>specifically</strong> — the exact cues, the exact rest times, the exact progressions that most coaches skip because they never had to figure them out the hard way.
               </p>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {[
-                { icon: "🧠", title: "8 years of first-hand research", desc: "Train, fail, adjust, repeat. Every program is the output of real iterations — not borrowed content." },
-                { icon: "🔬", title: "Biomechanics-driven", desc: "Joint angles, muscle activation, lever mechanics. Knowing why a movement works is what separates real progress from random effort." },
-                { icon: "⚡", title: "Details you won't find elsewhere", desc: "Specific cues, exact timing, progression triggers — the things that took years to nail down, condensed into every session." },
-                { icon: "🎯", title: "Built for real conditions", desc: "No gym? Plateau? Starting from scratch? Every scenario has been trained through personally." },
+                { icon: "🧠", title: "8 years of first-hand research", desc: "Every program is the result of training, failing, adjusting, and training again. No theory without practice." },
+                { icon: "🔬", title: "Biomechanics-driven methodology", desc: "Understanding why a movement works — joint angles, muscle activation, lever mechanics — is what separates real progress from random effort." },
+                { icon: "⚡", title: "Training insights you won't find elsewhere", desc: "The specific cues, timing details, and progression triggers that took years to identify. Condensed into every session." },
+                { icon: "🎯", title: "Built for real athletes, not ideal conditions", desc: "No gym? No experience? Plateau after months of training? Every scenario has been accounted for." },
               ].map((item, i) => (
-                <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 8, padding: "16px 18px" }}>
+                <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, padding: "16px 18px" }}>
                   <span style={{ fontSize: 20, flexShrink: 0 }}>{item.icon}</span>
                   <div>
-                    <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, color: "#fff", marginBottom: 4 }}>{item.title}</div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.55 }}>{item.desc}</p>
+                    <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, color: "var(--text)", marginBottom: 4 }}>{item.title}</div>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.55 }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -5186,8 +5229,7 @@ function AppInner() {
         <div style={{ maxWidth: 1260, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14 }}>PROGRAMS</div>
-            <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,5vw,66px)", textTransform: "uppercase", marginBottom: 12 }}>CHOOSE YOUR PATH</h2>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", maxWidth: 480, margin: "0 auto" }}>Click any program to see the full breakdown — phases, exercises, method. No payment required to explore.</p>
+            <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,5vw,66px)", textTransform: "uppercase" }}>CHOOSE YOUR PATH</h2>
           </div>
           <CatSection label="STRENGTH & SKILLS" sublabel="Master gravity — Planche & Front Lever from beginner to elite" progs={beginnerSkillProgs} onOpen={openProg} />
           <CatSection label="COMBO — BEST DUO" sublabel="Planche Foundation + Front Lever — two iconic skills, one price" progs={comboGroup} onOpen={openProg} />
@@ -5213,8 +5255,7 @@ function AppInner() {
         <div style={{ maxWidth: 980, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 44 }}>
             <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>SELECTION GUIDE</div>
-            <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4.5vw,56px)", textTransform: "uppercase", marginBottom: 10 }}>NOT SURE WHICH ONE?</h2>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "#ffffff", maxWidth: 400, margin: "0 auto" }}>Compare every program side by side. Click any row to explore it fully.</p>
+            <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4.5vw,56px)", textTransform: "uppercase" }}>WHICH PROGRAM IS FOR YOU?</h2>
           </div>
           <div className="surface" style={{ borderRadius: 8, overflowX: "auto" }}>
             <table className="data-table">
@@ -5224,10 +5265,7 @@ function AppInner() {
                   <tr key={p.id} style={{ cursor: "pointer" }}
                     onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,69,0,.04)")}
                     onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-                    onClick={() => {
-                      const el = document.getElementById("programs");
-                      if (el) el.scrollIntoView({ behavior: "smooth" });
-                    }}>
+                    onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : openProg(p)}>
                     <td style={{ fontWeight: 700, color: "var(--text)" }}>{p.title}</td>
                     <td><span className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border)", fontSize: 9 }}>{p.categoryGroup}</span></td>
                     <td><span className="badge" style={{ background: `${p.levelColor}15`, color: p.levelColor, border: `1px solid ${p.levelColor}28`, whiteSpace: "nowrap" }}>{p.level}</span></td>
@@ -5254,19 +5292,16 @@ function AppInner() {
 
       {/* ── FINAL CTA ─────────────────────────────────────────── */}
       <section style={{ padding: "80px 22px", position: "relative", zIndex: 1, background: "linear-gradient(180deg, transparent, rgba(255,69,0,0.04))", borderTop: "1px solid var(--border)", textAlign: "center" }}>
-        <div style={{ maxWidth: 560, margin: "0 auto" }}>
+        <div style={{ maxWidth: 600, margin: "0 auto" }}>
           <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,5vw,56px)", textTransform: "uppercase", lineHeight: .9, marginBottom: 16 }}>
-            Still here?<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Then you're ready.</span>
+            Still reading?<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Time to act.</span>
           </h2>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", marginBottom: 12, lineHeight: 1.7 }}>
-            The athletes who got results didn't find the perfect moment. They picked a program and started.
-          </p>
-          <p style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 14, color: "var(--orange)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 32 }}>
-            That's the only difference between them and you right now.
+          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", marginBottom: 32, lineHeight: 1.65 }}>
+            The people who got results didn't wait for the perfect moment. They picked a program and started. That's the only difference between them and you right now.
           </p>
           <a href="#programs">
             <button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "16px 48px", letterSpacing: 3 }}>
-              Pick your program →
+              Choose Your Program →
             </button>
           </a>
         </div>
