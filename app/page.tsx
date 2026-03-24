@@ -4125,50 +4125,7 @@ function SessionTable({ type, rows, onUpdate }: {
 // STICKY TOP BAR
 // ═══════════════════════════════════════════════════════
 
-function StickyTopBar() {
-  const quickLinks = [
-    { label: "🤸 Planche", id: "planche-foundation", stripe: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h" },
-    { label: "🎯 Front Lever", id: "front-lever", stripe: "https://buy.stripe.com/8x2aEZ8aZamB5Z910V3ZK0g" },
-    { label: "🔥 Planche + Lever", id: "combo-planche-lever", stripe: "https://buy.stripe.com/3cI8wRfDreCR3R19xr3ZK0i" },
-    { label: "⚡ Planche Elite", id: "planche-elite", stripe: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f" },
-    { label: "🔥 Hypertrophy", id: "hypertrophy", stripe: "https://buy.stripe.com/fZu6oJeznamB87hbFz3ZK0d" },
-    { label: "💪 Hybrid", id: "hybrid-athlete", stripe: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e" },
-    { label: "👑 Bundle $157", id: "bundle", stripe: "https://buy.stripe.com/fZu28t76VcuJdrBbFz3ZK0j" },
-  ];
-
-  return (
-    <div className="no-print" style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 300,
-      background: "rgba(10,10,10,0.97)",
-      backdropFilter: "blur(16px)",
-      borderBottom: "1px solid rgba(255,69,0,0.2)",
-      height: 36,
-      display: "flex", alignItems: "center",
-      padding: "0 12px",
-      overflowX: "auto",
-      gap: 4,
-    }}>
-      <span style={{ fontFamily: "var(--fd)", fontSize: 9, color: "var(--orange)", letterSpacing: 2, whiteSpace: "nowrap", marginRight: 6, flexShrink: 0 }}>PROGRAMS →</span>
-      {quickLinks.map(link => (
-        <a key={link.id} href={link.stripe} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", flexShrink: 0 }}>
-          <span style={{
-            fontFamily: "var(--fd)", fontSize: 10, fontWeight: 700, letterSpacing: 1,
-            color: link.id === "bundle" ? "var(--orange)" : "rgba(255,255,255,0.75)",
-            background: link.id === "bundle" ? "rgba(255,69,0,0.15)" : "rgba(255,255,255,0.05)",
-            border: `1px solid ${link.id === "bundle" ? "rgba(255,69,0,0.4)" : "rgba(255,255,255,0.1)"}`,
-            borderRadius: 3, padding: "3px 10px", whiteSpace: "nowrap", cursor: "pointer",
-            display: "inline-block",
-            transition: "all .15s",
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,69,0,0.5)"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = link.id === "bundle" ? "var(--orange)" : "rgba(255,255,255,0.75)"; (e.currentTarget as HTMLElement).style.borderColor = link.id === "bundle" ? "rgba(255,69,0,0.4)" : "rgba(255,255,255,0.1)"; }}>
-            {link.label}
-          </span>
-        </a>
-      ))}
-    </div>
-  );
-}
+// StickyTopBar removed
 
 // ═══════════════════════════════════════════════════════
 // PROGRAM CARD
@@ -4939,6 +4896,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
   .ex-grid{grid-template-columns:1fr!important}
   .dash-head{flex-direction:column!important;align-items:flex-start!important;gap:14px!important}
   .hero-title{font-size:clamp(52px,14vw,90px)!important}
+  .hero-section{padding-top:100px!important}
   .track-btn{padding:8px 12px!important;font-size:11px!important}
   .testimonial-grid{grid-template-columns:1fr!important}
   .bottom-nav{display:flex!important}
@@ -5042,10 +5000,7 @@ function AppInner() {
       <style>{CSS}</style>
       <div className="noise" /><div className="grid-bg" />
 
-      {/* ── STICKY TOP BAR ────────────────────────────────────── */}
-      <StickyTopBar />
-
-      <nav className="no-print" style={{ position: "fixed", top: 36, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
+      <nav className="no-print" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 19, letterSpacing: 4, color: "var(--orange)" }}>GRAVITY<span style={{ color: "var(--text)" }}>LAB</span></div>
         <div className="desktop-nav-links" style={{ display: "flex", gap: 22 }}>
           {["Programs", "Method", "Guide"].map(l => (
@@ -5077,8 +5032,50 @@ function AppInner() {
       </nav>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "166px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "130px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
+
+        {/* ── PROGRAMME BUTTONS ─────────────────────────────── */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", marginBottom: 36 }}>
+          {[
+            { label: "🤸 Planche Foundation", id: "planche-foundation" },
+            { label: "🎯 Front Lever", id: "front-lever" },
+            { label: "🔥 Planche + Lever", id: "combo-planche-lever" },
+            { label: "⚡ Planche Elite", id: "planche-elite" },
+            { label: "💪 Hypertrophy", id: "hypertrophy" },
+            { label: "🏋️ Hybrid", id: "hybrid-athlete" },
+            { label: "👑 Bundle", id: "bundle", highlight: true },
+          ].map(btn => (
+            <a key={btn.id} href="#programs" style={{ textDecoration: "none" }}
+              onClick={e => {
+                e.preventDefault();
+                const el = document.getElementById("programs");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              }}>
+              <button style={{
+                fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, letterSpacing: 1.5,
+                textTransform: "uppercase", cursor: "pointer", transition: "all .2s",
+                padding: "13px 22px", borderRadius: 4,
+                background: (btn as any).highlight ? "var(--orange)" : "rgba(255,255,255,0.05)",
+                color: (btn as any).highlight ? "#fff" : "rgba(255,255,255,0.85)",
+                border: `1px solid ${(btn as any).highlight ? "var(--orange)" : "rgba(255,255,255,0.18)"}`,
+              }}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLButtonElement;
+                if (!(btn as any).highlight) { el.style.background = "rgba(255,69,0,0.12)"; el.style.borderColor = "rgba(255,69,0,0.5)"; el.style.color = "#fff"; }
+                else { el.style.background = "#ff6030"; el.style.transform = "translateY(-2px)"; el.style.boxShadow = "0 8px 24px rgba(255,69,0,.4)"; }
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLButtonElement;
+                if (!(btn as any).highlight) { el.style.background = "rgba(255,255,255,0.05)"; el.style.borderColor = "rgba(255,255,255,0.18)"; el.style.color = "rgba(255,255,255,0.85)"; }
+                else { el.style.background = "var(--orange)"; el.style.transform = "translateY(0)"; el.style.boxShadow = "none"; }
+              }}>
+                {btn.label}
+              </button>
+            </a>
+          ))}
+        </div>
+
         <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
         {/* Hook statement */}
