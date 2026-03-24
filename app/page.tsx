@@ -4126,23 +4126,46 @@ function SessionTable({ type, rows, onUpdate }: {
 // ═══════════════════════════════════════════════════════
 
 function StickyTopBar() {
+  const quickLinks = [
+    { label: "🤸 Planche", id: "planche-foundation", stripe: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h" },
+    { label: "🎯 Front Lever", id: "front-lever", stripe: "https://buy.stripe.com/8x2aEZ8aZamB5Z910V3ZK0g" },
+    { label: "🔥 Planche + Lever", id: "combo-planche-lever", stripe: "https://buy.stripe.com/3cI8wRfDreCR3R19xr3ZK0i" },
+    { label: "⚡ Planche Elite", id: "planche-elite", stripe: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f" },
+    { label: "🔥 Hypertrophy", id: "hypertrophy", stripe: "https://buy.stripe.com/fZu6oJeznamB87hbFz3ZK0d" },
+    { label: "💪 Hybrid", id: "hybrid-athlete", stripe: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e" },
+    { label: "👑 Bundle $157", id: "bundle", stripe: "https://buy.stripe.com/fZu28t76VcuJdrBbFz3ZK0j" },
+  ];
+
   return (
     <div className="no-print" style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 300,
-      background: "linear-gradient(90deg, rgba(255,69,0,0.95), rgba(200,40,0,0.95))",
-      backdropFilter: "blur(12px)",
+      background: "rgba(10,10,10,0.97)",
+      backdropFilter: "blur(16px)",
+      borderBottom: "1px solid rgba(255,69,0,0.2)",
       height: 36,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      gap: 20, padding: "0 16px",
+      display: "flex", alignItems: "center",
+      padding: "0 12px",
+      overflowX: "auto",
+      gap: 4,
     }}>
-      <a href="#programs" style={{ textDecoration: "none", flexShrink: 0 }}>
-        <span style={{
-          fontFamily: "var(--fd)", fontSize: 11, fontWeight: 900, letterSpacing: 2,
-          color: "#fff", textTransform: "uppercase",
-          background: "rgba(255,255,255,0.2)", border: "1px solid rgba(255,255,255,0.35)",
-          borderRadius: 20, padding: "3px 12px", whiteSpace: "nowrap", cursor: "pointer",
-        }}>Choose your program →</span>
-      </a>
+      <span style={{ fontFamily: "var(--fd)", fontSize: 9, color: "var(--orange)", letterSpacing: 2, whiteSpace: "nowrap", marginRight: 6, flexShrink: 0 }}>PROGRAMS →</span>
+      {quickLinks.map(link => (
+        <a key={link.id} href={link.stripe} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", flexShrink: 0 }}>
+          <span style={{
+            fontFamily: "var(--fd)", fontSize: 10, fontWeight: 700, letterSpacing: 1,
+            color: link.id === "bundle" ? "var(--orange)" : "rgba(255,255,255,0.75)",
+            background: link.id === "bundle" ? "rgba(255,69,0,0.15)" : "rgba(255,255,255,0.05)",
+            border: `1px solid ${link.id === "bundle" ? "rgba(255,69,0,0.4)" : "rgba(255,255,255,0.1)"}`,
+            borderRadius: 3, padding: "3px 10px", whiteSpace: "nowrap", cursor: "pointer",
+            display: "inline-block",
+            transition: "all .15s",
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,69,0,0.5)"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = link.id === "bundle" ? "var(--orange)" : "rgba(255,255,255,0.75)"; (e.currentTarget as HTMLElement).style.borderColor = link.id === "bundle" ? "rgba(255,69,0,0.4)" : "rgba(255,255,255,0.1)"; }}>
+            {link.label}
+          </span>
+        </a>
+      ))}
     </div>
   );
 }
@@ -5056,16 +5079,16 @@ function AppInner() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "166px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Built for those serious about actually progressing Programs</div>
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
         {/* Hook statement */}
         <div style={{ maxWidth: 560, marginBottom: 20, textAlign: "center" }}>
           <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.7, marginBottom: 8 }}>
-            Most people will read this page and do nothing.<br />
-            <span style={{ color: "#ffffff" }}>This is built for the ones who actually show up.</span>
+            Most people will read this page, feel inspired — and do nothing.<br />
+            <span style={{ color: "#ffffff" }}>This is built for the ones who actually follow through.</span>
           </p>
           <p style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 17, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>
-            Are you one of them?
+            Whatever your level — are you one of them?
           </p>
         </div>
         <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 28 }}>
