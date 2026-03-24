@@ -4125,50 +4125,7 @@ function SessionTable({ type, rows, onUpdate }: {
 // STICKY TOP BAR
 // ═══════════════════════════════════════════════════════
 
-function StickyTopBar() {
-  const quickLinks = [
-    { label: "🤸 Planche", id: "planche-foundation", stripe: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h" },
-    { label: "🎯 Front Lever", id: "front-lever", stripe: "https://buy.stripe.com/8x2aEZ8aZamB5Z910V3ZK0g" },
-    { label: "🔥 Planche + Lever", id: "combo-planche-lever", stripe: "https://buy.stripe.com/3cI8wRfDreCR3R19xr3ZK0i" },
-    { label: "⚡ Planche Elite", id: "planche-elite", stripe: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f" },
-    { label: "🔥 Hypertrophy", id: "hypertrophy", stripe: "https://buy.stripe.com/fZu6oJeznamB87hbFz3ZK0d" },
-    { label: "💪 Hybrid", id: "hybrid-athlete", stripe: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e" },
-    { label: "👑 Bundle $157", id: "bundle", stripe: "https://buy.stripe.com/fZu28t76VcuJdrBbFz3ZK0j" },
-  ];
-
-  return (
-    <div className="no-print" style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 300,
-      background: "rgba(10,10,10,0.97)",
-      backdropFilter: "blur(16px)",
-      borderBottom: "1px solid rgba(255,69,0,0.2)",
-      height: 36,
-      display: "flex", alignItems: "center",
-      padding: "0 12px",
-      overflowX: "auto",
-      gap: 4,
-    }}>
-      <span style={{ fontFamily: "var(--fd)", fontSize: 9, color: "var(--orange)", letterSpacing: 2, whiteSpace: "nowrap", marginRight: 6, flexShrink: 0 }}>PROGRAMS →</span>
-      {quickLinks.map(link => (
-        <a key={link.id} href={link.stripe} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", flexShrink: 0 }}>
-          <span style={{
-            fontFamily: "var(--fd)", fontSize: 10, fontWeight: 700, letterSpacing: 1,
-            color: link.id === "bundle" ? "var(--orange)" : "rgba(255,255,255,0.75)",
-            background: link.id === "bundle" ? "rgba(255,69,0,0.15)" : "rgba(255,255,255,0.05)",
-            border: `1px solid ${link.id === "bundle" ? "rgba(255,69,0,0.4)" : "rgba(255,255,255,0.1)"}`,
-            borderRadius: 3, padding: "3px 10px", whiteSpace: "nowrap", cursor: "pointer",
-            display: "inline-block",
-            transition: "all .15s",
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,69,0,0.5)"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = link.id === "bundle" ? "var(--orange)" : "rgba(255,255,255,0.75)"; (e.currentTarget as HTMLElement).style.borderColor = link.id === "bundle" ? "rgba(255,69,0,0.4)" : "rgba(255,255,255,0.1)"; }}>
-            {link.label}
-          </span>
-        </a>
-      ))}
-    </div>
-  );
-}
+// StickyTopBar removed
 
 // ═══════════════════════════════════════════════════════
 // PROGRAM CARD
@@ -4176,7 +4133,7 @@ function StickyTopBar() {
 
 function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Program) => void }) {
   return (
-    <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }} onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : onOpen(p)}>
+    <div id={`card-${p.id}`} className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }} onClick={() => onOpen(p)}>
       {/* Clip inner content but allow badge to overflow */}
       <div style={{ position: "absolute", inset: 0, borderRadius: 8, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at top left, ${p.glowColor}, transparent 60%)` }} />
@@ -4701,22 +4658,6 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
         {result ? (
           <div>
-            {/* Urgency timer */}
-            {!timerExpired ? (
-              <div style={{ background: "rgba(255,69,0,0.08)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "12px 18px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)" }}>
-                  🔥 Your result is reserved for
-                </span>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 20, color: "var(--orange)", letterSpacing: 2 }}>
-                  {pad(timerMin)}:{pad(timerSec)}
-                </span>
-              </div>
-            ) : (
-              <div style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 8, padding: "12px 18px", marginBottom: 20, textAlign: "center" }}>
-                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ef4444", letterSpacing: 1 }}>⏰ Your reserved price expired — retake the quiz to unlock it again</span>
-              </div>
-            )}
-
             <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, color: "var(--orange)", textTransform: "uppercase", textAlign: "center" }}>✅ Your exact match</div>
 
             <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", border: `2px solid ${result.levelColor}40`, background: result.glowColor, marginBottom: 20, position: "relative", overflow: "visible" }}>
@@ -4939,6 +4880,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
   .ex-grid{grid-template-columns:1fr!important}
   .dash-head{flex-direction:column!important;align-items:flex-start!important;gap:14px!important}
   .hero-title{font-size:clamp(52px,14vw,90px)!important}
+  .hero-section{padding-top:100px!important}
   .track-btn{padding:8px 12px!important;font-size:11px!important}
   .testimonial-grid{grid-template-columns:1fr!important}
   .bottom-nav{display:flex!important}
@@ -5042,10 +4984,7 @@ function AppInner() {
       <style>{CSS}</style>
       <div className="noise" /><div className="grid-bg" />
 
-      {/* ── STICKY TOP BAR ────────────────────────────────────── */}
-      <StickyTopBar />
-
-      <nav className="no-print" style={{ position: "fixed", top: 36, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
+      <nav className="no-print" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 19, letterSpacing: 4, color: "var(--orange)" }}>GRAVITY<span style={{ color: "var(--text)" }}>LAB</span></div>
         <div className="desktop-nav-links" style={{ display: "flex", gap: 22 }}>
           {["Programs", "Method", "Guide"].map(l => (
@@ -5077,9 +5016,75 @@ function AppInner() {
       </nav>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "166px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "130px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
+
+        {/* ── PROGRAMME BUTTONS ─────────────────────────────── */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginBottom: 28, maxWidth: 720 }}>
+          {[
+            { emoji: "🤸", label: "Planche Foundation", sub: "Beginner → Full Planche", id: "planche-foundation" },
+            { emoji: "🎯", label: "Front Lever", sub: "Zero to Front Lever", id: "front-lever" },
+            { emoji: "🔥", label: "Planche + Front Lever", sub: "Best Duo — Save $19", id: "combo-planche-lever", accent: true },
+            { emoji: "⚡", label: "Planche Elite", sub: "Full Planche → Straddle", id: "planche-elite" },
+            { emoji: "💪", label: "Hypertrophy", sub: "Muscle + Skill", id: "hypertrophy" },
+            { emoji: "🏋️", label: "Hybrid Athlete", sub: "Gym + Skill", id: "hybrid-athlete" },
+            { emoji: "👑", label: "Bundle — All 5", sub: "Save $90", id: "bundle", highlight: true },
+          ].map(btn => {
+            const isHighlight = (btn as any).highlight;
+            const isAccent = (btn as any).accent;
+            return (
+              <button key={btn.id}
+                onClick={() => {
+                  const el = document.getElementById(`card-${btn.id}`);
+                  if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+                }}
+                style={{
+                  fontFamily: "var(--fd)", cursor: "pointer",
+                  transition: "all .22s cubic-bezier(.4,0,.2,1)",
+                  padding: "12px 18px", borderRadius: 8,
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
+                  minWidth: 130,
+                  background: isHighlight
+                    ? "linear-gradient(135deg, var(--orange), #ff8c00)"
+                    : isAccent
+                    ? "rgba(6,182,212,0.08)"
+                    : "rgba(255,255,255,0.04)",
+                  color: "#fff",
+                  border: isHighlight
+                    ? "1px solid rgba(255,120,0,0.6)"
+                    : isAccent
+                    ? "1px solid rgba(6,182,212,0.35)"
+                    : "1px solid rgba(255,255,255,0.12)",
+                  boxShadow: isHighlight
+                    ? "0 4px 20px rgba(255,69,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15)"
+                    : isAccent
+                    ? "0 4px 16px rgba(6,182,212,0.12)"
+                    : "inset 0 1px 0 rgba(255,255,255,0.05)",
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLButtonElement;
+                  el.style.transform = "translateY(-3px)";
+                  if (isHighlight) { el.style.boxShadow = "0 10px 32px rgba(255,69,0,0.55), inset 0 1px 0 rgba(255,255,255,0.2)"; }
+                  else if (isAccent) { el.style.background = "rgba(6,182,212,0.15)"; el.style.borderColor = "rgba(6,182,212,0.6)"; el.style.boxShadow = "0 8px 24px rgba(6,182,212,0.2)"; }
+                  else { el.style.background = "rgba(255,69,0,0.1)"; el.style.borderColor = "rgba(255,69,0,0.4)"; el.style.boxShadow = "0 8px 24px rgba(255,69,0,0.15)"; }
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLButtonElement;
+                  el.style.transform = "translateY(0)";
+                  if (isHighlight) { el.style.boxShadow = "0 4px 20px rgba(255,69,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15)"; }
+                  else if (isAccent) { el.style.background = "rgba(6,182,212,0.08)"; el.style.borderColor = "rgba(6,182,212,0.35)"; el.style.boxShadow = "0 4px 16px rgba(6,182,212,0.12)"; }
+                  else { el.style.background = "rgba(255,255,255,0.04)"; el.style.borderColor = "rgba(255,255,255,0.12)"; el.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.05)"; }
+                }}>
+                <span style={{ fontSize: 20, lineHeight: 1 }}>{btn.emoji}</span>
+                <span style={{ fontWeight: 900, fontSize: 12, letterSpacing: 1.2, textTransform: "uppercase", lineHeight: 1.2, marginTop: 2 }}>{btn.label}</span>
+                <span style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 10, letterSpacing: 0.3, color: isHighlight ? "rgba(255,255,255,0.85)" : isAccent ? "rgba(6,182,212,0.9)" : "rgba(255,255,255,0.45)", textTransform: "none" }}>{btn.sub}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 8, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
+        <div style={{ fontFamily: "var(--fs)", fontStyle: "italic", fontSize: 13, color: "rgba(255,100,0,0.75)", letterSpacing: 1, marginBottom: 24 }}>From 0 to your prime.</div>
 
         {/* Hook statement */}
         <div style={{ maxWidth: 560, marginBottom: 20, textAlign: "center" }}>
