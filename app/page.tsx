@@ -4701,22 +4701,6 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
         {result ? (
           <div>
-            {/* Urgency timer */}
-            {!timerExpired ? (
-              <div style={{ background: "rgba(255,69,0,0.08)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "12px 18px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)" }}>
-                  🔥 Your result is reserved for
-                </span>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 20, color: "var(--orange)", letterSpacing: 2 }}>
-                  {pad(timerMin)}:{pad(timerSec)}
-                </span>
-              </div>
-            ) : (
-              <div style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 8, padding: "12px 18px", marginBottom: 20, textAlign: "center" }}>
-                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ef4444", letterSpacing: 1 }}>⏰ Your reserved price expired — retake the quiz to unlock it again</span>
-              </div>
-            )}
-
             <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, color: "var(--orange)", textTransform: "uppercase", textAlign: "center" }}>✅ Your exact match</div>
 
             <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", border: `2px solid ${result.levelColor}40`, background: result.glowColor, marginBottom: 20, position: "relative", overflow: "visible" }}>
@@ -5042,10 +5026,7 @@ function AppInner() {
       <style>{CSS}</style>
       <div className="noise" /><div className="grid-bg" />
 
-      {/* ── STICKY TOP BAR ────────────────────────────────────── */}
-      <StickyTopBar />
-
-      <nav className="no-print" style={{ position: "fixed", top: 36, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
+      <nav className="no-print" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 19, letterSpacing: 4, color: "var(--orange)" }}>GRAVITY<span style={{ color: "var(--text)" }}>LAB</span></div>
         <div className="desktop-nav-links" style={{ display: "flex", gap: 22 }}>
           {["Programs", "Method", "Guide"].map(l => (
@@ -5079,7 +5060,7 @@ function AppInner() {
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "166px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs — From 0 to your prime</div>
 
         {/* Hook statement */}
         <div style={{ maxWidth: 560, marginBottom: 20, textAlign: "center" }}>
