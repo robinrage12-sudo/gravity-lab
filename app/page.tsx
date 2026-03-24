@@ -2968,12 +2968,12 @@ function SessionBlock({ type, rows, onChangeRow, onAddRow, isAdvanced }: {
     <div style={{ marginBottom: 24 }}>
       <div style={{ background: info.color, borderRadius: "6px 6px 0 0", padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 16, color: "#fff", letterSpacing: 2 }}>{type.toUpperCase()}</span>
-        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.85)" }}>{info.range} · {info.desc}</span>
+        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff" }}>{info.range} · {info.desc}</span>
       </div>
       <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderTop: "none", borderRadius: "0 0 6px 6px", padding: "14px" }}>
         {/* Push/Pull toggle */}
         <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-          <div className="t-label" style={{ color: "rgba(255,255,255,0.5)", fontSize: 9, marginRight: 4, alignSelf: "center" }}>CATEGORY:</div>
+          <div className="t-label" style={{ color: "#ffffff", fontSize: 9, marginRight: 4, alignSelf: "center" }}>CATEGORY:</div>
           {(["push", "pull"] as const).map(cat => (
             <button key={cat} onClick={() => setCategory(cat)}
               style={{ padding: "4px 12px", borderRadius: 4, border: `1px solid ${category === cat ? "var(--orange)" : "var(--border)"}`, background: category === cat ? "var(--orange-dim)" : "transparent", color: category === cat ? "var(--orange)" : "rgba(255,255,255,0.5)", fontFamily: "var(--fd)", fontSize: 11, cursor: "pointer", letterSpacing: 1, textTransform: "uppercase" }}>
@@ -2984,14 +2984,14 @@ function SessionBlock({ type, rows, onChangeRow, onAddRow, isAdvanced }: {
         {/* Header */}
         <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 8 }}>
           {["Exercise", "Sets", "Reps", "Rest"].map(h => (
-            <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
+            <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "#ffffff", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
           ))}
         </div>
         {rows.map((row, i) => (
           <ExerciseInputRow key={i} row={row} onChange={r => onChangeRow(i, r)} suggestions={EXERCISE_SUGGESTIONS[category]} />
         ))}
         <button onClick={onAddRow}
-          style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "rgba(255,255,255,0.4)", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
+          style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "#ffffff", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.4)"; }}>
           + Add exercise
@@ -3423,13 +3423,13 @@ function ProgramBuilder({ programId }: { programId: string }) {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }} className="pg2">
         <div style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.25)", borderRadius: 8, padding: "20px" }}>
           <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#4ade80", letterSpacing: 2, marginBottom: 10 }}>✅ OPTION 1 — FOLLOW THE PROGRAM</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65 }}>
             The structured phases above are already designed. Follow them session by session. Zero thinking required — just show up and execute.
           </p>
         </div>
         <div style={{ background: "rgba(255,69,0,0.06)", border: "1px solid rgba(255,69,0,0.25)", borderRadius: 8, padding: "20px" }}>
           <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fb923c", letterSpacing: 2, marginBottom: 10 }}>🧠 OPTION 2 — BUILD YOUR OWN</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65 }}>
             Learn to program yourself using the exercise library, methods and session templates below. You leave with the ability to train independently forever — and build a custom program with the interactive journal above.
           </p>
         </div>
@@ -3475,16 +3475,16 @@ function ProgramBuilder({ programId }: { programId: string }) {
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 5 }}>
-                      <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "rgba(255,255,255,0.95)", fontWeight: 700 }}>{item.label}</span>
+                      <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "#ffffff", fontWeight: 700 }}>{item.label}</span>
                       <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: item.color, background: `${item.color}15`, padding: "2px 8px", borderRadius: 20 }}>{item.time}</span>
                     </div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{item.desc}</p>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.6 }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
             <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 12 }}>📅 THE TRAINING CYCLE — NOT A WEEKLY SCHEDULE</div>
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "#ffffff", letterSpacing: 2, marginBottom: 12 }}>📅 THE TRAINING CYCLE — NOT A WEEKLY SCHEDULE</div>
 
               {/* Rolling cycle visual */}
               <div style={{ display: "flex", gap: 4, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
@@ -3510,8 +3510,8 @@ function ProgramBuilder({ programId }: { programId: string }) {
                 ))}
               </div>
 
-              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.65 }}>
-                This is <strong style={{ color: "rgba(255,255,255,0.85)" }}>not a fixed weekly schedule</strong> — it's a rolling cycle. Train every other day minimum. If life gets in the way and you rest 2 days, no problem — just pick up where you left off. Force day always followed by rest, Volume day always followed by rest. The pattern continues regardless of which day of the week it falls on.
+              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.65 }}>
+                This is <strong style={{ color: "#ffffff" }}>not a fixed weekly schedule</strong> — it's a rolling cycle. Train every other day minimum. If life gets in the way and you rest 2 days, no problem — just pick up where you left off. Force day always followed by rest, Volume day always followed by rest. The pattern continues regardless of which day of the week it falls on.
               </p>
             </div>
           </div>
@@ -3519,7 +3519,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
           {/* Cycles */}
           <div style={{ background: "rgba(255,69,0,0.04)", border: "1px solid rgba(255,69,0,0.2)", borderRadius: 8, padding: "20px" }}>
             <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "rgba(255,130,0,0.9)", letterSpacing: 2, marginBottom: 14 }}>🔄 TRAINING CYCLES — 3 TO 5 WEEKS</div>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.65, marginBottom: 16 }}>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65, marginBottom: 16 }}>
               After 3-5 weeks, the same stimulus stops producing gains. Change something — swap exercises for harder variants, change method, or increase load.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }} className="pg3">
@@ -3530,15 +3530,15 @@ function ProgramBuilder({ programId }: { programId: string }) {
               ].map((c) => (
                 <div key={c.week} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${c.color}25`, borderRadius: 6, padding: "14px" }}>
                   <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: c.color, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 5 }}>{c.week}</div>
-                  <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, marginBottom: 5 }}>{c.label}</div>
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>{c.desc}</p>
+                  <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ffffff", fontWeight: 700, marginBottom: 5 }}>{c.label}</div>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", lineHeight: 1.5 }}>{c.desc}</p>
                 </div>
               ))}
             </div>
             <div style={{ marginTop: 14, padding: "14px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 6 }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 8 }}>🔀 HOW TO VARY THE STIMULUS</div>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>
-                Two ways to vary when you stagnate: <strong style={{ color: "rgba(255,255,255,0.85)" }}>change the method</strong> (same exercise, different execution — switch from negatives to push-ups, from max holds to EMOM) or <strong style={{ color: "rgba(255,255,255,0.85)" }}>change the exercise</strong> (same type, harder variant — advance from tuck negatives to straddle negatives, from tuck rows to one-leg rows). You don't need to change both at once — one variable at a time produces the clearest progress signal.
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "#ffffff", letterSpacing: 2, marginBottom: 8 }}>🔀 HOW TO VARY THE STIMULUS</div>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.65 }}>
+                Two ways to vary when you stagnate: <strong style={{ color: "#ffffff" }}>change the method</strong> (same exercise, different execution — switch from negatives to push-ups, from max holds to EMOM) or <strong style={{ color: "#ffffff" }}>change the exercise</strong> (same type, harder variant — advance from tuck negatives to straddle negatives, from tuck rows to one-leg rows). You don't need to change both at once — one variable at a time produces the clearest progress signal.
               </p>
             </div>
 
@@ -3546,7 +3546,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
             {(isPlanche && !isFrontLever) && (
               <div style={{ marginTop: 14, padding: "16px 18px", background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.2)", borderRadius: 8 }}>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#60a5fa", letterSpacing: 2, marginBottom: 8 }}>💡 HEALTH & PERFORMANCE TIP</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65 }}>
                   Training only pushing (planche) without pulling creates anterior shoulder dominance over time — a common cause of shoulder imbalances and injury. Adding the <strong style={{ color: "#60a5fa" }}>Front Lever</strong> as your pulling counterpart directly fixes this. Both skills also reinforce each other: the body tension from the lever improves planche stability, and the protraction from the planche improves lever positioning.
                 </p>
                 <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(59,130,246,0.8)" }}>
@@ -3557,7 +3557,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
             {(isFrontLever && !isPlanche) && (
               <div style={{ marginTop: 14, padding: "16px 18px", background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.2)", borderRadius: 8 }}>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#fb923c", letterSpacing: 2, marginBottom: 8 }}>💡 HEALTH & PERFORMANCE TIP</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65 }}>
                   The front lever builds elite pulling strength — but without a pushing counterpart, postural imbalances can develop over time. Adding the <strong style={{ color: "#fb923c" }}>Planche</strong> as your pushing skill creates a complete push/pull system: better shoulder health, more balanced strength, and faster progress on both movements.
                 </p>
                 <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(249,115,22,0.8)" }}>
@@ -3586,20 +3586,20 @@ function ProgramBuilder({ programId }: { programId: string }) {
                 <button onClick={() => setOpenExo(openExo === exo.name ? null : exo.name)}
                   style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "13px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
                   <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: typeColors[exo.type] || "#fff", background: `${typeColors[exo.type] || "#fff"}18`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.type}</span>
-                  <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, flex: 1 }}>{exo.name}</span>
+                  <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ffffff", fontWeight: 700, flex: 1 }}>{exo.name}</span>
                   <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: levelColors[exo.level] || "#fff", background: `${levelColors[exo.level] || "#fff"}15`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.level}</span>
-                  {openExo === exo.name ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />}
+                  {openExo === exo.name ? <ChevronUp size={12} style={{ color: "#ffffff", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "#ffffff", flexShrink: 0 }} />}
                 </button>
                 {openExo === exo.name && (
                   <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginTop: 12, marginBottom: 12 }}>{exo.desc}</p>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.7, marginTop: 12, marginBottom: 12 }}>{exo.desc}</p>
                     <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
                       {exo.cues.map((cue, i) => (
                         <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
                           <div style={{ width: 16, height: 16, borderRadius: 2, background: "rgba(255,100,0,0.15)", border: "1px solid rgba(255,100,0,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
                             <span style={{ fontFamily: "var(--fd)", fontSize: 8, color: "#f97316" }}>{i + 1}</span>
                           </div>
-                          <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{cue}</p>
+                          <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.5 }}>{cue}</p>
                         </div>
                       ))}
                     </div>
@@ -3619,17 +3619,17 @@ function ProgramBuilder({ programId }: { programId: string }) {
               <button onClick={() => setOpenMethod(openMethod === method.name ? null : method.name)}
                 style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "13px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
                 <span style={{ fontSize: 18, flexShrink: 0 }}>{method.emoji}</span>
-                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, flex: 1 }}>{method.name}</span>
+                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#ffffff", fontWeight: 700, flex: 1 }}>{method.name}</span>
                 <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,130,0,0.8)", flexShrink: 0 }}>Rest: {method.restTime}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", flexShrink: 0 }}>{method.difficulty}</span>
-                {openMethod === method.name ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />}
+                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", flexShrink: 0 }}>{method.difficulty}</span>
+                {openMethod === method.name ? <ChevronUp size={12} style={{ color: "#ffffff", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "#ffffff", flexShrink: 0 }} />}
               </button>
               {openMethod === method.name && (
                 <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginTop: 12, marginBottom: 10 }}>{method.desc}</p>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.7, marginTop: 12, marginBottom: 10 }}>{method.desc}</p>
                   <div style={{ background: "rgba(255,69,0,0.05)", borderLeft: "2px solid rgba(255,100,0,0.4)", padding: "10px 14px", borderRadius: "0 4px 4px 0" }}>
                     <div style={{ fontFamily: "var(--fd)", fontSize: 9, color: "rgba(255,130,0,0.8)", letterSpacing: 1.5, marginBottom: 4 }}>💡 EXAMPLE</div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.55, fontStyle: "italic" }}>{method.example}</p>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.55, fontStyle: "italic" }}>{method.example}</p>
                   </div>
                 </div>
               )}
@@ -3641,7 +3641,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
       {/* ── SAMPLE PROGRAM ── */}
       {activeTab === "program" && (
         <div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, marginBottom: 20 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65, marginBottom: 20 }}>
             Example cycle for {activeSkill}. Adapt exercises to your current level using the library above. Run this for 3-5 weeks then progress to harder variations.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="pg2">
@@ -3651,14 +3651,14 @@ function ProgramBuilder({ programId }: { programId: string }) {
             ].map((day) => (
               <div key={day.label} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${day.color}25`, borderRadius: 8, padding: "20px" }}>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: day.color, letterSpacing: 2, marginBottom: 4 }}>{day.label}</div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 14 }}>{day.desc}</div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", marginBottom: 14 }}>{day.desc}</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {day.items.map((item, i) => (
                     <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                       <div style={{ width: 18, height: 18, borderRadius: "50%", background: `${day.color}15`, border: `1px solid ${day.color}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                         <span style={{ fontFamily: "var(--fd)", fontSize: 9, color: day.color }}>{i + 1}</span>
                       </div>
-                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{item}</p>
+                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.5 }}>{item}</p>
                     </div>
                   ))}
                 </div>
@@ -3666,8 +3666,8 @@ function ProgramBuilder({ programId }: { programId: string }) {
             ))}
           </div>
           <div style={{ marginTop: 14, padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6 }}>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
-              <strong style={{ color: "rgba(255,255,255,0.8)" }}>How to progress:</strong> when Force exercises feel manageable (you could do 1-2 more reps), advance to the next harder variation in the library. When Volume exercises become easy at given reps, add reps or advance variation. Every 3-5 weeks, rotate to keep the stimulus fresh.
+            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.65 }}>
+              <strong style={{ color: "#ffffff" }}>How to progress:</strong> when Force exercises feel manageable (you could do 1-2 more reps), advance to the next harder variation in the library. When Volume exercises become easy at given reps, add reps or advance variation. Every 3-5 weeks, rotate to keep the stimulus fresh.
             </p>
           </div>
         </div>
@@ -3739,7 +3739,7 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
           ))}
         </div>
 
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, marginBottom: 14 }}>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.65, marginBottom: 14 }}>
           This is <strong style={{ color: "#ffffff" }}>not a weekly schedule</strong> — it's a rolling cycle. Always one rest day (48h minimum) between sessions. If life gets in the way and you rest 2 days, no problem — just resume where you left off. The pattern continues regardless of which day of the week it falls on.
         </p>
 
@@ -3750,7 +3750,7 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
               <div style={{ width: 10, height: 10, borderRadius: 2, background: info.color, flexShrink: 0, marginTop: 3 }} />
               <div>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fff", fontWeight: 700 }}>{type} — {info.range}</div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.55)" }}>{info.desc}</div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff" }}>{info.desc}</div>
               </div>
             </div>
           ))}
@@ -3763,31 +3763,31 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
         const rows = sessionRows[label];
         return (
           <div key={label} style={{ marginBottom: 24 }}>
-            <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
+            <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
               📅 {label} <span style={{ color: info.color, marginLeft: 6 }}>({type})</span>
-              <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.25)", marginLeft: 8 }}>→ rest day after</span>
+              <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", marginLeft: 8 }}>→ rest day after</span>
             </div>
             <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${info.color}33`, marginBottom: 4 }}>
               <div style={{ background: info.color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "#fff", letterSpacing: 2 }}>{type.toUpperCase()}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.8)", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{info.range}</span>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{info.range}</span>
               </div>
               <div style={{ background: "var(--bg-card)", padding: "14px" }}>
                 <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
                   {(["push", "pull"] as const).map(cat => (
-                    <span key={cat} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.4)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 4, padding: "3px 10px", letterSpacing: 1.5, textTransform: "uppercase" }}>{cat}</span>
+                    <span key={cat} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 4, padding: "3px 10px", letterSpacing: 1.5, textTransform: "uppercase" }}>{cat}</span>
                   ))}
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 8 }}>
                   {["Exercise", "Sets", "Reps", "Rest"].map(h => (
-                    <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "rgba(255,255,255,0.35)", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
+                    <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "#ffffff", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
                   ))}
                 </div>
                 {rows.map((row, i) => (
                   <ExerciseInputRow key={i} row={row} onChange={r => updateRow(label, i, r)} suggestions={[...EXERCISE_SUGGESTIONS.push, ...EXERCISE_SUGGESTIONS.pull]} />
                 ))}
                 <button onClick={() => addRow(label)}
-                  style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "rgba(255,255,255,0.3)", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
+                  style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "#ffffff", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.3)"; }}>
                   + Add exercise
@@ -4080,7 +4080,7 @@ function SessionTable({ type, rows, onUpdate }: {
     <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${color}33`, marginBottom: 20 }}>
       <div style={{ background: color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 16, color: "#fff", letterSpacing: 2 }}>{label}</span>
-        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.8)", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{range}</span>
+        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{range}</span>
       </div>
       <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--fb)" }}>
@@ -4133,7 +4133,7 @@ function SessionTable({ type, rows, onUpdate }: {
 
 function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Program) => void }) {
   return (
-    <div id={`card-${p.id}`} className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }} onClick={() => onOpen(p)}>
+    <div id={`card-${p.id}`} className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }} >
       {/* Clip inner content but allow badge to overflow */}
       <div style={{ position: "absolute", inset: 0, borderRadius: 8, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at top left, ${p.glowColor}, transparent 60%)` }} />
@@ -4182,14 +4182,14 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         {/* Format badge */}
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
           {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
-            <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
+            <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 6, padding: "8px 10px" }}>
           <span style={{ fontSize: 13 }}>📱</span>
           <div>
             <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#ffffff", fontWeight: 700, letterSpacing: 1 }}>LIFETIME ACCESS</div>
-            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.6)", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
+            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
@@ -4208,7 +4208,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
                 <button className={`btn-primary ${p.category === "bundle" || p.id === "combo-planche-lever" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>I want this →</button>
               </a>
             ) : (
-              <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={(e) => { e.stopPropagation(); onOpen(p); }}>I want this →</button>
+              <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => { document.getElementById("programs")?.scrollIntoView({behavior:"smooth"}); }}>See programs →</button>
             )}
           </div>
         </div>
@@ -4697,14 +4697,14 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
                   {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
-                    <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
+                    <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
                   ))}
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 6, padding: "8px 10px" }}>
                   <span style={{ fontSize: 13 }}>📱</span>
                   <div>
                     <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#ffffff", fontWeight: 700, letterSpacing: 1 }}>LIFETIME ACCESS</div>
-                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.6)", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
+                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#ffffff", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
                   </div>
                 </div>
 
@@ -4722,7 +4722,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                         <button className={`btn-primary cta-pulse ${result.category === "bundle" || result.id === "combo-planche-lever" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>I want this →</button>
                       </a>
                     ) : (
-                      <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => onOpen(result)}>I want this →</button>
+                      <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => { document.getElementById("programs")?.scrollIntoView({behavior:"smooth"}); }}>See programs →</button>
                     )}
                     <button className="btn-ghost" style={{ fontSize: 11 }} onClick={reset}>↩ Retake</button>
                   </div>
@@ -4808,7 +4808,7 @@ const CSS = `
   --orange:#FF4500;--orange-dim:rgba(255,69,0,.1);--orange-border:rgba(255,69,0,.28);
   --bg:#0A0A0A;--bg-card:#111;--bg-card2:#141414;
   --border:rgba(255,255,255,.07);--border-bright:rgba(255,255,255,.14);
-  --text:#FFF;--text-dim:#ffffff;--text-faint:rgba(255,255,255,.65);
+  --text:#FFF;--text-dim:#ffffff;--text-faint:#ffffff;
   --fd:'Barlow Condensed',Impact,sans-serif;--fb:'Barlow',sans-serif;--fs:'Cormorant Garamond',Georgia,serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -4825,7 +4825,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .btn-secondary{background:transparent;color:var(--orange);border:1px solid var(--orange-border);padding:11px 22px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
 .btn-secondary:hover{background:var(--orange-dim)}
 .btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-bright);padding:9px 16px;font-family:var(--fd);font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
-.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.28)}
+.btn-ghost:hover{color:var(--text);border-color:#fff}
 .card-lift{transition:transform .3s cubic-bezier(.4,0,.2,1),border-color .3s,box-shadow .3s;cursor:pointer}
 .card-lift:hover{transform:translateY(-5px);border-color:var(--orange-border)!important;box-shadow:0 20px 56px rgba(255,69,0,.14)}
 .progress-bar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
@@ -4953,7 +4953,7 @@ function AppInner() {
                 <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "#fff", letterSpacing: 1 }}>
                   Payment confirmed — welcome to {active.title}!
                 </div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.8)", marginTop: 2 }}>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", marginTop: 2 }}>
                   Your full program is unlocked below. Bookmark this page for future access.
                 </div>
               </div>
@@ -5023,13 +5023,13 @@ function AppInner() {
         <div style={{ marginBottom: 36, display: "flex", flexDirection: "column", alignItems: "center", gap: 0 }}>
           <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", letterSpacing: 2, fontSize: 10, lineHeight: 1.5, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: "10px 18px", borderRadius: 4 }}>
             <span>⚡ NOT FOR EVERYONE — ELITE CALISTHENICS PROGRAMS</span>
-            <span style={{ fontFamily: "var(--fs)", fontStyle: "italic", fontWeight: 400, fontSize: 10, letterSpacing: 2, color: "var(--orange)", textTransform: "none" }}>From 0 to your prime.</span>
+            <span style={{ fontFamily: "var(--fs)", fontStyle: "italic", fontWeight: 400, fontSize: 15, letterSpacing: 1, color: "#ffffff", textTransform: "none", fontWeight: 700 }}>From 0 to your prime.</span>
           </div>
         </div>
 
         {/* Hook */}
         <div style={{ maxWidth: 500, marginBottom: 20, textAlign: "center" }}>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.65)", lineHeight: 1.8, marginBottom: 10 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8, marginBottom: 10 }}>
             Most people train for months and go nowhere.<br />
             <strong style={{ color: "#fff" }}>Not because they lack effort. Because they lack structure.</strong>
           </p>
@@ -5043,7 +5043,7 @@ function AppInner() {
           DOMINATE<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>GRAVITY</span>
         </h1>
 
-        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 16, color: "rgba(255,255,255,0.6)", maxWidth: 420, marginBottom: 32, lineHeight: 1.7 }}>
+        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 16, color: "#ffffff", maxWidth: 420, marginBottom: 32, lineHeight: 1.7 }}>
           Planche. Front Lever. Muscle. Hybrid.<br />Engineered programs — not random workouts.
         </p>
 
@@ -5056,7 +5056,7 @@ function AppInner() {
           ].map((item, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: "6px 14px" }}>
               <span style={{ fontSize: 12 }}>{item.icon}</span>
-              <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.65)", letterSpacing: 0.5 }}>{item.text}</span>
+              <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 0.5 }}>{item.text}</span>
             </div>
           ))}
         </div>
@@ -5089,10 +5089,10 @@ function AppInner() {
               <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,58px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 28 }}>
                 Hard work<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>without structure</span><br />is just damage.
               </h2>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.65)", lineHeight: 1.8, marginBottom: 20 }}>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8, marginBottom: 20 }}>
                 You're not stuck because you're lazy. You're stuck because no one gave you a real plan. YouTube workouts, 30-day challenges, random sets — they all share the same flaw: <strong style={{ color: "#fff" }}>zero progression logic.</strong>
               </p>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.65)", lineHeight: 1.8, marginBottom: 28 }}>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8, marginBottom: 28 }}>
                 Without structure, effort accumulates into fatigue — not results. That's a system problem, not a willpower problem.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -5107,7 +5107,7 @@ function AppInner() {
                 ].map((text, i) => (
                   <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                     <span style={{ fontSize: 13, flexShrink: 0, marginTop: 2, color: "#ef4444" }}>✕</span>
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.55 }}>{text}</span>
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.55 }}>{text}</span>
                   </div>
                 ))}
               </div>
@@ -5127,7 +5127,7 @@ function AppInner() {
                     <span style={{ fontSize: 20, flexShrink: 0, width: 32, textAlign: "center" }}>{item.icon}</span>
                     <div>
                       <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, color: "#fff", marginBottom: 4 }}>{item.title}</div>
-                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.55 }}>{item.desc}</p>
+                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.55 }}>{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -5146,13 +5146,13 @@ function AppInner() {
               <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(30px,4vw,52px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 24 }}>
                 8 years.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Every rep.</span>
               </h2>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.65)", lineHeight: 1.8, marginBottom: 18 }}>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8, marginBottom: 18 }}>
                 I'm Axel. 8 years of calisthenics — not casually. Obsessively. Every progression, every plateau, every injury, every breakthrough. I didn't just train the planche — I failed it for 2 years before I figured out why.
               </p>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.65)", lineHeight: 1.8, marginBottom: 18 }}>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8, marginBottom: 18 }}>
                 These programs aren't theory. They're the <strong style={{ color: "#fff" }}>exact system</strong> I used — rebuilt, refined, and structured so you don't spend years figuring out what I had to.
               </p>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.65)", lineHeight: 1.8 }}>
+              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.8 }}>
                 The cues, the rest times, the progressions — these details took years to identify. <strong style={{ color: "#fff" }}>They're not in any YouTube video.</strong> They're here.
               </p>
             </div>
@@ -5167,7 +5167,7 @@ function AppInner() {
                   <span style={{ fontSize: 20, flexShrink: 0 }}>{item.icon}</span>
                   <div>
                     <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, color: "#fff", marginBottom: 4 }}>{item.title}</div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.55 }}>{item.desc}</p>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.55 }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -5187,7 +5187,7 @@ function AppInner() {
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14 }}>PROGRAMS</div>
             <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,5vw,66px)", textTransform: "uppercase", marginBottom: 12 }}>CHOOSE YOUR PATH</h2>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.5)", maxWidth: 480, margin: "0 auto" }}>Click any program to see the full breakdown — phases, exercises, method. No payment required to explore.</p>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", maxWidth: 480, margin: "0 auto" }}>Click any program to see the full breakdown — phases, exercises, method. No payment required to explore.</p>
           </div>
           <CatSection label="STRENGTH & SKILLS" sublabel="Master gravity — Planche & Front Lever from beginner to elite" progs={beginnerSkillProgs} onOpen={openProg} />
           <CatSection label="COMBO — BEST DUO" sublabel="Planche Foundation + Front Lever — two iconic skills, one price" progs={comboGroup} onOpen={openProg} />
@@ -5214,7 +5214,7 @@ function AppInner() {
           <div style={{ textAlign: "center", marginBottom: 44 }}>
             <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>SELECTION GUIDE</div>
             <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4.5vw,56px)", textTransform: "uppercase", marginBottom: 10 }}>NOT SURE WHICH ONE?</h2>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "rgba(255,255,255,0.45)", maxWidth: 400, margin: "0 auto" }}>Compare every program side by side. Click any row to explore it fully.</p>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "#ffffff", maxWidth: 400, margin: "0 auto" }}>Compare every program side by side. Click any row to explore it fully.</p>
           </div>
           <div className="surface" style={{ borderRadius: 8, overflowX: "auto" }}>
             <table className="data-table">
@@ -5258,7 +5258,7 @@ function AppInner() {
           <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,5vw,56px)", textTransform: "uppercase", lineHeight: .9, marginBottom: 16 }}>
             Still here?<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Then you're ready.</span>
           </h2>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "rgba(255,255,255,0.55)", marginBottom: 12, lineHeight: 1.7 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", marginBottom: 12, lineHeight: 1.7 }}>
             The athletes who got results didn't find the perfect moment. They picked a program and started.
           </p>
           <p style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 14, color: "var(--orange)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 32 }}>
