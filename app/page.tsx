@@ -5042,13 +5042,15 @@ function AppInner() {
       <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "90px 22px 100px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
 
-        {/* Badge — now the main label */}
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 11, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5, padding: "8px 20px" }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 16, letterSpacing: 2, fontSize: 10, lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
-        {/* Main headline — the subtitle IS the headline now */}
-        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,5.5vw,72px)", lineHeight: 1.05, letterSpacing: "-.01em", textTransform: "uppercase", marginBottom: 20, maxWidth: 780, color: "#ffffff" }}>
+        {/* Brand name — compact */}
+        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,5vw,48px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 12, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
+
+        {/* Main headline */}
+        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(22px,3.5vw,42px)", lineHeight: 1.1, letterSpacing: "-.01em", textTransform: "uppercase", marginBottom: 20, maxWidth: 680, color: "#ffffff" }}>
           Structured calisthenics programs<br />
-          <span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>for planche, front lever & muscle.</span>
+          <span style={{ WebkitTextStroke: "1.5px var(--orange)", WebkitTextFillColor: "transparent" }}>for planche, front lever & muscle.</span>
         </h1>
 
         {/* Stat pills */}
