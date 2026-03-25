@@ -4889,6 +4889,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .flicker{animation:flicker 5s ease-in-out infinite}
 .pulse-glow{animation:pulseGlow 2.6s ease-in-out infinite}
 .t-display{font-family:var(--fd);font-weight:900;text-transform:uppercase;letter-spacing:-.02em}
+.hero-title{font-size:15px!important}
 .t-label{font-family:var(--fb);font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
 .t-body{font-family:var(--fb);font-weight:400;line-height:1.65}
 .t-serif{font-family:var(--fs)}
