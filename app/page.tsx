@@ -5040,13 +5040,18 @@ function AppInner() {
       </nav>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "90px 22px 60px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "90px 22px 100px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
         <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 16, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
         <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 20 }}>
           DOMINATE<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>GRAVITY</span>
         </h1>
+
+        {/* Subtitle */}
+        <p style={{ fontFamily: "var(--fb)", fontSize: "clamp(14px,2vw,17px)", color: "rgba(255,255,255,0.65)", maxWidth: 520, lineHeight: 1.65, marginBottom: 28 }}>
+          Structured calisthenics programs for planche, front lever & muscle — built from 8 years of real training, not theory.
+        </p>
 
         {/* Stat pills */}
         <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap", justifyContent: "center" }}>
@@ -5055,8 +5060,22 @@ function AppInner() {
           ))}
         </div>
 
-        <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 48 }}>
+        <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginBottom: 48 }}>
           <a href="#programs"><button className="btn-primary cta-pulse" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs</button></a>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.35)", letterSpacing: 1 }}>Programs from $37 · Lifetime access · 30-day money-back</span>
+        </div>
+
+        {/* Mini social proof */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 40, padding: "10px 20px", marginBottom: 60, backdropFilter: "blur(8px)" }}>
+          <div style={{ display: "flex" }}>
+            {["#22c55e","#a855f7","#3b82f6","#f97316","#ec4899"].map((c, i) => (
+              <div key={i} style={{ width: 28, height: 28, borderRadius: "50%", background: c, border: "2px solid var(--bg)", marginLeft: i > 0 ? -8 : 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, color: "#fff", fontFamily: "var(--fd)" }}>
+                {["MT","JK","AR","TB","SW"][i]}
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: 3 }}>{[1,2,3,4,5].map(s => <span key={s} style={{ color: "#f59e0b", fontSize: 12 }}>★</span>)}</div>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)" }}><strong style={{ color: "#fff" }}>+250 athletes</strong> already training</span>
         </div>
 
         {/* Scroll indicator */}
@@ -5069,7 +5088,7 @@ function AppInner() {
       </section>
 
       {/* ── MANIFESTO ─────────────────────────────────────────── */}
-      <section id="method" style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)" }}>
+      <section id="method" style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)", background: "rgba(255,255,255,0.015)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "center" }} className="pg2">
             <div>
@@ -5127,7 +5146,7 @@ function AppInner() {
       </section>
 
       {/* ── WHO IS AXEL ───────────────────────────────────────── */}
-      <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)" }}>
+      <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)", background: "rgba(255,69,0,0.018)" }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }} className="pg2">
             <div>
@@ -5165,13 +5184,16 @@ function AppInner() {
         </div>
       </section>
 
+      {/* ── TESTIMONIALS ──────────────────────────────────────── */}
+      <div id="results-section"><TestimonialsSection /></div>
+
       {/* ── QUIZ ──────────────────────────────────────────────── */}
       <div id="quiz-section">
         <QuizSection onOpen={openProg} />
       </div>
 
       {/* ── PROGRAMS ──────────────────────────────────────────── */}
-      <section id="programs" style={{ padding: "60px 22px 20px", position: "relative", zIndex: 1 }}>
+      <section id="programs" style={{ padding: "60px 22px 20px", position: "relative", zIndex: 1, background: "rgba(255,255,255,0.015)" }}>
         <div style={{ maxWidth: 1260, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14 }}>PROGRAMS</div>
@@ -5189,9 +5211,6 @@ function AppInner() {
 
       {/* ── BUNDLE SECTION WITH COUNTDOWN ─────────────────────── */}
       <BundleSection onOpen={openProg} />
-
-      {/* ── TESTIMONIALS ──────────────────────────────────────── */}
-      <div id="results-section"><TestimonialsSection /></div>
 
       {/* ── FAQ ───────────────────────────────────────────────── */}
       <FAQSection />
