@@ -5055,14 +5055,15 @@ function AppInner() {
 
         <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 48 }}>
           <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs <span className="wiggle" style={{display:"inline-block"}}><ChevronDown size={13} /></span></button></a>
-          <a href="#results-section"><button className="btn-secondary">📸 Proof it works</button></a>
         </div>
 
         {/* Scroll indicator */}
-        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#ffffff" }}>Scroll to learn more</span>
-          <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, #ffffff, transparent)" }} />
-        </div>
+        <a href="#method" style={{ textDecoration: "none" }}>
+          <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, cursor: "pointer" }}>
+            <span style={{ fontFamily: "var(--fb)", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#ffffff", whiteSpace: "nowrap" }}>Scroll to learn more</span>
+            <div style={{ width: 1, height: 44, background: "linear-gradient(to bottom, #ffffff, transparent)" }} />
+          </div>
+        </a>
       </section>
 
       {/* ── MANIFESTO ─────────────────────────────────────────── */}
