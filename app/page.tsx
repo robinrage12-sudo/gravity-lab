@@ -5058,7 +5058,7 @@ function AppInner() {
       </nav>
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "70px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "52px 22px 70px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
         <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 16, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
@@ -5069,7 +5069,7 @@ function AppInner() {
         {/* Stat pills */}
         <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap", justifyContent: "center" }}>
           {["🧠 Science-based", "⚡ Structured programs", "👥 +250 athletes", "🎯 From 0 to Your goal", "🔥 8 years of experience"].map((tag, i) => (
-            <span key={i} style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 12, letterSpacing: 1, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "6px 14px", whiteSpace: "nowrap", backdropFilter: "blur(8px)", boxShadow: "0 1px 8px rgba(0,0,0,0.3)" }}>{tag}</span>
+            <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "6px 14px", whiteSpace: "nowrap", backdropFilter: "blur(8px)", boxShadow: "0 1px 8px rgba(0,0,0,0.3)" }}>{tag}</span>
           ))}
         </div>
 
