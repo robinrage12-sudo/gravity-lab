@@ -5062,34 +5062,11 @@ function AppInner() {
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
         <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 10, whiteSpace: "normal", textAlign: "center", maxWidth: "90vw", lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs — From 0 to your prime</div>
 
-        {/* Hook statement */}
-        <div style={{ maxWidth: 560, marginBottom: 20, textAlign: "center" }}>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "#ffffff", lineHeight: 1.7, marginBottom: 8 }}>
-            Most people will read this page, feel inspired — and do nothing.<br />
-            <span style={{ color: "#ffffff" }}>This is built for the ones who actually follow through.</span>
-          </p>
-          <p style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 17, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>
-            Whatever your level — are you one of them?
-          </p>
-        </div>
+
         <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(68px,13vw,148px)", lineHeight: .87, letterSpacing: "-.02em", textTransform: "uppercase", marginBottom: 28 }}>
           DOMINATE<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>GRAVITY</span>
         </h1>
-        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 17, color: "#ffffff", maxWidth: 500, marginBottom: 32, lineHeight: 1.65 }}>No fluff. No random YouTube sets. Structured programs engineered for people serious about Planche, Front Lever, Muscle & Hybrid training.</p>
-
-        {/* Social proof line */}
-        <div style={{ display: "flex", gap: 20, marginBottom: 40, flexWrap: "wrap", justifyContent: "center" }}>
-          {[
-            { icon: "🤸", text: "Planche & Front Lever" },
-            { icon: "💪", text: "Real Muscle. No BS." },
-            { icon: "🌟", text: "For the 1% who commit" },
-          ].map((item, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <span style={{ fontSize: 14 }}>{item.icon}</span>
-              <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 0.5, fontWeight: 500 }}>{item.text}</span>
-            </div>
-          ))}
-        </div>
+        <p className="hero-subtitle" style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 17, color: "rgba(255,255,255,0.7)", maxWidth: 480, marginBottom: 36, lineHeight: 1.6 }}>Structured programs for Planche, Front Lever, Muscle & Hybrid — from zero to elite.</p>
 
         <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 48 }}>
           <a href="#programs"><button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs <span className="wiggle" style={{display:"inline-block"}}><ChevronDown size={13} /></span></button></a>
