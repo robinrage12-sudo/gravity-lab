@@ -4874,17 +4874,17 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
 @keyframes badgeBounce{0%,100%{transform:rotate(35deg) scale(1)}50%{transform:rotate(35deg) scale(1.08)}}
 @keyframes wiggle{0%,100%{transform:translateX(0)}20%{transform:translateX(-3px)}40%{transform:translateX(3px)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}}
-@keyframes ctaPulse{0%,100%{transform:translateY(0);box-shadow:0 4px 20px rgba(255,69,0,.35)}50%{transform:translateY(-3px);box-shadow:0 12px 36px rgba(255,69,0,.6)}}
+@keyframes ctaPulse{0%,100%{transform:translateY(0) scale(1);box-shadow:0 4px 20px rgba(255,69,0,.4)}50%{transform:translateY(-6px) scale(1.03);box-shadow:0 20px 60px rgba(255,69,0,.85),0 0 40px rgba(255,69,0,.4)}}
 @keyframes borderGlow{0%,100%{border-color:rgba(255,69,0,.28)}50%{border-color:rgba(255,69,0,.7)}}
 @keyframes priceReveal{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
 @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-@keyframes arrowBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@keyframes arrowBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 .shimmer-text{background:linear-gradient(90deg,var(--orange) 0%,#ffb347 40%,var(--orange) 60%,#ff8c00 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
 .badge-bounce{animation:badgeBounce 2s ease-in-out infinite}
-.cta-pulse{animation:ctaPulse 2.2s ease-in-out infinite}
+.cta-pulse{animation:ctaPulse 1.8s ease-in-out infinite}
 .border-glow{animation:borderGlow 2.5s ease-in-out infinite}
 .wiggle{animation:wiggle 3s ease-in-out infinite}
-.arrow-bounce{animation:arrowBounce 1.2s ease-in-out infinite;display:inline-block;vertical-align:middle;margin-left:6px}
+.arrow-bounce{animation:arrowBounce 0.9s ease-in-out infinite;display:inline-block;vertical-align:middle;margin-left:6px}
 .fade-up{animation:fadeUp .5s ease both}
 .flicker{animation:flicker 5s ease-in-out infinite}
 .pulse-glow{animation:pulseGlow 2.6s ease-in-out infinite}
@@ -5056,7 +5056,7 @@ function AppInner() {
         </div>
 
         <div className="hero-ctas" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 48 }}>
-          <a href="#programs"><button className="btn-primary cta-pulse" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs <span className="arrow-bounce"><ChevronDown size={15} /></span></button></a>
+          <a href="#programs"><button className="btn-primary cta-pulse" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs</button></a>
         </div>
 
         {/* Scroll indicator */}
