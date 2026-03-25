@@ -4889,7 +4889,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .flicker{animation:flicker 5s ease-in-out infinite}
 .pulse-glow{animation:pulseGlow 2.6s ease-in-out infinite}
 .t-display{font-family:var(--fd);font-weight:900;text-transform:uppercase;letter-spacing:-.02em}
-.hero-title{font-size:15px!important}
 .t-label{font-family:var(--fb);font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
 .t-body{font-family:var(--fb);font-weight:400;line-height:1.65}
 .t-serif{font-family:var(--fs)}
@@ -5017,9 +5016,10 @@ function AppInner() {
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,5vw,44px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 10, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
 
         {/* Main headline */}
-        <p style={{ fontFamily: "var(--fb)", fontWeight: 400, fontSize: 14, lineHeight: 1.5, marginBottom: 18, color: "rgba(255,255,255,0.7)" }}>
-          Structured calisthenics programs for planche, front lever & muscle.
-        </p>
+        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(15px,2.8vw,28px)", lineHeight: 1.15, letterSpacing: "-.01em", textTransform: "uppercase", marginBottom: 18, maxWidth: 560, color: "#ffffff" }}>
+          Structured calisthenics programs<br />
+          <span style={{ WebkitTextStroke: "1px var(--orange)", WebkitTextFillColor: "transparent" }}>for planche, front lever & muscle.</span>
+        </h1>
 
         {/* Stat pills */}
         <div style={{ display: "flex", gap: 6, marginBottom: 22, flexWrap: "wrap", justifyContent: "center" }}>
