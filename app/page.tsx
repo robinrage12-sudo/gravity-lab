@@ -4907,7 +4907,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
   .track-btn{padding:8px 12px!important;font-size:11px!important}
   .testimonial-grid{grid-template-columns:1fr!important}
   .bottom-nav{display:flex!important}
-  .desktop-nav-links{display:none!important}
   .btn-primary{min-height:52px!important;font-size:14px!important}
   .btn-secondary{min-height:50px!important;font-size:14px!important}
   .hero-ctas{flex-direction:column!important;width:100%!important;align-items:stretch!important}
@@ -5007,82 +5006,51 @@ function AppInner() {
       <style>{CSS}</style>
       <div className="noise" /><div className="grid-bg" />
 
-      <nav className="no-print" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, padding: "15px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border)", background: "rgba(10,10,10,.92)", backdropFilter: "blur(24px)" }}>
-        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 19, letterSpacing: 4, color: "var(--orange)" }}>GRAVITY<span style={{ color: "var(--text)" }}>LAB</span></div>
-        <div className="desktop-nav-links" style={{ display: "flex", gap: 22 }}>
-          {["Programs", "Method", "Guide"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} style={{ fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-faint)", textDecoration: "none", transition: "color .2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "var(--text)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "var(--text-faint)")}>{l}</a>
-          ))}
-        </div>
-      </nav>
-
-      {/* ── BOTTOM NAV (mobile only) ── */}
-      <nav className="bottom-nav no-print">
-        <a href="#programs" className="bottom-nav-btn">
-          <span style={{ fontSize: 18 }}>🏋️</span>
-          Programs
-        </a>
-        <a href="#results-section" className="bottom-nav-btn">
-          <span style={{ fontSize: 18 }}>📸</span>
-          Results
-        </a>
-        <a href="#quiz-section" className="bottom-nav-btn">
-          <span style={{ fontSize: 18 }}>🎯</span>
-          Quiz
-        </a>
-        <a href="#guide" className="bottom-nav-btn">
-          <span style={{ fontSize: 18 }}>📋</span>
-          Guide
-        </a>
-      </nav>
-
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "90px 22px 100px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "32px 22px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
 
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 16, letterSpacing: 2, fontSize: 10, lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14, letterSpacing: 2, fontSize: 10, lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
-        {/* Brand name — compact */}
-        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,5vw,48px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 12, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
+        {/* Brand name */}
+        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,5vw,44px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 10, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
 
         {/* Main headline */}
-        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(22px,3.5vw,42px)", lineHeight: 1.1, letterSpacing: "-.01em", textTransform: "uppercase", marginBottom: 20, maxWidth: 680, color: "#ffffff" }}>
+        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(15px,2.8vw,28px)", lineHeight: 1.15, letterSpacing: "-.01em", textTransform: "uppercase", marginBottom: 18, maxWidth: 560, color: "#ffffff" }}>
           Structured calisthenics programs<br />
-          <span style={{ WebkitTextStroke: "1.5px var(--orange)", WebkitTextFillColor: "transparent" }}>for planche, front lever & muscle.</span>
+          <span style={{ WebkitTextStroke: "1px var(--orange)", WebkitTextFillColor: "transparent" }}>for planche, front lever & muscle.</span>
         </h1>
 
         {/* Stat pills */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 36, flexWrap: "wrap", justifyContent: "center" }}>
+        <div style={{ display: "flex", gap: 6, marginBottom: 22, flexWrap: "wrap", justifyContent: "center" }}>
           {["🧠 Science-based", "⚡ Structured programs", "👥 +250 athletes", "🎯 From 0 to Your goal", "🔥 8 years of experience"].map((tag, i) => (
-            <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "6px 14px", whiteSpace: "nowrap", backdropFilter: "blur(8px)", boxShadow: "0 1px 8px rgba(0,0,0,0.3)" }}>{tag}</span>
+            <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>{tag}</span>
           ))}
         </div>
 
-        <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, marginBottom: 36 }}>
+        <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginBottom: 22 }}>
           <a href="#programs"><button className="btn-primary cta-pulse" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs</button></a>
           <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 1 }}>Programs from $37 · Lifetime access · Interactive programs</span>
         </div>
 
         {/* Mini social proof */}
-        <div style={{ display: "flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 40, padding: "10px 20px", backdropFilter: "blur(8px)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 40, padding: "8px 18px", backdropFilter: "blur(8px)" }}>
           <div style={{ display: "flex" }}>
             {["#22c55e","#a855f7","#3b82f6","#f97316","#ec4899"].map((c, i) => (
-              <div key={i} style={{ width: 28, height: 28, borderRadius: "50%", background: c, border: "2px solid var(--bg)", marginLeft: i > 0 ? -8 : 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, color: "#fff", fontFamily: "var(--fd)" }}>
+              <div key={i} style={{ width: 26, height: 26, borderRadius: "50%", background: c, border: "2px solid var(--bg)", marginLeft: i > 0 ? -8 : 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, color: "#fff", fontFamily: "var(--fd)" }}>
                 {["MT","JK","AR","TB","SW"][i]}
               </div>
             ))}
           </div>
-          <div style={{ display: "flex", gap: 3 }}>{[1,2,3,4,5].map(s => <span key={s} style={{ color: "#f59e0b", fontSize: 12 }}>★</span>)}</div>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff" }}><strong style={{ color: "#fff" }}>+250 athletes</strong> already training</span>
+          <div style={{ display: "flex", gap: 2 }}>{[1,2,3,4,5].map(s => <span key={s} style={{ color: "#f59e0b", fontSize: 11 }}>★</span>)}</div>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff" }}><strong>+250 athletes</strong> already training</span>
         </div>
 
         {/* Scroll indicator */}
         <a href="#method" style={{ textDecoration: "none" }}>
-          <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, cursor: "pointer" }}>
+          <div style={{ position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, cursor: "pointer" }}>
             <span style={{ fontFamily: "var(--fb)", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#ffffff", whiteSpace: "nowrap" }}>Scroll to learn more</span>
-            <div style={{ width: 1, height: 44, background: "linear-gradient(to bottom, #ffffff, transparent)" }} />
+            <div style={{ width: 1, height: 36, background: "linear-gradient(to bottom, #ffffff, transparent)" }} />
           </div>
         </a>
       </section>
