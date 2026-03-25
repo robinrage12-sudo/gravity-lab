@@ -4914,6 +4914,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
   .hero-ctas button{width:100%!important;justify-content:center!important}
   .hide-mobile{display:none!important}
   body{padding-bottom:80px}
+  .hero-title{font-size:11px!important;max-width:280px!important}
 }
 @media print{
   .no-print,.noise,.grid-bg,nav,footer,.track-toggle,
