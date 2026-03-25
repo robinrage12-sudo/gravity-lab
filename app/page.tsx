@@ -4438,8 +4438,6 @@ function FAQSection() {
 // ═══════════════════════════════════════════════════════
 
 function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
-  const { h, m, s } = useCountdown();
-  const pad = (n: number) => String(n).padStart(2, "0");
   const priceItems = [
     { label: "Planche Foundation", price: 37 },
     { label: "Planche Elite", price: 57 },
@@ -4484,26 +4482,8 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
             </div>
           </div>
 
-          {/* Right — countdown + CTA */}
+          {/* Right — CTA */}
           <div>
-            {/* Countdown */}
-            <div style={{ background: "var(--bg-card)", border: "1px solid var(--orange-border)", borderRadius: 10, padding: "24px", marginBottom: 20, textAlign: "center" }}>
-              <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 14 }}>🔥 Launch price — disappears in</div>
-              <div style={{ display: "flex", justifyContent: "center", gap: 8, marginBottom: 14 }}>
-                {[{ label: "HRS", val: pad(h) }, { label: "MIN", val: pad(m) }, { label: "SEC", val: pad(s) }].map((unit, i) => (
-                  <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                    <div style={{ background: "rgba(255,69,0,0.1)", border: "1px solid var(--orange-border)", borderRadius: 6, padding: "10px 14px", minWidth: 58 }}>
-                      <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: "var(--orange)", lineHeight: 1 }}>{unit.val}</span>
-                    </div>
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 9, letterSpacing: 2, color: "var(--text-faint)" }}>{unit.label}</span>
-                  </div>
-                ))}
-              </div>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-faint)", lineHeight: 1.55 }}>
-                When this hits zero, the bundle goes back to full price — no exceptions, no extensions.
-              </p>
-            </div>
-
             {/* CTA */}
             <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
               <button className="btn-primary pulse-glow cta-pulse" style={{ width: "100%", justifyContent: "center", padding: "16px", fontSize: 15, letterSpacing: 2 }}>
@@ -5079,9 +5059,9 @@ function AppInner() {
         </div>
 
         {/* Scroll indicator */}
-        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, opacity: 0.35 }}>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "var(--text-faint)" }}>Scroll</span>
-          <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, var(--orange), transparent)" }} />
+        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 9, letterSpacing: 3, textTransform: "uppercase", color: "#ffffff" }}>Scroll to learn more</span>
+          <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, #ffffff, transparent)" }} />
         </div>
       </section>
 
