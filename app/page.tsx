@@ -5008,7 +5008,7 @@ function AppInner() {
       <div className="noise" /><div className="grid-bg" />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", textAlign: "center", padding: "72px 16px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", textAlign: "center", padding: "32px 16px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
 
         <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 20, letterSpacing: 1.5, fontSize: 10, lineHeight: 1.5, padding: "5px 13px", maxWidth: "100%", textAlign: "center", whiteSpace: "normal", wordBreak: "break-word" }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
