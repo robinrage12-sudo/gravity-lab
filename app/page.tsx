@@ -5016,9 +5016,9 @@ function AppInner() {
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,5vw,44px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 10, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
 
         {/* Main headline */}
-        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(15px,2.8vw,28px)", lineHeight: 1.15, letterSpacing: "-.01em", textTransform: "uppercase", marginBottom: 18, maxWidth: 560, color: "#ffffff" }}>
-          Structured calisthenics programs<br />
-          <span style={{ WebkitTextStroke: "1px var(--orange)", WebkitTextFillColor: "transparent" }}>for planche, front lever & muscle.</span>
+        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: "clamp(11px,1.8vw,16px)", lineHeight: 1.4, letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 18, maxWidth: 560, color: "#ffffff" }}>
+          Structured calisthenics programs —
+          <span style={{ color: "var(--orange)" }}> planche, front lever & muscle.</span>
         </h1>
 
         {/* Stat pills */}
