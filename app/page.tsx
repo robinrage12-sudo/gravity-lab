@@ -2414,8 +2414,7 @@ const fullHypertrophy: Program = {
   benefits: [
     "Complete aesthetic physique — zero equipment, no prerequisites needed",
     "Handstand & handstand push-up — full progression",
-    "Elite skills: 90° push-up, one arm push-up, L-sit, V-sit",
-    "One arm pull-up — full progression",
+    "Elite skills: 90° push-up, one arm pull-up",
     "Pistol squat — full progression from scratch",
     "Human flag — technique & progression",
     "Back lever — full progression",
