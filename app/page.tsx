@@ -5023,14 +5023,7 @@ function AppInner() {
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(52px,10vw,110px)", letterSpacing: 8, color: "var(--orange)", marginBottom: 14, textTransform: "uppercase", lineHeight: 1 }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
 
         {/* Small subtitle */}
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>Structured calisthenics programs — planche, front lever & muscle</p>
-
-        {/* Skills ticker */}
-        <div style={{ display: "flex", gap: 6, marginBottom: 24, flexWrap: "wrap", justifyContent: "center", maxWidth: 680 }}>
-          {["🤸 Planche","🏋️ Front Lever","💪 Muscle Up","🤸 Handstand","🔥 HSPU","🦵 Pistol Squat","🚩 Human Flag","⚡ 90° Push-Up","🖐️ One Arm Handstand","🙌 One Arm Pull-Up","🤲 One Arm Push-Up","🔺 L-sit","🔺 V-sit"].map((s, i) => (
-            <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.55)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 20, padding: "3px 10px", whiteSpace: "nowrap" }}>{s}</span>
-          ))}
-        </div>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 36 }}>Structured calisthenics programs — planche, front lever, muscle up, pistol squat, human flag, handstand, HSPU, L-sit, V-sit, one arm handstand, 90° push-up, one arm pull-up & more</p>
 
         {/* Stat pills */}
         <div style={{ display: "flex", gap: 8, marginBottom: 36, flexWrap: "wrap", justifyContent: "center" }}>
