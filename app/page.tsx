@@ -1514,7 +1514,7 @@ const hybridAthlete: Program = {
   id: "hybrid-athlete",
   title: "Hybrid Athlete",
   subtitle: "Gym guys skip skills. Calisthenics guys skip strength. This fixes both — if you can handle it.",
-  tagline: "Build serious muscle with barbells while mastering elite bodyweight skills.",
+  tagline: "Weighted calisthenics (dips, pull-ups, muscle up) + barbells + elite bodyweight skills.",
   level: "Intermediate",
   levelColor: "#a855f7",
   category: "hybrid",
@@ -1915,15 +1915,16 @@ const hybridAthlete: Program = {
     ...sharedCooldown.slice(4),
   ],
   benefits: [
-    "Gym-based strength + calisthenics skill fusion — no skill prerequisite",
+    "Weighted calisthenics: dips, pull-ups, muscle up — full technique & loading",
+    "Gym-based strength (barbells) + calisthenics skill fusion",
     "HSPU (Handstand Push-Up) & 90° push-up — full technique",
     "Handstand progression included",
     "One arm pull-up progression",
     "Pistol squat — full progression from scratch",
     "Human flag — technique & progression",
-    "Muscle up — bar & rings progression",
-    "Progressive overload with barbells & skills",
-    "🌟 Bonus: One arm handstand & one arm push-up progression",
+    "Back lever — full progression",
+    "Progressive overload: barbells & skills combined",
+    "🌟 Bonus: One arm handstand progression",
     "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
   stripeUrl: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e",
@@ -1931,9 +1932,9 @@ const hybridAthlete: Program = {
 
 const fullHypertrophy: Program = {
   id: "hypertrophy",
-  title: "Full Hypertrophy",
+  title: "Full Hypertrophy + Skills",
   subtitle: "No gym. No excuses. No results either — unless you follow this exactly.",
-  tagline: "Build a complete aesthetic physique with zero equipment. No gym needed.",
+  tagline: "Build a complete aesthetic physique with zero equipment — and master elite bodyweight skills.",
   level: "Beginner / Intermediate",
   levelColor: "#ec4899",
   category: "hypertrophy",
@@ -2412,11 +2413,12 @@ const fullHypertrophy: Program = {
   ],
   benefits: [
     "Complete aesthetic physique — zero equipment, no prerequisites needed",
-    "Handstand progression included",
-    "Elite skills: HSPU (Handstand Push-Up), 90° push-up, one arm push-up",
+    "Handstand & handstand push-up — full progression",
+    "Elite skills: 90° push-up, one arm push-up, L-sit, V-sit",
     "One arm pull-up — full progression",
     "Pistol squat — full progression from scratch",
     "Human flag — technique & progression",
+    "Back lever — full progression",
     "Muscle up — bar & rings progression",
     "Scientific hypertrophy protocol",
     "🌟 Bonus: One arm handstand progression",
@@ -5023,7 +5025,7 @@ function AppInner() {
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(52px,10vw,110px)", letterSpacing: 8, color: "var(--orange)", marginBottom: 14, textTransform: "uppercase", lineHeight: 1 }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
 
         {/* Small subtitle */}
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 36 }}>Structured calisthenics programs — planche, front lever, muscle up, pistol squat, human flag, handstand, HSPU, L-sit, V-sit, one arm handstand, 90° push-up, one arm pull-up & more</p>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 36 }}>Structured calisthenics programs — planche, front lever, back lever, muscle up, pistol squat, human flag, handstand, HSPU, L-sit, V-sit, one arm handstand, 90° push-up, one arm pull-up & more</p>
 
         {/* Stat pills */}
         <div style={{ display: "flex", gap: 8, marginBottom: 36, flexWrap: "wrap", justifyContent: "center" }}>
