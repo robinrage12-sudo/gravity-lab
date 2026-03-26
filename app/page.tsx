@@ -5031,7 +5031,7 @@ function AppInner() {
 
         <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginBottom: 36 }}>
           <a href="#programs"><button className="btn-primary cta-pulse" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs</button></a>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 1 }}>Programs from $37 · Lifetime access · Interactive programs</span>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 1 }}>Programs from $37 · Lifetime access</span>
         </div>
 
         {/* Mini social proof */}
