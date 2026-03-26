@@ -4914,7 +4914,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
   .hero-ctas button{width:100%!important;justify-content:center!important}
   .hide-mobile{display:none!important}
   body{padding-bottom:80px}
-  .hero-title{font-size:11px!important;max-width:280px!important}
 }
 @media print{
   .no-print,.noise,.grid-bg,nav,footer,.track-toggle,
@@ -5017,7 +5016,7 @@ function AppInner() {
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,5vw,44px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 10, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
 
         {/* Main headline */}
-        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(13px,2.8vw,28px)", lineHeight: 1.15, letterSpacing: "-.01em", textTransform: "uppercase", marginBottom: 18, maxWidth: 420, color: "#ffffff" }}>
+        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(15px,2.8vw,28px)", lineHeight: 1.15, letterSpacing: "-.01em", textTransform: "uppercase", marginBottom: 18, maxWidth: 560, color: "#ffffff" }}>
           Structured calisthenics programs<br />
           <span style={{ WebkitTextStroke: "1px var(--orange)", WebkitTextFillColor: "transparent" }}>for planche, front lever & muscle.</span>
         </h1>
