@@ -4843,6 +4843,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .surface{background:var(--bg-card);border:1px solid var(--border);border-radius:6px}
 .surface-2{background:var(--bg-card2);border:1px solid var(--border);border-radius:6px}
 .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;border-radius:2px;font-family:var(--fb);white-space:nowrap}
+.hero-badge{white-space:normal!important;text-align:center;max-width:90vw}
 .btn-primary{background:var(--orange);color:#fff;border:none;padding:12px 26px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:8px}
 .btn-primary:hover{background:#ff6030;transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,69,0,.4)}
 .btn-secondary{background:transparent;color:var(--orange);border:1px solid var(--orange-border);padding:11px 22px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
@@ -5007,25 +5008,28 @@ function AppInner() {
       <div className="noise" /><div className="grid-bg" />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "32px 22px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "32px 16px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
 
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 12, lineHeight: 1.5, padding: "8px 18px" }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 28, letterSpacing: 2, fontSize: 12, lineHeight: 1.5, padding: "8px 18px", maxWidth: "100%", textAlign: "center", whiteSpace: "normal", wordBreak: "break-word" }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
         {/* Brand name */}
-        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,5vw,44px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 12, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
+        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(52px,10vw,110px)", letterSpacing: 8, color: "var(--orange)", marginBottom: 14, textTransform: "uppercase", lineHeight: 1 }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
 
         {/* Small subtitle */}
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 28 }}>Structured calisthenics programs — planche, front lever & muscle</p>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 36 }}>Structured calisthenics programs — planche, front lever & muscle</p>
 
         {/* Stat pills */}
-        <div style={{ display: "flex", gap: 6, marginBottom: 28, flexWrap: "wrap", justifyContent: "center" }}>
+        <div style={{ display: "flex", gap: 8, marginBottom: 36, flexWrap: "wrap", justifyContent: "center" }}>
           {["🧠 Science-based", "⚡ Structured programs", "🎯 From 0 to Your goal", "🔥 8 years of experience"].map((tag, i) => (
             <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>{tag}</span>
           ))}
+          {/* Interactive & Adaptive pills */}
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.12)", border: "1px solid var(--orange-border)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)", fontWeight: 700 }}>📱 100% Interactive — not a PDF</span>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.12)", border: "1px solid var(--orange-border)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)", fontWeight: 700 }}>🔄 Adapts to your level & pace</span>
         </div>
 
-        <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginBottom: 28 }}>
+        <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginBottom: 36 }}>
           <a href="#programs"><button className="btn-primary cta-pulse" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs</button></a>
           <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 1 }}>Programs from $37 · Lifetime access · Interactive programs</span>
         </div>
