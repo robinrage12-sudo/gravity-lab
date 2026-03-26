@@ -5013,17 +5013,14 @@ function AppInner() {
         <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14, letterSpacing: 2, fontSize: 10, lineHeight: 1.5 }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
         {/* Brand name */}
-        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,5vw,44px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 10, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
+        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,5vw,44px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 8, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
 
-        {/* Main headline */}
-        <h1 className="hero-title" style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: "clamp(11px,1.8vw,16px)", lineHeight: 1.4, letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 18, maxWidth: 560, color: "#ffffff" }}>
-          Structured calisthenics programs —
-          <span style={{ color: "var(--orange)" }}> planche, front lever & muscle.</span>
-        </h1>
+        {/* Small subtitle */}
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 20 }}>Structured calisthenics programs — planche, front lever & muscle</p>
 
         {/* Stat pills */}
         <div style={{ display: "flex", gap: 6, marginBottom: 22, flexWrap: "wrap", justifyContent: "center" }}>
-          {["🧠 Science-based", "⚡ Structured programs", "👥 +250 athletes", "🎯 From 0 to Your goal", "🔥 8 years of experience"].map((tag, i) => (
+          {["🧠 Science-based", "⚡ Structured programs", "🎯 From 0 to Your goal", "🔥 8 years of experience"].map((tag, i) => (
             <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>{tag}</span>
           ))}
         </div>
