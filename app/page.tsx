@@ -58,8 +58,8 @@ interface Program {
   tagline: string;
   level: string;
   levelColor: string;
-  category: "skill" | "hybrid" | "hypertrophy" | "bundle";
-  categoryGroup: "STRENGTH & SKILLS" | "HYBRID" | "HYPERTROPHY" | "BUNDLE";
+  category: "skill" | "hybrid" | "hypertrophy" | "basic-skills" | "bundle";
+  categoryGroup: "STRENGTH & SKILLS" | "HYBRID" | "HYPERTROPHY" | "BASIC SKILLS" | "BUNDLE";
   price: string;
   originalPrice?: string;
   icon: string;
@@ -111,13 +111,13 @@ const plancheFoundation: Program = {
   id: "planche-foundation",
   title: "Planche Foundation",
   subtitle: "Most people quit before week 3. This is for the ones who don't.",
-  tagline: "Zero to full planche. No prerequisites, no gym needed. Built for anyone starting from scratch.",
-  level: "Beginner / Intermediate",
+  tagline: "From zero to full planche. Start from scratch — no prerequisites, no gym needed.",
+  level: "From Zero",
   levelColor: "#22c55e",
   category: "skill",
   categoryGroup: "STRENGTH & SKILLS",
   price: "37",
-  icon: "🤸",
+  icon: "🪐",
   glowColor: "rgba(34,197,94,0.12)",
   goals: [
     "Develop bulletproof scapular depression & protraction",
@@ -809,12 +809,12 @@ const frontLeverMastery: Program = {
   title: "Front Lever Mastery",
   subtitle: "The pull-up alone won't get you here. Zero prerequisites — but zero shortcuts either.",
   tagline: "From zero to full front lever. No prerequisites. Master every variation, pull-up & OAP progression.",
-  level: "Beginner / Intermediate",
+  level: "From Zero",
   levelColor: "#3b82f6",
   category: "skill",
   categoryGroup: "STRENGTH & SKILLS",
-  price: "39",
-  icon: "🎯",
+  price: "32",
+  icon: "🌊",
   glowColor: "rgba(59,130,246,0.15)",
   goals: [
     "Achieve a clean 5-second full front lever hold",
@@ -1514,7 +1514,7 @@ const hybridAthlete: Program = {
   id: "hybrid-athlete",
   title: "Hybrid Athlete",
   subtitle: "Gym guys skip skills. Calisthenics guys skip strength. This fixes both — if you can handle it.",
-  tagline: "Weighted calisthenics (dips, pull-ups, muscle up) + barbells + elite bodyweight skills.",
+  tagline: "Build serious muscle with barbells while mastering elite bodyweight skills.",
   level: "Intermediate",
   levelColor: "#a855f7",
   category: "hybrid",
@@ -1915,16 +1915,12 @@ const hybridAthlete: Program = {
     ...sharedCooldown.slice(4),
   ],
   benefits: [
-    "Weighted calisthenics: dips, pull-ups, muscle up — full technique & loading",
-    "Gym-based strength (barbells) + calisthenics skill fusion",
+    "Gym-based strength + calisthenics skill fusion — no skill prerequisite",
     "HSPU (Handstand Push-Up) & 90° push-up — full technique",
     "Handstand progression included",
     "One arm pull-up progression",
-    "Pistol squat — full progression from scratch",
-    "Human flag — technique & progression",
-    "Back lever — full progression",
-    "Progressive overload: barbells & skills combined",
-    "🌟 Bonus: One arm handstand progression",
+    "Progressive overload with barbells & skills",
+    "🌟 Bonus: One arm handstand & one arm push-up progression",
     "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
   stripeUrl: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e",
@@ -1932,15 +1928,16 @@ const hybridAthlete: Program = {
 
 const fullHypertrophy: Program = {
   id: "hypertrophy",
-  title: "Full Hypertrophy + Skills",
-  subtitle: "No gym. No excuses. No results either — unless you follow this exactly.",
-  tagline: "Build a complete aesthetic physique with zero equipment — and master elite bodyweight skills.",
-  level: "Beginner / Intermediate",
+  title: "Aesthetic Physique",
+  subtitle: "Build a V-taper body from zero — no gym, no equipment, no excuses.",
+  tagline: "Bodyweight muscle for a V-taper shape — Beginner, Intermediate & Advanced tracks included.",
+  level: "Beginner → Advanced",
   levelColor: "#ec4899",
   category: "hypertrophy",
   categoryGroup: "HYPERTROPHY",
-  price: "57",
-  icon: "🔥",
+  price: "25",
+  originalPrice: undefined,
+  icon: "💎",
   glowColor: "rgba(236,72,153,0.15)",
   badge: "BEST-SELLER ⭐",
   dualTrack: false,
@@ -2413,17 +2410,14 @@ const fullHypertrophy: Program = {
   ],
   benefits: [
     "Complete aesthetic physique — zero equipment, no prerequisites needed",
-    "Handstand & handstand push-up — full progression",
-    "Elite skills: 90° push-up, one arm pull-up",
-    "Pistol squat — full progression from scratch",
-    "Human flag — technique & progression",
-    "Back lever — full progression",
-    "Muscle up — bar & rings progression",
+    "Handstand progression included",
+    "Elite skills: HSPU (Handstand Push-Up), 90° push-up, one arm push-up",
+    "One arm pull-up — full progression",
     "Scientific hypertrophy protocol",
     "🌟 Bonus: One arm handstand progression",
     "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
-  stripeUrl: "https://buy.stripe.com/fZu6oJeznamB87hbFz3ZK0d",
+  stripeUrl: "https://buy.stripe.com/aFadRb76V1Q5evFaBv3ZK0n",
 };
 
 // ─── PLANCHE + FRONT LEVER COMBO ─────────────────────────────────────────────
@@ -2437,8 +2431,8 @@ const plancheLeverCombo: Program = {
   levelColor: "#06b6d4",
   category: "skill",
   categoryGroup: "STRENGTH & SKILLS",
-  price: "59",
-  originalPrice: "76",
+  price: "52",
+  originalPrice: "69",
   icon: "🔥",
   glowColor: "rgba(6,182,212,0.15)",
   badge: "BEST DUO",
@@ -2467,68 +2461,379 @@ const plancheLeverCombo: Program = {
     "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
   bundlePrograms: [plancheFoundation, frontLeverMastery],
-  stripeUrl: "https://buy.stripe.com/3cI8wRfDreCR3R19xr3ZK0i",
+  stripeUrl: "https://buy.stripe.com/cNi5kF3UJdyNfzJ8tn3ZK0p",
+};
+
+// ─── BASIC SKILLS ─────────────────────────────────────────────────────────────
+
+const basicSkills: Program = {
+  id: "basic-skills",
+  title: "Basic Skills",
+  subtitle: "The skills most people never learn — mastered from zero.",
+  tagline: "90° push-up, one arm pull-up, pistol squat, human flag, back lever, muscle-up, handstand & HSPU. Full progressions from scratch.",
+  level: "Beginner → Intermediate",
+  levelColor: "#a855f7",
+  category: "basic-skills",
+  categoryGroup: "BASIC SKILLS",
+  price: "27",
+  icon: "⚡",
+  glowColor: "rgba(168,85,247,0.15)",
+  goals: [
+    "Master the 90° push-up — full technique & progression",
+    "Achieve one arm pull-up from zero",
+    "Own the pistol squat — full range, each leg",
+    "Learn human flag & back lever mechanics",
+    "Complete muscle-up on bar & rings",
+    "Build a solid freestanding handstand + HSPU",
+    "🌟 Bonus: One arm handstand full roadmap",
+  ],
+  mindset: "These are the skills that separate athletes from beginners. Not because they're impossible — but because most people never train them with a real system. Each skill here has a complete progression from absolute zero to full movement. No prerequisites. Just consistency and the right steps.",
+  weekStructure: "3–4 sessions/week. Each session targets 2–3 skills. Alternate push and pull days for maximum recovery. Skills are trained at the start of the session when the nervous system is fresh.",
+  warmup: [
+    { name: "Joint Mobility Flow", duration: "3 min", notes: "Wrists, elbows, shoulders, hips, ankles. Full range on every joint." },
+    { name: "Dead Hang", duration: "3×20s", notes: "Decompress the spine. Engage scapulas at the top of each hang." },
+    { name: "Hollow Body Hold", duration: "3×20s", notes: "The foundation of all bodyweight skill tension." },
+    { name: "Scapular Push-Ups", duration: "2×12", notes: "Activate serratus anterior before any pushing skill." },
+  ],
+  phases: [
+    {
+      name: "Phase 1 — Beginner Foundations",
+      tag: "Weeks 1–4",
+      duration: "4 weeks",
+      icon: "🏗️",
+      description: "Build the foundational strength patterns for each skill. No rushing — own each step before moving on.",
+      exercises: [
+        {
+          title: "90° Push-Up Progression",
+          sets: "4",
+          reps: "3–5 reps / step",
+          rest: "2 min",
+          intensity: "Technical",
+          cues: [
+            "Step 1 — Pike push-ups: build shoulder strength at various angles, 3s negative",
+            "Step 2 — Elevated pike push-ups: feet on chair, steeper angle, approach HSPU mechanics",
+            "Step 3 — Wall handstand push-ups: full overhead pressing strength, control descent",
+            "Step 4 — Freestanding HSPU negatives: lower from HS over 5s, kick up to reset",
+            "Step 5 — 90° position hold: lean forward until shoulders are over hands at 90° angle",
+            "Step 6 — 90° push-up: from the hold, press explosively — this is the full movement",
+          ],
+          proTip: "The 90° push-up requires both handstand pressing strength AND planche-level lean. It is the intersection of two elite skills — approach it only after mastering both HSPU and planche lean independently.",
+          progression: [
+            { label: "Pike PU", emoji: "▽", active: true },
+            { label: "HSPU", emoji: "🤸", active: false },
+            { label: "90° Hold", emoji: "📐", active: false },
+            { label: "90° PU", emoji: "👑", active: false },
+          ],
+        },
+        {
+          title: "Pistol Squat — Full Progression",
+          sets: "4",
+          reps: "5 each side",
+          rest: "90s",
+          intensity: "Moderate",
+          cues: [
+            "Step 1 — Assisted pistol: hold a pole or TRX, focus on depth and balance",
+            "Step 2 — Box pistol: squat down to a low box, removes balance demand",
+            "Step 3 — Slow negative pistol: 5s descent to full depth, stand with two legs",
+            "Step 4 — Full pistol: one leg, full depth, controlled ascent — no swinging",
+            "Key: keep heel flat on floor throughout — ankle flexibility is often the limiter",
+            "Lean slightly forward — not upright — this is correct pistol mechanics",
+          ],
+          proTip: "Most people fail pistols because of ankle mobility, not leg strength. 2 minutes of ankle stretching daily for 4 weeks fixes 80% of the problem.",
+          progression: [
+            { label: "Assisted", emoji: "🤝", active: true },
+            { label: "Box Pistol", emoji: "📦", active: false },
+            { label: "Negative", emoji: "⬇️", active: false },
+            { label: "Full Pistol", emoji: "👑", active: false },
+          ],
+        },
+        {
+          title: "One Arm Pull-Up — Foundation",
+          sets: "5",
+          reps: "5 each side",
+          rest: "2 min",
+          intensity: "High",
+          cues: [
+            "Step 1 — Weighted pull-ups: build to +20kg for 5 clean reps — this is the strength base",
+            "Step 2 — Archer pull-ups: one arm straight, one arm pulls — load shifts progressively",
+            "Step 3 — Assisted OAP: other hand on wrist for support, reduce assistance each week",
+            "Step 4 — Negative OAP: jump to top position, lower on one arm over 5 seconds",
+            "Full lockout at top, full dead hang at bottom — no half reps counted",
+          ],
+          proTip: "The one arm pull-up requires roughly 1.5x bodyweight pulling strength. If you can't do a strict pull-up with +40% bodyweight added, you're not ready for OAP training. Build the base first.",
+          progression: [
+            { label: "Weighted PU", emoji: "🏋️", active: true },
+            { label: "Archer PU", emoji: "🏹", active: false },
+            { label: "Assisted", emoji: "🤝", active: false },
+            { label: "OAP", emoji: "👑", active: false },
+          ],
+        },
+      ],
+    },
+    {
+      name: "Phase 2 — Intermediate Skills",
+      tag: "Weeks 5–10",
+      duration: "6 weeks",
+      icon: "⚡",
+      description: "Introduce human flag, back lever and muscle-up. These skills require consistent tension and precise technique.",
+      exercises: [
+        {
+          title: "Human Flag — Full Progression",
+          sets: "4",
+          reps: "3–8s hold",
+          rest: "2 min",
+          intensity: "Maximum",
+          cues: [
+            "Step 1 — Tuck flag: both knees pulled to chest, hold for 5s",
+            "Step 2 — One leg extended: one leg straight, one tucked — build lateral chain strength",
+            "Step 3 — Straddle flag: both legs wide apart, reduces lever length",
+            "Step 4 — Full flag: legs together, perfectly horizontal — the complete movement",
+            "Push arm pushes DOWN into the pole, pull arm pulls UP — both forces simultaneously",
+            "Core: full body tension from fingertips to toes — any break collapses the hold",
+          ],
+          proTip: "The human flag is 70% lateral chain strength and 30% technique. The side plank is your best accessory — if you can't hold a side plank for 60s, start there.",
+          progression: [
+            { label: "Tuck", emoji: "🧘", active: true },
+            { label: "One Leg", emoji: "📐", active: false },
+            { label: "Straddle", emoji: "↔️", active: false },
+            { label: "Full Flag", emoji: "👑", active: false },
+          ],
+        },
+        {
+          title: "Back Lever — Full Progression",
+          sets: "5",
+          reps: "5–8s hold",
+          rest: "2 min",
+          intensity: "High",
+          cues: [
+            "Step 1 — Skin the cat: rotate around the bar until body hangs below, build shoulder flexibility",
+            "Step 2 — Tuck back lever: hips bent, knees to chest, hold 5s",
+            "Step 3 — Pike back lever: legs straight but hips at 90°",
+            "Step 4 — Full back lever: body perfectly horizontal, arms straight",
+            "Shoulders: fully extended overhead — not retracted. This is a shoulder flexibility movement",
+            "Engage lats and glutes simultaneously — prevents hip sag",
+          ],
+          proTip: "The back lever requires more shoulder flexibility than strength. If you can't comfortably reach behind your back with both arms, spend 4 weeks on shoulder extension mobility before starting.",
+          progression: [
+            { label: "Skin the Cat", emoji: "🔄", active: true },
+            { label: "Tuck BL", emoji: "🧘", active: false },
+            { label: "Pike BL", emoji: "📐", active: false },
+            { label: "Full BL", emoji: "👑", active: false },
+          ],
+        },
+        {
+          title: "Muscle-Up — Bar & Rings",
+          sets: "5",
+          reps: "3–5 reps",
+          rest: "2 min",
+          intensity: "Explosive",
+          cues: [
+            "Step 1 — High pull-ups: pull bar to chest level (not chin) — this is the transition zone",
+            "Step 2 — Negative muscle-up: start in dip position, slowly lower through transition, hang",
+            "Step 3 — Jumping muscle-up: use slight leg drive to assist through transition phase",
+            "Step 4 — Full bar muscle-up: explosive pull, lean slightly forward, drive elbows over bar",
+            "Step 5 — Ring muscle-up: harder transition — requires more wrist rotation and body lean",
+            "False grip (rings only): wrist over the ring from the start — makes transition dramatically easier",
+          ],
+          proTip: "The muscle-up is not a pull-up + a dip. The transition is its own movement. Train the transition specifically with negatives — that alone will add 4 weeks to your timeline if skipped.",
+          progression: [
+            { label: "High Pull-Up", emoji: "⬆️", active: true },
+            { label: "Negative MU", emoji: "⬇️", active: false },
+            { label: "Bar MU", emoji: "🔥", active: false },
+            { label: "Ring MU", emoji: "👑", active: false },
+          ],
+        },
+      ],
+    },
+    {
+      name: "Phase 3 — Handstand & One Arm Handstand",
+      tag: "Ongoing / Bonus",
+      duration: "Ongoing",
+      icon: "🌟",
+      description: "The handstand is the foundation of all pressing skills. Master it, then push toward the one arm handstand. Included as a full bonus progression.",
+      exercises: [
+        {
+          title: "Handstand — Full Progression",
+          sets: "5",
+          reps: "5×10–20s holds",
+          rest: "90s",
+          intensity: "Technical",
+          cues: [
+            "Step 1 — Wall handstand: kick up against wall, find body alignment (ears between arms, hollow body)",
+            "Step 2 — Chest-to-wall HS: face the wall, toes touching, builds straighter alignment",
+            "Step 3 — Wall handstand shoulder taps: lift one hand briefly, builds unilateral balance",
+            "Step 4 — Freestanding kick-ups: controlled entry, hold 3–5s, bail cleanly",
+            "Step 5 — Freestanding HS hold: target 10s → 20s → 30s before advancing",
+            "Finger pressure: balance through fingertips, not by wrist flexion",
+            "Exit: always practice pirouette exit for safety — never just fall",
+          ],
+          proTip: "A solid 30s freestanding handstand takes most athletes 3–6 months of daily practice. 10 minutes every day beats 1 hour twice a week — frequency is the key variable.",
+          progression: [
+            { label: "Wall HS", emoji: "🧱", active: true },
+            { label: "Chest-Wall", emoji: "📐", active: false },
+            { label: "Freestanding", emoji: "🤸", active: false },
+            { label: "30s Hold", emoji: "👑", active: false },
+          ],
+        },
+        {
+          title: "Handstand Push-Up — Full Progression",
+          sets: "4",
+          reps: "3–6 reps",
+          rest: "2 min",
+          intensity: "High",
+          cues: [
+            "Step 1 — Pike push-ups: build overhead pressing strength at various angles",
+            "Step 2 — Elevated pike push-ups: feet on chair/box, steeper angle",
+            "Step 3 — Wall HSPU: kick into wall HS, lower head to floor (use mat/pad), press back up",
+            "Step 4 — Deficit wall HSPU: hands on parallettes, deeper range",
+            "Step 5 — Freestanding HSPU negatives: lower from freestanding HS over 5s, kick back up",
+            "Step 6 — Freestanding HSPU: full movement — complete press from head on floor",
+            "Head position: slightly forward, forming tripod with hands for HSPU",
+          ],
+          proTip: "The freestanding HSPU requires both handstand balance AND significant pressing strength. Train them separately first. Combining them is the last step, not the starting point.",
+          progression: [
+            { label: "Pike PU", emoji: "▽", active: true },
+            { label: "Wall HSPU", emoji: "🧱", active: false },
+            { label: "FS Negative", emoji: "⬇️", active: false },
+            { label: "Free HSPU", emoji: "👑", active: false },
+          ],
+        },
+        {
+          title: "⭐ BONUS — One Arm Handstand",
+          sets: "4",
+          reps: "3–5 attempts each side",
+          rest: "2 min",
+          intensity: "Elite Bonus",
+          cues: [
+            "Prerequisite: solid 30s+ freestanding handstand — do not skip this",
+            "Step 1 — Straddle OAH: wide leg split reduces balance demand significantly",
+            "Step 2 — Tuck OAH: one leg tucked, more centered mass",
+            "Step 3 — OAH with finger assist: other hand touches floor with fingertips only",
+            "Step 4 — OAH negative: shift weight to one arm slowly from two-arm HS",
+            "Step 5 — Free OAH: full balance on one arm, other arm extended or tucked",
+          ],
+          proTip: "The one arm handstand is a 6–18 month journey. The straddle OAH alone takes most athletes 2–3 months. Do not rush the steps — each one is necessary.",
+          progression: [
+            { label: "Straddle OAH", emoji: "↔️", active: true },
+            { label: "Tuck OAH", emoji: "🧘", active: false },
+            { label: "Finger Assist", emoji: "👆", active: false },
+            { label: "Free OAH", emoji: "👑", active: false },
+          ],
+        },
+      ],
+    },
+  ],
+  cooldown: sharedCooldown,
+  benefits: [
+    "8 elite skills — complete progressions from absolute zero",
+    "90° push-up, one arm pull-up, pistol squat, human flag, back lever, muscle-up",
+    "Handstand + handstand push-up full progression",
+    "🌟 Bonus: One arm handstand complete roadmap",
+    "Bar & rings muscle-up both covered",
+    "Built-in progression triggers — know exactly when to advance",
+    "💡 Stimulates & maintains muscle mass — pair with Aesthetic Physique to maximize your physique",
+    "Training cues most coaches never write down",
+  ],
+  stripeUrl: "https://buy.stripe.com/5kQdRb4YN9ixbjt6lf3ZK0o",
+};
+
+const hypertrophySkillsCombo: Program = {
+  id: "combo-hypertrophy-skills",
+  title: "Physique & Skills Combo",
+  subtitle: "Build the body AND the skills. No compromise.",
+  tagline: "Aesthetic Physique + Basic Skills — the complete package for athletes who want both.",
+  level: "Beginner → Intermediate",
+  levelColor: "#f59e0b",
+  category: "hypertrophy",
+  categoryGroup: "HYPERTROPHY",
+  price: "37",
+  originalPrice: "52",
+  icon: "🔥",
+  glowColor: "rgba(245,158,11,0.15)",
+  badge: "BEST DUO",
+  goals: [
+    "Build a V-taper aesthetic physique — bodyweight only",
+    "Master 5 elite skills from zero",
+    "Train push, pull, legs AND skill work in one system",
+    "Save $15 vs buying separately",
+  ],
+  mindset: "The best athletes don't choose between looking good and performing well — they build both simultaneously. This combo pairs aesthetic bodyweight training with elite skill progressions. The muscle you build from Aesthetic Physique directly powers your skill development. The skills reinforce your strength gains. They're built for each other.",
+  weekStructure: "4 sessions/week. Push/Aesthetic (Mon) · Skills Pull (Tue) · Legs/Physique (Thu) · Skills Mixed (Sat). Skills are always trained fresh at session start.",
+  warmup: sharedCooldown,
+  phases: basicSkills.phases,
+  cooldown: sharedCooldown,
+  benefits: [
+    "Aesthetic Physique — full 3-level program (Beginner → Advanced)",
+    "Basic Skills — 5 elite skills with complete progressions",
+    "Push/pull/legs structure with skill integration",
+    "Save $15 vs buying separately",
+    "One system — no conflicts between programs",
+  ],
+  bundlePrograms: [fullHypertrophy, basicSkills],
+  stripeUrl: "https://buy.stripe.com/00w5kF0Ix1Q52MXcJD3ZK0q",
 };
 
 const ultimateBundle: Program = {
   id: "bundle",
   title: "Ultimate Gravity Bundle",
   subtitle: "Everything. For the ones who don't do things halfway.",
-  tagline: "The complete calisthenics & physique library — one price, lifetime access.",
+  tagline: "All 4 programs — one price, lifetime access.",
   level: "All Levels",
   levelColor: "#FF4500",
   category: "bundle",
   categoryGroup: "BUNDLE",
-  price: "157",
-  originalPrice: "247",
+  price: "97",
+  originalPrice: "121",
   icon: "👑",
   glowColor: "rgba(255,69,0,0.2)",
   badge: "BEST VALUE",
   goals: [
-    "Complete access to all 5 programs",
-    "Planche Foundation + Planche Elite + Front Lever Mastery",
-    "Hybrid Athlete (Home & Gym tracks)",
-    "Full Hypertrophy (No-Equipment & Full Gym tracks)",
+    "Planche Foundation — from zero to full planche",
+    "Front Lever Mastery — all variations & progressions",
+    "Aesthetic Physique — V-taper bodyweight muscle (3 levels)",
+    "Basic Skills — 90° push-up, OAP, pistol squat, human flag, back lever, muscle-up",
   ],
-  mindset: "The bundle athlete has no ceiling. Every program in this library is designed to complement the others. Build your planche while growing your physique. Develop your front lever while building hybrid strength. The programs are interconnected — the whole is greater than the sum of its parts.",
-  weekStructure: "Self-directed. Choose your primary focus program and use others as supplementary. Recommended: Start with Foundation if new to planche. Start with Hypertrophy if physique is primary goal.",
+  mindset: "The bundle athlete has no ceiling. Every program in this library is designed to complement the others. Build your planche while sculpting your physique. Develop your front lever while mastering elite skills. The programs are interconnected — the whole is greater than the sum of its parts.",
+  weekStructure: "Self-directed. Choose your primary focus and use others as supplementary. Recommended: Start with Planche Foundation if skills are your main goal. Start with Aesthetic Physique if physique is primary.",
   warmup: sharedWarmup,
   phases: plancheFoundation.phases,
   cooldown: sharedCooldown,
   benefits: [
-    "All 5 programs — no prerequisites, start from zero",
-    "Save $90 vs individual purchase",
-    "Future program updates included",
-    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
+    "All 4 programs — no prerequisites, start from zero",
+    "Save $24 vs individual purchase",
+    "Planche + Front Lever + Aesthetic Physique + Basic Skills",
+    "Lifetime access — all future updates included",
+    "Training cues and insights 8 years in the making",
   ],
-  stripeUrl: "https://buy.stripe.com/fZu28t76VcuJdrBbFz3ZK0j",
+  stripeUrl: "https://buy.stripe.com/cNi4gB76V8etevFaBv3ZK0r",
 };
 
 const allPrograms: Program[] = [
   plancheFoundation,
   frontLeverMastery,
   plancheLeverCombo,
-  plancheElite,
   fullHypertrophy,
-  hybridAthlete,
+  basicSkills,
+  hypertrophySkillsCombo,
   ultimateBundle,
 ];
 
 ultimateBundle.bundlePrograms = [
   plancheFoundation,
-  plancheElite,
   frontLeverMastery,
-  hybridAthlete,
   fullHypertrophy,
+  basicSkills,
 ];
 
 plancheLeverCombo.bundlePrograms = [plancheFoundation, frontLeverMastery];
+hypertrophySkillsCombo.bundlePrograms = [fullHypertrophy, basicSkills];
 
 const PROGRAMS = allPrograms;
-const strengthSkillsGroup = [plancheFoundation, plancheElite, frontLeverMastery];
-const hybridGroup = [hybridAthlete];
+const skillsGroup = [plancheFoundation, frontLeverMastery];
 const hypertrophyGroup = [fullHypertrophy];
+const basicSkillsGroup = [basicSkills];
 const comboGroup = [plancheLeverCombo];
+const comboPhysiqueGroup = [hypertrophySkillsCombo];
 
 // ═══════════════════════════════════════════════════════
 // TESTIMONIALS DATA
@@ -2548,12 +2853,12 @@ const testimonials = [
   {
     name: "Jordan K.",
     handle: "@jk_strength",
-    program: "Hybrid Athlete",
+    program: "Aesthetic Physique",
     avatar: "JK",
     avatarColor: "#a855f7",
     rating: 5,
     weeks: "12 weeks in",
-    result: "I was skeptical about combining barbell and calisthenics. Gained 4kg of muscle while actually improving my advanced tuck hold. The dual-track format is genius. Gym days and home days both programmed.",
+    result: "Started with zero muscle. 12 weeks of bodyweight training and my V-taper is actually visible now. Gained real muscle without touching a single weight. The progression system is the real deal — every week harder than the last.",
   },
   {
     name: "Alex R.",
@@ -2578,12 +2883,12 @@ const testimonials = [
   {
     name: "Tom B.",
     handle: "@tombfit_cali",
-    program: "Planche Elite",
+    program: "Basic Skills",
     avatar: "TB",
     avatarColor: "#f97316",
     rating: 5,
-    weeks: "7 weeks in",
-    result: "Went from a shaky advanced tuck to a stable 4-second straddle hold. The eccentric negatives are brutal but they work. My strength jumped faster in 7 weeks than in the previous 6 months of self-programming.",
+    weeks: "10 weeks in",
+    result: "Got my first clean muscle-up at week 6 and my first pistol squat at week 8. The progressions are so well structured — I never felt stuck, always knew exactly what to do next. Worth every dollar.",
   },
   {
     name: "Lena M.",
@@ -4134,13 +4439,13 @@ function SessionTable({ type, rows, onUpdate }: {
 
 function StickyTopBar() {
   const quickLinks = [
-    { label: "🤸 Planche", id: "planche-foundation", stripe: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h" },
-    { label: "🎯 Front Lever", id: "front-lever", stripe: "https://buy.stripe.com/8x2aEZ8aZamB5Z910V3ZK0g" },
-    { label: "🔥 Planche + Lever", id: "combo-planche-lever", stripe: "https://buy.stripe.com/3cI8wRfDreCR3R19xr3ZK0i" },
-    { label: "⚡ Planche Elite", id: "planche-elite", stripe: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f" },
-    { label: "🔥 Hypertrophy", id: "hypertrophy", stripe: "https://buy.stripe.com/fZu6oJeznamB87hbFz3ZK0d" },
-    { label: "💪 Hybrid", id: "hybrid-athlete", stripe: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e" },
-    { label: "👑 Bundle $157", id: "bundle", stripe: "https://buy.stripe.com/fZu28t76VcuJdrBbFz3ZK0j" },
+    { label: "🪐 Planche", id: "planche-foundation", stripe: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h" },
+    { label: "🌊 Front Lever", id: "front-lever", stripe: "https://buy.stripe.com/4gM4gB76V2U973dgZT3ZK0m" },
+    { label: "🔥 Planche + Lever", id: "combo-planche-lever", stripe: "https://buy.stripe.com/cNi5kF3UJdyNfzJ8tn3ZK0p" },
+    { label: "💎 Aesthetic Physique", id: "hypertrophy", stripe: "https://buy.stripe.com/aFadRb76V1Q5evFaBv3ZK0n" },
+    { label: "⚡ Basic Skills", id: "basic-skills", stripe: "https://buy.stripe.com/5kQdRb4YN9ixbjt6lf3ZK0o" },
+    { label: "🔥 Physique + Skills", id: "combo-hypertrophy-skills", stripe: "https://buy.stripe.com/00w5kF0Ix1Q52MXcJD3ZK0q" },
+    { label: "👑 Bundle $97", id: "bundle", stripe: "https://buy.stripe.com/cNi4gB76V8etevFaBv3ZK0r" },
   ];
 
   return (
@@ -4447,10 +4752,9 @@ function FAQSection() {
 function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
   const priceItems = [
     { label: "Planche Foundation", price: 37 },
-    { label: "Planche Elite", price: 57 },
-    { label: "Front Lever Mastery", price: 39 },
-    { label: "Hybrid Athlete", price: 57 },
-    { label: "Full Hypertrophy", price: 57 },
+    { label: "Front Lever Mastery", price: 32 },
+    { label: "Aesthetic Physique", price: 25 },
+    { label: "Basic Skills", price: 27 },
   ];
   const total = priceItems.reduce((a, b) => a + b.price, 0);
 
@@ -4482,9 +4786,9 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 18px", background: "linear-gradient(90deg,rgba(255,69,0,0.12),rgba(255,69,0,0.04))" }}>
                 <div>
                   <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 14, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>Bundle Price</div>
-                  <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>You save ${total - 157}</div>
+                  <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>You save ${total - 97}</div>
                 </div>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "var(--orange)" }}>$157</span>
+                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "var(--orange)" }}>$97</span>
               </div>
             </div>
           </div>
@@ -4494,7 +4798,7 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
             {/* CTA */}
             <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
               <button className="btn-primary pulse-glow cta-pulse" style={{ width: "100%", justifyContent: "center", padding: "16px", fontSize: 15, letterSpacing: 2 }}>
-                Lock in the Bundle — $157
+                Lock in the Bundle — $97
               </button>
             </a>
             <div style={{ display: "flex", gap: 16, marginTop: 14, justifyContent: "center", flexWrap: "wrap" }}>
@@ -4624,23 +4928,21 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
     if (goal === 3) return ultimateBundle;
 
     if (goal === 1) {
-      // pure physique — gym → hybrid, no gym → hypertrophy
-      return hasGym ? hybridAthlete : fullHypertrophy;
+      // pure physique
+      return fullHypertrophy;
     }
 
     if (goal === 2) {
       if (skill === 2) return plancheLeverCombo;
-      if (skill === 3) return hasGym ? hybridAthlete : fullHypertrophy;
+      if (skill === 3) return hypertrophySkillsCombo;
       if (skill === 1) return frontLeverMastery;
-      if (level === 3) return plancheElite;
       return plancheFoundation;
     }
 
     if (goal === 0) {
       if (skill === 2) return plancheLeverCombo;
-      if (skill === 3) return hasGym ? hybridAthlete : fullHypertrophy;
+      if (skill === 3) return basicSkills;
       if (skill === 1) return frontLeverMastery;
-      if (level === 3) return plancheElite;
       return plancheFoundation;
     }
 
@@ -4850,7 +5152,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .surface{background:var(--bg-card);border:1px solid var(--border);border-radius:6px}
 .surface-2{background:var(--bg-card2);border:1px solid var(--border);border-radius:6px}
 .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;border-radius:2px;font-family:var(--fb);white-space:nowrap}
-.hero-badge{white-space:normal!important;text-align:center;max-width:90vw}
 .btn-primary{background:var(--orange);color:#fff;border:none;padding:12px 26px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:8px}
 .btn-primary:hover{background:#ff6030;transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,69,0,.4)}
 .btn-secondary{background:transparent;color:var(--orange);border:1px solid var(--orange-border);padding:11px 22px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
@@ -5003,10 +5304,9 @@ function AppInner() {
     );
   }
 
-  const beginnerSkillProgs = PROGRAMS.filter(p => (p.id === "planche-foundation" || p.id === "front-lever"));
-  const advancedSkillProgs = PROGRAMS.filter(p => p.id === "planche-elite");
-  const hybridProgs = PROGRAMS.filter(p => p.category === "hybrid");
-  const hypertrophyProgs = PROGRAMS.filter(p => p.category === "hypertrophy");
+  const skillsProgs = PROGRAMS.filter(p => p.id === "planche-foundation" || p.id === "front-lever");
+  const hypertrophyProgs = PROGRAMS.filter(p => p.category === "hypertrophy" && p.id === "hypertrophy");
+  const basicSkillsProgs = PROGRAMS.filter(p => p.category === "basic-skills");
   const bundleProg = PROGRAMS.find(p => p.category === "bundle")!;
 
   return (
@@ -5015,29 +5315,27 @@ function AppInner() {
       <div className="noise" /><div className="grid-bg" />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", textAlign: "center", padding: "32px 16px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
+      <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "32px 22px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
 
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 20, letterSpacing: 1.5, fontSize: 10, lineHeight: 1.5, padding: "5px 13px", maxWidth: "100%", textAlign: "center", whiteSpace: "normal", wordBreak: "break-word" }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 12, lineHeight: 1.5, padding: "8px 18px" }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
         {/* Brand name */}
-        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(52px,10vw,110px)", letterSpacing: 8, color: "var(--orange)", marginBottom: 14, textTransform: "uppercase", lineHeight: 1 }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
+        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,5vw,44px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 12, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
 
         {/* Small subtitle */}
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 36 }}>Structured calisthenics programs — planche, front lever, back lever, muscle up, pistol squat, human flag, handstand, HSPU, L-sit, V-sit, one arm handstand, 90° push-up, one arm pull-up & more</p>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 28 }}>Structured calisthenics programs — planche, front lever & muscle</p>
 
         {/* Stat pills */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 36, flexWrap: "wrap", justifyContent: "center" }}>
+        <div style={{ display: "flex", gap: 6, marginBottom: 28, flexWrap: "wrap", justifyContent: "center" }}>
           {["🧠 Science-based", "⚡ Structured programs", "🎯 From 0 to Your goal", "🔥 8 years of experience"].map((tag, i) => (
             <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>{tag}</span>
           ))}
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.12)", border: "1px solid var(--orange-border)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)", fontWeight: 700 }}>📱 100% Interactive — not a PDF</span>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.12)", border: "1px solid var(--orange-border)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)", fontWeight: 700 }}>🔄 Adapts to your level & pace</span>
         </div>
 
-        <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginBottom: 20 }}>
+        <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginBottom: 28 }}>
           <a href="#programs"><button className="btn-primary cta-pulse" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs</button></a>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 1 }}>Programs from $37 · Lifetime access</span>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 1 }}>Programs from $37 · Lifetime access · Interactive programs</span>
         </div>
 
         {/* Mini social proof */}
@@ -5174,13 +5472,73 @@ function AppInner() {
             <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14 }}>PROGRAMS</div>
             <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,5vw,66px)", textTransform: "uppercase" }}>CHOOSE YOUR PATH</h2>
           </div>
-          <CatSection label="STRENGTH & SKILLS" sublabel="Master gravity — Planche & Front Lever from beginner to elite" progs={beginnerSkillProgs} onOpen={openProg} />
-          <CatSection label="COMBO — BEST DUO" sublabel="Planche Foundation + Front Lever — two iconic skills, one price" progs={comboGroup} onOpen={openProg} />
-          <CatSection label="PLANCHE ELITE" sublabel="Advanced — master the full planche, maltese & finger planche" progs={advancedSkillProgs} onOpen={openProg} />
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 64 }} className="pg2">
-            <CatSection label="HYPERTROPHY" sublabel="No equipment — bodyweight muscle & skills" progs={hypertrophyProgs} onOpen={openProg} />
-            <CatSection label="HYBRID" sublabel="Gym-based strength + calisthenics skills" progs={hybridProgs} onOpen={openProg} />
+
+          {/* ── SKILLS BLOCK ── */}
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 6 }}>
+              <div style={{ width: 4, height: 28, background: "var(--orange)", borderRadius: 2, flexShrink: 0 }} />
+              <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(22px,3vw,36px)", textTransform: "uppercase", color: "var(--text)" }}>STRENGTH & SKILLS</h2>
+            </div>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 18, marginBottom: 20 }}>Master gravity — from zero to full planche or front lever</p>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 16 }} className="pg2">
+              {skillsProgs.map(p => <ProgramCard key={p.id} program={p} onOpen={openProg} />)}
+            </div>
+            {/* Duo strip */}
+            <div style={{ background: "linear-gradient(90deg,rgba(6,182,212,0.06),rgba(6,182,212,0.02))", border: "1px solid rgba(6,182,212,0.2)", borderRadius: 10, padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 64 }}>
+              <div>
+                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, color: "#06b6d4", letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>🔥 BEST DUO — Planche + Front Lever</div>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.5, maxWidth: 480 }}>Both skills together — push/pull balance, faster progress on both, save $17. The smartest way to train both.</p>
+                <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap" }}>
+                  {["Push/pull balance", "Shoulders stay healthy", "Save $17"].map((b, i) => (
+                    <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#06b6d4", display: "flex", alignItems: "center", gap: 4 }}><Check size={10} />{b}</span>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, flexShrink: 0 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                  <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "#06b6d4" }}>$52</span>
+                  <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", textDecoration: "line-through" }}>$69</span>
+                </div>
+                <a href={plancheLeverCombo.stripeUrl} target="_blank" rel="noopener noreferrer">
+                  <button className="btn-primary" style={{ background: "#06b6d4", borderColor: "#06b6d4", padding: "10px 24px", fontSize: 12, letterSpacing: 2, whiteSpace: "nowrap" }}>Get the Duo →</button>
+                </a>
+              </div>
+            </div>
           </div>
+
+          {/* ── PHYSIQUE & SKILLS BLOCK ── */}
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 6 }}>
+              <div style={{ width: 4, height: 28, background: "var(--orange)", borderRadius: 2, flexShrink: 0 }} />
+              <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(22px,3vw,36px)", textTransform: "uppercase", color: "var(--text)" }}>PHYSIQUE & SKILLS</h2>
+            </div>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 18, marginBottom: 20 }}>Build muscle & master elite skills — no gym required</p>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 16 }} className="pg2">
+              {[...hypertrophyProgs, ...basicSkillsProgs].map(p => <ProgramCard key={p.id} program={p} onOpen={openProg} />)}
+            </div>
+            {/* Duo strip */}
+            <div style={{ background: "linear-gradient(90deg,rgba(245,158,11,0.06),rgba(245,158,11,0.02))", border: "1px solid rgba(245,158,11,0.2)", borderRadius: 10, padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 64 }}>
+              <div>
+                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, color: "#f59e0b", letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>⚡ BEST DUO — Physique + Skills</div>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.5, maxWidth: 480 }}>Muscle AND elite skills in one system — they reinforce each other. Save $15 vs buying separately.</p>
+                <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap" }}>
+                  {["Muscle + skills combined", "No gym needed", "Save $15"].map((b, i) => (
+                    <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#f59e0b", display: "flex", alignItems: "center", gap: 4 }}><Check size={10} />{b}</span>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, flexShrink: 0 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                  <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "#f59e0b" }}>$37</span>
+                  <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", textDecoration: "line-through" }}>$52</span>
+                </div>
+                <a href={hypertrophySkillsCombo.stripeUrl} target="_blank" rel="noopener noreferrer">
+                  <button className="btn-primary" style={{ background: "#f59e0b", borderColor: "#f59e0b", padding: "10px 24px", fontSize: 12, letterSpacing: 2, whiteSpace: "nowrap" }}>Get the Duo →</button>
+                </a>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -5201,7 +5559,7 @@ function AppInner() {
             <table className="data-table">
               <thead><tr>{["Program", "Category", "Level", "Prerequisite", "Dual Track", "Price", ""].map(h => <th key={h}>{h}</th>)}</tr></thead>
               <tbody>
-                {PROGRAMS.map(p => (
+                {PROGRAMS.filter(p => p.id !== "combo-planche-lever" && p.id !== "combo-hypertrophy-skills").map(p => (
                   <tr key={p.id} style={{ cursor: "pointer" }}
                     onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,69,0,.04)")}
                     onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
