@@ -4861,7 +4861,6 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
         { label: "Total beginner", desc: "Never trained seriously before" },
         { label: "Some experience", desc: "A few months in, inconsistent results" },
         { label: "Trained 1+ year", desc: "Consistent, solid base. Ready to push harder." },
-        { label: "I already have the full planche", desc: "Looking for what comes next" },
       ],
     },
     {
