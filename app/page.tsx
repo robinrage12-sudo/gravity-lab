@@ -3281,12 +3281,12 @@ function SessionBlock({ type, rows, onChangeRow, onAddRow, isAdvanced }: {
     <div style={{ marginBottom: 24 }}>
       <div style={{ background: info.color, borderRadius: "6px 6px 0 0", padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 16, color: "#fff", letterSpacing: 2 }}>{type.toUpperCase()}</span>
-        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.85)" }}>{info.range} · {info.desc}</span>
+        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff" }}>{info.range} · {info.desc}</span>
       </div>
       <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderTop: "none", borderRadius: "0 0 6px 6px", padding: "14px" }}>
         {/* Push/Pull toggle */}
         <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-          <div className="t-label" style={{ color: "rgba(255,255,255,0.5)", fontSize: 9, marginRight: 4, alignSelf: "center" }}>CATEGORY:</div>
+          <div className="t-label" style={{ color: "#fff", fontSize: 9, marginRight: 4, alignSelf: "center" }}>CATEGORY:</div>
           {(["push", "pull"] as const).map(cat => (
             <button key={cat} onClick={() => setCategory(cat)}
               style={{ padding: "4px 12px", borderRadius: 4, border: `1px solid ${category === cat ? "var(--orange)" : "var(--border)"}`, background: category === cat ? "var(--orange-dim)" : "transparent", color: category === cat ? "var(--orange)" : "rgba(255,255,255,0.5)", fontFamily: "var(--fd)", fontSize: 11, cursor: "pointer", letterSpacing: 1, textTransform: "uppercase" }}>
@@ -3736,13 +3736,13 @@ function ProgramBuilder({ programId }: { programId: string }) {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }} className="pg2">
         <div style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.25)", borderRadius: 8, padding: "20px" }}>
           <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#4ade80", letterSpacing: 2, marginBottom: 10 }}>✅ OPTION 1 — FOLLOW THE PROGRAM</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65 }}>
             The structured phases above are already designed. Follow them session by session. Zero thinking required — just show up and execute.
           </p>
         </div>
         <div style={{ background: "rgba(255,69,0,0.06)", border: "1px solid rgba(255,69,0,0.25)", borderRadius: 8, padding: "20px" }}>
           <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fb923c", letterSpacing: 2, marginBottom: 10 }}>🧠 OPTION 2 — BUILD YOUR OWN</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65 }}>
             Learn to program yourself using the exercise library, methods and session templates below. You leave with the ability to train independently forever — and build a custom program with the interactive journal above.
           </p>
         </div>
@@ -3788,10 +3788,10 @@ function ProgramBuilder({ programId }: { programId: string }) {
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 5 }}>
-                      <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "rgba(255,255,255,0.95)", fontWeight: 700 }}>{item.label}</span>
+                      <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "#fff", fontWeight: 700 }}>{item.label}</span>
                       <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: item.color, background: `${item.color}15`, padding: "2px 8px", borderRadius: 20 }}>{item.time}</span>
                     </div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>{item.desc}</p>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.6 }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -3823,8 +3823,8 @@ function ProgramBuilder({ programId }: { programId: string }) {
                 ))}
               </div>
 
-              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.55)", lineHeight: 1.65 }}>
-                This is <strong style={{ color: "rgba(255,255,255,0.85)" }}>not a fixed weekly schedule</strong> — it's a rolling cycle. Train every other day minimum. If life gets in the way and you rest 2 days, no problem — just pick up where you left off. Force day always followed by rest, Volume day always followed by rest. The pattern continues regardless of which day of the week it falls on.
+              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.65 }}>
+                This is <strong style={{ color: "#fff" }}>not a fixed weekly schedule</strong> — it's a rolling cycle. Train every other day minimum. If life gets in the way and you rest 2 days, no problem — just pick up where you left off. Force day always followed by rest, Volume day always followed by rest. The pattern continues regardless of which day of the week it falls on.
               </p>
             </div>
           </div>
@@ -3832,7 +3832,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
           {/* Cycles */}
           <div style={{ background: "rgba(255,69,0,0.04)", border: "1px solid rgba(255,69,0,0.2)", borderRadius: 8, padding: "20px" }}>
             <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "rgba(255,130,0,0.9)", letterSpacing: 2, marginBottom: 14 }}>🔄 TRAINING CYCLES — 3 TO 5 WEEKS</div>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.65, marginBottom: 16 }}>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65, marginBottom: 16 }}>
               After 3-5 weeks, the same stimulus stops producing gains. Change something — swap exercises for harder variants, change method, or increase load.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }} className="pg3">
@@ -3843,15 +3843,15 @@ function ProgramBuilder({ programId }: { programId: string }) {
               ].map((c) => (
                 <div key={c.week} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${c.color}25`, borderRadius: 6, padding: "14px" }}>
                   <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: c.color, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 5 }}>{c.week}</div>
-                  <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, marginBottom: 5 }}>{c.label}</div>
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>{c.desc}</p>
+                  <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#fff", fontWeight: 700, marginBottom: 5 }}>{c.label}</div>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff", lineHeight: 1.5 }}>{c.desc}</p>
                 </div>
               ))}
             </div>
             <div style={{ marginTop: 14, padding: "14px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 6 }}>
               <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 8 }}>🔀 HOW TO VARY THE STIMULUS</div>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>
-                Two ways to vary when you stagnate: <strong style={{ color: "rgba(255,255,255,0.85)" }}>change the method</strong> (same exercise, different execution — switch from negatives to push-ups, from max holds to EMOM) or <strong style={{ color: "rgba(255,255,255,0.85)" }}>change the exercise</strong> (same type, harder variant — advance from tuck negatives to straddle negatives, from tuck rows to one-leg rows). You don't need to change both at once — one variable at a time produces the clearest progress signal.
+              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.65 }}>
+                Two ways to vary when you stagnate: <strong style={{ color: "#fff" }}>change the method</strong> (same exercise, different execution — switch from negatives to push-ups, from max holds to EMOM) or <strong style={{ color: "#fff" }}>change the exercise</strong> (same type, harder variant — advance from tuck negatives to straddle negatives, from tuck rows to one-leg rows). You don't need to change both at once — one variable at a time produces the clearest progress signal.
               </p>
             </div>
 
@@ -3859,7 +3859,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
             {(isPlanche && !isFrontLever) && (
               <div style={{ marginTop: 14, padding: "16px 18px", background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.2)", borderRadius: 8 }}>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#60a5fa", letterSpacing: 2, marginBottom: 8 }}>💡 HEALTH & PERFORMANCE TIP</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65 }}>
                   Training only pushing (planche) without pulling creates anterior shoulder dominance over time — a common cause of shoulder imbalances and injury. Adding the <strong style={{ color: "#60a5fa" }}>Front Lever</strong> as your pulling counterpart directly fixes this. Both skills also reinforce each other: the body tension from the lever improves planche stability, and the protraction from the planche improves lever positioning.
                 </p>
                 <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(59,130,246,0.8)" }}>
@@ -3870,7 +3870,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
             {(isFrontLever && !isPlanche) && (
               <div style={{ marginTop: 14, padding: "16px 18px", background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.2)", borderRadius: 8 }}>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#fb923c", letterSpacing: 2, marginBottom: 8 }}>💡 HEALTH & PERFORMANCE TIP</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65 }}>
                   The front lever builds elite pulling strength — but without a pushing counterpart, postural imbalances can develop over time. Adding the <strong style={{ color: "#fb923c" }}>Planche</strong> as your pushing skill creates a complete push/pull system: better shoulder health, more balanced strength, and faster progress on both movements.
                 </p>
                 <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(249,115,22,0.8)" }}>
@@ -3899,20 +3899,20 @@ function ProgramBuilder({ programId }: { programId: string }) {
                 <button onClick={() => setOpenExo(openExo === exo.name ? null : exo.name)}
                   style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "13px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
                   <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: typeColors[exo.type] || "#fff", background: `${typeColors[exo.type] || "#fff"}18`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.type}</span>
-                  <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, flex: 1 }}>{exo.name}</span>
+                  <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#fff", fontWeight: 700, flex: 1 }}>{exo.name}</span>
                   <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: levelColors[exo.level] || "#fff", background: `${levelColors[exo.level] || "#fff"}15`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.level}</span>
                   {openExo === exo.name ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />}
                 </button>
                 {openExo === exo.name && (
                   <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginTop: 12, marginBottom: 12 }}>{exo.desc}</p>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.7, marginTop: 12, marginBottom: 12 }}>{exo.desc}</p>
                     <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
                       {exo.cues.map((cue, i) => (
                         <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
                           <div style={{ width: 16, height: 16, borderRadius: 2, background: "rgba(255,100,0,0.15)", border: "1px solid rgba(255,100,0,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
                             <span style={{ fontFamily: "var(--fd)", fontSize: 8, color: "#f97316" }}>{i + 1}</span>
                           </div>
-                          <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{cue}</p>
+                          <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.5 }}>{cue}</p>
                         </div>
                       ))}
                     </div>
@@ -3932,17 +3932,17 @@ function ProgramBuilder({ programId }: { programId: string }) {
               <button onClick={() => setOpenMethod(openMethod === method.name ? null : method.name)}
                 style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "13px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
                 <span style={{ fontSize: 18, flexShrink: 0 }}>{method.emoji}</span>
-                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700, flex: 1 }}>{method.name}</span>
+                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#fff", fontWeight: 700, flex: 1 }}>{method.name}</span>
                 <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,130,0,0.8)", flexShrink: 0 }}>Rest: {method.restTime}</span>
                 <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", flexShrink: 0 }}>{method.difficulty}</span>
                 {openMethod === method.name ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />}
               </button>
               {openMethod === method.name && (
                 <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.8)", lineHeight: 1.7, marginTop: 12, marginBottom: 10 }}>{method.desc}</p>
+                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.7, marginTop: 12, marginBottom: 10 }}>{method.desc}</p>
                   <div style={{ background: "rgba(255,69,0,0.05)", borderLeft: "2px solid rgba(255,100,0,0.4)", padding: "10px 14px", borderRadius: "0 4px 4px 0" }}>
                     <div style={{ fontFamily: "var(--fd)", fontSize: 9, color: "rgba(255,130,0,0.8)", letterSpacing: 1.5, marginBottom: 4 }}>💡 EXAMPLE</div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.55, fontStyle: "italic" }}>{method.example}</p>
+                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.55, fontStyle: "italic" }}>{method.example}</p>
                   </div>
                 </div>
               )}
@@ -3954,7 +3954,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
       {/* ── SAMPLE PROGRAM ── */}
       {activeTab === "program" && (
         <div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, marginBottom: 20 }}>
+          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65, marginBottom: 20 }}>
             Example cycle for {activeSkill}. Adapt exercises to your current level using the library above. Run this for 3-5 weeks then progress to harder variations.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="pg2">
@@ -3971,7 +3971,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
                       <div style={{ width: 18, height: 18, borderRadius: "50%", background: `${day.color}15`, border: `1px solid ${day.color}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                         <span style={{ fontFamily: "var(--fd)", fontSize: 9, color: day.color }}>{i + 1}</span>
                       </div>
-                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{item}</p>
+                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.5 }}>{item}</p>
                     </div>
                   ))}
                 </div>
@@ -3979,8 +3979,8 @@ function ProgramBuilder({ programId }: { programId: string }) {
             ))}
           </div>
           <div style={{ marginTop: 14, padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6 }}>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
-              <strong style={{ color: "rgba(255,255,255,0.8)" }}>How to progress:</strong> when Force exercises feel manageable (you could do 1-2 more reps), advance to the next harder variation in the library. When Volume exercises become easy at given reps, add reps or advance variation. Every 3-5 weeks, rotate to keep the stimulus fresh.
+            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.65 }}>
+              <strong style={{ color: "#fff" }}>How to progress:</strong> when Force exercises feel manageable (you could do 1-2 more reps), advance to the next harder variation in the library. When Volume exercises become easy at given reps, add reps or advance variation. Every 3-5 weeks, rotate to keep the stimulus fresh.
             </p>
           </div>
         </div>
@@ -4052,7 +4052,7 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
           ))}
         </div>
 
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, marginBottom: 14 }}>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.65, marginBottom: 14 }}>
           This is <strong style={{ color: "#ffffff" }}>not a weekly schedule</strong> — it's a rolling cycle. Always one rest day (48h minimum) between sessions. If life gets in the way and you rest 2 days, no problem — just resume where you left off. The pattern continues regardless of which day of the week it falls on.
         </p>
 
@@ -4063,7 +4063,7 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
               <div style={{ width: 10, height: 10, borderRadius: 2, background: info.color, flexShrink: 0, marginTop: 3 }} />
               <div>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fff", fontWeight: 700 }}>{type} — {info.range}</div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.55)" }}>{info.desc}</div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff" }}>{info.desc}</div>
               </div>
             </div>
           ))}
@@ -4083,7 +4083,7 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
             <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${info.color}33`, marginBottom: 4 }}>
               <div style={{ background: info.color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "#fff", letterSpacing: 2 }}>{type.toUpperCase()}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.8)", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{info.range}</span>
+                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{info.range}</span>
               </div>
               <div style={{ background: "var(--bg-card)", padding: "14px" }}>
                 <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
@@ -4393,7 +4393,7 @@ function SessionTable({ type, rows, onUpdate }: {
     <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${color}33`, marginBottom: 20 }}>
       <div style={{ background: color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 16, color: "#fff", letterSpacing: 2 }}>{label}</span>
-        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.8)", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{range}</span>
+        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{range}</span>
       </div>
       <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--fb)" }}>
@@ -4492,7 +4492,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
     "planche-foundation": "From 0 to Planche",
     "front-lever": "From 0 to Front Lever",
     "hypertrophy": "From 0 to Prime Physique",
-    "basic-skills": "From 0 to Elite Skills",
+    "basic-skills": "8 Essential Skills",
     "combo-planche-lever": "From 0 to Planche & Front Lever",
     "combo-hypertrophy-skills": "From 0 to Physique & Skills",
     "bundle": "From 0 to Everything",
@@ -4540,14 +4540,14 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         {/* Format badges */}
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
           {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
-            <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
+            <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 6, padding: "8px 10px" }}>
           <span style={{ fontSize: 13 }}>📱</span>
           <div>
             <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#ffffff", fontWeight: 700, letterSpacing: 1 }}>LIFETIME ACCESS</div>
-            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.6)", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
+            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
@@ -5027,14 +5027,14 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
 
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
                   {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
-                    <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
+                    <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
                   ))}
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 6, padding: "8px 10px" }}>
                   <span style={{ fontSize: 13 }}>📱</span>
                   <div>
                     <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#ffffff", fontWeight: 700, letterSpacing: 1 }}>LIFETIME ACCESS</div>
-                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.6)", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
+                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
                   </div>
                 </div>
 
@@ -5138,7 +5138,7 @@ const CSS = `
   --orange:#FF4500;--orange-dim:rgba(255,69,0,.1);--orange-border:rgba(255,69,0,.28);
   --bg:#0A0A0A;--bg-card:#111;--bg-card2:#141414;
   --border:rgba(255,255,255,.07);--border-bright:rgba(255,255,255,.14);
-  --text:#FFF;--text-dim:#ffffff;--text-faint:rgba(255,255,255,.65);
+  --text:#FFF;--text-dim:#ffffff;--text-faint:#ffffff;
   --fd:'Barlow Condensed',Impact,sans-serif;--fb:'Barlow',sans-serif;--fs:'Cormorant Garamond',Georgia,serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -5282,7 +5282,7 @@ function AppInner() {
                 <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "#fff", letterSpacing: 1 }}>
                   Payment confirmed — welcome to {active.title}!
                 </div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.8)", marginTop: 2 }}>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", marginTop: 2 }}>
                   Your full program is unlocked below. Bookmark this page for future access.
                 </div>
               </div>
