@@ -5316,7 +5316,7 @@ function AppInner() {
       <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "32px 22px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
 
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 12, lineHeight: 1.5, padding: "8px 18px" }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
+        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 1.5, fontSize: 10, lineHeight: 1.4, padding: "5px 12px", maxWidth: "90vw", textAlign: "center", whiteSpace: "normal", wordBreak: "break-word" }}>⚡ Not for everyone — Elite Calisthenics Programs</div>
 
         {/* Brand name */}
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,5vw,44px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 12, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
@@ -5329,11 +5329,12 @@ function AppInner() {
           {["🧠 Science-based", "⚡ Structured programs", "🎯 From 0 to Your goal", "🔥 8 years of experience"].map((tag, i) => (
             <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>{tag}</span>
           ))}
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.1)", border: "1px solid rgba(255,69,0,0.35)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>📱 100% interactive — not just a PDF</span>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>🎯 Adapts to your level and pace</span>
         </div>
 
         <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginBottom: 28 }}>
           <a href="#programs"><button className="btn-primary cta-pulse" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs</button></a>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", letterSpacing: 1 }}>Programs from $37 · Lifetime access · Interactive programs</span>
         </div>
 
         {/* Mini social proof */}
@@ -5510,7 +5511,8 @@ function AppInner() {
               <div style={{ width: 4, height: 28, background: "var(--orange)", borderRadius: 2, flexShrink: 0 }} />
               <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(22px,3vw,36px)", textTransform: "uppercase", color: "var(--text)" }}>PHYSIQUE & SKILLS</h2>
             </div>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 18, marginBottom: 20 }}>Build muscle & master elite skills — no gym required</p>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 18, marginBottom: 6 }}>Build muscle & master elite skills — no gym required</p>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.45)", marginLeft: 18, marginBottom: 20 }}>All basic skills included (muscle-up, handstand, L-sit...)</p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 16 }} className="pg2">
               {[...hypertrophyProgs, ...basicSkillsProgs].map(p => <ProgramCard key={p.id} program={p} onOpen={openProg} />)}
             </div>
