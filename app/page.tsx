@@ -2726,7 +2726,7 @@ const basicSkills: Program = {
   ],
   cooldown: sharedCooldown,
   benefits: [
-    "8 elite skills — complete progressions from absolute zero",
+    "8 skills — complete progressions from absolute zero",
     "90° push-up, one arm pull-up, pistol squat, human flag, back lever, muscle-up",
     "Handstand + handstand push-up full progression",
     "🌟 Bonus: One arm handstand complete roadmap",
@@ -4800,7 +4800,7 @@ function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
               </button>
             </a>
             <div style={{ display: "flex", gap: 16, marginTop: 14, justifyContent: "center", flexWrap: "wrap" }}>
-              {["Lifetime access", "30-day money-back", "Instant delivery"].map((t, i) => (
+              {["Lifetime access", "Instant delivery"].map((t, i) => (
                 <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", display: "flex", alignItems: "center", gap: 5 }}>
                   <Check size={10} style={{ color: "var(--orange)" }} />{t}
                 </span>
@@ -5064,10 +5064,10 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
             {result.category !== "bundle" && (
               <div style={{ textAlign: "center", padding: "20px", background: "rgba(255,69,0,0.04)", border: "1px solid var(--orange-border)", borderRadius: 8 }}>
                 <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", marginBottom: 12 }}>
-                  Not sure you want just one? The Bundle gives you everything — and saves you <strong style={{ color: "var(--orange)" }}>${247 - 157}</strong>.
+                  Not sure you want just one? The Bundle gives you everything — and saves you <strong style={{ color: "var(--orange)" }}>${121 - 97}</strong>.
                 </p>
                 <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="btn-secondary">👑 Get the full Bundle — $157 instead of $247</button>
+                  <button className="btn-secondary">👑 Get the full Bundle — $97 instead of $121</button>
                 </a>
               </div>
             )}
@@ -5156,8 +5156,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .btn-secondary:hover{background:var(--orange-dim)}
 .btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-bright);padding:9px 16px;font-family:var(--fd);font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
 .btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.28)}
-.card-lift{transition:transform .3s cubic-bezier(.4,0,.2,1),border-color .3s,box-shadow .3s;cursor:pointer}
-.card-lift:hover{transform:translateY(-5px);border-color:var(--orange-border)!important;box-shadow:0 20px 56px rgba(255,69,0,.14)}
+.card-lift{transition:border-color .3s,box-shadow .3s;cursor:pointer}
+.card-lift:hover{border-color:var(--orange-border)!important;box-shadow:0 20px 56px rgba(255,69,0,.14)}
 .progress-bar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
 .progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--orange),#ff8c00);transition:width .8s cubic-bezier(.4,0,.2,1)}
 .track-toggle{display:flex;background:rgba(255,255,255,.04);border:1px solid var(--border-bright);border-radius:4px;overflow:hidden}
@@ -5322,7 +5322,7 @@ function AppInner() {
         <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,5vw,44px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 12, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
 
         {/* Small subtitle */}
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 28 }}>Structured calisthenics programs — planche, front lever & muscle</p>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 28 }}>Structured calisthenics programs — planche, front lever, muscle & basic skills (muscle-up, handstand, L-sit...)</p>
 
         {/* Stat pills */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, flexWrap: "wrap", justifyContent: "center" }}>
@@ -5330,7 +5330,7 @@ function AppInner() {
             <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>{tag}</span>
           ))}
           <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.1)", border: "1px solid rgba(255,69,0,0.35)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>📱 100% interactive — not just a PDF</span>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>🎯 Adapts to your level and pace</span>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.1)", border: "1px solid rgba(255,69,0,0.35)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>🎯 Adapts to your level and pace</span>
         </div>
 
         <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginBottom: 28 }}>
