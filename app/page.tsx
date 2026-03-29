@@ -3297,14 +3297,14 @@ function SessionBlock({ type, rows, onChangeRow, onAddRow, isAdvanced }: {
         {/* Header */}
         <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 8 }}>
           {["Exercise", "Sets", "Reps", "Rest"].map(h => (
-            <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
+            <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "#fff", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
           ))}
         </div>
         {rows.map((row, i) => (
           <ExerciseInputRow key={i} row={row} onChange={r => onChangeRow(i, r)} suggestions={EXERCISE_SUGGESTIONS[category]} />
         ))}
         <button onClick={onAddRow}
-          style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "rgba(255,255,255,0.4)", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
+          style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "#fff", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.4)"; }}>
           + Add exercise
@@ -3797,7 +3797,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
               ))}
             </div>
             <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 12 }}>📅 THE TRAINING CYCLE — NOT A WEEKLY SCHEDULE</div>
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "#fff", letterSpacing: 2, marginBottom: 12 }}>📅 THE TRAINING CYCLE — NOT A WEEKLY SCHEDULE</div>
 
               {/* Rolling cycle visual */}
               <div style={{ display: "flex", gap: 4, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
@@ -3849,7 +3849,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
               ))}
             </div>
             <div style={{ marginTop: 14, padding: "14px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 6 }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2, marginBottom: 8 }}>🔀 HOW TO VARY THE STIMULUS</div>
+              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "#fff", letterSpacing: 2, marginBottom: 8 }}>🔀 HOW TO VARY THE STIMULUS</div>
               <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.65 }}>
                 Two ways to vary when you stagnate: <strong style={{ color: "#fff" }}>change the method</strong> (same exercise, different execution — switch from negatives to push-ups, from max holds to EMOM) or <strong style={{ color: "#fff" }}>change the exercise</strong> (same type, harder variant — advance from tuck negatives to straddle negatives, from tuck rows to one-leg rows). You don't need to change both at once — one variable at a time produces the clearest progress signal.
               </p>
@@ -3901,7 +3901,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
                   <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: typeColors[exo.type] || "#fff", background: `${typeColors[exo.type] || "#fff"}18`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.type}</span>
                   <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#fff", fontWeight: 700, flex: 1 }}>{exo.name}</span>
                   <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: levelColors[exo.level] || "#fff", background: `${levelColors[exo.level] || "#fff"}15`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.level}</span>
-                  {openExo === exo.name ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />}
+                  {openExo === exo.name ? <ChevronUp size={12} style={{ color: "#fff", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "#fff", flexShrink: 0 }} />}
                 </button>
                 {openExo === exo.name && (
                   <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
@@ -3934,8 +3934,8 @@ function ProgramBuilder({ programId }: { programId: string }) {
                 <span style={{ fontSize: 18, flexShrink: 0 }}>{method.emoji}</span>
                 <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#fff", fontWeight: 700, flex: 1 }}>{method.name}</span>
                 <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,130,0,0.8)", flexShrink: 0 }}>Rest: {method.restTime}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", flexShrink: 0 }}>{method.difficulty}</span>
-                {openMethod === method.name ? <ChevronUp size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }} />}
+                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", flexShrink: 0 }}>{method.difficulty}</span>
+                {openMethod === method.name ? <ChevronUp size={12} style={{ color: "#fff", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "#fff", flexShrink: 0 }} />}
               </button>
               {openMethod === method.name && (
                 <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
@@ -3964,7 +3964,7 @@ function ProgramBuilder({ programId }: { programId: string }) {
             ].map((day) => (
               <div key={day.label} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${day.color}25`, borderRadius: 8, padding: "20px" }}>
                 <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: day.color, letterSpacing: 2, marginBottom: 4 }}>{day.label}</div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 14 }}>{day.desc}</div>
+                <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", marginBottom: 14 }}>{day.desc}</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {day.items.map((item, i) => (
                     <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
@@ -4076,9 +4076,9 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
         const rows = sessionRows[label];
         return (
           <div key={label} style={{ marginBottom: 24 }}>
-            <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
+            <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
               📅 {label} <span style={{ color: info.color, marginLeft: 6 }}>({type})</span>
-              <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.25)", marginLeft: 8 }}>→ rest day after</span>
+              <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", marginLeft: 8 }}>→ rest day after</span>
             </div>
             <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${info.color}33`, marginBottom: 4 }}>
               <div style={{ background: info.color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -4088,19 +4088,19 @@ function TrainingJournal({ }: { isAdvanced?: boolean }) {
               <div style={{ background: "var(--bg-card)", padding: "14px" }}>
                 <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
                   {(["push", "pull"] as const).map(cat => (
-                    <span key={cat} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.4)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 4, padding: "3px 10px", letterSpacing: 1.5, textTransform: "uppercase" }}>{cat}</span>
+                    <span key={cat} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 4, padding: "3px 10px", letterSpacing: 1.5, textTransform: "uppercase" }}>{cat}</span>
                   ))}
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 8 }}>
                   {["Exercise", "Sets", "Reps", "Rest"].map(h => (
-                    <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "rgba(255,255,255,0.35)", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
+                    <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "#fff", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
                   ))}
                 </div>
                 {rows.map((row, i) => (
                   <ExerciseInputRow key={i} row={row} onChange={r => updateRow(label, i, r)} suggestions={[...EXERCISE_SUGGESTIONS.push, ...EXERCISE_SUGGESTIONS.pull]} />
                 ))}
                 <button onClick={() => addRow(label)}
-                  style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "rgba(255,255,255,0.3)", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
+                  style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "#fff", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.3)"; }}>
                   + Add exercise
@@ -5486,9 +5486,9 @@ function AppInner() {
             <div style={{ background: "linear-gradient(90deg,rgba(6,182,212,0.06),rgba(6,182,212,0.02))", border: "1px solid rgba(6,182,212,0.2)", borderRadius: 10, padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 64 }}>
               <div>
                 <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, color: "#06b6d4", letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>🔥 BEST DUO — Planche + Front Lever</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.5, maxWidth: 480 }}>Both skills together — push/pull balance, faster progress on both, save $17. The smartest way to train both.</p>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.5, maxWidth: 480 }}>Not just two programs sold together — a fully integrated push/pull system designed to be trained simultaneously. Each skill reinforces the other: planche protraction improves lever positioning, lever tension improves planche stability. Faster progress on both, shoulders stay healthy. Save $17.</p>
                 <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap" }}>
-                  {["Push/pull balance", "Shoulders stay healthy", "Save $17"].map((b, i) => (
+                  {["Integrated push/pull system", "Skills reinforce each other", "Shoulders stay healthy", "Save $17"].map((b, i) => (
                     <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#06b6d4", display: "flex", alignItems: "center", gap: 4 }}><Check size={10} />{b}</span>
                   ))}
                 </div>
@@ -5512,7 +5512,7 @@ function AppInner() {
               <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(22px,3vw,36px)", textTransform: "uppercase", color: "var(--text)" }}>PHYSIQUE & SKILLS</h2>
             </div>
             <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 18, marginBottom: 6 }}>Build muscle & master elite skills — no gym required</p>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "rgba(255,255,255,0.45)", marginLeft: 18, marginBottom: 20 }}>All basic skills included (muscle-up, handstand, L-sit...)</p>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", marginLeft: 18, marginBottom: 20 }}>All basic skills included (muscle-up, handstand, L-sit...)</p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 16 }} className="pg2">
               {[...hypertrophyProgs, ...basicSkillsProgs].map(p => <ProgramCard key={p.id} program={p} onOpen={openProg} />)}
             </div>
@@ -5520,9 +5520,9 @@ function AppInner() {
             <div style={{ background: "linear-gradient(90deg,rgba(245,158,11,0.06),rgba(245,158,11,0.02))", border: "1px solid rgba(245,158,11,0.2)", borderRadius: 10, padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 64 }}>
               <div>
                 <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, color: "#f59e0b", letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>⚡ BEST DUO — Physique + Skills</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", lineHeight: 1.5, maxWidth: 480 }}>Muscle AND elite skills in one system — they reinforce each other. Save $15 vs buying separately.</p>
+                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.5, maxWidth: 480 }}>Not just two programs bundled — a single integrated system that trains muscle and skills together in the same sessions. Hypertrophy work builds the strength base for skills; skill training adds intensity that accelerates muscle growth. They feed each other. No gym needed. Save $15.</p>
                 <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap" }}>
-                  {["Muscle + skills combined", "No gym needed", "Save $15"].map((b, i) => (
+                  {["One integrated system", "Muscle & skills in same sessions", "No gym needed", "Save $15"].map((b, i) => (
                     <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#f59e0b", display: "flex", alignItems: "center", gap: 4 }}><Check size={10} />{b}</span>
                   ))}
                 </div>
@@ -5566,7 +5566,7 @@ function AppInner() {
                     onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : openProg(p)}>
                     <td style={{ fontWeight: 700, color: "var(--text)" }}>{p.title}</td>
                     <td><span className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border)", fontSize: 9 }}>{p.categoryGroup}</span></td>
-                    <td><span className="badge" style={{ background: `${p.levelColor}15`, color: p.levelColor, border: `1px solid ${p.levelColor}28`, whiteSpace: "nowrap" }}>{p.level}</span></td>
+                    <td><span className="badge" style={{ background: `${p.levelColor}15`, color: p.levelColor, border: `1px solid ${p.levelColor}28`, whiteSpace: "nowrap" }}>{p.id === "basic-skills" ? "From Zero" : p.level}</span></td>
                     <td style={{ fontSize: 12 }}>{(p as any).prereq ?? "—"}</td>
                     <td style={{ textAlign: "center" }}>{p.dualTrack ? <span style={{ color: "var(--orange)", fontWeight: 700 }}>✓</span> : <span style={{ color: "var(--text-faint)" }}>—</span>}</td>
                     <td>
