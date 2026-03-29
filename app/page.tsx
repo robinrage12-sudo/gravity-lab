@@ -1930,8 +1930,8 @@ const fullHypertrophy: Program = {
   id: "hypertrophy",
   title: "Aesthetic Physique",
   subtitle: "Build a V-taper body from zero — no gym, no equipment, no excuses.",
-  tagline: "Bodyweight muscle for a V-taper shape — Beginner, Intermediate & Advanced tracks included.",
-  level: "Beginner → Advanced",
+  tagline: "100% bodyweight — push-ups, pull-ups, dips, squats. 3 levels from beginner to advanced. Adapts to your starting point.",
+  level: "From Zero",
   levelColor: "#ec4899",
   category: "hypertrophy",
   categoryGroup: "HYPERTROPHY",
@@ -1940,6 +1940,21 @@ const fullHypertrophy: Program = {
   icon: "💎",
   glowColor: "rgba(236,72,153,0.15)",
   badge: "BEST-SELLER ⭐",
+  dualTrack: false,
+  goals: [
+    "Build a V-taper aesthetic physique — 100% bodyweight",
+    "Structured progressive overload — beginner, intermediate & advanced tracks",
+    "Adapted for your starting point: skinny, average or overweight",
+    "Master the foundational movements: push-up, pull-up, dip, squat",
+    "Visible results in 8–12 weeks",
+  ],
+  mindset: "This program is built around one principle: mechanical tension through bodyweight progressions is enough to build a complete physique — if the program is structured correctly.\n\n100% bodyweight. No gym. No equipment beyond a pull-up bar. The exercises are push-ups, pull-ups, dips, rows, and squats — but executed with precision, progressive overload, and a structure that forces adaptation.\n\nThe program adapts to where you start. Skinny? The volume and frequency are optimized for muscle gain from a low baseline. Carrying extra weight? The progressions are structured to build strength while your body composition shifts. Everyone starts somewhere — the program meets you there.",
+  weekStructure: "4 sessions/week. Push (Mon) · Pull (Tue) · Legs (Thu) · Upper Full (Sat). Each session 45–60 min. Progressive overload: harder variation or more reps every session.",
+  warmup: [
+    { name: "Full Body Joint Mobility Flow", duration: "5 min", notes: "Neck, shoulders, hips, knees, ankles. Every joint through full pain-free range." },
+    { name: "Activation Circuit", duration: "2 rounds", notes: "10 scapular push-ups + 10 glute bridges + 10 bodyweight squats. Primes all major groups." },
+    { name: "First Working Set at 50% Effort", duration: "1 set", notes: "Always do a warm-up set before your first working set. Non-negotiable." },
+  ],
   dualTrack: false,
   goals: [
     "Maximize muscle size through evidence-based hypertrophy principles",
@@ -2409,13 +2424,13 @@ const fullHypertrophy: Program = {
     { name: "Final Breathing Protocol", duration: "3 min", notes: "Box breathing: 4s in, 4s hold, 4s out, 4s hold. Activates rest-and-digest for optimal recovery." },
   ],
   benefits: [
-    "Complete aesthetic physique — zero equipment, no prerequisites needed",
-    "Handstand progression included",
-    "Elite skills: HSPU (Handstand Push-Up), 90° push-up, one arm push-up",
-    "One arm pull-up — full progression",
-    "Scientific hypertrophy protocol",
-    "🌟 Bonus: One arm handstand progression",
-    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
+    "100% bodyweight — push-ups, pull-ups, dips, rows, squats",
+    "3 levels: Beginner, Intermediate & Advanced — all included",
+    "Adapts to your starting point: skinny, average or overweight",
+    "V-taper shape focus — shoulders, back, chest, arms, legs",
+    "Progressive overload built-in — every session harder than the last",
+    "No gym, no equipment (just a pull-up bar)",
+    "Training journal + full exercise library included",
   ],
   stripeUrl: "https://buy.stripe.com/aFadRb76V1Q5evFaBv3ZK0n",
 };
@@ -4487,8 +4502,19 @@ function StickyTopBar() {
 // ═══════════════════════════════════════════════════════
 
 function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Program) => void }) {
+  const fromZeroLabel: Record<string, string> = {
+    "planche-foundation": "From 0 to Planche",
+    "front-lever": "From 0 to Front Lever",
+    "hypertrophy": "From 0 to Prime Physique",
+    "basic-skills": "From 0 to Elite Skills",
+    "combo-planche-lever": "From 0 to Planche & Front Lever",
+    "combo-hypertrophy-skills": "From 0 to Physique & Skills",
+    "bundle": "From 0 to Everything",
+  };
+  const label = fromZeroLabel[p.id] ?? `From 0 to ${p.title}`;
+
   return (
-    <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }} onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : onOpen(p)}>
+    <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }}>
       {/* Clip inner content but allow badge to overflow */}
       <div style={{ position: "absolute", inset: 0, borderRadius: 8, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at top left, ${p.glowColor}, transparent 60%)` }} />
@@ -4497,7 +4523,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         <div style={{
           position: "absolute", top: -1, right: -1,
           background: p.badge === "BEST DUO" ? "linear-gradient(135deg,#06b6d4,#0891b2)"
-            : p.category === "bundle" ? "linear-gradient(135deg,var(--orange),#ff8c00)"
+            : p.badge === "BEST VALUE" ? "linear-gradient(135deg,var(--orange),#ff8c00)"
             : "var(--orange)",
           color: "#fff",
           fontSize: 9, fontWeight: 800, letterSpacing: 2, fontFamily: "var(--fb)",
@@ -4508,22 +4534,13 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
       )}
       <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
         <div style={{ fontSize: 30, marginBottom: 10 }}>{p.icon}</div>
-        <span className="badge" style={{ background: `${p.levelColor}18`, color: p.levelColor, border: `1px solid ${p.levelColor}30`, marginBottom: 10, alignSelf: "flex-start", whiteSpace: "nowrap" }}>{p.level}</span>
+        <span className="badge" style={{ background: `${p.levelColor}18`, color: p.levelColor, border: `1px solid ${p.levelColor}30`, marginBottom: 10, alignSelf: "flex-start", whiteSpace: "nowrap" }}>{label}</span>
         <h3 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 21, textTransform: "uppercase", marginBottom: 3, lineHeight: 1.05, color: "var(--text)" }}>{p.title}</h3>
         <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", marginBottom: 12, lineHeight: 1.4 }}>{p.subtitle}</p>
-        {p.dualTrack && p.trackLabels && (
-          <div style={{ display: "flex", alignItems: "center", gap: 6, background: "var(--orange-dim)", border: "1px solid var(--orange-border)", borderRadius: 3, padding: "4px 10px", marginBottom: 12, alignSelf: "flex-start" }}>
-            <RefreshCw size={10} style={{ color: "var(--orange)" }} />
-            <span style={{ fontFamily: "var(--fb)", fontSize: 9, fontWeight: 700, color: "var(--orange)", letterSpacing: 1.5, textTransform: "uppercase" }}>2 Tracks:</span>
-            <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-dim)" }}>{p.trackLabels[0]}</span>
-            <span style={{ color: "var(--text-faint)" }}>|</span>
-            <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-dim)" }}>{p.trackLabels[1]}</span>
-          </div>
-        )}
         {p.category === "bundle" && (
           <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,69,0,.07)", border: "1px solid var(--orange-border)", borderRadius: 3, padding: "4px 10px", marginBottom: 12, alignSelf: "flex-start" }}>
             <Package size={10} style={{ color: "var(--orange)" }} />
-            <span style={{ fontFamily: "var(--fb)", fontSize: 9, fontWeight: 700, color: "var(--orange)", letterSpacing: 1.5, textTransform: "uppercase" }}>All 5 Programs Included</span>
+            <span style={{ fontFamily: "var(--fb)", fontSize: 9, fontWeight: 700, color: "var(--orange)", letterSpacing: 1.5, textTransform: "uppercase" }}>All 4 Programs Included</span>
           </div>
         )}
         <ul style={{ listStyle: "none", marginBottom: 12, display: "flex", flexDirection: "column", gap: 7, flex: 1 }}>
@@ -4534,7 +4551,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
             </li>
           ))}
         </ul>
-        {/* Format badge */}
+        {/* Format badges */}
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
           {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
             <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,255,255,0.8)", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
@@ -4549,21 +4566,16 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
           <div>
-            <span className={p.category === "bundle" || p.id === "combo-planche-lever" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" || p.id === "combo-planche-lever" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
+            <span className={p.category === "bundle" || p.id === "combo-planche-lever" || p.id === "combo-hypertrophy-skills" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" || p.id === "combo-planche-lever" || p.id === "combo-hypertrophy-skills" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
             {p.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${p.originalPrice}</span>}
-            {p.id === "combo-planche-lever" && (
-              <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#06b6d4", marginTop: 4 }}>
-                🔗 Includes both programs
-              </div>
-            )}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
             {p.stripeUrl ? (
-              <a href={p.stripeUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>
-                <button className={`btn-primary ${p.category === "bundle" || p.id === "combo-planche-lever" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>I want this →</button>
+              <a href={p.stripeUrl} target="_blank" rel="noopener noreferrer">
+                <button className={`btn-primary ${p.category === "bundle" || p.id === "combo-planche-lever" || p.id === "combo-hypertrophy-skills" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>I want this →</button>
               </a>
             ) : (
-              <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={(e) => { e.stopPropagation(); onOpen(p); }}>I want this →</button>
+              <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => onOpen(p)}>I want this →</button>
             )}
           </div>
         </div>
@@ -4580,34 +4592,34 @@ const beforeAfterData = [
   {
     name: "Marcus",
     age: 18,
-    program: "Full Hypertrophy",
+    program: "Aesthetic Physique",
     programColor: "#ec4899",
     duration: "3 months",
     before: "/Marcus_Before.png",
     after: "/Marcus_After.png",
     quote: "I had never trained seriously before. 3 months in, I have visible abs, my chest actually exists now, and I'm stronger than I've ever been. The no-equipment track is no joke.",
-    stats: [{ label: "Duration", val: "3 months" }, { label: "Program", val: "Full Hypertrophy" }, { label: "Track", val: "No Equipment" }],
+    stats: [{ label: "Duration", val: "3 months" }, { label: "Program", val: "Aesthetic Physique" }, { label: "Track", val: "No Equipment" }],
   },
   {
     name: "Léo",
     age: 23,
-    program: "Hybrid Athlete",
-    programColor: "#a855f7",
+    program: "Physique + Skills",
+    programColor: "#f59e0b",
     duration: "9 months",
     before: "/Leo_Before.png",
     after: "/Leo_After.png",
-    quote: "9 months of Hybrid Athlete. I went from a skinny guy with zero skill to a straddle planche hold and a physique I'm actually proud of. The dual-track format kept me consistent. Gym days and home days both planned.",
-    stats: [{ label: "Duration", val: "9 months" }, { label: "Program", val: "Hybrid Athlete" }, { label: "Skill reached", val: "Straddle Planche" }],
+    quote: "9 months of the physique + skills combo. I went from a skinny guy with zero skill to a straddle planche hold and a physique I'm actually proud of. Both programs complement each other perfectly.",
+    stats: [{ label: "Duration", val: "9 months" }, { label: "Program", val: "Physique + Skills" }, { label: "Skill reached", val: "Straddle Planche" }],
   },
   {
     name: "Jordan",
     age: 20,
-    program: "Full Hypertrophy + Front Lever",
+    program: "Aesthetic Physique + Front Lever",
     programColor: "#3b82f6",
     duration: "7 months",
     before: "/Jordan_Before.png",
     after: "/Jordan_After.png",
-    quote: "4 months of Full Hypertrophy bodyweight, then 3 months of Front Lever Mastery on top. Ended up with both: a physique transformation and a full front lever. Didn't think both were possible at the same time.",
+    quote: "4 months of Aesthetic Physique, then 3 months of Front Lever on top. Ended up with both: a physique transformation and a full front lever. Didn't think both were possible at the same time.",
     stats: [{ label: "Duration", val: "7 months" }, { label: "Programs", val: "2 programs" }, { label: "Skill reached", val: "Full Front Lever" }],
   },
 ];
