@@ -1955,20 +1955,6 @@ const fullHypertrophy: Program = {
     { name: "Activation Circuit", duration: "2 rounds", notes: "10 scapular push-ups + 10 glute bridges + 10 bodyweight squats. Primes all major groups." },
     { name: "First Working Set at 50% Effort", duration: "1 set", notes: "Always do a warm-up set before your first working set. Non-negotiable." },
   ],
-  dualTrack: false,
-  goals: [
-    "Maximize muscle size through evidence-based hypertrophy principles",
-    "Build an aesthetic physique with balanced proportions",
-    "Progressive overload — fully structured program",
-    "Full access to both bodyweight and barbell/cable hypertrophy methods",
-  ],
-  mindset: "Hypertrophy is science. Mechanical tension × metabolic stress × muscle damage — that is the formula. This program removes the guesswork and replaces it with precision. Every set, every rep range, every rest period is chosen for a specific physiological reason. Your only job is to execute consistently and eat to grow.",
-  weekStructure: "4 sessions/week. Push (Mon) · Pull (Tue) · Legs (Thu) · Upper Full (Sat). Each session 60–80 min. Progressive overload: add 1 rep or 2.5kg every session where possible.",
-  warmup: [
-    { name: "Full Body Joint Mobility Flow", duration: "5 min", notes: "Neck, shoulders, hips, knees, ankles. Every joint through full pain-free range." },
-    { name: "Activation Circuit", duration: "2 rounds", notes: "10 band pull-aparts + 10 glute bridges + 10 bodyweight squats. Primes all major groups." },
-    { name: "First Working Set at 50% Weight", duration: "1 set", notes: "Always do a warm-up set before your first working set. Non-negotiable." },
-  ],
   phases: [
     {
       name: "Phase 1 — Foundation Volume",
