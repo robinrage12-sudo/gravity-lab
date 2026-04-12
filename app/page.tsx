@@ -1507,7 +1507,7 @@ const frontLeverMastery: Program = {
     "🌟 Bonus: One arm pull-up progression (full technique guide)",
     "Training cues and insights I've never seen written down anywhere — 8 years in the making",
   ],
-  stripeUrl: "https://buy.stripe.com/8x2aEZ8aZamB5Z910V3ZK0g",
+  stripeUrl: "https://buy.stripe.com/4gM4gB76V2U973dgZT3ZK0m",
 };
 
 const hybridAthlete: Program = {
