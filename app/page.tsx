@@ -4843,7 +4843,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
         { label: "Planche", desc: "Horizontal hold. The king of pushing strength." },
         { label: "Front Lever", desc: "Horizontal pull. Elite lat & back dominance." },
         { label: "Planche + Front Lever", desc: "Both iconic skills. There's a combo built for this." },
-        { label: "One arm & handstand skills", desc: "OAP, muscle-up, L-sit, V-sit, pistol squat, human flag, back lever, HSPU, 90° push-up..." },
+        { label: "Basic & essential skills", desc: "OAP, muscle-up, L-sit, V-sit, pistol squat, human flag, back lever, HSPU, 90° push-up..." },
       ],
     },
     {
