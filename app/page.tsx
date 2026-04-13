@@ -2950,45 +2950,7 @@ const faqs = [
 // COUNTDOWN TIMER HOOK
 // ═══════════════════════════════════════════════════════
 
-function useCountdown() {
-  const [timeLeft, setTimeLeft] = useState({ h: 47, m: 59, s: 59 });
 
-  useEffect(() => {
-    // Safe to access localStorage here (client only)
-    const getTargetTime = () => {
-      try {
-        const stored = localStorage.getItem("gl_bundle_deadline");
-        if (stored) {
-          const t = parseInt(stored);
-          if (!isNaN(t) && t > Date.now()) return t;
-        }
-        const deadline = Date.now() + 48 * 60 * 60 * 1000;
-        localStorage.setItem("gl_bundle_deadline", deadline.toString());
-        return deadline;
-      } catch {
-        return Date.now() + 48 * 60 * 60 * 1000;
-      }
-    };
-
-    const target = getTargetTime();
-    const tick = () => {
-      const diff = target - Date.now();
-      if (diff <= 0) {
-        setTimeLeft({ h: 0, m: 0, s: 0 });
-        return;
-      }
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      setTimeLeft({ h, m, s });
-    };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  return timeLeft;
-}
 
 // ═══════════════════════════════════════════════════════
 // DASHBOARD (inlined)
@@ -4496,7 +4458,7 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
     "planche-foundation": "From 0 to Planche",
     "front-lever": "From 0 to Front Lever",
     "hypertrophy": "From 0 to Prime Physique",
-    "basic-skills": "8 Essential Skills",
+    "basic-skills": "11 Essential Skills",
     "combo-planche-lever": "From 0 to Planche & Front Lever",
     "combo-hypertrophy-skills": "From 0 to Physique & Skills",
     "bundle": "From 0 to Everything",
@@ -4558,6 +4520,9 @@ function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Pro
           <div>
             <span className={p.category === "bundle" || p.id === "combo-planche-lever" || p.id === "combo-hypertrophy-skills" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" || p.id === "combo-planche-lever" || p.id === "combo-hypertrophy-skills" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
             {p.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${p.originalPrice}</span>}
+            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", marginTop: 3, lineHeight: 1.3 }}>
+              vs $80/session with a coach<br /><span style={{ color: "#22c55e", fontWeight: 700 }}>Lifetime access. One payment.</span>
+            </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
             {p.stripeUrl ? (
@@ -4846,15 +4811,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<Program | null>(null);
-  const [quizTimer, setQuizTimer] = useState(600); // 10 min countdown on result
-  const [timerStarted, setTimerStarted] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (!timerStarted || quizTimer <= 0) return;
-    const id = setInterval(() => setQuizTimer(t => t - 1), 1000);
-    return () => clearInterval(id);
-  }, [timerStarted, quizTimer]);
 
   const questions = [
     {
@@ -4960,7 +4917,6 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
         const rec = getRecommendation(newAnswers);
         setAnswers(newAnswers);
         setResult(rec);
-        setTimerStarted(true);
       } else {
         setAnswers(newAnswers);
         setStep(next);
@@ -4968,12 +4924,9 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
     }, 280);
   };
 
-  const reset = () => { setStep(0); setAnswers([]); setResult(null); setQuizTimer(600); setTimerStarted(false); setSelected(null); };
+  const reset = () => { setStep(0); setAnswers([]); setResult(null); setSelected(null); };
 
   const pad = (n: number) => String(n).padStart(2, "0");
-  const timerMin = Math.floor(quizTimer / 60);
-  const timerSec = quizTimer % 60;
-  const timerExpired = quizTimer <= 0;
   // Progress: 4 steps if skill shown, 3 steps if skipped
   const totalVisible = (answers[1] === 0 || answers[1] === 2) ? 4 : 3;
   const progress = (step / (totalVisible - 1)) * 100;
@@ -5057,6 +5010,7 @@ function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
                     ) : (
                       <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => onOpen(result)}>I want this →</button>
                     )}
+                    <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#22c55e", textAlign: "right" }}>✓ Matched to your profile</span>
                     <button className="btn-ghost" style={{ fontSize: 11 }} onClick={reset}>↩ Retake</button>
                   </div>
                 </div>
@@ -5315,21 +5269,49 @@ function AppInner() {
       <style>{CSS}</style>
       <div className="noise" /><div className="grid-bg" />
 
+      {/* ── STICKY MOBILE CTA ────────────────────────────────── */}
+      <div className="no-print" style={{
+        position: "fixed", bottom: 68, left: 12, right: 12, zIndex: 250,
+        display: "none",
+      }} id="sticky-mobile-cta">
+        <a href="#programs" style={{ display: "block", textDecoration: "none" }}>
+          <button style={{
+            width: "100%", background: "var(--orange)", border: "none", borderRadius: 12,
+            color: "#fff", fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15,
+            letterSpacing: 2, padding: "16px 24px", cursor: "pointer",
+            boxShadow: "0 4px 24px rgba(255,69,0,0.45)",
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+          }}>
+            <span>🔥 Choose your program</span>
+            <span style={{ fontSize: 12, fontWeight: 400, fontFamily: "var(--fb)", opacity: 0.9 }}>From $27 · Lifetime access</span>
+          </button>
+        </a>
+      </div>
+      <style>{`
+        @media(max-width:768px){
+          #sticky-mobile-cta{display:block!important}
+        }
+      `}</style>
+
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "32px 22px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
 
         <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 18, letterSpacing: 1.5, fontSize: 10, lineHeight: 1.4, padding: "5px 12px", maxWidth: "90vw", textAlign: "center", whiteSpace: "normal", wordBreak: "break-word" }}>⚡ The last calisthenics program you'll ever need</div>
 
-        {/* Brand name */}
-        <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(38px,7vw,72px)", letterSpacing: 6, color: "var(--orange)", marginBottom: 12, textTransform: "uppercase" }}>GRAVITY<span style={{ color: "#ffffff" }}>LAB</span></div>
+        {/* Hero headline */}
+        <h1 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,6vw,68px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 16, letterSpacing: -1 }}>
+          Master the Planche.<br />
+          <span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Build the Body.</span><br />
+          No Gym.
+        </h1>
 
         {/* Small subtitle */}
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 28 }}>Structured calisthenics programs — planche, front lever, build muscle mass with bodyweight & basic skills (muscle-up, handstand, L-sit...)</p>
+        <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", lineHeight: 1.6, maxWidth: 480, marginBottom: 28 }}>Structured calisthenics programs — planche, front lever, muscle & basic skills. From zero to elite, step by step.</p>
 
         {/* Stat pills */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, flexWrap: "wrap", justifyContent: "center" }}>
-          {["🧠 Science-based", "⚡ Structured programs", "🎯 From 0 to Your goal", "🔥 8 years of experience"].map((tag, i) => (
+          {["🔬 Backed by science", "⚡ Built in the gym — not a lab", "🎯 From 0 to your goal", "🔥 8 years of real training"].map((tag, i) => (
             <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>{tag}</span>
           ))}
           <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.1)", border: "1px solid rgba(255,69,0,0.35)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>📱 100% interactive — not just a PDF</span>
@@ -5350,7 +5332,7 @@ function AppInner() {
             ))}
           </div>
           <div style={{ display: "flex", gap: 2 }}>{[1,2,3,4,5].map(s => <span key={s} style={{ color: "#f59e0b", fontSize: 11 }}>★</span>)}</div>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff" }}><strong>+250 athletes</strong> already training</span>
+          <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff" }}><strong>+500 athletes</strong> already training</span>
         </div>
 
         {/* Scroll indicator */}
@@ -5383,9 +5365,6 @@ function AppInner() {
                   ["❌", "Skipping progressions because they look too easy — then wondering why you're stuck"],
                   ["❌", "Resting 30 seconds between sets when your nervous system needs 3 minutes"],
                   ["❌", "Training every day because 'more = better' — until your tendons disagree"],
-                  ["❌", "Skipping warm-ups on the exercises that destroy shoulders and wrists"],
-                  ["❌", "Following a random program you found for free — with no logic, no progression curve"],
-                  ["❌", "Jumping to the advanced version before owning the basics"],
                   ["❌", "Quitting after 3 weeks because you had no idea what week 4 was supposed to look like"],
                 ].map(([icon, text], i) => (
                   <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
@@ -5430,21 +5409,21 @@ function AppInner() {
                 8 years.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>No shortcuts.</span>
               </h2>
               <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 18 }}>
-                My name is Axel. I've been training calisthenics for 8 years — not casually, obsessively. Every progression, every plateau, every injury, every breakthrough. I've lived all of it.
+                My name is Axel. I spent <strong style={{ color: "var(--text)" }}>2 full years making zero progress</strong> on the planche — training hard, training often, and getting absolutely nowhere. I thought I wasn't built for it.
               </p>
               <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 18 }}>
-                These programs aren't built from theory. They're built from <strong style={{ color: "var(--text)" }}>8 years of personal experimentation</strong> — combined with deep research into biomechanics, periodization, and connective tissue adaptation. The kind of knowledge you don't find in YouTube comments.
+                The problem wasn't effort. It was that I had no real system. The day I stopped following random YouTube routines and started understanding <em>why</em> each movement works — the biomechanics, the progressions, the recovery — everything changed.
               </p>
               <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75 }}>
-                What I'm sharing isn't just what works. It's what works <strong style={{ color: "var(--text)" }}>specifically</strong> — the exact cues, the exact rest times, the exact progressions that most coaches skip because they never had to figure them out the hard way.
+                These programs are the result of <strong style={{ color: "var(--text)" }}>8 years of real training</strong>, informed by research into biomechanics and periodization. Not theory for theory's sake — science applied to what actually works in practice, session after session.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {[
-                { icon: "🧠", title: "8 years of first-hand research", desc: "Every program is the result of training, failing, adjusting, and training again. No theory without practice." },
-                { icon: "🔬", title: "Biomechanics-driven methodology", desc: "Understanding why a movement works — joint angles, muscle activation, lever mechanics — is what separates real progress from random effort." },
-                { icon: "⚡", title: "Training insights you won't find elsewhere", desc: "The specific cues, timing details, and progression triggers that took years to identify. Condensed into every session." },
-                { icon: "🎯", title: "Built for real athletes, not ideal conditions", desc: "No gym? No experience? Plateau after months of training? Every scenario has been accounted for." },
+                { icon: "🧠", title: "Science-backed, gym-tested", desc: "Every method is grounded in biomechanics and periodization research — then validated through years of real training. No lab theory without sweat." },
+                { icon: "🔬", title: "Built from failure, not just success", desc: "2 years of stalled progress taught me more than anything else. These programs are designed around the mistakes most athletes make — because I made them all." },
+                { icon: "⚡", title: "Cues you won't find elsewhere", desc: "The specific details — joint angles, breathing patterns, exact rest times — that most coaches never write down because they never had to figure them out the hard way." },
+                { icon: "🎯", title: "Built for real conditions", desc: "No gym? Travelling? Had an injury? Plateau after months of training? Every scenario has been accounted for." },
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, padding: "16px 18px" }}>
                   <span style={{ fontSize: 20, flexShrink: 0 }}>{item.icon}</span>
@@ -5459,13 +5438,13 @@ function AppInner() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ──────────────────────────────────────── */}
-      <div id="results-section"><TestimonialsSection /></div>
-
       {/* ── QUIZ ──────────────────────────────────────────────── */}
       <div id="quiz-section">
         <QuizSection onOpen={openProg} />
       </div>
+
+      {/* ── TESTIMONIALS ──────────────────────────────────────── */}
+      <div id="results-section"><TestimonialsSection /></div>
 
       {/* ── PROGRAMS ──────────────────────────────────────────── */}
       <section id="programs" style={{ padding: "60px 22px 20px", position: "relative", zIndex: 1, background: "rgba(255,255,255,0.015)" }}>
