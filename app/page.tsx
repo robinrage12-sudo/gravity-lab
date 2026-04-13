@@ -5428,6 +5428,12 @@ function AppInner() {
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14 }}>PROGRAMS</div>
             <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,5vw,66px)", textTransform: "uppercase" }}>CHOOSE YOUR PATH</h2>
+            <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-faint)", marginTop: 10, marginBottom: 20 }}>Not sure which one is right for you?</p>
+            <a href="#quiz-section">
+              <button className="btn-secondary" style={{ fontSize: 13, padding: "11px 28px", letterSpacing: 1.5 }}>
+                🎯 Find my program in 30 seconds →
+              </button>
+            </a>
           </div>
 
           {/* ── SKILLS BLOCK ── */}
