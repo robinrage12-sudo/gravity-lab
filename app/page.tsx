@@ -5269,30 +5269,6 @@ function AppInner() {
       <style>{CSS}</style>
       <div className="noise" /><div className="grid-bg" />
 
-      {/* ── STICKY MOBILE CTA ────────────────────────────────── */}
-      <div className="no-print" style={{
-        position: "fixed", bottom: 68, left: 12, right: 12, zIndex: 250,
-        display: "none",
-      }} id="sticky-mobile-cta">
-        <a href="#programs" style={{ display: "block", textDecoration: "none" }}>
-          <button style={{
-            width: "100%", background: "var(--orange)", border: "none", borderRadius: 12,
-            color: "#fff", fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15,
-            letterSpacing: 2, padding: "16px 24px", cursor: "pointer",
-            boxShadow: "0 4px 24px rgba(255,69,0,0.45)",
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-          }}>
-            <span>🔥 Choose your program</span>
-            <span style={{ fontSize: 12, fontWeight: 400, fontFamily: "var(--fb)", opacity: 0.9 }}>From $27 · Lifetime access</span>
-          </button>
-        </a>
-      </div>
-      <style>{`
-        @media(max-width:768px){
-          #sticky-mobile-cta{display:block!important}
-        }
-      `}</style>
-
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "32px 22px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
@@ -5301,7 +5277,7 @@ function AppInner() {
 
         {/* Hero headline */}
         <h1 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,6vw,68px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 16, letterSpacing: -1 }}>
-          Master the Planche.<br />
+          Master the Skills.<br />
           <span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Build the Body.</span><br />
           No Gym.
         </h1>
@@ -5311,7 +5287,7 @@ function AppInner() {
 
         {/* Stat pills */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, flexWrap: "wrap", justifyContent: "center" }}>
-          {["🔬 Backed by science", "⚡ Built in the gym — not a lab", "🎯 From 0 to your goal", "🔥 8 years of real training"].map((tag, i) => (
+          {["🔬 Backed by science", "💪 No gym required", "🎯 From 0 to your goal", "🔥 8 years of real training"].map((tag, i) => (
             <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>{tag}</span>
           ))}
           <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.1)", border: "1px solid rgba(255,69,0,0.35)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>📱 100% interactive — not just a PDF</span>
