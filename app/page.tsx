@@ -2758,7 +2758,7 @@ const hypertrophySkillsCombo: Program = {
   badge: "BEST DUO",
   goals: [
     "Build a V-taper aesthetic physique — bodyweight only",
-    "Master 5 elite skills from zero",
+    "Master 11 essential skills from zero",
     "Train push, pull, legs AND skill work in one system",
     "Save $15 vs buying separately",
   ],
@@ -2769,7 +2769,7 @@ const hypertrophySkillsCombo: Program = {
   cooldown: sharedCooldown,
   benefits: [
     "Aesthetic Physique — full 3-level program (Beginner → Advanced)",
-    "Basic Skills — 5 elite skills with complete progressions",
+    "Basic Skills — 11 essential skills with complete progressions",
     "Push/pull/legs structure with skill integration",
     "Save $15 vs buying separately",
     "One system — no conflicts between programs",
@@ -2796,7 +2796,7 @@ const ultimateBundle: Program = {
     "Planche Foundation — from zero to full planche",
     "Front Lever Mastery — all variations & progressions",
     "Aesthetic Physique — V-taper bodyweight muscle (3 levels)",
-    "Basic Skills — 90° push-up, OAP, pistol squat, human flag, back lever, muscle-up",
+    "Basic Skills — 11 essential skills: 90° push-up, OAP, pistol squat, human flag, back lever, muscle-up, L-sit, V-sit, semi planche & elbow lever",
   ],
   mindset: "The bundle athlete has no ceiling. Every program in this library is designed to complement the others. Build your planche while sculpting your physique. Develop your front lever while mastering elite skills. The programs are interconnected — the whole is greater than the sum of its parts.",
   weekStructure: "Self-directed. Choose your primary focus and use others as supplementary. Recommended: Start with Planche Foundation if skills are your main goal. Start with Aesthetic Physique if physique is primary.",
