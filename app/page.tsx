@@ -2770,6 +2770,7 @@ const hypertrophySkillsCombo: Program = {
   benefits: [
     "Aesthetic Physique — full 3-level program (Beginner → Advanced)",
     "Basic Skills — 11 essential skills with complete progressions",
+    "Skills included: muscle-up, handstand & HSPU, L-sit & V-sit, pistol squat, human flag, back lever, one arm pull-up, semi planche & elbow lever, 90° push-up",
     "Push/pull/legs structure with skill integration",
     "Save $15 vs buying separately",
     "One system — no conflicts between programs",
