@@ -5109,8 +5109,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hid
 .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;border-radius:2px;font-family:var(--fb);white-space:nowrap}
 .btn-primary{background:var(--orange);color:#fff;border:none;padding:12px 26px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:8px}
 .btn-primary:hover{background:#ff6030;transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,69,0,.4)}
-.btn-secondary{background:transparent;color:var(--orange);border:1px solid var(--orange-border);padding:11px 22px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
-.btn-secondary:hover{background:var(--orange-dim)}
+.btn-secondary{background:transparent;color:var(--orange);border:2px solid var(--orange);padding:11px 22px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:6px;display:inline-flex;align-items:center;gap:7px;box-shadow:0 0 0 0 rgba(255,69,0,0)}
+.btn-secondary:hover{background:var(--orange-dim);box-shadow:0 0 16px rgba(255,69,0,0.25);transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-bright);padding:9px 16px;font-family:var(--fd);font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
 .btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.28)}
 .card-lift{transition:border-color .3s,box-shadow .3s;cursor:pointer}
@@ -5430,8 +5430,8 @@ function AppInner() {
             <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,5vw,66px)", textTransform: "uppercase" }}>CHOOSE YOUR PATH</h2>
             <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-faint)", marginTop: 10, marginBottom: 20 }}>Not sure which one is right for you?</p>
             <a href="#quiz-section">
-              <button className="btn-secondary" style={{ fontSize: 13, padding: "11px 28px", letterSpacing: 1.5 }}>
-                🎯 Find my program in 30 seconds →
+              <button className="btn-secondary" style={{ fontSize: 13, padding: "11px 28px", letterSpacing: 1.5, cursor: "pointer", borderStyle: "solid" }}>
+                🎯 Find my program in 30 seconds
               </button>
             </a>
           </div>
