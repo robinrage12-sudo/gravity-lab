@@ -1,5594 +1,853 @@
 "use client";
-import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import {
-  ArrowLeft, Download, Clock, Check,
-  ChevronDown, ChevronUp, Home, Dumbbell,
-  RefreshCw, Target, BookOpen, Layers, Package,
-  Thermometer, Wind, Star, AlertCircle
-} from "lucide-react";
+
+import { useState } from "react";
 
 // ═══════════════════════════════════════════════════════
-// TYPES & DATA (inlined from programs.ts)
+// L'ÉCOLE DU POIDS DU CORPS — Page de vente
+// Couleurs reprises de la couverture : crème, noir, orange brûlé
+//
+// ⚠️ IMPORTANT : placez l'image de couverture dans /public/cover.png
+// (le fichier "Gemini_Generated_Image_mprsycmprsycmprs.png" renommé en cover.png)
 // ═══════════════════════════════════════════════════════
 
-interface ProgressionStep {
-  label: string;
-  emoji: string;
-  hold?: string;
-  active?: boolean;
-}
+const STRIPE_URL = "https://buy.stripe.com/8x2fZj3UJ8etbjtgZT3ZK0s";
 
-interface Exercise {
-  title: string;
-  sets: string;
-  reps: string;
-  rest: string;
-  cues: string[];
-  proTip: string;
-  progression?: ProgressionStep[];
-  intensity: string;
-}
-
-interface Phase {
-  name: string;
-  tag: string;
-  duration: string;
-  icon: string;
-  description: string;
-  exercises: Exercise[];
-}
-
-interface WarmupExercise {
-  name: string;
-  duration: string;
-  notes: string;
-}
-
-interface CooldownExercise {
-  name: string;
-  duration: string;
-  notes: string;
-}
-
-interface Program {
-  id: string;
-  title: string;
-  subtitle: string;
-  tagline: string;
-  level: string;
-  levelColor: string;
-  category: "skill" | "hybrid" | "hypertrophy" | "basic-skills" | "bundle";
-  categoryGroup: "STRENGTH & SKILLS" | "HYBRID" | "HYPERTROPHY" | "BASIC SKILLS" | "BUNDLE";
-  price: string;
-  originalPrice?: string;
-  icon: string;
-  glowColor: string;
-  badge?: string;
-  dualTrack?: boolean;
-  trackLabels?: [string, string];
-  goals: string[];
-  mindset: string;
-  weekStructure: string;
-  warmup: WarmupExercise[];
-  phases: Phase[];
-  gymPhases?: Phase[];
-  cooldown: CooldownExercise[];
-  benefits: string[];
-  bundlePrograms?: Program[];
-  stripeUrl?: string;
-}
-
-// ─── SHARED DATA ──────────────────────────────────────────────────────────────
-
-const sharedWarmup: WarmupExercise[] = [
-  { name: "Wrist Circles & Flexor Stretch", duration: "2 min", notes: "Both directions, 10 reps each way. Critical for planche longevity." },
-  { name: "Shoulder CARs (Controlled Articular Rotations)", duration: "90s each side", notes: "Slow, full-range motion. Feel every degree of the joint." },
-  { name: "Dead Hang + Scapular Pulls", duration: "3×20s", notes: "Engage lats, then actively depress and retract scapulas." },
-  { name: "Pike Compression Hold", duration: "3×15s", notes: "Seated, push legs down with straight arms. Activate hip flexors." },
-  { name: "Planche Lean Warm-up (30% effort)", duration: "3×5s", notes: "Just activate the pattern — do NOT push hard here." },
-];
-
-const sharedCooldown: CooldownExercise[] = [
-  { name: "Wrist Extensor Stretch", duration: "2 min", notes: "Knuckles on floor, gently lean back. Hold 30s, release, repeat." },
-  { name: "Doorframe Chest Opener", duration: "90s", notes: "Arms at 90°. Gently press chest forward. Breathe into the stretch." },
-  { name: "Child's Pose with Lat Stretch", duration: "2 min", notes: "Walk hands to each side. Full spinal decompression." },
-  { name: "Supine Shoulder External Rotation", duration: "2 min each", notes: "Lying down, arm at 90°. Slowly lower forearm toward floor." },
-  { name: "Diaphragmatic Breathing", duration: "3 min", notes: "4s inhale, 4s hold, 6s exhale. Activates parasympathetic recovery." },
-];
-
-const leverCooldown: CooldownExercise[] = [
-  { name: "Thoracic Spine Foam Roll", duration: "3 min", notes: "Roll from T1 to T12 slowly. Pause on tender spots for 20s." },
-  { name: "Lat Hang Stretch", duration: "2×30s", notes: "Hang from bar, slightly tuck one shoulder to feel the lat decompressing." },
-  { name: "Bicep & Forearm Wall Stretch", duration: "90s each", notes: "Palm on wall, fingers pointing down. Gently turn away." },
-  { name: "Prone Back Extension (Cobra)", duration: "2 min", notes: "Elbows under shoulders. Let the spine passively extend. No forcing." },
-  { name: "Deep Breathing + Mental Debrief", duration: "3 min", notes: "Visualize your best rep. Reinforce the motor pattern while calm." },
-];
-
-// ─── PLANCHE FOUNDATION ───────────────────────────────────────────────────────
-
-const plancheFoundation: Program = {
-  id: "planche-foundation",
-  title: "Planche Foundation",
-  subtitle: "Most people quit before week 3. This is for the ones who don't.",
-  tagline: "From zero to full planche. Start from scratch — no prerequisites, no gym needed.",
-  level: "From Zero",
-  levelColor: "#22c55e",
-  category: "skill",
-  categoryGroup: "STRENGTH & SKILLS",
-  price: "37",
-  icon: "🪐",
-  glowColor: "rgba(34,197,94,0.12)",
-  goals: [
-    "Develop bulletproof scapular depression & protraction",
-    "Build shoulder blade control from scratch",
-    "Achieve a clean 5-second tuck planche hold",
-    "Lay the structural foundation for advanced planche variants",
-  ],
-  mindset: "Zero prerequisites. Zero experience needed. If you have never trained a day in your life, this is your starting point. The planche is not built in a session — it is carved over months. In the first phase, your only job is to own every rep, own every second, and build the connective tissue strength that will protect you for years. Ego has no place here. Perfect technique over everything. Track every session: hold time, quality rating /10, and one thing to improve next time.",
-  weekStructure: "3 sessions/week (Mon · Wed · Fri). Each session: 60–75 min. Rest days are training days for your nervous system — sleep, eat, recover.",
-  warmup: [
-    { name: "Wrist Circles & Flexion/Extension", duration: "2 min", notes: "30 reps each direction. This is non-negotiable. Wrists take the most stress." },
-    { name: "Scapular Elevation & Depression", duration: "3×12", notes: "Hanging from bar. Feel the full range — do not shortcut." },
-    { name: "Hollow Body Hold", duration: "3×20s", notes: "Lower back pressed to floor. This is the planche body position." },
-    { name: "Straight-Arm Plank", duration: "3×20s", notes: "Push floor away aggressively. Protract those scapulas." },
-    { name: "Cat-Cow with Protraction Focus", duration: "90s", notes: "On all fours. On 'round', maximize the upper back push." },
-  ],
-  phases: [
-    {
-      name: "Phase 1 — Structural Foundation",
-      tag: "Weeks 1–3",
-      duration: "3 weeks",
-      icon: "🏗️",
-      description: "Build the connective tissue and neuromuscular patterns. Do not rush. These weeks are the difference between long-term progress and injury.",
-      exercises: [
-        {
-          title: "Scapular Push-Ups",
-          sets: "4",
-          reps: "12 reps",
-          rest: "60s",
-          intensity: "Controlled",
-          cues: [
-            "Start in straight-arm plank — arms fully locked, no bend at elbows",
-            "Phase 1 (descent): let chest drop ONLY by pinching scapulas together — elbows stay locked",
-            "Phase 2 (ascent): push floor away aggressively to protract and round upper back",
-            "Top position: your upper back should visibly dome upward — feel the serratus anterior fire",
-            "Common mistake: bending elbows. If elbows bend, you are doing a regular push-up, not a scapular push-up",
-            "Tempo: 2s down, 1s hold at bottom, 2s up, 1s squeeze at top",
-          ],
-          proTip: "Record from the side. You should see your upper back rising noticeably in the protracted position. If the movement looks flat, you are not protracting enough — the range is small but critical.",
-          progression: [
-            { label: "Knees", emoji: "🦵", active: false },
-            { label: "Standard", emoji: "📐", active: true },
-            { label: "Elevated Feet", emoji: "⬆️", active: false },
-            { label: "Weighted", emoji: "🏋️", active: false },
-          ],
-        },
-        {
-          title: "Planche Lean (Rings or Parallettes)",
-          sets: "5",
-          reps: "5×3s hold",
-          rest: "90s",
-          intensity: "Technical",
-          cues: [
-            "Setup: hands on parallettes shoulder-width apart, arms fully locked",
-            "Lean forward until shoulders are clearly anterior to wrists — measure this with camera",
-            "Posterior pelvic tilt throughout: tuck tailbone, engage core like a hollow body",
-            "Arms stay at 0° bend — any elbow bend reduces the training stimulus significantly",
-            "Gaze: floor 10–15cm in front of hands — not straight down",
-            "Variation 1 (easier): toes on floor for balance — focus on lean angle only",
-            "Variation 2 (harder): feet together, full bodyweight through hands",
-            "Week 1 target: shoulders 5cm in front of hands. Week 4 target: 15cm+",
-          ],
-          proTip: "The lean angle is everything. Use a mirror or film from the side every session. Your shoulders should be 10–15cm in front of your hands by Week 3. If you cannot lean this far, do not rush — wrist and shoulder preparation takes time.",
-          progression: [
-            { label: "Slight Lean", emoji: "📏", active: true },
-            { label: "45° Lean", emoji: "📐", active: false },
-            { label: "Full Lean", emoji: "⚡", active: false },
-          ],
-        },
-        {
-          title: "Pseudo Planche Push-Ups",
-          sets: "4",
-          reps: "8 reps",
-          rest: "90s",
-          intensity: "Moderate",
-          cues: [
-            "Hand setup: fingers pointing out 45°–90° — the more rotation, the harder",
-            "Lean forward: shoulders must be over or in front of wrists before lowering",
-            "Phase 1 (negative): lower chest to floor over 3 seconds — control every millimeter",
-            "Bottom position: chest nearly touching floor, maintain forward lean throughout",
-            "Phase 2 (press): push back up explosively while keeping lean angle",
-            "Variation A (easier): hands at 45°, slight lean — beginner version",
-            "Variation B (moderate): hands at 90°, shoulders over wrists — standard",
-            "Variation C (harder): hands turned back, shoulders past wrists — advanced",
-            "Common mistake: losing the lean during the push. Fix: think 'push forward, not up'",
-          ],
-          proTip: "The hand rotation and forward lean are what make this exercise planche-specific. A pseudo planche push-up with hands straight and no lean is just a regular push-up. Start conservative and increase lean angle as strength improves.",
-        },
-      ],
-    },
-    {
-      name: "Phase 2 — Tuck Compression",
-      tag: "Weeks 4–6",
-      duration: "3 weeks",
-      icon: "🔧",
-      description: "Now we introduce the actual tuck position. Hip flexor strength and compression are the limiting factors for most athletes at this stage.",
-      exercises: [
-        {
-          title: "Tuck L-Sit Progression",
-          sets: "5",
-          reps: "5×4s hold",
-          rest: "90s",
-          intensity: "Max Effort",
-          cues: [
-            "On parallettes or floor (parallel bars preferred)",
-            "Pull knees as close to chest as possible",
-            "Push down hard — think 'anti-gravity'",
-            "Keep arms straight and locked — no bending",
-          ],
-          proTip: "This is 80% hip flexor strength. If you struggle, add 3 sets of 12 lying leg raises to your accessory work daily.",
-          progression: [
-            { label: "Foot-Assisted", emoji: "👣", active: false },
-            { label: "Tuck L-Sit", emoji: "🧘", active: true },
-            { label: "Half-Lay", emoji: "📐", active: false },
-            { label: "L-Sit", emoji: "🎯", active: false },
-          ],
-        },
-        {
-          title: "Tuck Planche Hold",
-          sets: "6",
-          reps: "6×3–5s",
-          rest: "2 min",
-          intensity: "Maximum",
-          cues: [
-            "Entry: from tuck L-sit, lean forward progressively until feet lift off",
-            "Hip position: hips must be parallel to floor — sagging hips = failed rep, do not count it",
-            "Scapular state: maximum protraction throughout — upper back rounded and pushing",
-            "Knee position: knees tight to chest, not hanging loosely",
-            "Breathing: short shallow breaths — do not exhale fully (it collapses position)",
-            "Every second of a clean hold is worth more than 5 seconds of a sloppy one",
-            "Assisted variation: place one foot lightly on a stool to reduce load while learning position",
-            "Self-assessment: film from side — hips should be at the same height as shoulders",
-            "Rest quality: between sets, shake out wrists and reset completely — this is CNS-intensive",
-          ],
-          proTip: "Film every single session from the side. The moment hips drop below shoulder level, the hold is over — stop the timer. Most beginners are shocked to see how different their hold looks vs how it feels. The camera is your most honest coach.",
-          progression: [
-            { label: "Assisted", emoji: "🤝", active: false },
-            { label: "Tuck Planche", emoji: "🤸", active: true },
-            { label: "Adv. Tuck", emoji: "⚡", active: false },
-            { label: "Straddle", emoji: "🌟", active: false },
-          ],
-        },
-        {
-          title: "Tuck Planche Push-Ups",
-          sets: "4",
-          reps: "4×2–3 reps",
-          rest: "2 min",
-          intensity: "High",
-          cues: [
-            "Start in tuck planche hold",
-            "Lower body 5cm while maintaining lean and tuck",
-            "Press back to start — every rep is a victory",
-            "Zero tolerance for hip sag",
-          ],
-          proTip: "Even 1 clean rep is better than 5 ugly ones. This exercise builds the specific strength no other movement can replicate.",
-        },
-        {
-          title: "Advanced Tuck Planche Push-Ups — Technique",
-          sets: "4",
-          reps: "2–4 reps",
-          rest: "2 min",
-          intensity: "High",
-          cues: [
-            "Hips extended to 180° — thighs parallel to floor (advanced tuck position)",
-            "Lower chest toward floor 3–5cm while maintaining hip extension",
-            "This is significantly harder than the tuck push-up — treat it with respect",
-            "Slow 3-second negative, explosive press back up",
-            "If hips sag during the push-up, you are not ready — return to tuck PU",
-          ],
-          proTip: "The advanced tuck push-up bridges the gap between tuck and straddle. Master 3 clean reps before attempting straddle push-ups.",
-          progression: [
-            { label: "Tuck PU", emoji: "🤸", active: false },
-            { label: "Adv. Tuck PU", emoji: "⚡", active: true },
-            { label: "Straddle PU", emoji: "🌟", active: false },
-            { label: "Full PU", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Straddle Planche Push-Ups — Intro Technique",
-          sets: "3",
-          reps: "1–3 reps",
-          rest: "3 min",
-          intensity: "Max Effort",
-          cues: [
-            "Legs wide — the wider the straddle, the more accessible this becomes",
-            "Enter straddle planche hold, then initiate the descent",
-            "Lower only 3–5cm — range of motion is minimal at this level",
-            "Elbows track slightly back, not flared",
-            "Press back up — even a partial rep builds elite-level strength",
-            "This is one of the hardest push movements in calisthenics",
-          ],
-          proTip: "If you can manage 1 straddle push-up at the end of this program, you are ahead of 99% of athletes. This is an intro — full mastery comes in Planche Elite.",
-          progression: [
-            { label: "Wide Straddle", emoji: "↔️", active: true },
-            { label: "Mid Straddle", emoji: "📐", active: false },
-            { label: "Narrow", emoji: "⚡", active: false },
-            { label: "Full PU", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Straddle Planche Press — Negative Intro",
-          sets: "3",
-          reps: "3×3s negative",
-          rest: "2 min",
-          intensity: "Technique",
-          cues: [
-            "From straddle planche, lower slowly toward floor over 3 seconds",
-            "This is the press negative — different mechanics from the push-up",
-            "Keep legs wide and hips level throughout",
-            "Use band assistance if needed — quality over everything",
-            "This is an introduction — full press development is in Planche Elite",
-          ],
-          proTip: "The straddle press negative is the foundation of all planche press work. 4 weeks of consistent negatives will build more pressing strength than most people accumulate in a year.",
-        },
-      ],
-    },
-    {
-      name: "Phase 3 — Integration & Testing",
-      tag: "Weeks 7–8",
-      duration: "2 weeks",
-      icon: "🚀",
-      description: "Peak your strength and test your tuck planche max hold. This week is about expression of what you've built, not adding new stimulus.",
-      exercises: [
-        {
-          title: "Max Tuck Planche Hold Test",
-          sets: "3",
-          reps: "Max hold (target: 5+ sec)",
-          rest: "3 min",
-          intensity: "Max Effort",
-          cues: [
-            "Full warm-up completed",
-            "Film every attempt",
-            "Rest fully between attempts — this is a strength test",
-            "Celebrate progress: even 3s is elite for 8 weeks",
-          ],
-          proTip: "Comparing Week 1 to Week 8 is the most motivating thing you'll ever see. Save both videos side by side.",
-        },
-        {
-          title: "Planche Lean Endurance",
-          sets: "5",
-          reps: "5×8s",
-          rest: "90s",
-          intensity: "High Volume",
-          cues: [
-            "Max lean angle you can maintain",
-            "Focus on holding the protraction throughout",
-            "Breathe — don't hold your breath",
-          ],
-          proTip: "Building endurance in the lean builds the tendon and joint resilience that protects you as you progress to harder variants.",
-        },
-        {
-          title: "Pseudo Planche Push-Up Variations",
-          sets: "4",
-          reps: "6–10 reps",
-          rest: "90s",
-          intensity: "Technique Focus",
-          cues: [
-            "Hands turned out 45°+, shoulders over or in front of wrists",
-            "Variation 1 — Wide stance: easier, builds initial strength",
-            "Variation 2 — Narrow stance: harder, more planche-specific",
-            "Slow 3-second negative on every rep — this is where strength is built",
-            "Full lockout at the top — squeeze scapulas into protraction",
-          ],
-          proTip: "These push-up variations are the bridge between a lean and a real tuck planche. Master 3 sets of 10 clean reps before moving to tuck push-ups.",
-          progression: [
-            { label: "Wide Stance", emoji: "↔️", active: true },
-            { label: "Narrow Stance", emoji: "📐", active: false },
-            { label: "Tuck PU", emoji: "🤸", active: false },
-            { label: "Straddle PU", emoji: "⚡", active: false },
-          ],
-        },
-        {
-          title: "Tuck Planche Press (Intro)",
-          sets: "3",
-          reps: "3–5 reps",
-          rest: "2 min",
-          intensity: "Technique",
-          cues: [
-            "From tuck planche, lower slowly to floor (3 seconds)",
-            "This is a NEGATIVE press — the concentric will come later",
-            "Keep hips level with shoulders throughout",
-            "Arms stay completely straight — this is the non-negotiable",
-            "Reset to tuck planche between each rep",
-          ],
-          proTip: "The press negative is one of the most underused exercises in calisthenics. 4 weeks of negatives will build more pressing strength than 4 months of random training.",
-        },
-      ],
-    },
-    {
-      name: "⭐ BONUS — One Arm Handstand Progression",
-      tag: "Optional / Ongoing",
-      duration: "Ongoing",
-      icon: "🌟",
-      description: "Included as a bonus with this program. The one arm handstand complements your planche work — both require the same wrist strength, protraction control, and total body tension.",
-      exercises: [
-        {
-          title: "Handstand Hold Mastery (prerequisite)",
-          sets: "5",
-          reps: "5×15–20s",
-          rest: "90s",
-          intensity: "Foundation",
-          cues: [
-            "You need a solid 30s+ freestanding handstand before starting OAH",
-            "Work on this during your off days — not in place of planche sessions",
-            "Straight body alignment: ears between arms, hollow body position",
-            "Practice pirouette exits for safety at all times",
-          ],
-          proTip: "The one arm handstand requires an extremely stable two-arm handstand. If you wobble in a two-arm HS, you are not ready. Build the base first.",
-        },
-        {
-          title: "One Arm Handstand — Full Progression",
-          sets: "4",
-          reps: "3–5 attempts each side",
-          rest: "2 min",
-          intensity: "Bonus Skill",
-          cues: [
-            "Step 1 — Straddle OAH: wide leg split reduces balance demand significantly",
-            "Step 2 — Tuck OAH: one leg tucked, more centered mass",
-            "Step 3 — OAH with finger assist: other hand touches floor with fingertips only",
-            "Step 4 — OAH negative: kick into two-arm HS, slowly shift weight to one arm",
-            "Step 5 — Free OAH: full balance on one arm, other arm tucked or extended",
-            "Full technique breakdown with exact hand position and body alignment cues included",
-          ],
-          proTip: "The OAH is a 6–18 month journey. Do not rush the steps — each one builds the balance and strength needed for the next. The straddle OAH alone takes most athletes 2–3 months.",
-          progression: [
-            { label: "Straddle OAH", emoji: "↔️", active: true },
-            { label: "Tuck OAH", emoji: "🧘", active: false },
-            { label: "Finger Assist", emoji: "👆", active: false },
-            { label: "Free OAH", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-  ],
-  cooldown: sharedCooldown,
-  benefits: [
-    "Zero prerequisite — designed for complete beginners",
-    "Complete roadmap: tuck → advanced tuck → straddle → full planche",
-    "Every push-up & press variation — tuck, straddle, full — with full technique",
-    "Bulletproof wrist & shoulder preparation from day one",
-    "Handstand progression included",
-    "Follow the program OR build your own — full exercise library + training methods included",
-    "🌟 Bonus: One arm handstand progression",
-    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
-  ],
-  stripeUrl: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h",
-};
-
-const plancheElite: Program = {
-  id: "planche-elite",
-  title: "Planche Elite",
-  subtitle: "Less than 1% of athletes ever reach this. You probably won't either — unless you use this.",
-  tagline: "The program where the full planche is just the beginning — Maltese, finger planche & beyond.",
-  level: "Advanced",
-  levelColor: "#f97316",
-  category: "skill",
-  categoryGroup: "STRENGTH & SKILLS",
-  price: "57",
-  icon: "⚡",
-  glowColor: "rgba(249,115,22,0.15)",
-  goals: [
-    "Achieve a clean 3-second straddle planche hold",
-    "Build the strength base for full planche attempts",
-    "Master the advanced tuck → straddle transition",
-    "Develop ring planche stability for elite carryover",
-  ],
-  mindset: "You are no longer a beginner. This is where true separation happens. The athletes who reach this stage and fail are those who let ego push volume before quality. Your job is to be precise, patient, and relentless. The full planche is not a trick — it is a year or more of perfect training distilled into one moment. Every session: film your best set, compare to last week, find one technical improvement. Progress here is measured in millimeters and milliseconds — both matter.",
-  weekStructure: "4 sessions/week (Mon · Tue · Thu · Fri). Tue/Fri are accessory & volume days. Mon/Thu are max effort skill days.",
-  warmup: sharedWarmup,
-  phases: [
-    {
-      name: "Phase 1 — Advanced Tuck Mastery",
-      tag: "Weeks 1–3",
-      duration: "3 weeks",
-      icon: "🔩",
-      description: "The advanced tuck (hips extended, legs parallel) is the true gateway to straddle. Own it for 8+ seconds before moving on.",
-      exercises: [
-        {
-          title: "Advanced Tuck Planche Hold",
-          sets: "6",
-          reps: "6×6–8s",
-          rest: "2.5 min",
-          intensity: "Maximum",
-          cues: [
-            "Hips fully extended — thighs parallel to floor",
-            "Knees tucked but hips 180° open",
-            "Lean is aggressive — wrists are heavily loaded",
-            "Squeeze glutes to maintain hip position",
-          ],
-          proTip: "The difference between tuck and advanced tuck is about 2–3× the difficulty. Do not rush. Film from the side every session to measure hip extension.",
-          progression: [
-            { label: "Tuck", emoji: "🤸", active: false },
-            { label: "Adv. Tuck", emoji: "⚡", active: true },
-            { label: "Straddle", emoji: "🌟", active: false },
-            { label: "Full", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Straddle Planche Negatives",
-          sets: "5",
-          reps: "5×4s negative",
-          rest: "3 min",
-          intensity: "High Eccentric",
-          cues: [
-            "Start in straddle planche (use bands or partner if needed)",
-            "Lower hips down over 4 full seconds",
-            "Fight gravity every millimeter",
-            "Use bands to assist the concentric only",
-          ],
-          proTip: "Eccentric strength is your fastest path to concentric planche. The negative builds 3× more specific strength than the hold.",
-        },
-      ],
-    },
-    {
-      name: "Phase 2 — Straddle Development",
-      tag: "Weeks 4–7",
-      duration: "4 weeks",
-      icon: "🌟",
-      description: "The straddle planche is 60-70% of the full planche in terms of difficulty. Own it before even attempting full.",
-      exercises: [
-        {
-          title: "Straddle Planche Hold",
-          sets: "5",
-          reps: "5×3–5s",
-          rest: "3 min",
-          intensity: "Maximum",
-          cues: [
-            "Legs spread to maximum width — the wider, the easier",
-            "Point toes. Squeeze entire lower body",
-            "Shoulder blades in maximum protraction",
-            "Breathe shallow — don't let the exhale collapse your position",
-          ],
-          proTip: "Using parallettes vs floor changes the difficulty significantly. Start on parallettes (more wrist clearance). Graduate to floor.",
-          progression: [
-            { label: "Wide Straddle", emoji: "↔️", active: true },
-            { label: "Mid Straddle", emoji: "📐", active: false },
-            { label: "Narrow Straddle", emoji: "⚡", active: false },
-            { label: "Full Planche", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Straddle Planche Push-Ups — Technique Breakdown",
-          sets: "4",
-          reps: "4×2–4 reps",
-          rest: "3 min",
-          intensity: "Elite",
-          cues: [
-            "One of the hardest push movements in calisthenics — respect it",
-            "Setup: enter straddle planche hold first, then initiate descent",
-            "Lower only 3–5cm — the range of motion is minimal at this level",
-            "Elbows track slightly back — not flared out",
-            "Press back up explosively — even if range is small, intent matters",
-            "Even 1 clean rep is elite-level output",
-          ],
-          proTip: "Most athletes at this level manage 1–2 partial reps. That is perfectly normal. Film from the side — you will be surprised by how much range you actually have.",
-        },
-        {
-          title: "Advanced Tuck Planche Press — Negative",
-          sets: "4",
-          reps: "4×3s negative",
-          rest: "2.5 min",
-          intensity: "Strength",
-          cues: [
-            "From advanced tuck planche, lower chest toward floor over 3 full seconds",
-            "Hips must stay level — any drop ends the rep",
-            "This builds the pressing strength needed for straddle and full planche press",
-            "Concentric (pressing up) comes after mastering the negative",
-          ],
-          proTip: "The planche press negative is arguably the most efficient strength builder in the entire planche progression. 3 sessions per week of this alone will transform your pressing capacity.",
-        },
-      ],
-    },
-    {
-      name: "Phase 3 — Full Planche Approach",
-      tag: "Weeks 8–10",
-      duration: "3 weeks",
-      icon: "👑",
-      description: "First true full planche attempts. Use band assistance to feel the position. Your goal is 1 unassisted second.",
-      exercises: [
-        {
-          title: "Banded Full Planche Hold",
-          sets: "5",
-          reps: "5×5s",
-          rest: "3 min",
-          intensity: "Maximum",
-          cues: [
-            "Band around hips provides just enough assistance",
-            "Legs together and fully extended — perfect alignment",
-            "This is a full-body isometric contraction",
-            "Record every attempt. Progress is measured in millimeters.",
-          ],
-          proTip: "Reduce band thickness every 2 weeks as you get stronger. The goal is 3 bands → 2 bands → 1 band → free.",
-          progression: [
-            { label: "3 Bands", emoji: "🟢", active: true },
-            { label: "2 Bands", emoji: "🟡", active: false },
-            { label: "1 Band", emoji: "🟠", active: false },
-            { label: "Free", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Full Planche Push-Up — Banded Technique",
-          sets: "4",
-          reps: "3–5 reps (banded)",
-          rest: "3 min",
-          intensity: "Elite",
-          cues: [
-            "Use same band setup as your holds",
-            "Enter full planche position, then lower 3–5cm",
-            "Elbows bend slightly backward — not to the sides",
-            "Press back up — full lockout, maximum protraction",
-            "This is the rarest push movement in calisthenics — every rep counts",
-          ],
-          proTip: "Full planche push-ups are the final boss of pushing strength. Even banded reps at this level place you in the top 0.5% of athletes worldwide. Technique over everything.",
-          progression: [
-            { label: "3 Bands", emoji: "🟢", active: true },
-            { label: "2 Bands", emoji: "🟡", active: false },
-            { label: "1 Band", emoji: "🟠", active: false },
-            { label: "Free PU", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Full Planche Press — Negative",
-          sets: "3",
-          reps: "3×4s negative",
-          rest: "3 min",
-          intensity: "Maximum",
-          cues: [
-            "Start in full planche, lower chest toward floor over 4 seconds",
-            "Body remains perfectly horizontal — hips cannot drop",
-            "This is the planche press negative — different from the push-up",
-            "The press path is slightly different: elbows flare more outward",
-            "Use band assistance as needed — quality over everything",
-          ],
-          proTip: "The full planche press and push-up are two separate skills. The press is harder. Master the negative over 4+ weeks before attempting the full concentric.",
-        },
-        {
-          title: "⭐ Maltese — Introduction & Progression",
-          sets: "5",
-          reps: "5×3–5s hold",
-          rest: "3 min",
-          intensity: "Elite — Beyond Planche",
-          cues: [
-            "The maltese is the hardest static skill in calisthenics — harder than the full planche",
-            "Arms extended to the sides (like a cross) while holding a planche position",
-            "Requires full planche strength + extreme shoulder external rotation mobility",
-            "Step 1 — Wide arm planche lean: hands further apart than shoulder width",
-            "Step 2 — Banded maltese: band support around hips, arms progressively wider",
-            "Step 3 — Rings maltese: rings allow natural wrist rotation, easier on joints",
-            "Step 4 — Full maltese: arms at 90° from body, full horizontal hold",
-          ],
-          proTip: "The maltese is the elite goal beyond the full planche. Professional gymnasts train it for years. Approach it with patience — even a banded hold with arms slightly wider than planche is elite-level output.",
-          progression: [
-            { label: "Wide Planche", emoji: "↔️", active: true },
-            { label: "Banded Maltese", emoji: "🟢", active: false },
-            { label: "Rings Maltese", emoji: "💍", active: false },
-            { label: "Full Maltese", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "⭐ Maltese Press — Technique",
-          sets: "3",
-          reps: "3×3s negative",
-          rest: "3 min",
-          intensity: "Beyond Elite",
-          cues: [
-            "The maltese press is arguably the hardest dynamic movement in calisthenics",
-            "From maltese hold, lower chest toward floor — arms remain wide",
-            "Work only with band assistance — ego has no place here",
-            "The negative alone will build exceptional shoulder and chest strength",
-            "Full concentric press may take 12–24 months of dedicated work",
-            "Technique: elbows track back and slightly outward during the press",
-          ],
-          proTip: "The maltese press places you at the absolute peak of human pressing strength. Even professional gymnasts rarely achieve a clean rep. The journey toward it will build more strength than most athletes accumulate in a lifetime.",
-        },
-      ],
-    },
-    {
-      name: "⭐ Finger Planche — Full Technique & Progression",
-      tag: "Optional / Elite",
-      duration: "Ongoing",
-      icon: "☝️",
-      description: "The finger planche is one of the rarest skills in calisthenics — a full planche performed on the fingertips. It requires extreme finger tendon strength built over months of progressive loading. Never rush this — tendon injuries here are serious.",
-      exercises: [
-        {
-          title: "Finger Planche — Step by Step Progression",
-          sets: "4",
-          reps: "3–5s holds",
-          rest: "3 min",
-          intensity: "Elite — Extreme Caution",
-          cues: [
-            "⚠️ MANDATORY: only attempt after 6+ months of consistent full planche training",
-            "Step 1 — Fingertip push-ups: build tendon strength from scratch (4 fingers, then 3, then 2)",
-            "Step 2 — Fingertip planche lean: shift weight onto fingertips in planche lean position",
-            "Step 3 — Knuckle planche: planche on knuckles — bridges between flat hand and finger",
-            "Step 4 — 4-finger planche: full planche on 4 fingers (index to pinky)",
-            "Step 5 — 3-finger planche: remove the pinky — major difficulty increase",
-            "Step 6 — 2-finger planche: index + middle only — world-class level",
-            "Progression rule: spend minimum 8 weeks at each step before advancing",
-            "Pain protocol: any finger joint pain = stop immediately. Do NOT push through",
-            "Full technique breakdown with exact finger position and weight distribution cues",
-          ],
-          proTip: "The finger planche is a 1–3 year journey from a solid full planche. The limiting factor is always tendon strength, not muscle. Tendons adapt 3× slower than muscles — patience is not optional here.",
-          progression: [
-            { label: "Fingertip PU", emoji: "✋", active: true },
-            { label: "4-Finger", emoji: "🖐️", active: false },
-            { label: "3-Finger", emoji: "🤟", active: false },
-            { label: "2-Finger", emoji: "✌️", active: false },
-          ],
-        },
-        {
-          title: "Finger Planche Push-Up & Press",
-          sets: "3",
-          reps: "1–3 reps",
-          rest: "3 min",
-          intensity: "Beyond Elite",
-          cues: [
-            "Only attempt after holding 5s+ finger planche consistently",
-            "Push-up: same mechanics as full planche push-up — just on fingertips",
-            "Range of motion is minimal — 3–5cm is a full rep at this level",
-            "Press: lower slowly over 4 seconds — the negative builds the most tendon strength",
-            "Even 1 clean finger planche push-up places you among the world's elite",
-          ],
-          proTip: "The finger planche push-up and press are among the rarest movements in calisthenics. Fewer than 100 people worldwide can perform them consistently. The journey toward them will build more strength than most athletes ever achieve.",
-        },
-      ],
-    },
-    {
-      name: "⭐ BONUS — One Arm Handstand Progression",
-      tag: "Optional / Ongoing",
-      duration: "Ongoing",
-      icon: "🌟",
-      description: "Included as a bonus. At this level of planche training, your wrist and shoulder strength is elite. The OAH builds on this foundation — same protraction, same straight-arm control.",
-      exercises: [
-        {
-          title: "Handstand Hold Mastery (prerequisite)",
-          sets: "5",
-          reps: "5×20–30s",
-          rest: "90s",
-          intensity: "Foundation",
-          cues: [
-            "You need a solid 30s+ freestanding handstand before starting OAH",
-            "At this program level, your pressing strength already exceeds most handstand athletes",
-            "Focus on balance and body alignment — not strength",
-            "Practice pirouette exits for safety",
-          ],
-          proTip: "Your planche training has given you more than enough pressing and wrist strength for the OAH. What you need to develop now is balance — a completely different skill.",
-        },
-        {
-          title: "One Arm Handstand — Full Progression",
-          sets: "4",
-          reps: "3–5 attempts each side",
-          rest: "2 min",
-          intensity: "Bonus Skill",
-          cues: [
-            "Step 1 — Straddle OAH: wide leg split reduces balance demand significantly",
-            "Step 2 — Tuck OAH: one leg tucked, more centered mass",
-            "Step 3 — OAH with finger assist: other hand touches floor with fingertips only",
-            "Step 4 — OAH negative: kick into two-arm HS, slowly shift weight to one arm",
-            "Step 5 — Free OAH: full balance on one arm, other arm tucked or extended",
-            "Full technique breakdown with exact hand position and alignment cues",
-          ],
-          proTip: "With your planche foundation, the one arm handstand is achievable within 6–12 months of focused work. The strength is already there — it is now purely a balance and coordination skill.",
-          progression: [
-            { label: "Straddle OAH", emoji: "↔️", active: true },
-            { label: "Tuck OAH", emoji: "🧘", active: false },
-            { label: "Finger Assist", emoji: "👆", active: false },
-            { label: "Free OAH", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-  ],
-  cooldown: sharedCooldown,
-  benefits: [
-    "Full planche mastered — technique breakdown at every stage",
-    "Full planche push-ups & planche press progression",
-    "Maltese & maltese press — elite progression",
-    "Finger planche — full technique & progression",
-    "Ring planche stability",
-    "Handstand & HSPU included",
-    "🌟 Bonus: One arm handstand progression",
-    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
-  ],
-  stripeUrl: "https://buy.stripe.com/dRm4gBeznamBgDN3933ZK0f",
-};
-
-const frontLeverMastery: Program = {
-  id: "front-lever",
-  title: "Front Lever Mastery",
-  subtitle: "The pull-up alone won't get you here. Zero prerequisites — but zero shortcuts either.",
-  tagline: "From zero to full front lever. No prerequisites. Master every variation, pull-up & OAP progression.",
-  level: "From Zero",
-  levelColor: "#3b82f6",
-  category: "skill",
-  categoryGroup: "STRENGTH & SKILLS",
-  price: "32",
-  icon: "🌊",
-  glowColor: "rgba(59,130,246,0.15)",
-  goals: [
-    "Achieve a clean 5-second full front lever hold",
-    "Build elite-level lat and posterior chain strength",
-    "Master the tuck → straddle → full progression",
-    "Develop pulling strength applicable to muscle-ups and rows",
-  ],
-  mindset: "Zero prerequisites — built for complete beginners to advanced athletes.\n\nMuscle engagement breakdown: ~80% lats, ~15% traps/rhomboids/rear delts/triceps, ~5% forearms and core. The front lever is lat-dominant. Being able to do weighted pull-ups at +50kg does NOT mean you can front lever — strength is specific. Train in front lever conditions from day one.\n\nTechnique priority order: Grip width → Scapular retraction → Lat engagement → Arms locked → Hip height → Leg position.\n\nGrip: shoulder-width or narrower. Wider grip shifts load to rear delts and makes it harder. Scapulas: retract toward spine, open chest, engage mid-traps. Arms: fully locked — any bend means failed form. Hips: aim for shoulder height, slight drop from fatigue is acceptable. Legs: keep straight and horizontal — slight elevation is OK and can increase time under tension.",
-  weekStructure: "4 ways to integrate skill work — choose what fits your schedule:\n\n① Start of session (attempts): Begin every session with front lever holds or pull-ups. High intensity, rest 5 min between sets.\n\n② First 5 sets: Dedicate the first 4–6 sets to specific skill work (3–15 reps, 5–20s hold). Rest 3–5 min.\n\n③ Finisher sets: If your main goal is hypertrophy, add 3–5 skill sets at the END of your session with lighter progressions. Rest 1–3 min.\n\n④ Dedicated sessions: Full sessions focused only on front lever. Start with attempts, then intense sets, finish with easier variations. Max 4 sessions/week for beginners.",
-  warmup: [
-    { name: "Band Pull-Aparts", duration: "3×20", notes: "Light band. Targets rear delts and external rotators. Critical for lever shoulder health." },
-    { name: "Scapular Pull-Ups", duration: "3×10", notes: "Dead hang. Without bending arms, depress and retract scapulas. Pause 1s at top." },
-    { name: "Hollow Body Hold", duration: "3×25s", notes: "This IS the front lever body position. Master it here first." },
-    { name: "German Hang (gentle)", duration: "2×20s", notes: "Only if experienced. Opens the shoulder joint for lever positions." },
-    { name: "Inverted Hang", duration: "3×15s", notes: "Pull up and hold horizontal. Feel the lat engagement." },
-  ],
-  phases: [
-    {
-      name: "Phase 0 — Muscle Engagement & Technical Foundations",
-      tag: "Read Before Starting",
-      duration: "Essential",
-      icon: "🧠",
-      description: "Before touching the bar, understand exactly what muscles drive the front lever and the technical priority order. This knowledge will save you months of wasted training.",
-      exercises: [
-        {
-          title: "Muscle Engagement — What Actually Drives the Front Lever",
-          sets: "—",
-          reps: "Read carefully",
-          rest: "—",
-          intensity: "Education",
-          cues: [
-            "80% of the front lever is driven by the LATS — this is the primary mover",
-            "15% comes from rear deltoids, traps/rhomboids, and triceps — scapular retraction and arm lockout",
-            "5% from forearms and core — supporting roles only",
-            "Key insight: being able to do weighted pull-ups at +50kg does NOT mean you can front lever",
-            "Strength is SPECIFIC — you must train in front lever conditions to build front lever strength",
-            "Do NOT wait years doing basic pulling exercises before starting lever progressions",
-            "Start tuck front lever holds, advanced tuck raises, and banded lever work as early as possible",
-            "Direct front lever training from day one is more effective than indirect preparation",
-          ],
-          proTip: "The most common mistake is spending months on lat pulldowns and pull-ups expecting them to transfer automatically. They don't. Train specifically in the front lever position from your very first session.",
-        },
-        {
-          title: "Technical Priority Order — Master This Sequence",
-          sets: "—",
-          reps: "Apply to every rep",
-          rest: "—",
-          intensity: "Technical",
-          cues: [
-            "Priority 1 — GRIP: shoulder-width or narrower. Wider grip shifts emphasis to rear delts and makes it significantly harder",
-            "Priority 2 — SCAPULAR RETRACTION: pull shoulder blades toward your spine. Open chest, engage mid-traps. This protects shoulders and improves alignment",
-            "Priority 3 — LAT ENGAGEMENT: once scapulas are set, activate lats to progressively increase the lever arm",
-            "Priority 4 — ELBOW LOCKOUT: arms must be fully straight. Slightly bent = not a real front lever. Use tricep activation to reinforce this",
-            "Priority 5 — HIP HEIGHT: aim for hips at shoulder height or slightly above. Some sag under fatigue is acceptable — it increases time under tension",
-            "Priority 6 — LEGS: least important. Keep straight and horizontal when possible, but slight elevation or bend is acceptable during holds",
-            "Note on false grip: useful for pull-ups (reduces distance to bar) but use normal grip for holds and raises",
-          ],
-          proTip: "Never sacrifice Priority 1-3 for Priority 4-6. A hold with perfect scapular retraction and slightly bent knees is worth more than a 'clean' hold with retracted scapulas.",
-        },
-        {
-          title: "4 Ways to Integrate Front Lever Training Into Your Routine",
-          sets: "Choose 1 method",
-          reps: "Apply consistently",
-          rest: "See each method",
-          intensity: "Programming",
-          cues: [
-            "METHOD 1 — Attempts at session start: begin every session with 2-3 lever attempts/holds. High intensity, rest 5 min between sets. Best for skill-focused athletes",
-            "METHOD 2 — First 4-6 sets: dedicate the opening block to specific lever work (holds, raises, pull-ups). Rest 3-5 min. 3-15 reps or 5-20s holds. Most effective overall method",
-            "METHOD 3 — Reinforcement sets at end: add 3-5 lever sets after your main workout. Use easier variations — you will be fatigued. Rest 1-3 min. Good for beginners or hypertrophy-focused athletes",
-            "METHOD 4 — Dedicated sessions: entire sessions focused only on front lever. Start with attempts, then intense specific work, finish with easier movements. Max 4 sessions/week for beginners",
-            "Vary between methods to benefit from different frequencies, intensities, and volumes",
-            "Beginners: do not exceed 4 dedicated skill sessions per week — build the base first",
-          ],
-          proTip: "Method 2 (first 4-6 sets) produces the fastest results for most athletes because your CNS is freshest at the start of a session. Skill work done when fatigued produces 40-50% less neural adaptation.",
-        },
-      ],
-    },
-    {
-      name: "Phase 1 — Tuck Front Lever",
-      tag: "Weeks 1–4",
-      duration: "4 weeks",
-      icon: "🌱",
-      description: "The foundation. If you cannot hold a tuck front lever for 10 seconds, nothing else matters yet.",
-      exercises: [
-        {
-          title: "Tuck Front Lever Hold",
-          sets: "6",
-          reps: "6×8–10s",
-          rest: "90s",
-          intensity: "High",
-          cues: [
-            "Grip: overhand, shoulder-width. Hang completely relaxed first, then engage",
-            "Step 1 — Pull knees tight to chest: the tighter the tuck, the easier the hold",
-            "Step 2 — Depress scapulas: pull shoulder blades down and back simultaneously",
-            "Step 3 — Engage core: hollow body position — lower back should not arch",
-            "Step 4 — Raise hips to bar height: this is the key — hips at same level as bar",
-            "Back flatness: the most common error is a rounded back. Must be perfectly flat",
-            "Arms: any bend in the elbows means it is not a front lever — elbows must be fully locked",
-            "Variation (easier): single leg tuck — one leg extended, one tucked",
-            "Breathing: inhale before the hold, exhale slowly during — do not hold breath",
-            "Readiness test: can you hold 10s clean? If yes, progress to advanced tuck",
-          ],
-          proTip: "Back flatness is the single most important cue. A rounded back is a compensated lever — it does not build the same strength. Film from the side every session. A flat back hold of 5s is worth more than a rounded hold of 15s.",
-          progression: [
-            { label: "Tuck", emoji: "🧘", active: true },
-            { label: "Adv. Tuck", emoji: "📐", active: false },
-            { label: "Straddle", emoji: "↔️", active: false },
-            { label: "Full Lever", emoji: "🎯", active: false },
-          ],
-        },
-        {
-          title: "Front Lever Rows (Tuck)",
-          sets: "4",
-          reps: "6 reps",
-          rest: "2 min",
-          intensity: "Strength",
-          cues: [
-            "Start position: establish tuck front lever hang first — then initiate the row",
-            "Pull path: bar moves toward lower chest — elbows drive straight back",
-            "Maintain: tuck position throughout the entire pull — do not let hips drop",
-            "Top position: chest touches bar — maximum lat contraction",
-            "Negative: lower back to start over exactly 3 seconds — fight gravity every centimeter",
-            "Variation A (easier): tuck rows from an incline — feet on floor, body at 45°",
-            "Variation B (standard): full tuck front lever row as described",
-            "Variation C (harder): advanced tuck rows — hips extended during the pull",
-            "Common mistake: using momentum. Each rep must start from a dead stop in the hang",
-            "Progression signal: 5 clean reps = ready to progress lever position",
-          ],
-          proTip: "Front lever rows are a stronger indicator of readiness than hold time. If you can do 5 clean tuck rows, your pulling strength is ready for the next lever position — regardless of what your hold time says.",
-        },
-      ],
-    },
-    {
-      name: "Phase 2 — Advanced Tuck, One Leg & Straddle",
-      tag: "Weeks 5–8",
-      duration: "4 weeks",
-      icon: "⬆️",
-      description: "Extending the hips changes the lever mechanics dramatically. One leg and straddle are both valid at this stage — use whichever feels more natural, or alternate both. Most athletes spend 4–6 weeks here.",
-      exercises: [
-        {
-          title: "Advanced Tuck Front Lever",
-          sets: "5",
-          reps: "5×6–8s",
-          rest: "2 min",
-          intensity: "High",
-          cues: [
-            "Hips extended to 180° — thighs parallel to floor",
-            "Knees still bent but body nearly horizontal",
-            "Core engaged like a plank — not just the lats",
-            "Posterior pelvic tilt to prevent hip drop",
-          ],
-          proTip: "Every 2 weeks, try straightening one leg while the other stays tucked (one-leg lever). This bridges the gap to straddle effectively — both are valid progressions.",
-          progression: [
-            { label: "Tuck", emoji: "🧘", active: false },
-            { label: "Adv. Tuck", emoji: "📐", active: true },
-            { label: "1-Leg / Straddle", emoji: "🦵", active: false },
-            { label: "Full", emoji: "🎯", active: false },
-          ],
-        },
-        {
-          title: "One Leg / Straddle Front Lever Hold",
-          sets: "5",
-          reps: "5×4–6s",
-          rest: "2.5 min",
-          intensity: "Maximum",
-          cues: [
-            "One leg: one leg extended, one tucked — easier entry point than full straddle",
-            "Straddle: wide leg split — wider is significantly easier",
-            "Both are valid — use what works best for your body",
-            "Squeeze glutes and point toes on the extended leg(s)",
-            "Fight the pull of gravity with your entire posterior chain",
-            "Eyes looking at ceiling — helps maintain horizontal position",
-            "Progress signal: 8s clean hold on either variation → attempt full",
-          ],
-          proTip: "The straddle and one-leg lever are roughly equivalent in difficulty. Some athletes find one easier than the other — try both and use the one that lets you hold longer. Own 8+ seconds before attempting full.",
-          progression: [
-            { label: "Tuck", emoji: "🧘", active: false },
-            { label: "Adv. Tuck", emoji: "📐", active: false },
-            { label: "1-Leg / Straddle", emoji: "🦵", active: true },
-            { label: "Full", emoji: "🎯", active: false },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Phase 3 — Full Front Lever",
-      tag: "Weeks 9–12",
-      duration: "4 weeks",
-      icon: "🎯",
-      description: "The summit. Most athletes will achieve their first 1–3 second full front lever in this phase. Approach it with respect.",
-      exercises: [
-        {
-          title: "Full Front Lever Hold",
-          sets: "5",
-          reps: "5×1–3s (build to 5s)",
-          rest: "3 min",
-          intensity: "Maximum",
-          cues: [
-            "Entry: from straddle lever, slowly bring legs together — do not kick or swing",
-            "Body alignment: perfectly horizontal — use a mirror or camera to verify",
-            "Legs: fully extended, toes pointed, inner thighs squeezed together",
-            "Core: hollow body — lower back flat, not arched. Think 'pelvis slightly tucked'",
-            "Scapulas: depressed AND retracted simultaneously — never release this tension",
-            "Lats: think 'pull the bar down into your hips' — this activates lats maximally",
-            "Breathing: one breath in before the hold, then hold — do not breathe out mid-hold",
-            "Tension cue: every single muscle from feet to hands must be contracted — steel rod",
-            "Micro-progressions: even 0.5s improvement per session is elite-level progress",
-            "Camera angle: film from the side — body must be perfectly horizontal, not angled",
-          ],
-          proTip: "Your first full front lever will likely be a surprise — one rep where everything clicks simultaneously. Keep your camera rolling during every attempt. Most athletes film 50+ sessions before that moment arrives. When it does, it is worth every rep.",
-          progression: [
-            { label: "Straddle", emoji: "↔️", active: false },
-            { label: "1–2s", emoji: "⏱️", active: true },
-            { label: "3–5s", emoji: "🎯", active: false },
-            { label: "5s+", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Full Front Lever Rows",
-          sets: "4",
-          reps: "3–5 reps",
-          rest: "3 min",
-          intensity: "Elite",
-          cues: [
-            "The single hardest pulling movement in bodyweight training",
-            "Maintain perfect body alignment through full range",
-            "Even 1 rep is a milestone. Record it.",
-          ],
-          proTip: "Elite-level athletes do full front lever rows for 3–5 reps. If you can do this, you are in the top 0.1% of strength athletes worldwide.",
-        },
-      ],
-    },
-    {
-      name: "Advanced Pull Workouts — Easy / Normal / Hard",
-      tag: "Adaptive Training",
-      duration: "Ongoing",
-      icon: "⚡",
-      description: "Three difficulty tracks for your pull sessions. Choose based on your energy level that day. Rotate between them for optimal adaptation. All workouts are designed around front lever specificity.",
-      exercises: [
-        {
-          title: "Pull Workout — EASY",
-          sets: "2–3",
-          reps: "5–15 reps",
-          rest: "2–5 min",
-          intensity: "Moderate",
-          cues: [
-            "A — Tuck Front Lever Raises: 2×5–10r · 5 min rest",
-            "B — Wide Grip Pull-Ups: 2×5–10r · 5 min rest",
-            "C — Close Grip Chin-Ups: 3×8–15r · 3 min rest",
-            "D — Incline Biceps Curl: 3×8–15r · 3 min rest",
-            "E — Face Pull: 2×10–20r · 2 min rest",
-            "Use this workout on low-energy days or as active recovery",
-            "Focus on form and lat engagement on every rep",
-          ],
-          proTip: "Even on easy days, the tuck front lever raises must be done with perfect form. Quality over quantity — 5 perfect raises build more strength than 15 sloppy ones.",
-        },
-        {
-          title: "Pull Workout — NORMAL",
-          sets: "2–3",
-          reps: "5–15 reps",
-          rest: "3–5 min",
-          intensity: "Standard",
-          cues: [
-            "A — Chest to Bar Pull-Ups: 2×5–10r · 5 min rest",
-            "B — Impossible Dips on Straight Bar: 2×3–8r · 5 min rest",
-            "C — L-Sit Pull-Ups: 3×8–15r · 3 min rest",
-            "D — Pull-Ups: 3×8–15r · 3 min rest",
-            "E — Chin-Ups: 2×10–20r · 2 min rest",
-            "This is your standard weekly session — aim for this 2x/week",
-            "Chest to bar pull-ups directly build front lever pulling strength",
-          ],
-          proTip: "The chest to bar pull-up is one of the most underrated front lever builders. The extra range of motion at the top activates the same lat pattern as the front lever pull-up.",
-        },
-        {
-          title: "Pull Workout — HARD",
-          sets: "2–3",
-          reps: "3–10 reps",
-          rest: "3–5 min",
-          intensity: "High",
-          cues: [
-            "A — Full Front Lever Kicks: 2×5–10s · 5 min rest",
-            "B — Tuck Front Lever Pull-Ups: 2×5–10r · 5 min rest",
-            "C — Dragon Flag Reps: 3×3–8r · 3 min rest",
-            "D — Pelican Biceps Curl: 3×5–10r · 3 min rest",
-            "E — Incline Biceps Curl: 2×10–20r · 2 min rest",
-            "Use this on peak days — full recovery required before this session",
-            "Front lever kicks are explosive holds that build maximal lat strength",
-          ],
-          proTip: "Pelican curls are one of the most effective bicep exercises for front lever strength. The extreme stretch position builds the elbow flexor strength needed to maintain fully locked arms under load.",
-        },
-        {
-          title: "Isolation Pull — Lats / Rear Delts / Biceps",
-          sets: "2",
-          reps: "5–20 reps",
-          rest: "2–5 min",
-          intensity: "Targeted",
-          cues: [
-            "LATS: Full Front Lever Raises → Dragon Flag → Tuck FL Pull-Ups → L-Sit Pull-Ups → Wide Grip Pull-Ups",
-            "REAR DELTS: Tuck FL Pull-Ups → Adv. Tuck FL Raises → Chest to Bar → Face Pull → Wide Grip Australian Pull-Ups",
-            "BICEPS: Back Lever Touch Hold → Pelican Curl → Close Grip Chin-Ups → Incline Biceps Curl → Commando Pull-Ups",
-            "Choose one muscle focus per session — do not combine",
-            "These isolation sessions are used when you want to target a specific weak point",
-          ],
-          proTip: "If your front lever is failing due to a specific muscle, use these isolation workouts to directly address it. Most athletes fail due to lat weakness — start with the lats workout.",
-        },
-        {
-          title: "Specific Pull — Front Lever Focused",
-          sets: "5",
-          reps: "5–10 reps/secs",
-          rest: "3–5 min",
-          intensity: "Maximum Specificity",
-          cues: [
-            "Session 1: Full Front Lever Kicks 5×5–10s · Tuck FL Pull-Ups 5×5–10r · Tuck FL Raises 2×MAX",
-            "Session 2: Full Front Lever Raises 5×5–10r · Adv. Tuck FL Raises 5×5–10r · Dragon Flag 2×MAX",
-            "Session 3: Full FL Kicks 3×5–10s · Chest to Bar 3×5–10r · Tuck FL Pull-Ups 2×5–10r · Impossible Dips 2×5–10r · Tuck FL Raises 2×MAX",
-            "These are your dedicated front lever sessions — use them for peak weeks",
-            "Rest 5 minutes between the main sets — this is CNS-intensive work",
-            "Max 4 dedicated sessions per week for beginners — build the base first",
-          ],
-          proTip: "Dedicated front lever sessions are the fastest way to progress when front lever is your primary goal. The high rest periods are mandatory — reducing them kills the quality of the skill work.",
-        },
-      ],
-    },
-    {
-      name: "Phase 4 — Pull-Ups, Raises & Bonus Skills",
-      tag: "Weeks 13–16",
-      duration: "4 weeks",
-      icon: "🏆",
-      description: "With your full front lever established, this phase adds the most powerful pulling variations and introduces the one arm pull-up progression — the ultimate upper body skill.",
-      exercises: [
-        {
-          title: "Front Lever Pull-Ups — Technique Breakdown",
-          sets: "5",
-          reps: "4–6 reps",
-          rest: "3 min",
-          intensity: "Elite",
-          cues: [
-            "Enter full (or straddle) front lever hang",
-            "Pull bar to chest while maintaining horizontal body position",
-            "This is not a regular pull-up — the body stays parallel to floor",
-            "Initiate with lat depression, then pull with elbows driving down",
-            "Lower back to hang over 3 seconds — control is everything",
-            "Even 1 clean rep means you are world-class level",
-          ],
-          proTip: "Front lever pull-ups are the most elite pulling movement in calisthenics. If you can do 3 clean reps, your pulling strength rivals professional gymnasts. Film every attempt.",
-          progression: [
-            { label: "Tuck FL Row", emoji: "🧘", active: false },
-            { label: "Straddle FL PU", emoji: "↔️", active: true },
-            { label: "Full FL PU", emoji: "🎯", active: false },
-            { label: "Weighted", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Scapular Raises — Full Technique",
-          sets: "4",
-          reps: "12–15 reps",
-          rest: "60s",
-          intensity: "Accessory",
-          cues: [
-            "Dead hang from bar — start with full scapular elevation",
-            "Without bending arms, depress scapulas (pull shoulder blades down)",
-            "Hold 1 second at the bottom position — feel the lat engagement",
-            "Return to full elevation slowly",
-            "This movement directly strengthens the exact muscles used in front lever",
-            "Add a 2-second hold at bottom as you progress",
-          ],
-          proTip: "Scapular raises are the most underrated exercise for front lever. 6 weeks of consistent scapular raises will add 3–5 seconds to your front lever hold. Never skip them.",
-        },
-        {
-          title: "Australian Pull-Ups (Bodyweight Row) — Technique",
-          sets: "4",
-          reps: "10–12 reps",
-          rest: "90s",
-          intensity: "Strength",
-          cues: [
-            "Bar or rings at hip height — body straight as a plank",
-            "Pull chest to bar — elbows drive back at 45° from body",
-            "Elevation: feet higher = harder (closer to front lever angle)",
-            "3-second negative on every rep — this is the money phase",
-            "Squeeze shoulder blades together at the top",
-          ],
-          proTip: "Australian pull-ups at an elevated foot position simulate the front lever pulling angle better than any other exercise. Use these as accessory work on your off days.",
-        },
-        {
-          title: "⭐ BONUS — One Arm Pull-Up Progression",
-          sets: "5",
-          reps: "3–5 reps each arm",
-          rest: "3 min",
-          intensity: "Bonus Skill",
-          cues: [
-            "Step 1 — Archer Pull-Ups: one arm pulls, one arm assists on wrist",
-            "Step 2 — Towel Pull-Ups: pull with one arm, towel in other hand for minimal assist",
-            "Step 3 — One Arm Negatives: jump to top, lower on one arm over 5 seconds",
-            "Step 4 — Assisted One Arm PU: band or foot on bar for minimal support",
-            "Step 5 — Full One Arm Pull-Up: dead hang, single explosive pull to chin over bar",
-            "Full technique breakdown with video cues provided for each step",
-          ],
-          proTip: "The one arm pull-up requires a foundation of weighted pull-ups (bodyweight +40kg+) and front lever strength. If you have completed this program, you have the base. Expect 8–16 weeks to achieve your first clean rep.",
-          progression: [
-            { label: "Archer PU", emoji: "🏹", active: true },
-            { label: "Towel PU", emoji: "🪢", active: false },
-            { label: "Negatives", emoji: "⬇️", active: false },
-            { label: "1-Arm PU", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-    {
-      name: "📋 Complete Workout Plans — Pull 1, 2, 3",
-      tag: "Advanced Pull Programs",
-      duration: "Rotate weekly",
-      icon: "📋",
-      description: "Three complete pull workout plans, each with Easy / Normal / Hard difficulty variants. Rotate between Pull 1, 2, and 3 across your training week. Choose the difficulty that matches your current level for each session.",
-      exercises: [
-        {
-          title: "PULL 1 — Easy",
-          sets: "2–3",
-          reps: "5–15 reps",
-          rest: "2–5 min",
-          intensity: "Easy",
-          cues: [
-            "2 sets × Tuck Front Lever Raises — 5–10 reps — 5 min rest",
-            "2 sets × Wide Grip Pull-Ups — 5–10 reps — 5 min rest",
-            "3 sets × Close Grip Chin-Ups — 8–15 reps — 3 min rest",
-            "3 sets × Incline Biceps Curl — 8–15 reps — 3 min rest",
-            "2 sets × Face Pull — 10–20 reps — 2 min rest",
-          ],
-          proTip: "The tuck front lever raises are the most important exercise in this session. If you cannot do them yet, replace with inverted rows and scapular pull-ups.",
-        },
-        {
-          title: "PULL 1 — Normal",
-          sets: "2–3",
-          reps: "5–15 reps",
-          rest: "2–5 min",
-          intensity: "Normal",
-          cues: [
-            "2 sets × Chest to Bar Pull-Ups — 5–10 reps — 5 min rest",
-            "2 sets × Impossible Dips on Straight Bar — 3–8 reps — 5 min rest",
-            "3 sets × L-Sit Pull-Ups — 8–15 reps — 3 min rest",
-            "3 sets × Pull-Ups — 8–15 reps — 3 min rest",
-            "2 sets × Chin-Ups — 10–20 reps — 2 min rest",
-          ],
-          proTip: "Impossible dips on straight bar are a skill movement — treat them like a front lever attempt. Full rest between sets is mandatory.",
-        },
-        {
-          title: "PULL 1 — Hard",
-          sets: "2–3",
-          reps: "3–10 reps",
-          rest: "3–5 min",
-          intensity: "Hard",
-          cues: [
-            "2 sets × Full Front Lever Kicks — 5–10s — 5 min rest",
-            "2 sets × Tuck Front Lever Pull-Ups — 5–10 reps — 5 min rest",
-            "3 sets × Dragon Flag Reps — 3–8 reps — 3 min rest",
-            "3 sets × Pelican Biceps Curl — 5–10 reps — 3 min rest",
-            "2 sets × Incline Biceps Curl — 10–20 reps — 2 min rest",
-          ],
-          proTip: "Full front lever kicks are maximum effort — treat each kick as an attempt, not a rep. Rest fully between sets.",
-        },
-        {
-          title: "PULL 2 — Easy",
-          sets: "2–3",
-          reps: "5–20 reps",
-          rest: "2–5 min",
-          intensity: "Easy",
-          cues: [
-            "2 sets × Chest to Bar Pull-Ups — 5–10 reps — 5 min rest",
-            "2 sets × Archer Pull-Ups — 5–10 reps — 5 min rest",
-            "3 sets × Close Grip Pull-Ups — 8–15 reps — 3 min rest",
-            "3 sets × Chin-Ups — 8–15 reps — 3 min rest",
-            "2 sets × Incline Biceps Curl — 10–20 reps — 2 min rest",
-          ],
-          proTip: "Archer pull-ups are the key exercise here — they directly bridge toward one arm pull-up. Focus on keeping the extended arm fully locked.",
-        },
-        {
-          title: "PULL 2 — Normal",
-          sets: "2–3",
-          reps: "5–15 reps",
-          rest: "2–5 min",
-          intensity: "Normal",
-          cues: [
-            "2 sets × Advanced Tuck Front Lever Raises — 5–10 reps — 5 min rest",
-            "2 sets × L-Sit Pull-Ups — 5–10 reps — 5 min rest",
-            "3 sets × Wide Grip Pull-Ups — 8–15 reps — 3 min rest",
-            "3 sets × Close Grip Chin-Ups — 8–15 reps — 3 min rest",
-            "2 sets × Face Pull — 10–20 reps — 2 min rest",
-          ],
-          proTip: "Advanced tuck lever raises — hips fully extended, back flat. Do not allow rounding at the top of the raise.",
-        },
-        {
-          title: "PULL 2 — Hard",
-          sets: "2–3",
-          reps: "5–15 reps",
-          rest: "2–5 min",
-          intensity: "Hard",
-          cues: [
-            "2 sets × Muscle-Ups — 5–10 reps — 5 min rest",
-            "2 sets × Impossible Dips on Straight Bar — 5–10 reps — 5 min rest",
-            "3 sets × Chest to Bar Pull-Ups — 5–10 reps — 3 min rest",
-            "3 sets × Advanced Tuck Front Lever Raises — 5–10 reps — 3 min rest",
-            "2 sets × Pelican Biceps Curl — 8–15 reps — 2 min rest",
-          ],
-          proTip: "Muscle-ups should be explosive — slow muscle-ups defeat the purpose. If you cannot do explosive muscle-ups, replace with chest-to-bar pull-ups.",
-        },
-        {
-          title: "PULL 3 — Easy",
-          sets: "2–4",
-          reps: "5–15 reps",
-          rest: "2–5 min",
-          intensity: "Easy",
-          cues: [
-            "4 sets × Weighted Pull-Ups — 5–10 reps — 5 min rest",
-            "2 sets × Wide Grip Pull-Ups — 8–15 reps — 3 min rest",
-            "2 sets × Close Grip Pull-Ups — 8–15 reps — 3 min rest",
-            "2 sets × Incline Biceps Curl — 8–15 reps — 2 min rest",
-            "2 sets × Chin-Ups — 8–15 reps — 2 min rest",
-          ],
-          proTip: "4 sets of weighted pull-ups is the strength foundation. Add 2.5kg every session you complete all reps cleanly.",
-        },
-        {
-          title: "PULL 3 — Normal",
-          sets: "2–4",
-          reps: "3–15 reps",
-          rest: "2–5 min",
-          intensity: "Normal",
-          cues: [
-            "4 sets × Dragon Flag Reps — 3–8 reps — 5 min rest",
-            "2 sets × Chest to Bar Pull-Ups — 5–10 reps — 3 min rest",
-            "2 sets × L-Sit Pull-Ups — 5–10 reps — 3 min rest",
-            "2 sets × Pull-Ups — 8–15 reps — 2 min rest",
-            "2 sets × Face Pull — 8–15 reps — 2 min rest",
-          ],
-          proTip: "Dragon flags are a full posterior chain movement. Keep the body rigid throughout — no piking at the hips.",
-        },
-        {
-          title: "PULL 3 — Hard",
-          sets: "2–4",
-          reps: "5–10 reps",
-          rest: "2–5 min",
-          intensity: "Hard",
-          cues: [
-            "4 sets × Full Front Lever Raises — 5–10 reps — 5 min rest",
-            "2 sets × Advanced Tuck Front Lever Raises — 5–10 reps — 3 min rest",
-            "2 sets × Wide Grip Pull-Ups — 5–10 reps — 3 min rest",
-            "2 sets × Impossible Dips on Straight Bar — 8–15 reps — 2 min rest",
-            "2 sets × Pelican Biceps Curl — 8–15 reps — 2 min rest",
-          ],
-          proTip: "Full front lever raises are the premium exercise — 4 sets here means this session is high CNS demand. Sleep and nutrition must be optimal the day before.",
-        },
-      ],
-    },
-    {
-      name: "🎯 Isolation Pull — Lats, Rear Delts & Biceps",
-      tag: "Targeted Muscle Work",
-      duration: "Use as needed",
-      icon: "🎯",
-      description: "Isolated workouts targeting specific muscle groups. Use these when you want to bring up a weak point or add extra volume to a specific area.",
-      exercises: [
-        {
-          title: "Isolation — Lats Focus",
-          sets: "2",
-          reps: "3–15 reps",
-          rest: "2–5 min",
-          intensity: "Targeted",
-          cues: [
-            "2 sets × Full Front Lever Raises — 3–8 reps — 5 min rest",
-            "2 sets × Dragon Flag Reps — 3–8 reps — 5 min rest",
-            "2 sets × Tuck Front Lever Pull-Ups — 5–10 reps — 3 min rest",
-            "2 sets × L-Sit Pull-Ups — 5–10 reps — 3 min rest",
-            "2 sets × Wide Grip Pull-Ups — 8–15 reps — 2 min rest",
-          ],
-          proTip: "This session targets the lat engagement pattern specific to the front lever. The combination of raises and pull-ups hits all angles of lat activation.",
-        },
-        {
-          title: "Isolation — Rear Delts Focus",
-          sets: "2",
-          reps: "5–20 reps",
-          rest: "2–5 min",
-          intensity: "Targeted",
-          cues: [
-            "2 sets × Tuck Front Lever Pull-Ups — 5–10 reps — 5 min rest",
-            "2 sets × Advanced Tuck Front Lever Raises — 5–10 reps — 5 min rest",
-            "2 sets × Chest to Bar Pull-Ups — 5–10 reps — 3 min rest",
-            "2 sets × Face Pull — 5–10 reps — 3 min rest",
-            "2 sets × Wide Grip Australian Pull-Ups — 10–20 reps — 2 min rest",
-          ],
-          proTip: "Rear deltoid strength is critical for scapular retraction — the #2 technical priority in the front lever. Never skip rear delt work.",
-        },
-        {
-          title: "Isolation — Biceps Focus",
-          sets: "2",
-          reps: "5–20 reps",
-          rest: "2–5 min",
-          intensity: "Targeted",
-          cues: [
-            "2 sets × Back Lever Touch Hold — 8–15s — 5 min rest",
-            "2 sets × Pelican Biceps Curl — 5–10 reps — 5 min rest",
-            "2 sets × Close Grip Chin-Ups — 8–15 reps — 3 min rest",
-            "2 sets × Incline Biceps Curl — 8–15 reps — 3 min rest",
-            "2 sets × Commando Pull-Ups — 10–20 reps — 2 min rest",
-          ],
-          proTip: "Pelican curls are the most effective bodyweight biceps exercise. The stretch at the bottom is extreme — start very light and progress slowly to avoid bicep tendon issues.",
-        },
-      ],
-    },
-    {
-      name: "⚡ Specific Pull — Muscle-Up & Front Lever Sessions",
-      tag: "Skill-Specific Training",
-      duration: "Choose your focus",
-      icon: "⚡",
-      description: "Dedicated skill sessions for muscle-up and front lever. Use these as standalone sessions or as your primary training block. Choose based on your current goal.",
-      exercises: [
-        {
-          title: "Specific 1 — Muscle-Up Focus",
-          sets: "2–5",
-          reps: "3–10 reps",
-          rest: "3–5 min",
-          intensity: "High Skill",
-          cues: [
-            "5 sets × Muscle-Ups — 3–8 reps — 5 min rest",
-            "5 sets × Chest to Bar Pull-Ups — 3–8 reps — 5 min rest",
-            "2 sets × Impossible Dips on Straight Bar → L-Sit Pull-Ups — MAX — 3 min rest",
-          ],
-          proTip: "This session is pure muscle-up specificity. The chest-to-bar pull-ups reinforce the pulling height needed for the muscle-up transition.",
-        },
-        {
-          title: "Specific 1 — Front Lever Focus",
-          sets: "2–5",
-          reps: "5–10 reps",
-          rest: "3–5 min",
-          intensity: "High Skill",
-          cues: [
-            "5 sets × Full Front Lever Kicks — 5–10s — 5 min rest",
-            "5 sets × Tuck Front Lever Pull-Ups — 5–10 reps — 5 min rest",
-            "2 sets × Tuck Front Lever Raises — MAX reps — 3 min rest",
-          ],
-          proTip: "Full front lever kicks are attempts — treat each second as maximum effort. The tuck pull-ups directly build the pulling pattern for full lever rows.",
-        },
-        {
-          title: "Specific 2 — Muscle-Up Focus",
-          sets: "2–5",
-          reps: "5–10 reps",
-          rest: "3–5 min",
-          intensity: "High Skill",
-          cues: [
-            "5 sets × Chest to Bar Pull-Ups — 5–10 reps — 5 min rest",
-            "5 sets × Impossible Dips on Straight Bar — 5–10 reps — 5 min rest",
-            "2 sets × Weighted Pull-Ups — 5–10 reps — 3 min rest",
-          ],
-          proTip: "Volume-focused muscle-up session. The weighted pull-ups at the end build the absolute strength that makes explosive muscle-ups easier.",
-        },
-        {
-          title: "Specific 2 — Front Lever Focus",
-          sets: "2–5",
-          reps: "5–10 reps",
-          rest: "3–5 min",
-          intensity: "High Skill",
-          cues: [
-            "5 sets × Full Front Lever Raises — 5–10 reps — 5 min rest",
-            "5 sets × Advanced Tuck Front Lever Raises — 5–10 reps — 5 min rest",
-            "2 sets × Dragon Flag Reps — MAX reps — 3 min rest",
-          ],
-          proTip: "Double raises session — this is the highest volume front lever-specific workout. Only do this when fully recovered. Sleep 8+ hours the night before.",
-        },
-        {
-          title: "Specific 3 — Muscle-Up + Front Lever Combined",
-          sets: "2–3",
-          reps: "5–10 reps",
-          rest: "2–5 min",
-          intensity: "Combined",
-          cues: [
-            "3 sets × Full Front Lever Kicks — 5–10s — 5 min rest",
-            "3 sets × Chest to Bar Pull-Ups — 5–10 reps — 5 min rest",
-            "2 sets × Tuck Front Lever Pull-Ups — 5–10 reps — 3 min rest",
-            "2 sets × Impossible Dips on Straight Bar — 5–10 reps — 3 min rest",
-            "2 sets × Tuck Front Lever Raises — MAX reps — 2 min rest",
-          ],
-          proTip: "The combined session trains both skills in one workout. Lever work first (when CNS is fresh), muscle-up work second. Never reverse this order.",
-        },
-      ],
-    },
-  ],
-  cooldown: leverCooldown,
-  benefits: [
-    "Master all front lever variations & progressions — full technique",
-    "Front lever pull-ups — technique breakdown included",
-    "Pull-up mastery — every grip, variation & loading method",
-    "Follow the program OR build your own — full exercise library + training methods included",
-    "🌟 Bonus: One arm pull-up progression (full technique guide)",
-    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
-  ],
-  stripeUrl: "https://buy.stripe.com/4gM4gB76V2U973dgZT3ZK0m",
-};
-
-const hybridAthlete: Program = {
-  id: "hybrid-athlete",
-  title: "Hybrid Athlete",
-  subtitle: "Gym guys skip skills. Calisthenics guys skip strength. This fixes both — if you can handle it.",
-  tagline: "Build serious muscle with barbells while mastering elite bodyweight skills.",
-  level: "Intermediate",
-  levelColor: "#a855f7",
-  category: "hybrid",
-  categoryGroup: "HYBRID",
-  price: "57",
-  icon: "💪",
-  glowColor: "rgba(168,85,247,0.15)",
-  dualTrack: false,
-  goals: [
-    "Fuse calisthenics skill work with barbell/dumbbell hypertrophy",
-    "Build the 'athlete physique' — functional AND aesthetic",
-    "Progress planche or front lever alongside strength gains",
-    "4 structured training days with intelligent periodization",
-  ],
-  mindset: "The hybrid athlete doesn't choose between skill and strength — they pursue both. This requires more intelligent programming because the two systems can conflict. Skill work comes first, always. Fatigue is the enemy of skill acquisition. Treat your nervous system like the high-performance engine it is.",
-  weekStructure: "4 sessions/week. Day 1 (Upper Skill + Push Strength) · Day 2 (Lower Power + Plyo) · Day 3 (Upper Pull + Lever Work) · Day 4 (Full Body Accessory + Hypertrophy Finish).",
-  warmup: [
-    { name: "Dynamic Wrist Protocol", duration: "3 min", notes: "Circles, push stretches, extension holds. Full protocol for barbell + skill combined load." },
-    { name: "Shoulder Band Circuit", duration: "3×15 each", notes: "Pull-aparts, face pulls, Y-T-W. Primes the rotator cuff for heavy pressing." },
-    { name: "Hollow Body + Arch Hold Alternating", duration: "4×20s each", notes: "Programs the core for both lever and barbell bracing patterns." },
-    { name: "Planche/Lever 30% Activation", duration: "3×4s", notes: "Just activate the pattern. Not a working set — neural priming only." },
-    { name: "Hip Flexor + Hamstring Flow", duration: "4 min", notes: "Lunge matrix into RDL stretch. Prepares for deadlift/squat carryover." },
-  ],
-  phases: [
-    {
-      name: "Block 1 — Skill Priority",
-      tag: "Weeks 1–4",
-      duration: "4 weeks",
-      icon: "🎯",
-      description: "Skills first, strength second. Your CNS is freshest at the start. Never reverse this order.",
-      exercises: [
-        {
-          title: "Planche / Front Lever Skill Work",
-          sets: "6",
-          reps: "6×5s (max quality)",
-          rest: "2.5 min",
-          intensity: "Maximum Skill",
-          cues: [
-            "Rule #1: choose ONE skill per session — planche OR lever, never both",
-            "Rule #2: this always comes FIRST in the session — before any weighted work",
-            "Rule #3: if rep quality drops below 7/10, stop the set immediately",
-            "Planche track: follow your current phase (lean → tuck → adv. tuck → straddle)",
-            "Lever track: follow your current phase (tuck → adv. tuck → straddle → full)",
-            "Log format: date | position | hold time | quality /10 | next session goal",
-            "Rest quality: walk around between sets — do not sit down. Active recovery only",
-            "Progression rule: 3 sessions at 7s+ quality = advance to next position",
-            "Deload indicator: if quality drops 2 sessions in a row, take an extra rest day",
-          ],
-          proTip: "Film every skill session from the side. Compare Week 1 to Week 4 side by side. The visual feedback is worth more than any coaching cue — you will see things you cannot feel.",
-        },
-        {
-          title: "Weighted Pull-Ups",
-          sets: "5",
-          reps: "5 reps @ 70–80% 1RM",
-          rest: "2.5 min",
-          intensity: "Strength",
-          cues: [
-            "Weight setup: belt is most stable, vest second, dumbbell between legs is least stable",
-            "Starting position: full dead hang — scapulas elevated, arms fully extended",
-            "Initiation: depress scapulas FIRST before bending elbows — this is the front lever pattern",
-            "Pull path: lead with the chest, not the chin — elbows drive straight down",
-            "Top position: chin clearly over bar — do not tilt head to cheat",
-            "Descent: exactly 3 seconds, controlled — fight gravity the entire way down",
-            "Bottom: return to full dead hang — do not bounce or use stretch reflex",
-            "Variation A: neutral grip — easier on elbows, slightly different lat angle",
-            "Variation B: wide overhand grip — more lat emphasis, closer to lever position",
-            "Variation C: rings — hardest, builds stabilization strength that transfers to lever",
-            "Progression: add 2.5kg every time you complete all 5 sets of 5 cleanly",
-          ],
-          proTip: "Weighted pull-up strength is the single best predictor of front lever progress outside of direct lever work. A +20% increase in your weighted pull-up max will produce a measurable improvement in your front lever hold time.",
-        },
-        {
-          title: "Overhead Press (Barbell or DB)",
-          sets: "4",
-          reps: "6 reps @ 75% 1RM",
-          rest: "2 min",
-          intensity: "Strength",
-          cues: [
-            "Bar starts at collar bone, press in straight vertical line",
-            "Brace core like a planche lean — same tension",
-            "Lock out at top with shoulder blades squeezed",
-            "Controlled descent — 2 seconds down",
-          ],
-          proTip: "The overhead press builds the anterior deltoid strength required for planche lean. These exercises are not separate — they reinforce each other.",
-        },
-      ],
-    },
-    {
-      name: "Block 2 — Hybrid Power",
-      tag: "Weeks 5–8",
-      duration: "4 weeks",
-      icon: "⚡",
-      description: "Increase intensity across both skill and strength work simultaneously. This is where the hybrid athlete starts to emerge.",
-      exercises: [
-        {
-          title: "Muscle-Up to Dip Combination",
-          sets: "5",
-          reps: "3–5 reps (quality)",
-          rest: "3 min",
-          intensity: "Power",
-          cues: [
-            "Explosive pull → transition → controlled dip",
-            "This is a power-skill movement — rest fully",
-            "On rings: more skill transfer, harder stabilization",
-            "On bar: more power output, easier stabilization",
-          ],
-          proTip: "Muscle-ups on rings are arguably the most impressive bodyweight movement for an observer. If you don't have them yet, this program will get you there.",
-        },
-        {
-          title: "Deadlift (Romanian variation)",
-          sets: "4",
-          reps: "5 reps @ 80% 1RM",
-          rest: "2.5 min",
-          intensity: "Heavy",
-          cues: [
-            "Hip hinge — push hips back first",
-            "Bar stays in contact with legs throughout",
-            "Neutral spine maintained — any rounding = stop",
-            "Squeeze glutes at lockout — don't hyperextend",
-          ],
-          proTip: "The RDL builds posterior chain strength that directly translates to front lever holding power. This is not optional — it is synergistic.",
-        },
-      ],
-    },
-  ],
-  gymPhases: [
-    {
-      name: "Gym Track — Block 1 (Strength Foundation)",
-      tag: "Weeks 1–4",
-      duration: "4 weeks",
-      icon: "🏋️",
-      description: "Full equipment available. Prioritize compound movements loaded progressively. Skills still come first.",
-      exercises: [
-        {
-          title: "Barbell Bench Press",
-          sets: "5",
-          reps: "5 reps @ 75% 1RM",
-          rest: "3 min",
-          intensity: "Heavy",
-          cues: [
-            "Arch + retract scapulas — create a stable platform",
-            "Bar touches sternum — not high chest",
-            "Drive feet into floor throughout",
-            "2-second pause at bottom optional for max chest activation",
-          ],
-          proTip: "The bench press and planche lean work the same anterior deltoid angle. Your planche lean will improve as your bench press increases.",
-        },
-        {
-          title: "Weighted Ring Dips",
-          sets: "4",
-          reps: "6 reps",
-          rest: "2.5 min",
-          intensity: "Strength",
-          cues: [
-            "Rings turned out 30° at bottom",
-            "Full range — chest between hands at bottom",
-            "Control the rings — do not let them splay",
-            "Lean forward slightly to engage chest more",
-          ],
-          proTip: "Ring dips are 3× harder than bar dips due to stabilization demand. The shoulder stability you build here directly transfers to all skills.",
-        },
-        {
-          title: "Weighted Push-Ups",
-          sets: "4",
-          reps: "8–10 reps",
-          rest: "90s",
-          intensity: "Strength-Hypertrophy",
-          cues: [
-            "Add weight via plate on back, weighted vest, or partner resistance",
-            "Hands shoulder-width, slight finger rotation outward (30°) — planche-specific angle",
-            "Lower chest to floor over 2 seconds — full range mandatory",
-            "Press up explosively — lock out at top with scapular protraction",
-            "Progression: start with 10kg, add 2.5kg every session you complete all reps cleanly",
-            "Advanced variation: weighted pseudo planche push-ups — hands rotated, forward lean",
-          ],
-          proTip: "Weighted push-ups with slight hand rotation directly transfer to planche lean strength. They build the specific anterior deltoid and serratus anterior pattern that no barbell exercise replicates.",
-        },
-        {
-          title: "Weighted Pull-Ups",
-          sets: "5",
-          reps: "5 reps @ 70–80% 1RM",
-          rest: "2.5 min",
-          intensity: "Strength",
-          cues: [
-            "Add weight via belt (most stable), vest, or dumbbell between legs",
-            "Start from dead hang — scapulas fully elevated, arms locked",
-            "Initiate by depressing scapulas before bending elbows — this is the lever pattern",
-            "Pull chest to bar — lead with chest, not chin",
-            "3-second descent — fight gravity the entire way",
-            "Variation: wide grip for lat width, neutral grip for lat thickness, rings for stabilization",
-            "Progression: add 2.5kg every session you hit all 5 sets of 5 cleanly",
-          ],
-          proTip: "Weighted pull-up strength is the single best predictor of front lever progress. Every +10% on your weighted pull-up max produces a measurable improvement in lever hold time.",
-        },
-        {
-          title: "Weighted Bar Dips",
-          sets: "4",
-          reps: "6–8 reps",
-          rest: "2 min",
-          intensity: "Strength",
-          cues: [
-            "Use parallel bars — add weight via belt or vest",
-            "Lower until upper arms are parallel to floor — full range builds more chest",
-            "Lean slightly forward (15°) to shift emphasis toward chest vs triceps",
-            "Press up to full lockout — squeeze chest at top",
-            "Variation: upright torso = more tricep. Forward lean = more chest/anterior delt",
-            "Ring dips alternative: rings dips are significantly harder — use lighter weight",
-          ],
-          proTip: "Weighted dips are the most direct strength carryover to planche push-ups and maltese work. The forward lean at the bottom of a weighted dip mimics the planche push-up bottom position exactly.",
-        },
-        {
-          title: "Cable Face Pull",
-          sets: "4",
-          reps: "15 reps",
-          rest: "60s",
-          intensity: "Accessory",
-          cues: [
-            "High pulley attachment at face height",
-            "Pull to ear level — not face level",
-            "External rotate at the top: thumbs point behind you",
-            "This is shoulder armor — never skip it",
-          ],
-          proTip: "Every pushing-dominant calisthenics program needs pulling accessory work. Face pulls prevent the internal rotation imbalance that leads to shoulder impingement.",
-        },
-      ],
-    },
-    {
-      name: "Gym Track — Block 2 (Hypertrophy Finish)",
-      tag: "Weeks 5–8",
-      duration: "4 weeks",
-      icon: "💥",
-      description: "Higher volume, shorter rest. The strength base from Block 1 now gets converted into visible muscle.",
-      exercises: [
-        {
-          title: "Incline DB Press",
-          sets: "4",
-          reps: "10–12 reps",
-          rest: "90s",
-          intensity: "Hypertrophy",
-          cues: [
-            "30° incline — not 45° (reduces shoulder stress)",
-            "Squeeze chest at top — elbows slightly in",
-            "Full stretch at bottom with 2-second pause",
-            "This hits the upper chest region critical for aesthetics",
-          ],
-          proTip: "Upper chest development is what creates the 'shelf' look. Combined with planche work, this builds the complete chest aesthetic.",
-        },
-        {
-          title: "Lat Pulldown (V-Bar)",
-          sets: "4",
-          reps: "10–12 reps",
-          rest: "90s",
-          intensity: "Hypertrophy",
-          cues: [
-            "Pull to chest — elbows to sides, not behind",
-            "Slight lean back (15°) to align with lat fiber direction",
-            "Full extension at top — feel the lat stretch",
-            "This is direct lever carryover in a controlled setting",
-          ],
-          proTip: "The V-bar creates a pulling angle very similar to front lever mechanics. Use this as supplementary lever work when your skill work volume is lower.",
-        },
-      ],
-    },
-    {
-      name: "Phase — HSPU & 90° Push-Up Progression",
-      tag: "Weeks 9–12",
-      duration: "4 weeks",
-      icon: "🔥",
-      description: "Handstand push-ups and 90° push-ups are the pinnacle of overhead and horizontal pressing strength. This phase builds both skills systematically.",
-      exercises: [
-        {
-          title: "Handstand Push-Up — Full Technique",
-          sets: "4",
-          reps: "4–6 reps",
-          rest: "2 min",
-          intensity: "Strength",
-          cues: [
-            "Wall HSPU: kick into handstand against wall, lower head to floor over 3 seconds",
-            "Head position: slightly in front of hands — creates stable tripod base",
-            "Lower until head touches floor — full range is mandatory for max shoulder development",
-            "Press back up explosively — full lockout at top",
-            "Freestanding HSPU: same mechanics but requires balance — train wall version first",
-          ],
-          proTip: "Wall HSPU builds more overhead pressing strength than any barbell exercise at the same relative intensity. 3 sets of 5 reps per week will transform your shoulder development.",
-          progression: [
-            { label: "Pike PU", emoji: "▽", active: false },
-            { label: "Wall HSPU", emoji: "🤸", active: true },
-            { label: "Free HSPU", emoji: "⚡", active: false },
-            { label: "90° PU", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "90° Push-Up — Full Technique & Progression",
-          sets: "3",
-          reps: "2–4 reps",
-          rest: "3 min",
-          intensity: "Elite",
-          cues: [
-            "The 90° push-up requires handstand pressing strength + planche-level lean simultaneously",
-            "Step 1 — Pike push-ups: build shoulder strength at various angles",
-            "Step 2 — Elevated pike push-ups: feet on chair, steeper angle",
-            "Step 3 — Wall HSPU mastery: build full overhead pressing strength first",
-            "Step 4 — 90° position hold: lean forward until shoulders are at 90° over hands",
-            "Step 5 — 90° push-up: from the hold, lower and press — this is the full movement",
-            "Full technique breakdown with exact body position and hand placement included",
-          ],
-          proTip: "The 90° push-up is where handstand strength meets planche lean. Even holding the 90° position for 3 seconds is elite-level output. Build the hold before attempting the push-up.",
-          progression: [
-            { label: "HSPU", emoji: "🤸", active: false },
-            { label: "90° Hold", emoji: "📐", active: true },
-            { label: "90° PU", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Phase — One Arm Pull-Up Progression",
-      tag: "Weeks 9–12 (parallel track)",
-      duration: "4 weeks",
-      icon: "🏹",
-      description: "The one arm pull-up is one of the most elite upper body pulling movements. This phase runs in parallel with pressing work — train it on pull days.",
-      exercises: [
-        {
-          title: "One Arm Pull-Up — Full Technique Progression",
-          sets: "5",
-          reps: "3–5 reps each arm",
-          rest: "3 min",
-          intensity: "Elite",
-          cues: [
-            "Prerequisite: comfortable with 8+ strict pull-ups minimum",
-            "Step 1 — Archer pull-ups: one arm pulls, other arm straight on bar for balance",
-            "Step 2 — Towel pull-ups: pull with one arm, other hand grips towel for minimal assist",
-            "Step 3 — One arm negatives: jump to top position, lower on one arm over 5 seconds",
-            "Step 4 — Assisted OA pull-up: band or foot on bar for minimal support",
-            "Step 5 — Full one arm pull-up: dead hang, single explosive pull to chin over bar",
-            "Full technique breakdown with grip position, elbow path, and lat engagement cues",
-          ],
-          proTip: "The one arm pull-up is 50% strength, 50% neuromuscular coordination. The negatives (step 3) are the most important step — 4 weeks of consistent negatives will build more OAP-specific strength than anything else.",
-          progression: [
-            { label: "Archer PU", emoji: "🏹", active: true },
-            { label: "Towel PU", emoji: "🪢", active: false },
-            { label: "Negatives", emoji: "⬇️", active: false },
-            { label: "1-Arm PU", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-        {
-      name: "⭐ BONUS — One Arm Handstand Progression",
-      tag: "Optional / Ongoing",
-      duration: "Ongoing",
-      icon: "🌟",
-      description: "The one arm handstand is the pinnacle of balance and pressing strength. This bonus block gives you the full progression system to work toward it alongside your main program.",
-      exercises: [
-        {
-          title: "Handstand Hold Mastery (prerequisite)",
-          sets: "5",
-          reps: "5×15–20s",
-          rest: "90s",
-          intensity: "Foundation",
-          cues: [
-            "You need a solid 30s+ freestanding handstand before starting OAH",
-            "Work on this during your off days — not in place of skill work",
-            "Focus on straight body alignment: ears between arms, hollow body",
-            "Practice pirouette exits for safety",
-          ],
-          proTip: "The one arm handstand requires an extremely stable two-arm handstand. If you wobble in a two-arm HS, you are not ready. This is not a shortcut — it is a prerequisite.",
-        },
-        {
-          title: "One Arm Handstand — Step by Step Progression",
-          sets: "4",
-          reps: "3–5 attempts each side",
-          rest: "2 min",
-          intensity: "Bonus Skill",
-          cues: [
-            "Step 1 — Straddle OAH: wide leg split reduces balance demand significantly",
-            "Step 2 — Tuck OAH: one leg tucked, more centered mass",
-            "Step 3 — OAH with finger assist: other hand touches floor lightly with fingertips",
-            "Step 4 — OAH negative: kick into two-arm HS, slowly shift weight to one arm",
-            "Step 5 — Free OAH: full balance on one arm, other arm tucked or extended",
-            "Full technique breakdown with exact hand position, finger spread, and body alignment cues",
-          ],
-          proTip: "The one arm handstand is a 6–18 month journey depending on your starting level. Do not rush steps. The straddle OAH alone will take most athletes 2–3 months to stabilize.",
-          progression: [
-            { label: "Straddle OAH", emoji: "↔️", active: true },
-            { label: "Tuck OAH", emoji: "🧘", active: false },
-            { label: "Finger Assist", emoji: "👆", active: false },
-            { label: "Free OAH", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-  ],
-  cooldown: [
-    { name: "Hip Flexor Couch Stretch", duration: "2 min each", notes: "Essential after lower body gym work. Back foot on wall, front foot forward. Hold and breathe." },
-    { name: "Thoracic Extension over Foam Roller", duration: "3 min", notes: "Roll from mid to upper back. Pause at each segment. Decompresses spine after heavy loading." },
-    { name: "Shoulder Sleeper Stretch", duration: "90s each", notes: "Lying on side. Gently press forearm toward floor. Targets posterior capsule tightness." },
-    ...sharedCooldown.slice(4),
-  ],
-  benefits: [
-    "Gym-based strength + calisthenics skill fusion — no skill prerequisite",
-    "HSPU (Handstand Push-Up) & 90° push-up — full technique",
-    "Handstand progression included",
-    "One arm pull-up progression",
-    "Progressive overload with barbells & skills",
-    "🌟 Bonus: One arm handstand & one arm push-up progression",
-    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
-  ],
-  stripeUrl: "https://buy.stripe.com/7sY7sNgHvamB3R1dNH3ZK0e",
-};
-
-const fullHypertrophy: Program = {
-  id: "hypertrophy",
-  title: "Aesthetic Physique",
-  subtitle: "The most optimized bodyweight program to build muscle — no gym, no equipment, no excuses.",
-  tagline: "100% bodyweight — the most structured system to gain muscle mass without weights. 3 levels from beginner to advanced. Adapts to your starting point.",
-  level: "From Zero",
-  levelColor: "#ec4899",
-  category: "hypertrophy",
-  categoryGroup: "HYPERTROPHY",
-  price: "25",
-  originalPrice: undefined,
-  icon: "💎",
-  glowColor: "rgba(236,72,153,0.15)",
-  badge: "BEST-SELLER ⭐",
-  dualTrack: false,
-  goals: [
-    "Build a V-taper aesthetic physique — 100% bodyweight",
-    "Structured progressive overload — beginner, intermediate & advanced tracks",
-    "Adapted for your starting point: skinny, average or overweight",
-    "Master the foundational movements: push-up, pull-up, dip, squat",
-    "Visible results in 8–12 weeks",
-  ],
-  mindset: "This program is built around one principle: mechanical tension through bodyweight progressions is enough to build a complete physique — if the program is structured correctly.\n\n100% bodyweight. No gym. No equipment beyond a pull-up bar. The exercises are push-ups, pull-ups, dips, rows, and squats — but executed with precision, progressive overload, and a structure that forces adaptation.\n\nThe program adapts to where you start. Skinny? The volume and frequency are optimized for muscle gain from a low baseline. Carrying extra weight? The progressions are structured to build strength while your body composition shifts. Everyone starts somewhere — the program meets you there.",
-  weekStructure: "4 sessions/week. Push (Mon) · Pull (Tue) · Legs (Thu) · Upper Full (Sat). Each session 45–60 min. Progressive overload: harder variation or more reps every session.",
-  warmup: [
-    { name: "Full Body Joint Mobility Flow", duration: "5 min", notes: "Neck, shoulders, hips, knees, ankles. Every joint through full pain-free range." },
-    { name: "Activation Circuit", duration: "2 rounds", notes: "10 scapular push-ups + 10 glute bridges + 10 bodyweight squats. Primes all major groups." },
-    { name: "First Working Set at 50% Effort", duration: "1 set", notes: "Always do a warm-up set before your first working set. Non-negotiable." },
-  ],
-  phases: [
-    {
-      name: "Phase 1 — Foundation Volume",
-      tag: "Weeks 1–4",
-      duration: "4 weeks",
-      icon: "📦",
-      description: "Establish movement patterns and baseline volume. Do not test your maximum — build work capacity.",
-      exercises: [
-        {
-          title: "Pike Push-Ups (No-Equipment)",
-          sets: "4",
-          reps: "10–12 reps",
-          rest: "90s",
-          intensity: "Moderate",
-          cues: [
-            "Start position: inverted V — hips as high as possible, heels on floor",
-            "Head position: head between arms, looking toward feet — not at the floor in front",
-            "Descent: lower head toward floor over 3 seconds — head nearly touches between hands",
-            "Bottom pause: 1 second with head at floor level — eliminates elastic energy",
-            "Press: push back up explosively to full lockout",
-            "Angle adjustment: the more vertical your torso, the more deltoid. The more horizontal, the more chest/tricep",
-            "Variation A (easier): standard pike, wide feet for stability",
-            "Variation B (moderate): feet elevated on chair — steeper angle, more deltoid",
-            "Variation C (hard): feet on table, nearly vertical — approaches HSPU mechanics",
-            "Variation D (hardest): pseudo-handstand pike — lean forward, maximum deltoid",
-            "Week 4 goal: 4 sets of 12 with feet elevated — then move to Variation C",
-          ],
-          proTip: "Pike push-ups with a 3-second negative and 1-second bottom pause build as much deltoid mass as a barbell overhead press at the same rep range. The pause is the key — most people skip it and lose 40% of the stimulus.",
-          progression: [
-            { label: "Standard Pike", emoji: "▽", active: true },
-            { label: "Feet Elevated", emoji: "⬆️", active: false },
-            { label: "Pseudo-HS", emoji: "🤸", active: false },
-            { label: "Wall HSPU", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Archer Push-Ups",
-          sets: "4",
-          reps: "8 reps each side",
-          rest: "90s",
-          intensity: "Moderate-High",
-          cues: [
-            "Setup: wide hand position — working arm at shoulder width, other arm extended fully to side",
-            "Extended arm: stays fully locked — provides balance, not pushing assistance",
-            "Descent: lower toward the working (bent) arm — deep stretch at the bottom",
-            "Bottom position: chest at floor level on the working side — full range mandatory",
-            "Press: push back to center through the working arm only",
-            "Key cue: keep hips square throughout — do not rotate toward the working arm",
-            "Variation A (easier): extended hand on fist — slightly bent extended arm is OK",
-            "Variation B (standard): extended arm fully locked, flat on floor",
-            "Variation C (harder): extended arm elevated on a book — increases range on working side",
-            "Variation D (hardest): feet elevated archer push-ups — adds bodyweight",
-            "Progression toward OAP: as extended arm bends less and less, you approach one-arm push-up",
-          ],
-          proTip: "Archer push-ups provide the same deep pectoral stretch as a cable fly with the pressing strength demand of a weighted push-up. The unilateral loading is ~40% harder than regular push-ups. Master these before attempting one-arm push-ups.",
-        },
-        {
-          title: "Australian Pull-Ups (Bodyweight Row)",
-          sets: "4",
-          reps: "12–15 reps",
-          rest: "90s",
-          intensity: "Moderate",
-          cues: [
-            "Table, barbell in rack, or rings at hip height",
-            "Body straight as a plank throughout",
-            "Pull chest to bar — elbows at 45° from body",
-            "Slow negative builds the most mass here",
-          ],
-          proTip: "Elevate feet to make harder. Add a backpack with books to make harder. The progression path is almost unlimited with this movement.",
-        },
-      ],
-    },
-    {
-      name: "Phase 2 — Intensity Ramp",
-      tag: "Weeks 5–8",
-      duration: "4 weeks",
-      icon: "📈",
-      description: "Increase load, add intensification techniques (rest-pause, drop sets). This is where visible changes happen.",
-      exercises: [
-        {
-          title: "One-Arm Push-Up Progression",
-          sets: "5",
-          reps: "5–8 each side",
-          rest: "2 min",
-          intensity: "High",
-          cues: [
-            "Feet wide for balance, hand centered under chest",
-            "Descend slowly — do not let hip rotate",
-            "Use a low surface (sofa height) to make accessible",
-            "Full lockout at top, full depth at bottom",
-          ],
-          proTip: "The one-arm push-up is a strength test, not just a chest exercise. The core anti-rotation demand makes this a full-body movement.",
-        },
-      ],
-    },
-    {
-      name: "Phase 3 — Peak & Deload",
-      tag: "Weeks 9–12",
-      duration: "4 weeks",
-      icon: "🏆",
-      description: "Peak volume week (Week 9–10), then structured deload (Week 11), then test week (Week 12).",
-      exercises: [
-        {
-          title: "Pseudo Planche Push-Ups (Max Reps)",
-          sets: "3",
-          reps: "Max clean reps",
-          rest: "3 min",
-          intensity: "Max Effort",
-          cues: [
-            "This test measures your upper body strength/endurance total",
-            "Hands turned out, lean forward as far as your strength allows",
-            "Record this number to compare to Week 1",
-          ],
-          proTip: "Compare your Week 1 max to Week 12. A 50–100% improvement in reps is normal with this program. This is your proof of progress.",
-        },
-      ],
-    },
-    {
-      name: "⭐ BONUS — 90° Push-Up Progression",
-      tag: "Optional / Ongoing",
-      duration: "Ongoing",
-      icon: "🔥",
-      description: "The 90° push-up is one of the most impressive bodyweight pushing skills — combining handstand pressing strength with planche-level lean. Full technique breakdown included.",
-      exercises: [
-        {
-          title: "90° Push-Up — Full Technique & Progression",
-          sets: "4",
-          reps: "3–5 reps",
-          rest: "2.5 min",
-          intensity: "Bonus Skill",
-          cues: [
-            "Step 1 — Pike push-ups: build shoulder strength at various angles",
-            "Step 2 — Elevated pike push-ups: feet on chair, steeper angle",
-            "Step 3 — Wall handstand push-ups: full overhead pressing strength",
-            "Step 4 — Freestanding HSPU negatives: lower slowly from HS over 5 seconds",
-            "Step 5 — 90° position hold: lean forward to bring shoulders over hands at 90°",
-            "Step 6 — 90° push-up: from the hold, press — this is the full movement",
-            "Full technique breakdown with exact body position and hand placement cues",
-          ],
-          proTip: "The 90° push-up requires both handstand pressing strength AND planche-level lean. It is the intersection of two elite skills. Approach it only after mastering both independently.",
-          progression: [
-            { label: "Pike PU", emoji: "▽", active: true },
-            { label: "HSPU", emoji: "🤸", active: false },
-            { label: "90° Hold", emoji: "📐", active: false },
-            { label: "90° PU", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-    {
-      name: "⭐ BONUS — One Arm Push-Up Progression",
-      tag: "Optional / Ongoing",
-      duration: "Ongoing",
-      icon: "💪",
-      description: "The one arm push-up is a classic strength milestone that perfectly complements your hypertrophy training. Full step-by-step technique guide included.",
-      exercises: [
-        {
-          title: "One Arm Push-Up — Step by Step Technique",
-          sets: "4",
-          reps: "4–6 reps each side",
-          rest: "2 min",
-          intensity: "Bonus Skill",
-          cues: [
-            "Step 1 — Elevated OA push-up: hand on bench or sofa, feet wide for balance",
-            "Step 2 — Standard OA push-up with wide feet: floor level, feet shoulder-width apart",
-            "Step 3 — Archer push-ups: one arm extended, other arm does the push-up",
-            "Step 4 — OA push-up negatives: lower on one arm over 4 seconds, push back with two",
-            "Step 5 — Full OA push-up: one hand centered under chest, feet close together",
-            "Key cue: anti-rotation — your hips must stay square throughout the movement",
-            "Full technique breakdown with hand position, foot placement, and core tension cues",
-          ],
-          proTip: "The one arm push-up is 60% technique and 40% strength. Most people fail because of hip rotation, not lack of pressing power. Film from behind to check hip alignment on every rep.",
-          progression: [
-            { label: "Elevated", emoji: "🪑", active: true },
-            { label: "Wide Feet", emoji: "↔️", active: false },
-            { label: "Negative", emoji: "⬇️", active: false },
-            { label: "Full OA PU", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-    {
-      name: "⭐ BONUS — One Arm Pull-Up Progression",
-      tag: "Optional / Ongoing",
-      duration: "Ongoing",
-      icon: "🏹",
-      description: "The one arm pull-up is one of the most elite upper body pulling movements. Full 5-step technique progression included to take you from zero to your first clean rep.",
-      exercises: [
-        {
-          title: "One Arm Pull-Up — Full Technique Progression",
-          sets: "5",
-          reps: "3–5 reps each arm",
-          rest: "3 min",
-          intensity: "Bonus Skill",
-          cues: [
-            "Prerequisite: comfortable with pull-ups at +20kg bodyweight minimum",
-            "Step 1 — Archer pull-ups: one arm pulls, other arm straight on bar for balance",
-            "Step 2 — Towel pull-ups: pull with one arm, other hand grips towel for minimal assist",
-            "Step 3 — One arm negatives: jump to top position, lower on one arm over 5 seconds",
-            "Step 4 — Assisted OA pull-up: band around wrist or foot on bar for minimal support",
-            "Step 5 — Full one arm pull-up: dead hang, single explosive pull to chin over bar",
-            "Full technique breakdown with grip position, elbow path, and shoulder engagement cues",
-          ],
-          proTip: "The one arm pull-up requires a combination of absolute strength and neuromuscular coordination. Expect 6–12 months of focused training from a strong base. Every negative rep counts.",
-          progression: [
-            { label: "Archer PU", emoji: "🏹", active: true },
-            { label: "Towel PU", emoji: "🪢", active: false },
-            { label: "Negatives", emoji: "⬇️", active: false },
-            { label: "1-Arm PU", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Phase — HSPU & 90° Push-Up Progression",
-      tag: "Weeks 9–12",
-      duration: "4 weeks",
-      icon: "🔥",
-      description: "Handstand push-ups and 90° push-ups are the pinnacle of overhead and horizontal pressing strength. This phase builds both skills systematically.",
-      exercises: [
-        {
-          title: "Handstand Push-Up — Full Technique",
-          sets: "4",
-          reps: "4–6 reps",
-          rest: "2 min",
-          intensity: "Strength",
-          cues: [
-            "Wall HSPU: kick into handstand against wall, lower head to floor over 3 seconds",
-            "Head position: slightly in front of hands — creates stable tripod base",
-            "Lower until head touches floor — full range is mandatory for max shoulder development",
-            "Press back up explosively — full lockout at top",
-            "Freestanding HSPU: same mechanics but requires balance — train wall version first",
-          ],
-          proTip: "Wall HSPU builds more overhead pressing strength than any barbell exercise at the same relative intensity. 3 sets of 5 reps per week will transform your shoulder development.",
-          progression: [
-            { label: "Pike PU", emoji: "▽", active: false },
-            { label: "Wall HSPU", emoji: "🤸", active: true },
-            { label: "Free HSPU", emoji: "⚡", active: false },
-            { label: "90° PU", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "90° Push-Up — Full Technique & Progression",
-          sets: "3",
-          reps: "2–4 reps",
-          rest: "3 min",
-          intensity: "Elite",
-          cues: [
-            "The 90° push-up requires handstand pressing strength + planche-level lean simultaneously",
-            "Step 1 — Pike push-ups: build shoulder strength at various angles",
-            "Step 2 — Elevated pike push-ups: feet on chair, steeper angle",
-            "Step 3 — Wall HSPU mastery: build full overhead pressing strength first",
-            "Step 4 — 90° position hold: lean forward until shoulders are at 90° over hands",
-            "Step 5 — 90° push-up: from the hold, lower and press — this is the full movement",
-            "Full technique breakdown with exact body position and hand placement included",
-          ],
-          proTip: "The 90° push-up is where handstand strength meets planche lean. Even holding the 90° position for 3 seconds is elite-level output. Build the hold before attempting the push-up.",
-          progression: [
-            { label: "HSPU", emoji: "🤸", active: false },
-            { label: "90° Hold", emoji: "📐", active: true },
-            { label: "90° PU", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Phase — One Arm Pull-Up Progression",
-      tag: "Weeks 9–12 (parallel track)",
-      duration: "4 weeks",
-      icon: "🏹",
-      description: "The one arm pull-up is one of the most elite upper body pulling movements. This phase runs in parallel with pressing work — train it on pull days.",
-      exercises: [
-        {
-          title: "One Arm Pull-Up — Full Technique Progression",
-          sets: "5",
-          reps: "3–5 reps each arm",
-          rest: "3 min",
-          intensity: "Elite",
-          cues: [
-            "Prerequisite: comfortable with 8+ strict pull-ups minimum",
-            "Step 1 — Archer pull-ups: one arm pulls, other arm straight on bar for balance",
-            "Step 2 — Towel pull-ups: pull with one arm, other hand grips towel for minimal assist",
-            "Step 3 — One arm negatives: jump to top position, lower on one arm over 5 seconds",
-            "Step 4 — Assisted OA pull-up: band or foot on bar for minimal support",
-            "Step 5 — Full one arm pull-up: dead hang, single explosive pull to chin over bar",
-            "Full technique breakdown with grip position, elbow path, and lat engagement cues",
-          ],
-          proTip: "The one arm pull-up is 50% strength, 50% neuromuscular coordination. The negatives (step 3) are the most important step — 4 weeks of consistent negatives will build more OAP-specific strength than anything else.",
-          progression: [
-            { label: "Archer PU", emoji: "🏹", active: true },
-            { label: "Towel PU", emoji: "🪢", active: false },
-            { label: "Negatives", emoji: "⬇️", active: false },
-            { label: "1-Arm PU", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-        {
-      name: "⭐ BONUS — One Arm Handstand Progression",
-      tag: "Optional / Ongoing",
-      duration: "Ongoing",
-      icon: "🌟",
-      description: "Included as a bonus with this program. The OAH is a skill that complements your physique work — it builds pressing strength, balance, and creates the kind of body control that transforms your entire training.",
-      exercises: [
-        {
-          title: "Handstand Hold Mastery (prerequisite)",
-          sets: "5",
-          reps: "5×15–20s",
-          rest: "90s",
-          intensity: "Foundation",
-          cues: [
-            "You need a solid 30s+ freestanding handstand before starting OAH",
-            "Work on this during your off days — not in place of hypertrophy sessions",
-            "Focus on straight body alignment: ears between arms, hollow body",
-            "Practice pirouette exits for safety",
-          ],
-          proTip: "The one arm handstand requires an extremely stable two-arm handstand. If you wobble in a two-arm HS, you are not ready. This is not a shortcut — it is a prerequisite.",
-        },
-        {
-          title: "One Arm Handstand — Full Technique Progression",
-          sets: "4",
-          reps: "3–5 attempts each side",
-          rest: "2 min",
-          intensity: "Bonus Skill",
-          cues: [
-            "Step 1 — Straddle OAH: wide leg split reduces balance demand significantly",
-            "Step 2 — Tuck OAH: one leg tucked, more centered mass",
-            "Step 3 — OAH with finger assist: other hand touches floor with fingertips only",
-            "Step 4 — OAH negative: kick into two-arm HS, slowly shift weight to one arm",
-            "Step 5 — Free OAH: full balance on one arm, other arm tucked or extended",
-            "Full technique breakdown with exact hand position, finger spread, and body alignment",
-          ],
-          proTip: "The OAH is a 6–18 month journey. The straddle OAH alone takes most athletes 2–3 months to stabilize. Do not rush steps — each one has a purpose.",
-          progression: [
-            { label: "Straddle OAH", emoji: "↔️", active: true },
-            { label: "Tuck OAH", emoji: "🧘", active: false },
-            { label: "Finger Assist", emoji: "👆", active: false },
-            { label: "Free OAH", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-  ],
-  gymPhases: [
-    {
-      name: "Gym Track — Push Day",
-      tag: "Day 1 (Monday)",
-      duration: "60–75 min",
-      icon: "💥",
-      description: "Chest, anterior delts, triceps. Compound movement first, isolation last.",
-      exercises: [
-        {
-          title: "Flat Barbell Bench Press",
-          sets: "4",
-          reps: "8 reps @ 75% 1RM",
-          rest: "2 min",
-          intensity: "Strength-Hypertrophy",
-          cues: [
-            "Arch and retract — create maximum stability",
-            "Bar path slightly diagonal to lower sternum",
-            "Pause 1 second at chest — kills the bounce, maximizes tension",
-            "Explosive press up while maintaining control",
-          ],
-          proTip: "The 1-second pause at the bottom eliminates elastic energy and forces the pec to actually contract from a dead stop. This is the secret to chest development.",
-        },
-        {
-          title: "Cable Lateral Raise",
-          sets: "4",
-          reps: "15–20 reps",
-          rest: "60s",
-          intensity: "Isolation",
-          cues: [
-            "Single-arm cable, start with cable crossing in front of body",
-            "Raise until arm parallel to floor — no higher",
-            "Lead with the elbow — not the hand",
-            "Cable maintains tension throughout vs dumbbells (which drop off at bottom)",
-          ],
-          proTip: "Cable laterals are 2–3× more effective than dumbbell laterals for medial delt hypertrophy due to constant tension. This is the most important isolation exercise for shoulder width.",
-        },
-        {
-          title: "Tricep Rope Pushdown",
-          sets: "3",
-          reps: "15 reps",
-          rest: "60s",
-          intensity: "Isolation",
-          cues: [
-            "Split the rope at the bottom — externally rotate",
-            "Elbows stay pinned to sides throughout",
-            "Full extension at bottom — squeeze tricep hard",
-            "2-second contraction at bottom",
-          ],
-          proTip: "The lateral head of the tricep creates the 'horseshoe' appearance. Rope pushdowns are its most targeted exercise. Never skip the split-and-rotate at the bottom.",
-        },
-      ],
-    },
-    {
-      name: "Gym Track — Pull Day",
-      tag: "Day 2 (Tuesday)",
-      duration: "60–75 min",
-      icon: "🔁",
-      description: "Lats, rhomboids, rear delts, biceps. The aesthetic back that makes every other muscle look better.",
-      exercises: [
-        {
-          title: "Wide-Grip Lat Pulldown",
-          sets: "4",
-          reps: "10–12 reps",
-          rest: "90s",
-          intensity: "Hypertrophy",
-          cues: [
-            "Slight lean back (15–20°) before pulling",
-            "Pull to upper chest — not chin",
-            "Full stretch at top — let shoulder blades rise",
-            "This full range is non-negotiable for lat length",
-          ],
-          proTip: "The full stretch at the top (letting scapulas elevate) is what builds lat length and that dramatic V-taper. Most people cut this short — don't.",
-        },
-        {
-          title: "Seated Cable Row (Neutral Grip)",
-          sets: "4",
-          reps: "12 reps",
-          rest: "90s",
-          intensity: "Hypertrophy",
-          cues: [
-            "Pull to lower sternum — not belly button",
-            "Lead with the elbows pulling behind you",
-            "Squeeze rhomboids at the top — pause 1s",
-            "Control the return — 3-second negative",
-          ],
-          proTip: "Back thickness is built by heavy compound rows. Width is built by pulldowns. You need both for the complete aesthetic back.",
-        },
-        {
-          title: "EZ-Bar Curl (Slow Negative)",
-          sets: "3",
-          reps: "10 reps (4-second negative)",
-          rest: "90s",
-          intensity: "Hypertrophy",
-          cues: [
-            "Elbows stay at sides — no swinging",
-            "Curl to nose level for maximum bicep peak",
-            "4-second controlled descent — maximize eccentric",
-            "Supinate at the top for peak contraction",
-          ],
-          proTip: "The 4-second negative (eccentric) is the primary driver of bicep hypertrophy. Researchers consistently find eccentric-focused protocols produce 25–40% more growth.",
-        },
-      ],
-    },
-  ],
-  cooldown: [
-    { name: "Pec Doorframe Stretch", duration: "90s each side", notes: "Arm at 90° on doorframe, gently rotate away. Holds post-pressing are critical for anterior shoulder health." },
-    { name: "Lying Glute Figure-4 Stretch", duration: "2 min each", notes: "After leg day. Cross ankle over opposite knee. Pull the knee toward chest." },
-    { name: "Cat-Cow Spinal Flow", duration: "2 min", notes: "10 reps slow, then hold the round position for 30s. Decompresses lumbar spine after squatting/deadlifting." },
-    { name: "Standing Quad Stretch", duration: "60s each", notes: "Hold ankle behind you. Keep knees together. This also stretches hip flexors if you add forward lean." },
-    { name: "Final Breathing Protocol", duration: "3 min", notes: "Box breathing: 4s in, 4s hold, 4s out, 4s hold. Activates rest-and-digest for optimal recovery." },
-  ],
-  benefits: [
-    "The most optimized bodyweight system to build muscle mass — no weights needed",
-    "100% bodyweight — push-ups, pull-ups, dips, rows, squats",
-    "3 levels: Beginner, Intermediate & Advanced — all included",
-    "Adapts to your starting point: skinny, average or overweight",
-    "V-taper shape focus — shoulders, back, chest, arms, legs",
-    "Progressive overload built-in — every session harder than the last",
-    "No gym, no equipment (just a pull-up bar)",
-    "Training journal + full exercise library included",
-  ],
-  stripeUrl: "https://buy.stripe.com/aFadRb76V1Q5evFaBv3ZK0n",
-};
-
-// ─── PLANCHE + FRONT LEVER COMBO ─────────────────────────────────────────────
-
-const plancheLeverCombo: Program = {
-  id: "combo-planche-lever",
-  title: "Planche & Front Lever Combo",
-  subtitle: "Two skills most athletes never achieve. One program. One decision.",
-  tagline: "Push and pull mastery — the two pillars of calisthenics strength, health and performance.",
-  level: "From Zero",
-  levelColor: "#06b6d4",
-  category: "skill",
-  categoryGroup: "STRENGTH & SKILLS",
-  price: "52",
-  originalPrice: "69",
-  icon: "🔥",
-  glowColor: "rgba(6,182,212,0.15)",
-  badge: "BEST DUO",
-  goals: [
-    "Complete Planche Foundation — from zero to full planche roadmap",
-    "Complete Front Lever Mastery — all variations & progressions",
-    "Master all push-up & press variations for both skills",
-    "Pull-up mastery + One Arm Pull-Up bonus",
-    "One Arm Handstand bonus from both programs",
-  ],
-  mindset: "The planche and front lever are the two pillars of calisthenics. One tests your pushing strength, the other your pulling. Training both together isn't just about skill — it's the smartest approach for long-term shoulder health, postural balance and overall performance.\n\nMost athletes who only train pushing develop anterior shoulder dominance over time, leading to imbalances and eventual injury. Adding the front lever — a pure pulling skill — counteracts this directly. The body tension from the lever improves your planche. The protraction from the planche improves your lever. They reinforce each other at every stage.\n\nThis combo is the most efficient path to mastering both skills while building a body that performs AND stays healthy.",
-  weekStructure: "Alternate push days (planche) and pull days (lever) for maximum efficiency with minimum fatigue. This push/pull split is also the healthiest way to train — each session actively recovers the previous one.",
-  warmup: plancheFoundation.warmup,
-  phases: plancheFoundation.phases,
-  cooldown: sharedCooldown,
-  benefits: [
-    "Zero prerequisite — start from absolute zero, no sport background needed",
-    "Full Planche roadmap — every step with technique",
-    "Full Front Lever — all variations & progressions",
-    "Push/pull balance — better shoulder health, posture & longevity",
-    "Both skills reinforce each other — faster progress on both",
-    "Handstand progression included in both programs",
-    "Save $17 vs buying separately",
-    "Follow the program OR build your own — full exercise library + training methods included",
-    "🌟 Bonus: One arm pull-up + One arm handstand",
-    "Training cues and insights I've never seen written down anywhere — 8 years in the making",
-  ],
-  bundlePrograms: [plancheFoundation, frontLeverMastery],
-  stripeUrl: "https://buy.stripe.com/cNi5kF3UJdyNfzJ8tn3ZK0p",
-};
-
-// ─── BASIC SKILLS ─────────────────────────────────────────────────────────────
-
-const basicSkills: Program = {
-  id: "basic-skills",
-  title: "Basic Skills",
-  subtitle: "The skills most people never learn — mastered from zero.",
-  tagline: "90° push-up, one arm pull-up, pistol squat, human flag, back lever, muscle-up, handstand & HSPU, L-sit, V-sit, semi planche & elbow lever. Full progressions from scratch.",
-  level: "From Zero",
-  levelColor: "#a855f7",
-  category: "basic-skills",
-  categoryGroup: "BASIC SKILLS",
-  price: "27",
-  icon: "⚡",
-  glowColor: "rgba(168,85,247,0.15)",
-  goals: [
-    "Master the 90° push-up — full technique & progression",
-    "Achieve one arm pull-up from zero",
-    "Own the pistol squat — full range, each leg",
-    "Learn human flag & back lever mechanics",
-    "Complete muscle-up on bar & rings",
-    "Build a solid freestanding handstand + HSPU",
-    "Master L-sit & V-sit — full compression progression",
-    "Unlock semi planche (planche lean) & elbow lever",
-    "🌟 Bonus: One arm handstand full roadmap",
-  ],
-  mindset: "These are the skills that separate athletes from beginners. Not because they're impossible — but because most people never train them with a real system. Each skill here has a complete progression from absolute zero to full movement. No prerequisites. Just consistency and the right steps.",
-  weekStructure: "3–4 sessions/week. Each session targets 2–3 skills. Alternate push and pull days for maximum recovery. Skills are trained at the start of the session when the nervous system is fresh.",
-  warmup: [
-    { name: "Joint Mobility Flow", duration: "3 min", notes: "Wrists, elbows, shoulders, hips, ankles. Full range on every joint." },
-    { name: "Dead Hang", duration: "3×20s", notes: "Decompress the spine. Engage scapulas at the top of each hang." },
-    { name: "Hollow Body Hold", duration: "3×20s", notes: "The foundation of all bodyweight skill tension." },
-    { name: "Scapular Push-Ups", duration: "2×12", notes: "Activate serratus anterior before any pushing skill." },
-  ],
-  phases: [
-    {
-      name: "Phase 1 — Beginner Foundations",
-      tag: "Weeks 1–4",
-      duration: "4 weeks",
-      icon: "🏗️",
-      description: "Build the foundational strength patterns for each skill. No rushing — own each step before moving on.",
-      exercises: [
-        {
-          title: "90° Push-Up Progression",
-          sets: "4",
-          reps: "3–5 reps / step",
-          rest: "2 min",
-          intensity: "Technical",
-          cues: [
-            "Step 1 — Pike push-ups: build shoulder strength at various angles, 3s negative",
-            "Step 2 — Elevated pike push-ups: feet on chair, steeper angle, approach HSPU mechanics",
-            "Step 3 — Wall handstand push-ups: full overhead pressing strength, control descent",
-            "Step 4 — Freestanding HSPU negatives: lower from HS over 5s, kick up to reset",
-            "Step 5 — 90° position hold: lean forward until shoulders are over hands at 90° angle",
-            "Step 6 — 90° push-up: from the hold, press explosively — this is the full movement",
-          ],
-          proTip: "The 90° push-up requires both handstand pressing strength AND planche-level lean. It is the intersection of two elite skills — approach it only after mastering both HSPU and planche lean independently.",
-          progression: [
-            { label: "Pike PU", emoji: "▽", active: true },
-            { label: "HSPU", emoji: "🤸", active: false },
-            { label: "90° Hold", emoji: "📐", active: false },
-            { label: "90° PU", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Pistol Squat — Full Progression",
-          sets: "4",
-          reps: "5 each side",
-          rest: "90s",
-          intensity: "Moderate",
-          cues: [
-            "Step 1 — Assisted pistol: hold a pole or TRX, focus on depth and balance",
-            "Step 2 — Box pistol: squat down to a low box, removes balance demand",
-            "Step 3 — Slow negative pistol: 5s descent to full depth, stand with two legs",
-            "Step 4 — Full pistol: one leg, full depth, controlled ascent — no swinging",
-            "Key: keep heel flat on floor throughout — ankle flexibility is often the limiter",
-            "Lean slightly forward — not upright — this is correct pistol mechanics",
-          ],
-          proTip: "Most people fail pistols because of ankle mobility, not leg strength. 2 minutes of ankle stretching daily for 4 weeks fixes 80% of the problem.",
-          progression: [
-            { label: "Assisted", emoji: "🤝", active: true },
-            { label: "Box Pistol", emoji: "📦", active: false },
-            { label: "Negative", emoji: "⬇️", active: false },
-            { label: "Full Pistol", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "One Arm Pull-Up — Foundation",
-          sets: "5",
-          reps: "5 each side",
-          rest: "2 min",
-          intensity: "High",
-          cues: [
-            "Step 1 — Weighted pull-ups: build to +20kg for 5 clean reps — this is the strength base",
-            "Step 2 — Archer pull-ups: one arm straight, one arm pulls — load shifts progressively",
-            "Step 3 — Assisted OAP: other hand on wrist for support, reduce assistance each week",
-            "Step 4 — Negative OAP: jump to top position, lower on one arm over 5 seconds",
-            "Full lockout at top, full dead hang at bottom — no half reps counted",
-          ],
-          proTip: "The one arm pull-up requires roughly 1.5x bodyweight pulling strength. If you can't do a strict pull-up with +40% bodyweight added, you're not ready for OAP training. Build the base first.",
-          progression: [
-            { label: "Weighted PU", emoji: "🏋️", active: true },
-            { label: "Archer PU", emoji: "🏹", active: false },
-            { label: "Assisted", emoji: "🤝", active: false },
-            { label: "OAP", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Phase 2 — Intermediate Skills",
-      tag: "Weeks 5–10",
-      duration: "6 weeks",
-      icon: "⚡",
-      description: "Introduce human flag, back lever and muscle-up. These skills require consistent tension and precise technique.",
-      exercises: [
-        {
-          title: "Human Flag — Full Progression",
-          sets: "4",
-          reps: "3–8s hold",
-          rest: "2 min",
-          intensity: "Maximum",
-          cues: [
-            "Step 1 — Tuck flag: both knees pulled to chest, hold for 5s",
-            "Step 2 — One leg extended: one leg straight, one tucked — build lateral chain strength",
-            "Step 3 — Straddle flag: both legs wide apart, reduces lever length",
-            "Step 4 — Full flag: legs together, perfectly horizontal — the complete movement",
-            "Push arm pushes DOWN into the pole, pull arm pulls UP — both forces simultaneously",
-            "Core: full body tension from fingertips to toes — any break collapses the hold",
-          ],
-          proTip: "The human flag is 70% lateral chain strength and 30% technique. The side plank is your best accessory — if you can't hold a side plank for 60s, start there.",
-          progression: [
-            { label: "Tuck", emoji: "🧘", active: true },
-            { label: "One Leg", emoji: "📐", active: false },
-            { label: "Straddle", emoji: "↔️", active: false },
-            { label: "Full Flag", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Back Lever — Full Progression",
-          sets: "5",
-          reps: "5–8s hold",
-          rest: "2 min",
-          intensity: "High",
-          cues: [
-            "Step 1 — Skin the cat: rotate around the bar until body hangs below, build shoulder flexibility",
-            "Step 2 — Tuck back lever: hips bent, knees to chest, hold 5s",
-            "Step 3 — Pike back lever: legs straight but hips at 90°",
-            "Step 4 — Full back lever: body perfectly horizontal, arms straight",
-            "Shoulders: fully extended overhead — not retracted. This is a shoulder flexibility movement",
-            "Engage lats and glutes simultaneously — prevents hip sag",
-          ],
-          proTip: "The back lever requires more shoulder flexibility than strength. If you can't comfortably reach behind your back with both arms, spend 4 weeks on shoulder extension mobility before starting.",
-          progression: [
-            { label: "Skin the Cat", emoji: "🔄", active: true },
-            { label: "Tuck BL", emoji: "🧘", active: false },
-            { label: "Pike BL", emoji: "📐", active: false },
-            { label: "Full BL", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Muscle-Up — Bar & Rings",
-          sets: "5",
-          reps: "3–5 reps",
-          rest: "2 min",
-          intensity: "Explosive",
-          cues: [
-            "Step 1 — High pull-ups: pull bar to chest level (not chin) — this is the transition zone",
-            "Step 2 — Negative muscle-up: start in dip position, slowly lower through transition, hang",
-            "Step 3 — Jumping muscle-up: use slight leg drive to assist through transition phase",
-            "Step 4 — Full bar muscle-up: explosive pull, lean slightly forward, drive elbows over bar",
-            "Step 5 — Ring muscle-up: harder transition — requires more wrist rotation and body lean",
-            "False grip (rings only): wrist over the ring from the start — makes transition dramatically easier",
-          ],
-          proTip: "The muscle-up is not a pull-up + a dip. The transition is its own movement. Train the transition specifically with negatives — that alone will add 4 weeks to your timeline if skipped.",
-          progression: [
-            { label: "High Pull-Up", emoji: "⬆️", active: true },
-            { label: "Negative MU", emoji: "⬇️", active: false },
-            { label: "Bar MU", emoji: "🔥", active: false },
-            { label: "Ring MU", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Phase 3 — Handstand & One Arm Handstand",
-      tag: "Ongoing / Bonus",
-      duration: "Ongoing",
-      icon: "🌟",
-      description: "The handstand is the foundation of all pressing skills. Master it, then push toward the one arm handstand. Included as a full bonus progression.",
-      exercises: [
-        {
-          title: "Handstand — Full Progression",
-          sets: "5",
-          reps: "5×10–20s holds",
-          rest: "90s",
-          intensity: "Technical",
-          cues: [
-            "Step 1 — Wall handstand: kick up against wall, find body alignment (ears between arms, hollow body)",
-            "Step 2 — Chest-to-wall HS: face the wall, toes touching, builds straighter alignment",
-            "Step 3 — Wall handstand shoulder taps: lift one hand briefly, builds unilateral balance",
-            "Step 4 — Freestanding kick-ups: controlled entry, hold 3–5s, bail cleanly",
-            "Step 5 — Freestanding HS hold: target 10s → 20s → 30s before advancing",
-            "Finger pressure: balance through fingertips, not by wrist flexion",
-            "Exit: always practice pirouette exit for safety — never just fall",
-          ],
-          proTip: "A solid 30s freestanding handstand takes most athletes 3–6 months of daily practice. 10 minutes every day beats 1 hour twice a week — frequency is the key variable.",
-          progression: [
-            { label: "Wall HS", emoji: "🧱", active: true },
-            { label: "Chest-Wall", emoji: "📐", active: false },
-            { label: "Freestanding", emoji: "🤸", active: false },
-            { label: "30s Hold", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "Handstand Push-Up — Full Progression",
-          sets: "4",
-          reps: "3–6 reps",
-          rest: "2 min",
-          intensity: "High",
-          cues: [
-            "Step 1 — Pike push-ups: build overhead pressing strength at various angles",
-            "Step 2 — Elevated pike push-ups: feet on chair/box, steeper angle",
-            "Step 3 — Wall HSPU: kick into wall HS, lower head to floor (use mat/pad), press back up",
-            "Step 4 — Deficit wall HSPU: hands on parallettes, deeper range",
-            "Step 5 — Freestanding HSPU negatives: lower from freestanding HS over 5s, kick back up",
-            "Step 6 — Freestanding HSPU: full movement — complete press from head on floor",
-            "Head position: slightly forward, forming tripod with hands for HSPU",
-          ],
-          proTip: "The freestanding HSPU requires both handstand balance AND significant pressing strength. Train them separately first. Combining them is the last step, not the starting point.",
-          progression: [
-            { label: "Pike PU", emoji: "▽", active: true },
-            { label: "Wall HSPU", emoji: "🧱", active: false },
-            { label: "FS Negative", emoji: "⬇️", active: false },
-            { label: "Free HSPU", emoji: "👑", active: false },
-          ],
-        },
-        {
-          title: "⭐ BONUS — One Arm Handstand",
-          sets: "4",
-          reps: "3–5 attempts each side",
-          rest: "2 min",
-          intensity: "Elite Bonus",
-          cues: [
-            "Prerequisite: solid 30s+ freestanding handstand — do not skip this",
-            "Step 1 — Straddle OAH: wide leg split reduces balance demand significantly",
-            "Step 2 — Tuck OAH: one leg tucked, more centered mass",
-            "Step 3 — OAH with finger assist: other hand touches floor with fingertips only",
-            "Step 4 — OAH negative: shift weight to one arm slowly from two-arm HS",
-            "Step 5 — Free OAH: full balance on one arm, other arm extended or tucked",
-          ],
-          proTip: "The one arm handstand is a 6–18 month journey. The straddle OAH alone takes most athletes 2–3 months. Do not rush the steps — each one is necessary.",
-          progression: [
-            { label: "Straddle OAH", emoji: "↔️", active: true },
-            { label: "Tuck OAH", emoji: "🧘", active: false },
-            { label: "Finger Assist", emoji: "👆", active: false },
-            { label: "Free OAH", emoji: "👑", active: false },
-          ],
-        },
-      ],
-    },
-  ],
-  cooldown: sharedCooldown,
-  benefits: [
-    "11 skills — complete progressions from absolute zero",
-    "90° push-up, one arm pull-up, pistol squat, human flag, back lever, muscle-up",
-    "L-sit & V-sit — full compression progression from zero",
-    "Semi planche (planche lean) & elbow lever — technique & full progressions",
-    "Handstand + handstand push-up full progression",
-    "🌟 Bonus: One arm handstand complete roadmap",
-    "Bar & rings muscle-up both covered",
-    "Built-in progression triggers — know exactly when to advance",
-    "💡 Stimulates & maintains muscle mass — pair with Aesthetic Physique to maximize your physique",
-    "Training cues most coaches never write down",
-  ],
-  stripeUrl: "https://buy.stripe.com/5kQdRb4YN9ixbjt6lf3ZK0o",
-};
-
-const hypertrophySkillsCombo: Program = {
-  id: "combo-hypertrophy-skills",
-  title: "Physique & Skills Combo",
-  subtitle: "Build the body AND the skills. No compromise.",
-  tagline: "Aesthetic Physique + Basic Skills — the complete package for athletes who want both.",
-  level: "From Zero",
-  levelColor: "#f59e0b",
-  category: "hypertrophy",
-  categoryGroup: "HYPERTROPHY",
-  price: "37",
-  originalPrice: "52",
-  icon: "🔥",
-  glowColor: "rgba(245,158,11,0.15)",
-  badge: "BEST DUO",
-  goals: [
-    "Build a V-taper aesthetic physique — bodyweight only",
-    "Master 11 essential skills from zero",
-    "Train push, pull, legs AND skill work in one system",
-    "Save $15 vs buying separately",
-  ],
-  mindset: "The best athletes don't choose between looking good and performing well — they build both simultaneously. This combo pairs aesthetic bodyweight training with elite skill progressions. The muscle you build from Aesthetic Physique directly powers your skill development. The skills reinforce your strength gains. They're built for each other.",
-  weekStructure: "4 sessions/week. Push/Aesthetic (Mon) · Skills Pull (Tue) · Legs/Physique (Thu) · Skills Mixed (Sat). Skills are always trained fresh at session start.",
-  warmup: sharedCooldown,
-  phases: basicSkills.phases,
-  cooldown: sharedCooldown,
-  benefits: [
-    "Aesthetic Physique — full 3-level program (Beginner → Advanced)",
-    "Basic Skills — 11 essential skills with complete progressions",
-    "Skills included: muscle-up, handstand & HSPU, L-sit & V-sit, pistol squat, human flag, back lever, one arm pull-up, semi planche & elbow lever, 90° push-up",
-    "Push/pull/legs structure with skill integration",
-    "Save $15 vs buying separately",
-    "One system — no conflicts between programs",
-  ],
-  bundlePrograms: [fullHypertrophy, basicSkills],
-  stripeUrl: "https://buy.stripe.com/00w5kF0Ix1Q52MXcJD3ZK0q",
-};
-
-const ultimateBundle: Program = {
-  id: "bundle",
-  title: "Ultimate Gravity Bundle",
-  subtitle: "Everything. For the ones who don't do things halfway.",
-  tagline: "All 4 programs — one price, lifetime access.",
-  level: "All Levels",
-  levelColor: "#FF4500",
-  category: "bundle",
-  categoryGroup: "BUNDLE",
-  price: "97",
-  originalPrice: "121",
-  icon: "👑",
-  glowColor: "rgba(255,69,0,0.2)",
-  badge: "BEST VALUE",
-  goals: [
-    "Planche Foundation — from zero to full planche",
-    "Front Lever Mastery — all variations & progressions",
-    "Aesthetic Physique — V-taper bodyweight muscle (3 levels)",
-    "Basic Skills — 11 essential skills: 90° push-up, OAP, pistol squat, human flag, back lever, muscle-up, L-sit, V-sit, semi planche & elbow lever",
-  ],
-  mindset: "The bundle athlete has no ceiling. Every program in this library is designed to complement the others. Build your planche while sculpting your physique. Develop your front lever while mastering elite skills. The programs are interconnected — the whole is greater than the sum of its parts.",
-  weekStructure: "Self-directed. Choose your primary focus and use others as supplementary. Recommended: Start with Planche Foundation if skills are your main goal. Start with Aesthetic Physique if physique is primary.",
-  warmup: sharedWarmup,
-  phases: plancheFoundation.phases,
-  cooldown: sharedCooldown,
-  benefits: [
-    "All 4 programs — no prerequisites, start from zero",
-    "Save $24 vs individual purchase",
-    "Planche + Front Lever + Aesthetic Physique + Basic Skills",
-    "Lifetime access — all future updates included",
-    "Training cues and insights 8 years in the making",
-  ],
-  stripeUrl: "https://buy.stripe.com/cNi4gB76V8etevFaBv3ZK0r",
-};
-
-const allPrograms: Program[] = [
-  plancheFoundation,
-  frontLeverMastery,
-  plancheLeverCombo,
-  fullHypertrophy,
-  basicSkills,
-  hypertrophySkillsCombo,
-  ultimateBundle,
-];
-
-ultimateBundle.bundlePrograms = [
-  plancheFoundation,
-  frontLeverMastery,
-  fullHypertrophy,
-  basicSkills,
-];
-
-plancheLeverCombo.bundlePrograms = [plancheFoundation, frontLeverMastery];
-hypertrophySkillsCombo.bundlePrograms = [fullHypertrophy, basicSkills];
-
-const PROGRAMS = allPrograms;
-const skillsGroup = [plancheFoundation, frontLeverMastery];
-const hypertrophyGroup = [fullHypertrophy];
-const basicSkillsGroup = [basicSkills];
-const comboGroup = [plancheLeverCombo];
-const comboPhysiqueGroup = [hypertrophySkillsCombo];
-
-// ═══════════════════════════════════════════════════════
-// TESTIMONIALS DATA
-// ═══════════════════════════════════════════════════════
-
-const testimonials = [
+const FAQS = [
   {
-    name: "Marcus T.",
-    handle: "@marcus_cali",
-    program: "Planche Foundation",
-    avatar: "MT",
-    avatarColor: "#22c55e",
-    rating: 5,
-    weeks: "8 weeks in",
-    result: "Hit my first clean tuck planche hold this morning. 6 seconds. I've been trying on my own for 4 months with zero progress. The warm-up protocol alone changed everything. My wrists stopped hurting after week 2.",
+    q: "Ai-je besoin de matériel pour suivre ce programme ?",
+    a: "Non. Tous les exercices et programmes du guide sont conçus pour être réalisés au poids du corps, avec un sol plat et éventuellement une barre de traction ou deux chaises robustes. Aucune salle de sport n'est nécessaire.",
   },
   {
-    name: "Jordan K.",
-    handle: "@jk_strength",
-    program: "Aesthetic Physique",
-    avatar: "JK",
-    avatarColor: "#a855f7",
-    rating: 5,
-    weeks: "12 weeks in",
-    result: "Started with zero muscle. 12 weeks of bodyweight training and my V-taper is actually visible now. Gained real muscle without touching a single weight. The progression system is the real deal — every week harder than the last.",
+    q: "Le guide est-il adapté aux débutants complets ?",
+    a: "Oui. Le module 4 propose un programme débutant full body pensé pour toute personne n'ayant jamais pratiqué, avec une progression claire vers les niveaux intermédiaire et avancé.",
   },
   {
-    name: "Alex R.",
-    handle: "@alex_levers",
-    program: "Front Lever Mastery",
-    avatar: "AR",
-    avatarColor: "#3b82f6",
-    rating: 5,
-    weeks: "10 weeks in",
-    result: "Week 10 and I held my first straddle front lever for 5 seconds. The progression from tuck to advanced tuck to straddle is perfectly structured. No guesswork. Every session tells you exactly what to do.",
+    q: "Sous quel format vais-je recevoir le guide ?",
+    a: "Le guide est livré au format PDF, téléchargeable immédiatement après votre achat. Vous pouvez le lire sur votre téléphone, votre tablette ou votre ordinateur, et l'imprimer si vous le souhaitez.",
   },
   {
-    name: "Sam W.",
-    handle: "@sw_aesthetics",
-    program: "Full Hypertrophy",
-    avatar: "SW",
-    avatarColor: "#ec4899",
-    rating: 5,
-    weeks: "12 weeks in",
-    result: "No gym? No problem. The bodyweight track alone gave me more muscle than a year of random gym sessions. The progressive overload is real. I went from 8 archer push-ups to 15 clean reps each side.",
+    q: "Le guide aborde-t-il des figures comme la planche ou le front lever ?",
+    a: "Oui. Le module 5 est entièrement consacré aux figures de force avancées — planche, front lever, et autres mouvements de calisthénie statique — avec leurs prérequis et leur progression étape par étape.",
   },
   {
-    name: "Tom B.",
-    handle: "@tombfit_cali",
-    program: "Basic Skills",
-    avatar: "TB",
-    avatarColor: "#f97316",
-    rating: 5,
-    weeks: "10 weeks in",
-    result: "Got my first clean muscle-up at week 6 and my first pistol squat at week 8. The progressions are so well structured — I never felt stuck, always knew exactly what to do next. Worth every dollar.",
+    q: "Combien de temps avant de voir des résultats ?",
+    a: "Le guide explique une courbe de progression réaliste : les premiers résultats visibles apparaissent généralement après 4 à 6 semaines de pratique régulière, des résultats marquants après 3 à 6 mois.",
   },
   {
-    name: "Lena M.",
-    handle: "@lena.moves",
-    program: "Ultimate Bundle",
-    avatar: "LM",
-    avatarColor: "#FF4500",
-    rating: 5,
-    weeks: "16 weeks in",
-    result: "Got the bundle and I'm alternating between Hypertrophy and Front Lever. The programs complement each other perfectly. Best $127 I've ever spent on fitness. Replaced a $80/month PT I was paying for.",
+    q: "Puis-je accéder au guide sur plusieurs appareils ?",
+    a: "Oui, une fois téléchargé, le fichier PDF vous appartient et est lisible sur tous vos appareils, sans limite de connexion ni abonnement.",
   },
 ];
 
-// ═══════════════════════════════════════════════════════
-// FAQ DATA
-// ═══════════════════════════════════════════════════════
-
-const faqs = [
-  {
-    q: "Is this actually worth it or just another PDF program?",
-    a: "Fair question. These aren't 'download and forget' PDFs. Every program is a structured digital manual with interactive web access — exercise cues, progression paths, pro tips, and a built-in training journal. Lifetime access, no subscription. If you're looking for a free 30-day challenge, this isn't it. If you want a system that actually progresses you, this is built for that.",
-  },
-  {
-    q: "I've never trained before. Am I even ready for this?",
-    a: "Probably not — and that's exactly why Planche Foundation exists. It starts from absolute zero: the first 3 weeks are only about wrist prep, scapular control, and body positioning. No experience required. If physique is your main goal with no skill focus, Full Hypertrophy is your starting point. Either way, you don't need to be ready — the program builds you from where you are.",
-  },
-  {
-    q: "I don't have a gym. Does that disqualify me?",
-    a: "For skill programs (Planche, Front Lever) you need parallettes or a pull-up bar — both under $50. That's it. For Hybrid Athlete and Full Hypertrophy, there's a fully bodyweight track that needs nothing but floor space. No excuses left.",
-  },
-  {
-    q: "How long until something actually changes?",
-    a: "Strength shifts are noticeable within 2–3 weeks. Visible skill progression shows by Week 4–6. Every phase includes hold time tests and strength benchmarks — so you're not guessing, you're measuring. Progress is built into the structure. The only variable is whether you show up.",
-  },
-  {
-    q: "What if it's too hard — or too easy?",
-    a: "Every exercise has a documented progression path — easier variant below, harder variant above. If the main exercise destroys you, step back. If it feels too easy, step up. The program doesn't care where you think you should be — it meets you where you actually are.",
-  },
-  {
-    q: "Can I get actual help if I'm stuck?",
-    a: "Yes. Direct email access — not a bot, not a Discord server with 10,000 people. Real answers on form, programming adjustments, and substitutions. Most replies within 24 hours.",
-  },
-  {
-    q: "Can I run two programs at the same time?",
-    a: "No — and if someone tells you otherwise, they're selling you overtraining. One primary program at a time. The exception is Hybrid Athlete, which is purpose-built to combine skill and strength in the same week. The Bundle includes a sequencing guide for running programs intelligently across 6–12 months.",
-  },
-  {
-    q: "What if it doesn't work for me?",
-    a: "Complete the first 2 weeks. If you're following the program and seeing zero progress or zero value, email within 30 days for a full refund. No hoops, no justification needed. The program works if you work it — that's the entire deal.",
-  },
-];
-
-// ═══════════════════════════════════════════════════════
-// COUNTDOWN TIMER HOOK
-// ═══════════════════════════════════════════════════════
-
-
-
-// ═══════════════════════════════════════════════════════
-// DASHBOARD (inlined)
-// ═══════════════════════════════════════════════════════
-
-function SectionBar({ title, tag }: { title: string; tag?: string }) {
+function FaqItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
   return (
-    <div className="section-divider">
-      <div className="dot" />
-      <div className="line" />
-      <span className="t-display print-h2" style={{ fontSize: 26, flexShrink: 0 }}>{title}</span>
-      {tag && <span className="t-label" style={{ color: "var(--text-faint)", fontSize: 10, flexShrink: 0 }}>{tag}</span>}
-      <div className="line" />
-    </div>
-  );
-}
-
-function Checkbox({ checked }: { checked: boolean }) {
-  return (
-    <div style={{ width: 22, height: 22, border: `1.5px solid ${checked ? "var(--orange)" : "var(--border-bright)"}`, borderRadius: 3, display: "flex", alignItems: "center", justifyContent: "center", background: checked ? "var(--orange)" : "transparent", transition: "all 0.2s", flexShrink: 0 }}>
-      {checked && <Check size={12} color="white" />}
-    </div>
-  );
-}
-
-function ProgressionRail({ steps }: { steps: { label: string; emoji: string; hold?: string; active?: boolean }[] }) {
-  return (
-    <div className="progression-rail" style={{ display: "flex", alignItems: "flex-end", gap: 0, padding: "8px 0 4px", overflowX: "auto" }}>
-      {steps.map((step, i) => (
-        <div key={i} style={{ display: "flex", alignItems: "flex-end", gap: 0, flexShrink: 0 }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-            <div style={{ fontFamily: "var(--font-body)", fontSize: 10, color: step.active ? "var(--orange)" : "var(--text-faint)", letterSpacing: 1, textTransform: "uppercase", textAlign: "center", maxWidth: 64, lineHeight: 1.3 }}>
-              {step.hold && <div style={{ color: step.active ? "var(--orange)" : "var(--text-faint)", marginBottom: 2 }}>{step.hold}</div>}
-              {step.label}
-            </div>
-            <div style={{ width: 52, height: 52, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, border: `2px solid ${step.active ? "var(--orange)" : "var(--border-bright)"}`, background: step.active ? "var(--orange-dim)" : "var(--bg-card)", boxShadow: step.active ? "0 0 18px rgba(255,69,0,0.3)" : "none", transition: "all 0.2s" }}>
-              {step.emoji}
-            </div>
-          </div>
-          {i < steps.length - 1 && (
-            <div style={{ width: 28, height: 2, background: step.active ? "var(--orange)" : "var(--border)", marginBottom: 26, flexShrink: 0 }} />
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ExerciseCard({ ex, index }: { ex: Exercise; index: number }) {
-  const [open, setOpen] = useState(index === 0);
-  return (
-    <div className="surface-2 print-avoid-break ex-card-print" style={{ borderRadius: 8, overflow: "hidden", border: "1px solid var(--border)" }}>
-      <button onClick={() => setOpen(!open)} style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "16px 20px", display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
-        <div style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--orange-dim)", border: "1px solid var(--orange-border)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-          <span className="t-label" style={{ color: "var(--orange)", fontSize: 10 }}>{String(index + 1).padStart(2, "0")}</span>
-        </div>
-        <div style={{ flex: 1 }}>
-          <div className="t-display" style={{ fontSize: 17, color: "var(--text)" }}>{ex.title}</div>
-          <div style={{ display: "flex", gap: 16, marginTop: 4, flexWrap: "wrap" }}>
-            {[{ label: "Sets", val: ex.sets }, { label: "Reps", val: ex.reps }, { label: "Rest", val: ex.rest }].map(({ label, val }) => (
-              <span key={label} className="t-body" style={{ fontSize: 12, color: "var(--text-faint)" }}>
-                <span style={{ color: "var(--orange)" }}>{val}</span> {label}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-          <span className="badge" style={{ background: "rgba(255,255,255,0.04)", color: "var(--text-faint)", border: "1px solid var(--border)", fontSize: 9 }}>{ex.intensity}</span>
-          {open ? <ChevronUp size={14} style={{ color: "var(--text-faint)" }} /> : <ChevronDown size={14} style={{ color: "var(--text-faint)" }} />}
-        </div>
-      </button>
-      {open && (
-        <div style={{ padding: "0 20px 20px" }}>
-          {ex.progression && ex.progression.length > 0 && (
-            <div style={{ marginBottom: 16, paddingBottom: 16, borderBottom: "1px solid var(--border)" }}>
-              <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 10 }}>PROGRESSION PATH</div>
-              <ProgressionRail steps={ex.progression} />
-            </div>
-          )}
-          <div style={{ marginBottom: 14 }}>
-            <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 10 }}>TECHNICAL CUES</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {ex.cues.map((cue, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                  <div style={{ width: 18, height: 18, borderRadius: 2, background: "var(--orange-dim)", border: "1px solid var(--orange-border)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
-                    <span className="t-label" style={{ color: "var(--orange)", fontSize: 9 }}>{i + 1}</span>
-                  </div>
-                  <p className="t-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.5 }}>{cue}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div style={{ background: "rgba(255,69,0,0.04)", borderLeft: "3px solid var(--orange)", borderRadius: "0 4px 4px 0", padding: "12px 14px", marginBottom: 14 }}>
-            <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 6 }}>💡 PRO TIP</div>
-            <p className="t-body print-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.55, fontStyle: "italic" }}>{ex.proTip}</p>
-          </div>
-
-          {/* Interactive Set Tracker */}
-          <SetTracker totalSets={parseInt(ex.sets) || 3} reps={ex.reps} rest={ex.rest} />
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ─── SET TRACKER ─────────────────────────────────────────────────────────────
-
-function SetTracker({ totalSets, reps, rest }: { totalSets: number; reps: string; rest: string }) {
-  const [completed, setCompleted] = useState<boolean[]>(Array(totalSets).fill(false));
-  const [resting, setResting] = useState(false);
-  const [restLeft, setRestLeft] = useState(0);
-  const restSeconds = parseInt(rest) || (rest.includes("min") ? parseInt(rest) * 60 : 90);
-
-  const toggleSet = (i: number) => {
-    const newCompleted = [...completed];
-    newCompleted[i] = !newCompleted[i];
-    setCompleted(newCompleted);
-    // Start rest timer when a set is completed
-    if (!newCompleted[i] === false && newCompleted[i]) {
-      const secs = rest.includes("min") ? parseFloat(rest) * 60 : parseInt(rest) || 90;
-      setRestLeft(Math.round(secs));
-      setResting(true);
-    }
-  };
-
-  useEffect(() => {
-    if (!resting || restLeft <= 0) { if (restLeft <= 0) setResting(false); return; }
-    const id = setInterval(() => setRestLeft(t => { if (t <= 1) { setResting(false); return 0; } return t - 1; }), 1000);
-    return () => clearInterval(id);
-  }, [resting, restLeft]);
-
-  const done = completed.filter(Boolean).length;
-  const allDone = done === totalSets;
-
-  return (
-    <div className="no-print" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)", borderRadius: 6, padding: "12px 14px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-        <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9 }}>📋 SET TRACKER</div>
-        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-          {resting && (
-            <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--orange)", fontWeight: 900 }}>
-              ⏱ {Math.floor(restLeft / 60)}:{String(restLeft % 60).padStart(2, "0")}
-            </div>
-          )}
-          {allDone && <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#22c55e" }}>✅ Done!</span>}
-          <button onClick={() => { setCompleted(Array(totalSets).fill(false)); setResting(false); }}
-            style={{ background: "transparent", border: "none", cursor: "pointer", color: "var(--text-faint)", fontSize: 10, fontFamily: "var(--fb)" }}>reset</button>
-        </div>
-      </div>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        {completed.map((done, i) => (
-          <button key={i} onClick={() => toggleSet(i)}
-            style={{ width: 40, height: 40, borderRadius: 6, border: `2px solid ${done ? "#22c55e" : "var(--border-bright)"}`, background: done ? "rgba(34,197,94,0.15)" : "transparent", cursor: "pointer", fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, color: done ? "#22c55e" : "var(--text-faint)", transition: "all .2s" }}>
-            {done ? "✓" : i + 1}
-          </button>
-        ))}
-        <div style={{ display: "flex", alignItems: "center", marginLeft: 4 }}>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)" }}>{done}/{totalSets} sets · {reps}</span>
-        </div>
-      </div>
-      {!resting && !allDone && done > 0 && done < totalSets && (
-        <button onClick={() => {
-          const secs = rest.includes("2 min") ? 120 : rest.includes("3 min") ? 180 : rest.includes("90") ? 90 : rest.includes("60") ? 60 : 90;
-          setRestLeft(secs); setResting(true);
-        }} style={{ marginTop: 8, background: "var(--orange-dim)", border: "1px solid var(--orange-border)", color: "var(--orange)", padding: "5px 12px", borderRadius: 4, cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 1 }}>
-          ▶ Start rest ({rest})
-        </button>
-      )}
-    </div>
-  );
-}
-
-function PhaseBlock({ phase, index }: { phase: Phase; index: number }) {
-  const [collapsed, setCollapsed] = useState(false);
-  return (
-    <div className="surface print-break-before print-avoid-break" style={{ borderRadius: 10, overflow: "hidden", border: "1px solid var(--border)", marginBottom: 24 }}>
-      <button onClick={() => setCollapsed(!collapsed)} style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "18px 24px", background: "linear-gradient(90deg, rgba(255,69,0,0.08) 0%, transparent 100%)", borderBottom: collapsed ? "none" : "1px solid var(--border)", textAlign: "left" }}>
-          <div style={{ fontSize: 24, flexShrink: 0 }}>{phase.icon}</div>
-          <div style={{ flex: 1 }}>
-            <div className="t-display print-h3" style={{ fontSize: 20, color: "var(--text)" }}>{phase.name}</div>
-            <div style={{ display: "flex", gap: 12, marginTop: 4, flexWrap: "wrap" }}>
-              <span className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", fontSize: 9 }}>{phase.tag}</span>
-              <span className="t-label" style={{ color: "var(--text-faint)", fontSize: 9 }}>{phase.duration} · {phase.exercises.length} exercises</span>
-            </div>
-          </div>
-          {collapsed ? <ChevronDown size={16} style={{ color: "var(--text-faint)", flexShrink: 0 }} /> : <ChevronUp size={16} style={{ color: "var(--text-faint)", flexShrink: 0 }} />}
-        </div>
-      </button>
-      {!collapsed && (
-        <div style={{ padding: "20px 24px" }}>
-          <p className="t-body print-body" style={{ fontSize: 14, color: "var(--text-dim)", lineHeight: 1.6, marginBottom: 24, borderBottom: "1px solid var(--border)", paddingBottom: 20 }}>{phase.description}</p>
-          <div className="ex-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 14 }}>
-            {phase.exercises.map((ex, i) => <ExerciseCard key={i} ex={ex} index={i} />)}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════
-// TRAINING JOURNAL / WEEKLY PLANNER
-// ═══════════════════════════════════════════════════════
-
-const EXERCISE_SUGGESTIONS: Record<string, string[]> = {
-  push: [
-    "Pseudo Planche Push-Ups", "Planche Lean", "Tuck Planche Hold", "Straddle Push-Ups",
-    "Pike Push-Ups", "HSPU (Wall)", "Dips", "Weighted Dips", "Weighted Push-Ups",
-    "Ring Dips", "Bench Press", "Overhead Press", "Incline DB Press", "90° Push-Up Progression",
-    "Archer Push-Ups", "One Arm Push-Up Progression", "Maltese Hold",
-  ],
-  pull: [
-    "Pull-Ups", "Weighted Pull-Ups", "Tuck Front Lever Hold", "Front Lever Rows",
-    "Scapular Raises", "Australian Pull-Ups", "Lat Pulldown", "Cable Row",
-    "Face Pulls", "Band Pull-Aparts", "One Arm Pull-Up Progression",
-    "Full Front Lever Hold", "Straddle Front Lever", "Archer Pull-Ups",
-  ],
-  legs: [
-    "Squat", "Romanian Deadlift", "Bulgarian Split Squat", "Leg Press",
-    "Nordic Hamstring Curl", "Pistol Squat Progression", "Box Jump",
-  ],
-  core: [
-    "Hollow Body Hold", "L-Sit", "Tuck L-Sit", "Dragon Flag", "Ab Wheel",
-    "Hanging Leg Raises", "Plank Variations",
-  ],
-};
-
-const REP_RANGES = {
-  Force:     { range: "1–5 RM",           color: "#ef4444", bg: "rgba(239,68,68,0.12)",   label: "FORCE",     desc: "Max strength — heavy, full rest" },
-  Volume:    { range: "9–15 RM",          color: "#3b82f6", bg: "rgba(59,130,246,0.12)",  label: "VOLUME",    desc: "Hypertrophy — higher reps, shorter rest" },
-  Technique: { range: "5–10 @ 50%",       color: "#22c55e", bg: "rgba(34,197,94,0.12)",   label: "TECHNIQUE", desc: "Skill work — light, perfect form" },
-};
-
-type SessionType = keyof typeof REP_RANGES;
-type ExerciseRow = { name: string; sets: string; reps: string; rest: string };
-
-const emptyRow = (): ExerciseRow => ({ name: "", sets: "4", reps: "", rest: "2 min" });
-
-function ExerciseInputRow({ row, onChange, suggestions }: {
-  row: ExerciseRow;
-  onChange: (r: ExerciseRow) => void;
-  suggestions: string[];
-}) {
-  const [showSug, setShowSug] = useState(false);
-  const filtered = suggestions.filter(s => s.toLowerCase().includes(row.name.toLowerCase()) && row.name.length > 0);
-
-  return (
-    <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 6, position: "relative" }}>
-      <div style={{ position: "relative" }}>
-        <input
-          value={row.name}
-          onChange={e => { onChange({ ...row, name: e.target.value }); setShowSug(true); }}
-          onFocus={() => setShowSug(true)}
-          onBlur={() => setTimeout(() => setShowSug(false), 150)}
-          placeholder="Exercise..."
-          style={{ width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", borderRadius: 4, padding: "7px 10px", color: "#fff", fontFamily: "var(--fb)", fontSize: 12, outline: "none" }}
-        />
-        {showSug && filtered.length > 0 && (
-          <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "#1a1a1a", border: "1px solid var(--border)", borderRadius: 4, zIndex: 100, maxHeight: 160, overflowY: "auto" }}>
-            {filtered.slice(0, 6).map(s => (
-              <div key={s} onMouseDown={() => { onChange({ ...row, name: s }); setShowSug(false); }}
-                style={{ padding: "7px 10px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 12, color: "#fff", borderBottom: "1px solid var(--border)" }}
-                onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,69,0,0.1)")}
-                onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
-                {s}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-      {(["sets", "reps", "rest"] as const).map(field => (
-        <input key={field} value={row[field]}
-          onChange={e => onChange({ ...row, [field]: e.target.value })}
-          placeholder={field === "sets" ? "Sets" : field === "reps" ? "Reps" : "Rest"}
-          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--border)", borderRadius: 4, padding: "7px 6px", color: "#fff", fontFamily: "var(--fb)", fontSize: 11, textAlign: "center", outline: "none" }}
-        />
-      ))}
-    </div>
-  );
-}
-
-function SessionBlock({ type, rows, onChangeRow, onAddRow, isAdvanced }: {
-  type: SessionType;
-  rows: ExerciseRow[];
-  onChangeRow: (i: number, r: ExerciseRow) => void;
-  onAddRow: () => void;
-  isAdvanced: boolean;
-}) {
-  const info = REP_RANGES[type];
-  const [category, setCategory] = useState<"push" | "pull">("push");
-
-  return (
-    <div style={{ marginBottom: 24 }}>
-      <div style={{ background: info.color, borderRadius: "6px 6px 0 0", padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 16, color: "#fff", letterSpacing: 2 }}>{type.toUpperCase()}</span>
-        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff" }}>{info.range} · {info.desc}</span>
-      </div>
-      <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderTop: "none", borderRadius: "0 0 6px 6px", padding: "14px" }}>
-        {/* Push/Pull toggle */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-          <div className="t-label" style={{ color: "#fff", fontSize: 9, marginRight: 4, alignSelf: "center" }}>CATEGORY:</div>
-          {(["push", "pull"] as const).map(cat => (
-            <button key={cat} onClick={() => setCategory(cat)}
-              style={{ padding: "4px 12px", borderRadius: 4, border: `1px solid ${category === cat ? "var(--orange)" : "var(--border)"}`, background: category === cat ? "var(--orange-dim)" : "transparent", color: category === cat ? "var(--orange)" : "rgba(255,255,255,0.5)", fontFamily: "var(--fd)", fontSize: 11, cursor: "pointer", letterSpacing: 1, textTransform: "uppercase" }}>
-              {cat}
-            </button>
-          ))}
-        </div>
-        {/* Header */}
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 8 }}>
-          {["Exercise", "Sets", "Reps", "Rest"].map(h => (
-            <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "#fff", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
-          ))}
-        </div>
-        {rows.map((row, i) => (
-          <ExerciseInputRow key={i} row={row} onChange={r => onChangeRow(i, r)} suggestions={EXERCISE_SUGGESTIONS[category]} />
-        ))}
-        <button onClick={onAddRow}
-          style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "#fff", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.4)"; }}>
-          + Add exercise
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════
-// PROGRAM BUILDER
-// ═══════════════════════════════════════════════════════
-
-const PLANCHE_EXERCISES = [
-  // ── HOLDS ──────────────────────────────────────────────────────────────
-  {
-    name: "Planche Lean",
-    type: "Hold", level: "Beginner", focus: "Shoulders · Control",
-    desc: "The entry point of all planche training. Lean forward from a straight-arm plank until your shoulders pass your wrists. Arms fully locked — any elbow bend cancels the stimulus. Posterior pelvic tilt throughout: tuck your tailbone, brace core like a hollow body. Your gaze should be 10-15cm in front of your hands. Think: 'push the floor away and grow forward' — not 'hold a fall.' Film from the side every session. Week 1 target: shoulders 5cm past wrists. Week 4 target: 15cm+.",
-    cues: ["Shoulders past wrists — measure with camera", "Arms fully locked at 0° — non-negotiable", "Posterior pelvic tilt: tailbone tucked, hollow body", "Gaze 10-15cm in front of hands, not straight down", "Push the floor away — grow forward, don't fall forward"],
-  },
-  {
-    name: "Tuck Planche Hold",
-    type: "Hold", level: "Beginner", focus: "Full body · Shoulders",
-    desc: "First true planche position. From a lean, compress knees to chest and lift feet. Hips must be at shoulder height — not below. Maximum scapular protraction: upper back visibly rounded, serratus anterior firing hard. Short shallow breaths — a full exhale collapses the position. Every sloppy second is worth less than a clean 3s hold.",
-    cues: ["Knees tight to chest — tighter = easier", "Hips at shoulder height or above — sagging hips = failed rep", "Maximum scapular protraction: round the upper back hard", "Short breaths only — don't exhale fully", "Film from the side: hips should be level with shoulders"],
-  },
-  {
-    name: "Advanced Tuck Hold",
-    type: "Hold", level: "Intermediate", focus: "Shoulders · Core",
-    desc: "Extend the hips to 180° — thighs parallel to floor, knees still bent. This is 2-3× harder than tuck. The lean angle increases significantly as you extend, loading the wrists and anterior deltoids much more. Squeeze glutes to maintain hip extension. This position bridges the gap to straddle — spend time here.",
-    cues: ["Hips extended to 180° — thighs parallel to floor", "Knees still bent but body nearly horizontal", "Squeeze glutes hard to prevent hip drop", "Core engaged like a plank — not just shoulders", "Hold until hips drop, then stop — quality over time"],
-  },
-  {
-    name: "Straddle Planche Hold",
-    type: "Hold", level: "Intermediate", focus: "Full body",
-    desc: "Legs spread wide apart. The wider the straddle, the shorter the lever arm — making it significantly easier than full planche. Point toes, squeeze glutes, maximum protraction. 8s+ clean hold = ready to attempt full. On parallettes first, then floor.",
-    cues: ["Legs as wide as possible — wider = easier", "Point toes and squeeze glutes throughout", "Eyes looking at ceiling helps maintain horizontal", "Breathe shallow — full exhale drops the hips", "8s clean = attempt full planche"],
-  },
-  {
-    name: "Full Planche Hold",
-    type: "Hold", level: "Advanced", focus: "Full body · Control",
-    desc: "Legs together, body perfectly horizontal. Every muscle from feet to hands fully contracted — steel rod. Think 'push forward and up' not 'hold a fall.' Even 1-2s unassisted places you in the top 1% of athletes worldwide. Use a camera every single attempt.",
-    cues: ["Legs together, toes pointed, inner thighs squeezed", "Full body tension from head to toe — nothing relaxed", "Think: push forward and grow, not resist gravity", "Film every attempt — progress is measured in millimeters", "1 clean second is worth more than 5 sloppy ones"],
-  },
-  // ── ECCENTRICS ─────────────────────────────────────────────────────────
-  {
-    name: "Tuck Planche Negative",
-    type: "Eccentric", level: "Beginner", focus: "Strength · Form",
-    desc: "Start in tuck planche, lower hips slowly over 3-4 seconds until feet touch. Eccentric strength builds faster than any other method — do these at the VERY START of every session before your CNS fatigues. 3-5 sets of clean negatives beats 10 sloppy holds every time.",
-    cues: ["Start in perfect tuck hold position", "Lower over exactly 3-4 seconds — count out loud", "Fight gravity every millimeter of the descent", "Stop the moment form breaks", "Do these first in the session — always"],
-  },
-  {
-    name: "Advanced Tuck Negative",
-    type: "Eccentric", level: "Intermediate", focus: "Strength",
-    desc: "From advanced tuck planche, lower over 4-5s. Significantly harder than tuck negative. The extended hip position creates much greater mechanical demand on the anterior deltoid and wrist. 3 clean reps here will transform your shoulder strength.",
-    cues: ["Hips extended throughout the descent", "Control every centimeter — no dropping", "Maintain hollow body as you lower", "If hips drop during descent, go back to tuck negatives"],
-  },
-  {
-    name: "Straddle Planche Negative",
-    type: "Eccentric", level: "Intermediate", focus: "Strength",
-    desc: "From straddle planche, lower chest toward floor over 4-5s. The specific eccentric stimulus at straddle level builds the exact strength needed for full planche attempts. 4 weeks of consistent straddle negatives will produce more full planche specific strength than months of holds alone.",
-    cues: ["Legs stay wide throughout the descent", "Hips must stay level — any drop ends the rep", "Lower at exactly the same rate on both sides", "Keep scapulas protracted all the way down"],
-  },
-  {
-    name: "Full Planche Negative",
-    type: "Eccentric", level: "Advanced", focus: "Strength · Control",
-    desc: "Start in full planche (use band if needed), lower chest to floor over 5s. The hardest eccentric in the planche progression. Even banded, this places you in the elite tier of planche training. The path of descent is slightly diagonal — this is normal.",
-    cues: ["Legs together throughout — no splaying", "Lower over exactly 5 seconds — not faster", "Body remains perfectly horizontal during descent", "Use band if needed — quality over ego"],
-  },
-  // ── PRESSES ────────────────────────────────────────────────────────────
-  {
-    name: "Tuck Press",
-    type: "Press", level: "Beginner", focus: "Shoulders · Core",
-    desc: "From L-sit or floor, press into tuck planche. The pressing motion is fundamentally different from a push-up — elbows stay locked while shoulders push forward and down. Think 'push the floor toward your feet.' This teaches the press mechanics needed for all higher variations.",
-    cues: ["Start from L-sit or tuck L-sit position", "Elbows stay locked — no bending at all", "Think: push floor toward your feet, not push up", "Compress knees to chest as you press", "Stop when hips drop below shoulder level"],
-  },
-  {
-    name: "Advanced Tuck Press",
-    type: "Press", level: "Intermediate", focus: "Shoulders · Control",
-    desc: "From L-sit, press into advanced tuck position — hips extended, thighs parallel. Much harder than tuck press. The extended hip position increases the lever arm significantly. Master the tuck press before attempting this. Band assistance is encouraged.",
-    cues: ["From L-sit: first press into tuck, then extend hips", "Or use band: practice the full ROM with assistance", "Hips must reach shoulder height with legs extended", "The press path is slightly forward — not straight up"],
-  },
-  {
-    name: "Straddle Press",
-    type: "Press", level: "Intermediate", focus: "Shoulders · Technique",
-    desc: "From L-sit or straddle L-sit, press to straddle planche. Works pressing strength and technique simultaneously. The wide leg position makes the lever shorter — use this as your main press exercise before tackling full press. Negative version (press to floor) builds as much strength as the concentric.",
-    cues: ["Start from straddle L-sit for easiest entry", "Open legs wide as soon as you start pressing", "Push floor toward feet — not toward ceiling", "Negative: from straddle planche, lower to floor over 4s", "Band assistance for concentric, no band for negative"],
-  },
-  {
-    name: "Full Planche Press",
-    type: "Press", level: "Advanced", focus: "Full body · Technique",
-    desc: "From L-sit or handstand negative, press to full planche. One of the hardest movements in calisthenics. The pressing path requires both extreme shoulder strength AND precise body positioning. Master the negative (from planche to floor) before attempting the full concentric press.",
-    cues: ["Negative version: from planche, lower to floor over 5s", "Keep legs together throughout the entire movement", "The press path goes forward and down — not up", "Hollow body position maintained throughout"],
-  },
-  // ── PUSH-UPS ───────────────────────────────────────────────────────────
-  {
-    name: "Tuck Planche Push-Ups",
-    type: "Push-Up", level: "Beginner", focus: "Arms · Shoulders",
-    desc: "From tuck planche hold, lower 3-5cm and press back up. The range of motion is minimal — this is correct. Even 1 clean rep puts you ahead of most athletes. Dead stop between reps for maximum stimulus. Arms bend slightly backward — not to the sides.",
-    cues: ["Start from solid tuck hold — don't rush in", "Lower only 3-5cm — range is intentionally small", "Elbows bend slightly backward, not sideways", "Dead stop at bottom before pressing back", "Zero hip drop throughout — any sag ends the set"],
-  },
-  {
-    name: "Advanced Tuck Push-Ups",
-    type: "Push-Up", level: "Intermediate", focus: "Arms · Shoulders",
-    desc: "From advanced tuck position (hips extended), lower and press. The extended hips make this significantly harder than tuck push-ups. Master 3 clean advanced tuck push-ups before attempting straddle push-ups. 3-second negative version builds more strength.",
-    cues: ["Hips extended throughout — don't tuck during the rep", "Lower over 3 seconds, press explosively", "If hips drop during push-up, regress to tuck push-ups", "Every rep counts — this is elite output"],
-  },
-  {
-    name: "Straddle Push-Ups",
-    type: "Push-Up", level: "Advanced", focus: "Arms · Control",
-    desc: "From straddle planche, lower and press. One of the hardest push movements in calisthenics. Range is 3-5cm — the load is in the position, not the range. Even 1 partial rep is elite. Dead stop mandatory.",
-    cues: ["Enter straddle planche fully before initiating push-up", "Lower only 3-5cm — any more and form breaks", "Elbows track slightly backward", "Press back explosively even if range is minimal", "1 clean rep = ahead of 99% of athletes"],
-  },
-  {
-    name: "Full Planche Push-Ups",
-    type: "Push-Up", level: "Elite", focus: "Full body",
-    desc: "From full planche, lower and press. Rarest push movement in calisthenics. Banded version is still world-class. Every rep matters. Dead stop mandatory. Film every attempt.",
-    cues: ["Legs together, toes pointed throughout", "Lower 3-5cm over 3 seconds", "Press back explosively to full lockout", "Maximum protraction at top — upper back domes", "Even banded reps at this level: top 0.5% worldwide"],
-  },
-  // ── ACCESSORY ──────────────────────────────────────────────────────────
-  {
-    name: "Pseudo Planche Push-Ups",
-    type: "Accessory", level: "Beginner", focus: "Shoulders · Arms",
-    desc: "Hands rotated outward (45-90°), shoulders over or past wrists. The more rotation and lean, the harder. Lower chest to floor over 3s. Think 'push forward not up' at the top. The bridge between regular push-ups and planche-specific work.",
-    cues: ["Hands rotated 45-90° outward — more rotation = harder", "Lean forward: shoulders must be over or past wrists", "Think 'push forward not up' at the top", "3-second negative on every rep", "Full lockout with scapular protraction at top"],
-  },
-  {
-    name: "L-sit",
-    type: "Accessory", level: "Beginner", focus: "Core · Hip flexors",
-    desc: "Legs parallel to floor, arms straight, pushing down hard. Pure hip flexor and compression strength. Essential for tuck planche — if you can't L-sit, you can't tuck planche. Progressing from tuck L-sit → L-sit → V-sit mirrors the planche compression progression.",
-    cues: ["Push down hard — think anti-gravity", "Arms fully locked — no bending", "Legs parallel to floor — not dropping", "Point toes and squeeze legs together", "Build from tuck L-sit if full L-sit is too hard"],
-  },
-  {
-    name: "Zanetti Fly",
-    type: "Accessory", level: "Beginner", focus: "Shoulders",
-    desc: "Specific anterior deltoid isolation in planche angle. Arms extended to sides in planche lean position, raise and lower. Targets the exact shoulder angle needed for planche. Max reps followed by isometric hold at peak contraction.",
-    cues: ["Maintain planche lean position throughout", "Arms at planche angle — not straight to sides", "Controlled throughout — no swinging", "Hold at top for 2s on every rep", "Max reps then hold to failure at end"],
-  },
-  {
-    name: "Banded Planche (Assisted)",
-    type: "Assisted", level: "Beginner", focus: "Form · Technique",
-    desc: "Band around hips from above reduces body weight. Use the lightest band that lets you hold the target position for 5s+. Heavier band = less stimulus. The band should not make it easy — just possible. Use at end of session for form work. Progress: 3 bands → 2 → 1 → free.",
-    cues: ["Position hands one step forward of band anchor point", "Lightest band that makes it possible — not easy", "Use to practice form you can't hold unassisted", "Always do unassisted attempts BEFORE banded work", "Band assistance is valid at all levels — not a shortcut"],
-  },
-];
-
-const FRONT_LEVER_EXERCISES = [
-  // ── HOLDS ──────────────────────────────────────────────────────────────
-  {
-    name: "Tuck Front Lever Hold",
-    type: "Hold", level: "Beginner", focus: "Lats · Control",
-    desc: "The foundation. Hang from bar, pull knees tight to chest, depress scapulas, raise hips to bar height. The most important cue of all: flat back. A rounded back is a compensated lever that won't transfer to higher variations. Build 10s+ before progressing. Film from the side every session.",
-    cues: ["Knees as tight to chest as possible — tighter = easier", "Scapulas depressed AND retracted simultaneously", "Hips at bar height or slightly above", "FLAT back — this is the non-negotiable", "Arms fully locked — any bend = not a real front lever"],
-  },
-  {
-    name: "Advanced Tuck Hold",
-    type: "Hold", level: "Beginner-Intermediate", focus: "Lats · Core",
-    desc: "Extend hips to 180° — thighs parallel to floor, knees still bent. 2-3× harder than tuck. The extended hip position dramatically increases the lever arm on your lats. Posterior pelvic tilt prevents hip drop. Most athletes spend 4-8 weeks here.",
-    cues: ["Hips extended to 180° — thighs parallel to floor", "Knees still bent but body nearly horizontal", "Posterior pelvic tilt: prevent hip drop", "Core engaged like a plank throughout", "Film from side — hips must be at shoulder height"],
-  },
-  {
-    name: "Half Lay Hold",
-    type: "Hold", level: "Intermediate", focus: "Lats · Full body",
-    desc: "Between advanced tuck and one-leg — one leg extended straight, one bent. The extended leg increases the lever arm significantly. Some athletes find this easier than straddle as a progression step. Valid intermediate position.",
-    cues: ["One leg extended straight, one knee bent to chest", "Extended leg: squeeze glute, point toe", "Hips must remain at shoulder height", "Rotate between which leg is extended each set", "This bridges advanced tuck to one-leg lever"],
-  },
-  {
-    name: "One Leg / Straddle Hold",
-    type: "Hold", level: "Intermediate", focus: "Lats · Full body",
-    desc: "One leg fully extended (one-leg) or wide leg split (straddle). Both are valid and roughly equivalent in difficulty — use whichever lets you hold longer. The one-leg lever: extended leg drives the lever arm, tucked leg reduces it. Wide straddle is significantly easier than narrow straddle.",
-    cues: ["One-leg: extend one leg, keep other tucked", "Straddle: wide split — wider = significantly easier", "Try both and use whichever holds longer", "Point toes on extended leg(s)", "8s clean on either = attempt full lever"],
-  },
-  {
-    name: "Full Front Lever Hold",
-    type: "Hold", level: "Advanced", focus: "Full body · Lats",
-    desc: "Body perfectly horizontal, legs together. 80% lats, 15% rear delts/traps/triceps, 5% core. Think 'pull the bar down toward your hips' — this activates lats maximally. Entry from straddle (bring legs together slowly) — never kick into position. Even 1-2s is elite.",
-    cues: ["Think: pull the bar toward your hips — max lat activation", "Legs together, toes pointed, inner thighs squeezed", "Lower back flat — not arched", "Scapulas depressed AND retracted throughout", "1 breath in before hold — don't breathe mid-hold"],
-  },
-  // ── ECCENTRICS ─────────────────────────────────────────────────────────
-  {
-    name: "Tuck Lever Negative",
-    type: "Eccentric", level: "Beginner", focus: "Strength · Form",
-    desc: "From tuck front lever, lower slowly over 4-5s to dead hang. Best way to build lat strength when you can't hold the full position. Always do these at the START of your session. 3 clean negatives builds more strength than 20 sloppy holds.",
-    cues: ["Start from solid tuck hold", "Lower over 4-5 seconds — count out loud", "Fight gravity throughout the descent", "Flat back throughout — don't round as you fatigue", "Do these first in every session — always"],
-  },
-  {
-    name: "Straddle / One-Leg Negative",
-    type: "Eccentric", level: "Intermediate", focus: "Strength",
-    desc: "From straddle or one-leg position, lower to dead hang over 5s. The specific eccentric stimulus at this level builds the exact lat strength needed for full lever. 4 weeks of consistent negatives here will produce dramatic improvements.",
-    cues: ["Maintain leg position throughout descent", "Lower at exactly the same rate — don't rush", "Hips stay level — no dropping one side", "Fight gravity every centimeter"],
-  },
-  {
-    name: "Full Lever Negative",
-    type: "Eccentric", level: "Advanced", focus: "Strength · Control",
-    desc: "From full front lever (use band if needed), lower to dead hang over 5-6s. The most powerful lever strength builder available. Even with band assistance this is elite training. Every second of controlled descent produces massive lat adaptation.",
-    cues: ["Legs together throughout the descent", "Lower over 5-6 seconds — not faster", "Body remains perfectly horizontal as you lower", "Use band if needed — quality over ego", "Film every rep — check body alignment"],
-  },
-  // ── RAISES ─────────────────────────────────────────────────────────────
-  {
-    name: "Tuck Lever Raises",
-    type: "Dynamic", level: "Beginner", focus: "Lats · Explosiveness",
-    desc: "From dead hang, raise hips to tuck front lever position. Dynamic version of the hold — builds explosive lat strength. Initiate with scapular depression, then lat engagement. 5-10 clean reps. Do at start of session. The raising motion teaches the exact neural pattern for the lever.",
-    cues: ["From dead hang: depress scapulas FIRST before pulling", "Pull with lats — elbows drive down and back", "Raise to full tuck position: hips at bar height", "Control the descent — 2 seconds down", "5 reps > 10 sloppy reps"],
-  },
-  {
-    name: "Advanced Tuck Raises",
-    type: "Dynamic", level: "Intermediate", focus: "Lats",
-    desc: "From dead hang, raise to advanced tuck position. Significantly harder than tuck raises. The extended hip position requires much more lat activation. Key exercise for full lever progression — if you can do 5 clean advanced tuck raises, you're close to the full lever.",
-    cues: ["Same initiation as tuck raise: scapulas first", "Hips must extend to 180° at the top", "Controlled descent over 3 seconds", "5 clean reps = approaching full lever territory"],
-  },
-  {
-    name: "One-Leg / Straddle Raises",
-    type: "Dynamic", level: "Intermediate", focus: "Lats · Full body",
-    desc: "From dead hang, raise to one-leg or straddle position. High specificity to the front lever. Builds the exact pulling pattern needed for full lever rows. 3-5 clean reps is excellent.",
-    cues: ["Open legs to straddle or extend one leg as you raise", "Hips must reach shoulder height at top", "Don't swing or use momentum", "Control the entire movement — 3s up, 3s down"],
-  },
-  {
-    name: "Full Lever Raises",
-    type: "Dynamic", level: "Advanced", focus: "Full body · Lats",
-    desc: "From dead hang, raise to full front lever position. Elite movement. Even partial raises (to straddle then bring legs together) build enormous strength. Film every attempt. 1 clean full raise means you have the full lever.",
-    cues: ["Start from straddle and bring legs together at top", "Or attempt directly from dead hang", "Full body tension throughout the raise", "Film every attempt — don't miss progress"],
-  },
-  // ── ROWS ───────────────────────────────────────────────────────────────
-  {
-    name: "Tuck Front Lever Rows",
-    type: "Row", level: "Beginner", focus: "Lats · Arms",
-    desc: "From tuck front lever hang, pull bar to chest. Maintain tuck throughout the entire pull. The pull path: bar moves toward lower chest, elbows drive straight back. 5 clean reps = pulling strength ready for next lever position. 3-second negative on every rep.",
-    cues: ["Establish tuck lever hang first — then initiate row", "Pull bar toward lower chest — not chin", "Elbows drive straight back", "Maintain tuck throughout — hips don't drop", "3-second controlled descent on every rep"],
-  },
-  {
-    name: "Half Lay / One-Leg Rows",
-    type: "Row", level: "Intermediate", focus: "Lats · Full body",
-    desc: "From one-leg or half-lay position, pull bar to chest. Much harder than tuck rows due to extended lever arm. Maintain the leg position throughout. Even 2-3 clean reps is excellent. This directly prepares you for full lever rows.",
-    cues: ["Maintain leg position throughout the pull", "Pull with lats — don't just use arms", "Lower back flat throughout", "3-5 reps target — quality over quantity"],
-  },
-  {
-    name: "Full Front Lever Rows",
-    type: "Row", level: "Elite", focus: "Full body · Lats",
-    desc: "Maintain full horizontal position while pulling bar to chest. The hardest pulling movement in bodyweight training. Even 1 rep places you in the top 0.1% of athletes worldwide. Film every attempt — you'll want the evidence.",
-    cues: ["Full horizontal position maintained throughout", "Pull bar to chest — elbows drive back and down", "Every muscle firing simultaneously", "Film every attempt — even failed ones show progress"],
-  },
-  // ── PUSH-UPS (for lever programs) ──────────────────────────────────────
-  {
-    name: "Pull-Ups (Lever Variation)",
-    type: "Accessory", level: "Beginner", focus: "Lats · General pulling",
-    desc: "Standard pull-up adapted to front lever training. Initiate by depressing scapulas before bending elbows — this is the lever pattern. Lead with chest, not chin. Wide grip for lat width, close grip for lat thickness. This is the foundation if your lever isn't there yet.",
-    cues: ["Initiate with scapular depression BEFORE bending elbows", "Lead with chest — not chin", "3-second controlled descent", "Wide grip = lat width, close grip = lat thickness", "Chest to bar pull-ups for maximum range"],
-  },
-  {
-    name: "One-Leg Pull-Ups",
-    type: "Accessory", level: "Intermediate", focus: "Lats · Core",
-    desc: "Pull-up performed while holding one leg extended horizontally — simulates the core and lat demand of the front lever. Much harder than standard pull-ups. Alternate legs each set.",
-    cues: ["Extend one leg horizontally before pulling", "Keep extended leg at lever height throughout", "Maintain flat back — no arching", "Alternate legs between sets"],
-  },
-  {
-    name: "Scapular Raises",
-    type: "Accessory", level: "Beginner", focus: "Lats · Scapulas",
-    desc: "Dead hang from bar. Without bending arms, depress scapulas (pull shoulder blades down). Hold 1-2s at bottom. Return to full elevation slowly. Directly strengthens the exact muscles that initiate the front lever. Most underrated exercise in lever training — 6 weeks will add 3-5s to your hold.",
-    cues: ["Start in full dead hang — scapulas fully elevated", "WITHOUT bending arms: pull shoulder blades DOWN", "Hold 2s at bottom — feel the lat engagement", "Return slowly to full elevation", "Add 2s hold at bottom as you progress"],
-  },
-  {
-    name: "Dragon Flag",
-    type: "Accessory", level: "Intermediate", focus: "Full posterior chain",
-    desc: "Lying on bench, raise body as one rigid unit. Builds the full posterior chain and core stiffness needed for front lever. The body must remain straight — any pike or bend reduces the stimulus. Slow negatives are the money phase.",
-    cues: ["Body must be rigid — straight line from shoulders to toes", "Raise with legs first, core follows", "Lower as slowly as possible — 4-5s", "Pike (bending at hips) defeats the purpose", "Tuck version is valid if full is too hard"],
-  },
-  {
-    name: "Pelican Curl",
-    type: "Accessory", level: "Intermediate", focus: "Biceps · Elbow stability",
-    desc: "On rings in dip position, let forearms extend forward until extreme bicep stretch. Best exercise for lever-specific bicep and elbow stability. The extreme stretch position builds the connective tissue needed to maintain locked elbows under heavy lever load. Start very light — this is intense on tendons.",
-    cues: ["Start in ring support position", "Let arms extend forward into extreme stretch position", "Control the stretch — no dropping", "Return to start position actively", "Start 1-2 reps only — build very slowly over weeks"],
-  },
-  {
-    name: "Chest-to-Bar Pull-Ups",
-    type: "Accessory", level: "Intermediate", focus: "Lats · Pulling height",
-    desc: "Pull until chest touches the bar. The extra range at the top activates the same lat depression pattern as the front lever. Underrated builder — 6 weeks of chest-to-bar will noticeably improve lever hold time. Add weight when 8 clean reps become easy.",
-    cues: ["Pull until chest contacts the bar — not just chin", "Lead with the chest, drive elbows down", "The extra top range = lever-specific activation", "3-second controlled descent every rep", "Add weight when 8 reps feel moderate"],
-  },
-  {
-    name: "Banded Front Lever (Assisted)",
-    type: "Assisted", level: "Beginner", focus: "Form · Technique",
-    desc: "Band supports the hips/legs, reducing lever load. Use the lightest band that makes the target position achievable. Do unassisted attempts FIRST, then use band for form work at session end. Best for practicing positions above your current level.",
-    cues: ["Do unassisted attempts before banded work", "Lightest band that makes it possible — not easy", "Use to practice form at higher variations", "Band at hips: position hands slightly forward of anchor", "Taper band use over time: 3 bands → 2 → 1 → free"],
-  },
-];
-
-const TRAINING_METHODS = [
-  {
-    name: "Negatives (Eccentric)",
-    emoji: "⬇️",
-    difficulty: "★★★★",
-    desc: "Lower the movement slowly over 3-5 seconds. Eccentric strength builds 3× faster than concentric. Always do these at the START of your session when your nervous system is fresh. This is the single most effective method for both planche and front lever.",
-    example: "Planche: banded planche → lower over 4s. Front lever: full lever → lower over 5s. 3-5 sets, full rest between.",
-    restTime: "3-4 min",
-  },
-  {
-    name: "Max Hold Sets",
-    emoji: "⏱️",
-    difficulty: "★★★",
-    desc: "Hold your current variation as long as possible with perfect form. The moment form breaks, the set ends — don't count sloppy seconds. 3 consecutive max holds with 30s breathing between each. Track your best hold every session.",
-    example: "Tuck planche × 3 max holds. Rest 2-3 min between sets. Log the time every session.",
-    restTime: "2-3 min",
-  },
-  {
-    name: "20s On / 20s Off",
-    emoji: "🔁",
-    difficulty: "★★★",
-    desc: "Attempt your movement for 20 seconds, rest 20 seconds, repeat 5-8 rounds. Perfect for skill work and nervous system training. High volume without burning out. The brief rest keeps quality high throughout.",
-    example: "20s planche lean attempt → 20s rest → repeat 6 rounds. Total: 4 min of quality work.",
-    restTime: "20s",
-  },
-  {
-    name: "Pyramid Sets",
-    emoji: "🔺",
-    difficulty: "★★★",
-    desc: "Increase volume then decrease: 1 rep → 2 → 3 → 4 → 3 → 2 → 1. For holds: 3s → 5s → 8s → 5s → 3s. Maximizes total volume without hitting failure too early. Great for volume sessions.",
-    example: "Tuck push-ups: 1 rep · rest 90s · 2 reps · rest 90s · 3 reps · rest 90s · 2 reps · rest 90s · 1 rep.",
-    restTime: "90s - 2 min",
-  },
-  {
-    name: "Supersets",
-    emoji: "⚡",
-    difficulty: "★★",
-    desc: "Two exercises back to back with minimal rest, then full rest after the pair. Pair push with pull to maximize volume while one muscle group recovers. Doubles your training density without doubling session time.",
-    example: "Tuck planche hold 5s → immediately tuck front lever hold 5s → rest 3 min. Repeat 4-5 times.",
-    restTime: "3-4 min after pair",
-  },
-  {
-    name: "EMOM (Every Minute On the Minute)",
-    emoji: "🕐",
-    difficulty: "★★★",
-    desc: "At the start of every minute, perform your exercise. Rest for the remainder of the minute. High density training — great for volume weeks. If your exercise takes 20s, you get 40s rest. Run for 8-12 minutes.",
-    example: "EMOM 10 min: 3 tuck planche push-ups at the start of each minute. Total: 30 quality reps.",
-    restTime: "Remainder of minute",
-  },
-  {
-    name: "Dead Stop Reps",
-    emoji: "🛑",
-    difficulty: "★★★★",
-    desc: "Full stop between every rep — no momentum, no bounce. Every rep starts from zero. Eliminates elastic energy, forces pure strength. Much harder than continuous reps but builds more specific strength and control.",
-    example: "Straddle push-ups: lower, pause 1s at bottom, press back up. Count only clean reps.",
-    restTime: "3-4 min",
-  },
-  {
-    name: "Combination Sets",
-    emoji: "🔗",
-    difficulty: "★★★★★",
-    desc: "String multiple skills together without stopping. Start with hardest variation, degrade progressively. Don't stop on technical failure — drop to easier variant and continue. Builds nervous endurance and massive volume. Best for intermediate-advanced.",
-    example: "Straddle planche → L-sit → tuck push-ups → planche lean → repeat until failure. Rest 4-5 min.",
-    restTime: "4-5 min",
-  },
-];
-
-// Sample programs Force / Volume
-const SAMPLE_PROGRAMS: Record<string, { force: string[]; volume: string[] }> = {
-  planche: {
-    force: [
-      "Tuck / Adv. Tuck Negatives — 4×3-5s eccentric · 4 min rest",
-      "Straddle Negatives (banded) — 4×4s eccentric · 4 min rest",
-      "Tuck Planche Hold — 5× max hold · 3 min rest",
-      "Tuck Press or Adv. Tuck Press — 4×2-4 reps · 3 min rest",
-    ],
-    volume: [
-      "Planche Lean — EMOM 10 min · 15s attempt each minute",
-      "Pseudo Planche Push-Ups — 4×8-12 reps · 90s rest",
-      "Tuck Push-Ups — pyramid 1-2-3-2-1 · 90s rest",
-      "L-sit — 4× max hold · 60s rest",
-      "Banded Straddle Hold (form work) — 3×10s · 2 min rest",
-    ],
-  },
-  front: {
-    force: [
-      "Tuck / Adv. Tuck Lever Negatives — 4×4-5s eccentric · 4 min rest",
-      "Straddle Lever Negatives (banded) — 4×5s eccentric · 4 min rest",
-      "Advanced Tuck / One-Leg Hold — 5× max hold · 3 min rest",
-      "Tuck / One-Leg Rows — 4×3-5 reps · 3 min rest",
-    ],
-    volume: [
-      "Scapular Raises — 4×12-15 reps · 60s rest",
-      "Tuck Lever Raises — EMOM 10 min · 3 raises each minute",
-      "Chest-to-Bar Pull-Ups — 4×5-8 reps · 2 min rest",
-      "Dragon Flag — 3×3-5 reps · 2 min rest",
-      "Banded Full Lever Hold (form work) — 3×8s · 2 min rest",
-    ],
-  },
-};
-
-function ProgramBuilder({ programId }: { programId: string }) {
-  const isPlanche = programId.includes("planche") || programId === "combo-planche-lever" || programId === "bundle";
-  const isFrontLever = programId.includes("front") || programId === "combo-planche-lever" || programId === "bundle";
-  const [activeSkill, setActiveSkill] = useState<"Planche" | "Front Lever">(isPlanche ? "Planche" : "Front Lever");
-  const [activeTab, setActiveTab] = useState<"structure" | "exercises" | "methods" | "program">("structure");
-  const [openMethod, setOpenMethod] = useState<string | null>(null);
-  const [openExo, setOpenExo] = useState<string | null>(null);
-  const [filterType, setFilterType] = useState<string>("All");
-
-  if (!isPlanche && !isFrontLever) return null;
-
-  const currentExos = activeSkill === "Planche" ? PLANCHE_EXERCISES : FRONT_LEVER_EXERCISES;
-  const types = ["All", ...Array.from(new Set(currentExos.map(e => e.type)))];
-  const filteredExos = filterType === "All" ? currentExos : currentExos.filter(e => e.type === filterType);
-
-  const typeColors: Record<string, string> = {
-    "Hold": "#22c55e", "Eccentric": "#f97316", "Push-Up": "#3b82f6",
-    "Press": "#a855f7", "Row": "#06b6d4", "Dynamic": "#eab308",
-    "Accessory": "#ec4899", "Assisted": "#6b7280",
-  };
-  const levelColors: Record<string, string> = {
-    "Beginner": "#22c55e", "Beginner-Intermediate": "#84cc16",
-    "Intermediate": "#f59e0b", "Advanced": "#f97316", "Elite": "#ef4444",
-  };
-
-  const sampleKey = activeSkill === "Planche" ? "planche" : "front";
-  const sample = SAMPLE_PROGRAMS[sampleKey];
-
-  const tabs = [
-    { id: "structure", label: "📐 Session Structure" },
-    { id: "exercises", label: "📚 Exercise Library" },
-    { id: "methods", label: "⚙️ Training Methods" },
-    { id: "program", label: "🗓️ Sample Program" },
-  ] as const;
-
-  return (
-    <div style={{ marginBottom: 48 }}>
-      <SectionBar title="BUILD YOUR OWN PROGRAM" tag="The best program is the one built for you" />
-
-      {/* Two choices */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }} className="pg2">
-        <div style={{ background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.25)", borderRadius: 8, padding: "20px" }}>
-          <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#4ade80", letterSpacing: 2, marginBottom: 10 }}>✅ OPTION 1 — FOLLOW THE PROGRAM</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65 }}>
-            The structured phases above are already designed. Follow them session by session. Zero thinking required — just show up and execute.
-          </p>
-        </div>
-        <div style={{ background: "rgba(255,69,0,0.06)", border: "1px solid rgba(255,69,0,0.25)", borderRadius: 8, padding: "20px" }}>
-          <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fb923c", letterSpacing: 2, marginBottom: 10 }}>🧠 OPTION 2 — BUILD YOUR OWN</div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65 }}>
-            Learn to program yourself using the exercise library, methods and session templates below. You leave with the ability to train independently forever — and build a custom program with the interactive journal above.
-          </p>
-        </div>
-      </div>
-
-      {/* Skill selector */}
-      {isPlanche && isFrontLever && (
-        <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-          {(["Planche", "Front Lever"] as const).map(skill => (
-            <button key={skill} onClick={() => setActiveSkill(skill)}
-              style={{ padding: "8px 18px", borderRadius: 4, border: `1px solid ${activeSkill === skill ? "var(--orange)" : "rgba(255,255,255,0.15)"}`, background: activeSkill === skill ? "rgba(255,69,0,0.12)" : "transparent", color: activeSkill === skill ? "#ff6b35" : "rgba(255,255,255,0.6)", fontFamily: "var(--fd)", fontSize: 12, cursor: "pointer", letterSpacing: 1, transition: "all .2s" }}>
-              {skill}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Tabs */}
-      <div style={{ display: "flex", gap: 4, marginBottom: 20, flexWrap: "wrap" }}>
-        {tabs.map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-            style={{ padding: "8px 14px", borderRadius: 4, border: `1px solid ${activeTab === tab.id ? "var(--orange)" : "rgba(255,255,255,0.1)"}`, background: activeTab === tab.id ? "rgba(255,69,0,0.12)" : "rgba(255,255,255,0.03)", color: activeTab === tab.id ? "#ff6b35" : "rgba(255,255,255,0.55)", fontFamily: "var(--fb)", fontSize: 12, cursor: "pointer", transition: "all .2s", whiteSpace: "nowrap" }}>
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* ── SESSION STRUCTURE ── */}
-      {activeTab === "structure" && (
-        <div>
-          <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "24px", marginBottom: 20 }}>
-            <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "rgba(255,165,0,0.9)", letterSpacing: 2, marginBottom: 18 }}>📐 SESSION TEMPLATE — IN THIS ORDER</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {[
-                { step: "01", label: "Eccentrics / Negatives", time: "~15 min", color: "#f97316", desc: "Always first. CNS freshest here — max strength gains. 3-5 sets, 3-5s negatives, full rest between. If you skip this, you lose 30% of the session's strength stimulus." },
-                { step: "02", label: "Hold Work", time: "~15 min", color: "#4ade80", desc: "Current variation max holds. Film every set. If hold drops below 50% of your best, stop — too fatigued for quality work." },
-                { step: "03", label: "Skill-Specific Hypertrophy", time: "~20 min", color: "#60a5fa", desc: "Push-ups, rows, raises — at YOUR level. Can't do front lever rows? Do chest-to-bar pull-ups at max effort. Progress = doing harder variations over time." },
-                { step: "04", label: "Technical Work (Assisted)", time: "~10 min", color: "#c084fc", desc: "Banded holds or lean practice. Light resistance, perfect positioning. Fix form issues here. Always do unassisted attempts BEFORE banded work." },
-              ].map((item) => (
-                <div key={item.step} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${item.color}18`, border: `2px solid ${item.color}60`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <span style={{ fontFamily: "var(--fd)", fontSize: 11, color: item.color, fontWeight: 900 }}>{item.step}</span>
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 5 }}>
-                      <span style={{ fontFamily: "var(--fd)", fontSize: 14, color: "#fff", fontWeight: 700 }}>{item.label}</span>
-                      <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: item.color, background: `${item.color}15`, padding: "2px 8px", borderRadius: 20 }}>{item.time}</span>
-                    </div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.6 }}>{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "#fff", letterSpacing: 2, marginBottom: 12 }}>📅 THE TRAINING CYCLE — NOT A WEEKLY SCHEDULE</div>
-
-              {/* Rolling cycle visual */}
-              <div style={{ display: "flex", gap: 4, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
-                {[
-                  { label: "SESSION 1", sub: "Force", color: "#ef4444" },
-                  { label: "REST", sub: "48h min", color: null },
-                  { label: "SESSION 2", sub: "Volume", color: "#60a5fa" },
-                  { label: "REST", sub: "48h min", color: null },
-                  { label: "SESSION 3", sub: "Force", color: "#ef4444" },
-                  { label: "REST", sub: "48h min", color: null },
-                  { label: "SESSION 4", sub: "Volume", color: "#60a5fa" },
-                  { label: "...", sub: "", color: null },
-                ].map((item, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                    <div style={{ textAlign: "center" }}>
-                      <div style={{ background: item.color ? `${item.color}18` : "rgba(255,255,255,0.04)", border: `1px solid ${item.color ? `${item.color}40` : "rgba(255,255,255,0.08)"}`, borderRadius: 4, padding: "6px 8px", minWidth: item.label === "..." ? 20 : 60 }}>
-                        <div style={{ fontFamily: "var(--fd)", fontSize: 9, fontWeight: 900, color: item.color || "rgba(255,255,255,0.2)", letterSpacing: 0.5 }}>{item.label}</div>
-                        {item.sub && <div style={{ fontFamily: "var(--fb)", fontSize: 8, color: item.color ? `${item.color}90` : "rgba(255,255,255,0.2)", marginTop: 2 }}>{item.sub}</div>}
-                      </div>
-                    </div>
-                    {i < 7 && <div style={{ width: 8, height: 1, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />}
-                  </div>
-                ))}
-              </div>
-
-              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.65 }}>
-                This is <strong style={{ color: "#fff" }}>not a fixed weekly schedule</strong> — it's a rolling cycle. Train every other day minimum. If life gets in the way and you rest 2 days, no problem — just pick up where you left off. Force day always followed by rest, Volume day always followed by rest. The pattern continues regardless of which day of the week it falls on.
-              </p>
-            </div>
-          </div>
-
-          {/* Cycles */}
-          <div style={{ background: "rgba(255,69,0,0.04)", border: "1px solid rgba(255,69,0,0.2)", borderRadius: 8, padding: "20px" }}>
-            <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "rgba(255,130,0,0.9)", letterSpacing: 2, marginBottom: 14 }}>🔄 TRAINING CYCLES — 3 TO 5 WEEKS</div>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65, marginBottom: 16 }}>
-              After 3-5 weeks, the same stimulus stops producing gains. Change something — swap exercises for harder variants, change method, or increase load.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }} className="pg3">
-              {[
-                { week: "Week 1-2", label: "Adaptation", color: "#4ade80", desc: "New exercises feel awkward. Keep volume moderate. Learn the movement pattern." },
-                { week: "Week 3-4", label: "Peak Stimulus", color: "#f97316", desc: "Body adapted. Push volume and intensity. This is where most gains happen." },
-                { week: "Week 5+", label: "Rotate or Progress", color: "#60a5fa", desc: "If still progressing, continue. If stagnating — advance to harder variation." },
-              ].map((c) => (
-                <div key={c.week} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${c.color}25`, borderRadius: 6, padding: "14px" }}>
-                  <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: c.color, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 5 }}>{c.week}</div>
-                  <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#fff", fontWeight: 700, marginBottom: 5 }}>{c.label}</div>
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff", lineHeight: 1.5 }}>{c.desc}</p>
-                </div>
-              ))}
-            </div>
-            <div style={{ marginTop: 14, padding: "14px 16px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 6 }}>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 10, color: "#fff", letterSpacing: 2, marginBottom: 8 }}>🔀 HOW TO VARY THE STIMULUS</div>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.65 }}>
-                Two ways to vary when you stagnate: <strong style={{ color: "#fff" }}>change the method</strong> (same exercise, different execution — switch from negatives to push-ups, from max holds to EMOM) or <strong style={{ color: "#fff" }}>change the exercise</strong> (same type, harder variant — advance from tuck negatives to straddle negatives, from tuck rows to one-leg rows). You don't need to change both at once — one variable at a time produces the clearest progress signal.
-              </p>
-            </div>
-
-            {/* Cross-link push/pull */}
-            {(isPlanche && !isFrontLever) && (
-              <div style={{ marginTop: 14, padding: "16px 18px", background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.2)", borderRadius: 8 }}>
-                <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#60a5fa", letterSpacing: 2, marginBottom: 8 }}>💡 HEALTH & PERFORMANCE TIP</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65 }}>
-                  Training only pushing (planche) without pulling creates anterior shoulder dominance over time — a common cause of shoulder imbalances and injury. Adding the <strong style={{ color: "#60a5fa" }}>Front Lever</strong> as your pulling counterpart directly fixes this. Both skills also reinforce each other: the body tension from the lever improves planche stability, and the protraction from the planche improves lever positioning.
-                </p>
-                <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(59,130,246,0.8)" }}>
-                  → The Planche & Front Lever Combo includes both programs at a reduced price.
-                </div>
-              </div>
-            )}
-            {(isFrontLever && !isPlanche) && (
-              <div style={{ marginTop: 14, padding: "16px 18px", background: "rgba(249,115,22,0.06)", border: "1px solid rgba(249,115,22,0.2)", borderRadius: 8 }}>
-                <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#fb923c", letterSpacing: 2, marginBottom: 8 }}>💡 HEALTH & PERFORMANCE TIP</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65 }}>
-                  The front lever builds elite pulling strength — but without a pushing counterpart, postural imbalances can develop over time. Adding the <strong style={{ color: "#fb923c" }}>Planche</strong> as your pushing skill creates a complete push/pull system: better shoulder health, more balanced strength, and faster progress on both movements.
-                </p>
-                <div style={{ marginTop: 10, fontFamily: "var(--fb)", fontSize: 12, color: "rgba(249,115,22,0.8)" }}>
-                  → The Planche & Front Lever Combo includes both programs at a reduced price.
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* ── EXERCISE LIBRARY ── */}
-      {activeTab === "exercises" && (
-        <div>
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
-            {types.map(t => (
-              <button key={t} onClick={() => setFilterType(t)}
-                style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${filterType === t ? (typeColors[t] || "var(--orange)") : "rgba(255,255,255,0.1)"}`, background: filterType === t ? `${typeColors[t] || "var(--orange)"}20` : "transparent", color: filterType === t ? (typeColors[t] || "#ff6b35") : "rgba(255,255,255,0.5)", fontFamily: "var(--fb)", fontSize: 11, cursor: "pointer", transition: "all .2s" }}>
-                {t}
-              </button>
-            ))}
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {filteredExos.map((exo) => (
-              <div key={exo.name} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${openExo === exo.name ? "rgba(255,100,0,0.4)" : "rgba(255,255,255,0.08)"}`, borderRadius: 6, overflow: "hidden", transition: "border-color .2s" }}>
-                <button onClick={() => setOpenExo(openExo === exo.name ? null : exo.name)}
-                  style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "13px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
-                  <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: typeColors[exo.type] || "#fff", background: `${typeColors[exo.type] || "#fff"}18`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.type}</span>
-                  <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#fff", fontWeight: 700, flex: 1 }}>{exo.name}</span>
-                  <span style={{ fontFamily: "var(--fb)", fontSize: 9, color: levelColors[exo.level] || "#fff", background: `${levelColors[exo.level] || "#fff"}15`, padding: "2px 7px", borderRadius: 20, flexShrink: 0, whiteSpace: "nowrap" }}>{exo.level}</span>
-                  {openExo === exo.name ? <ChevronUp size={12} style={{ color: "#fff", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "#fff", flexShrink: 0 }} />}
-                </button>
-                {openExo === exo.name && (
-                  <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.7, marginTop: 12, marginBottom: 12 }}>{exo.desc}</p>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-                      {exo.cues.map((cue, i) => (
-                        <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-                          <div style={{ width: 16, height: 16, borderRadius: 2, background: "rgba(255,100,0,0.15)", border: "1px solid rgba(255,100,0,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
-                            <span style={{ fontFamily: "var(--fd)", fontSize: 8, color: "#f97316" }}>{i + 1}</span>
-                          </div>
-                          <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.5 }}>{cue}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ── TRAINING METHODS ── */}
-      {activeTab === "methods" && (
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          {TRAINING_METHODS.map((method) => (
-            <div key={method.name} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${openMethod === method.name ? "rgba(255,100,0,0.4)" : "rgba(255,255,255,0.08)"}`, borderRadius: 6, overflow: "hidden", transition: "border-color .2s" }}>
-              <button onClick={() => setOpenMethod(openMethod === method.name ? null : method.name)}
-                style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "13px 16px", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
-                <span style={{ fontSize: 18, flexShrink: 0 }}>{method.emoji}</span>
-                <span style={{ fontFamily: "var(--fd)", fontSize: 13, color: "#fff", fontWeight: 700, flex: 1 }}>{method.name}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "rgba(255,130,0,0.8)", flexShrink: 0 }}>Rest: {method.restTime}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", flexShrink: 0 }}>{method.difficulty}</span>
-                {openMethod === method.name ? <ChevronUp size={12} style={{ color: "#fff", flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: "#fff", flexShrink: 0 }} />}
-              </button>
-              {openMethod === method.name && (
-                <div style={{ padding: "0 16px 16px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.7, marginTop: 12, marginBottom: 10 }}>{method.desc}</p>
-                  <div style={{ background: "rgba(255,69,0,0.05)", borderLeft: "2px solid rgba(255,100,0,0.4)", padding: "10px 14px", borderRadius: "0 4px 4px 0" }}>
-                    <div style={{ fontFamily: "var(--fd)", fontSize: 9, color: "rgba(255,130,0,0.8)", letterSpacing: 1.5, marginBottom: 4 }}>💡 EXAMPLE</div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.55, fontStyle: "italic" }}>{method.example}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* ── SAMPLE PROGRAM ── */}
-      {activeTab === "program" && (
-        <div>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.65, marginBottom: 20 }}>
-            Example cycle for {activeSkill}. Adapt exercises to your current level using the library above. Run this for 3-5 weeks then progress to harder variations.
-          </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="pg2">
-            {[
-              { label: "FORCE DAY", color: "#ef4444", items: sample.force, desc: "Heavy · Low reps · 3-5 min rest · Every other day" },
-              { label: "VOLUME DAY", color: "#60a5fa", items: sample.volume, desc: "Moderate · Higher reps · 90s-2 min rest · Every other day" },
-            ].map((day) => (
-              <div key={day.label} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${day.color}25`, borderRadius: 8, padding: "20px" }}>
-                <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: day.color, letterSpacing: 2, marginBottom: 4 }}>{day.label}</div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", marginBottom: 14 }}>{day.desc}</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {day.items.map((item, i) => (
-                    <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                      <div style={{ width: 18, height: 18, borderRadius: "50%", background: `${day.color}15`, border: `1px solid ${day.color}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
-                        <span style={{ fontFamily: "var(--fd)", fontSize: 9, color: day.color }}>{i + 1}</span>
-                      </div>
-                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.5 }}>{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ marginTop: 14, padding: "14px 18px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 6 }}>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.65 }}>
-              <strong style={{ color: "#fff" }}>How to progress:</strong> when Force exercises feel manageable (you could do 1-2 more reps), advance to the next harder variation in the library. When Volume exercises become easy at given reps, add reps or advance variation. Every 3-5 weeks, rotate to keep the stimulus fresh.
-            </p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function TrainingJournal({ }: { isAdvanced?: boolean }) {
-  // Rolling cycle: Force → rest → Volume → rest → repeat
-  // Not a weekly schedule — sessions are numbered, not day-named
-  const sessions = [
-    { label: "Session 1", type: "Force" as SessionType },
-    { label: "Session 2", type: "Volume" as SessionType },
-    { label: "Session 3", type: "Force" as SessionType },
-    { label: "Session 4", type: "Volume" as SessionType },
-  ];
-
-  const activeSessions = sessions;
-  const defaultRows = 4;
-
-  const [sessionRows, setSessionRows] = useState<Record<string, ExerciseRow[]>>(
-    Object.fromEntries(activeSessions.map(s => [s.label, Array(defaultRows).fill(null).map(() => emptyRow())]))
-  );
-
-  const updateRow = (label: string, i: number, row: ExerciseRow) => {
-    setSessionRows(prev => ({ ...prev, [label]: prev[label].map((r, idx) => idx === i ? row : r) }));
-  };
-
-  const addRow = (label: string) => {
-    setSessionRows(prev => ({ ...prev, [label]: [...prev[label], emptyRow()] }));
-  };
-
-  const repInfo = {
-    Force: REP_RANGES.Force,
-    Volume: REP_RANGES.Volume,
-    Technique: REP_RANGES.Technique,
-  };
-
-  return (
-    <div style={{ marginBottom: 48 }}>
-      <SectionBar title="TRAINING JOURNAL" tag="Rolling cycle — Force → rest → Volume → rest → repeat" />
-
-      {/* Cycle explanation */}
-      <div style={{ background: "rgba(255,69,0,0.05)", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "16px 20px", marginBottom: 28 }}>
-        <div className="t-label" style={{ color: "var(--orange)", fontSize: 9, marginBottom: 12 }}>📓 HOW THE CYCLE WORKS</div>
-
-        {/* Rolling cycle visual */}
-        <div style={{ display: "flex", gap: 4, alignItems: "center", marginBottom: 14, flexWrap: "wrap" }}>
-          {[
-            { label: "SESSION", sub: "Force", color: "#ef4444" },
-            { label: "REST", sub: "48h+", color: null },
-            { label: "SESSION", sub: "Volume", color: "#60a5fa" },
-            { label: "REST", sub: "48h+", color: null },
-            { label: "SESSION", sub: "Force", color: "#ef4444" },
-            { label: "REST", sub: "48h+", color: null },
-            { label: "SESSION", sub: "Volume", color: "#60a5fa" },
-            { label: "→ ...", sub: "", color: null },
-          ].map((item, i) => (
-            <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <div style={{ textAlign: "center", minWidth: item.label === "→ ..." ? 24 : 52 }}>
-                <div style={{ background: item.color ? `${item.color}18` : "rgba(255,255,255,0.04)", border: `1px solid ${item.color ? `${item.color}40` : "rgba(255,255,255,0.08)"}`, borderRadius: 4, padding: "5px 4px" }}>
-                  <div style={{ fontFamily: "var(--fd)", fontSize: 8, fontWeight: 900, color: item.color || "rgba(255,255,255,0.2)", letterSpacing: 0.3 }}>{item.label}</div>
-                  {item.sub && <div style={{ fontFamily: "var(--fb)", fontSize: 8, color: item.color ? `${item.color}80` : "rgba(255,255,255,0.18)", marginTop: 1 }}>{item.sub}</div>}
-                </div>
-              </div>
-              {i < 7 && <div style={{ width: 6, height: 1, background: "rgba(255,255,255,0.08)", flexShrink: 0 }} />}
-            </div>
-          ))}
-        </div>
-
-        <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", lineHeight: 1.65, marginBottom: 14 }}>
-          This is <strong style={{ color: "#ffffff" }}>not a weekly schedule</strong> — it's a rolling cycle. Always one rest day (48h minimum) between sessions. If life gets in the way and you rest 2 days, no problem — just resume where you left off. The pattern continues regardless of which day of the week it falls on.
-        </p>
-
-        {/* Rep ranges */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10 }}>
-          {Object.entries(repInfo).map(([type, info]) => (
-            <div key={type} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-              <div style={{ width: 10, height: 10, borderRadius: 2, background: info.color, flexShrink: 0, marginTop: 3 }} />
-              <div>
-                <div style={{ fontFamily: "var(--fd)", fontSize: 12, color: "#fff", fontWeight: 700 }}>{type} — {info.range}</div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff" }}>{info.desc}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Session blocks */}
-      {activeSessions.map(({ label, type }) => {
-        const info = REP_RANGES[type];
-        const rows = sessionRows[label];
-        return (
-          <div key={label} style={{ marginBottom: 24 }}>
-            <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
-              📅 {label} <span style={{ color: info.color, marginLeft: 6 }}>({type})</span>
-              <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", marginLeft: 8 }}>→ rest day after</span>
-            </div>
-            <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${info.color}33`, marginBottom: 4 }}>
-              <div style={{ background: info.color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "#fff", letterSpacing: 2 }}>{type.toUpperCase()}</span>
-                <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{info.range}</span>
-              </div>
-              <div style={{ background: "var(--bg-card)", padding: "14px" }}>
-                <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
-                  {(["push", "pull"] as const).map(cat => (
-                    <span key={cat} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 4, padding: "3px 10px", letterSpacing: 1.5, textTransform: "uppercase" }}>{cat}</span>
-                  ))}
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 80px 80px", gap: 6, marginBottom: 8 }}>
-                  {["Exercise", "Sets", "Reps", "Rest"].map(h => (
-                    <div key={h} style={{ fontFamily: "var(--fb)", fontSize: 9, color: "#fff", letterSpacing: 2, textTransform: "uppercase", textAlign: h !== "Exercise" ? "center" : "left" }}>{h}</div>
-                  ))}
-                </div>
-                {rows.map((row, i) => (
-                  <ExerciseInputRow key={i} row={row} onChange={r => updateRow(label, i, r)} suggestions={[...EXERCISE_SUGGESTIONS.push, ...EXERCISE_SUGGESTIONS.pull]} />
-                ))}
-                <button onClick={() => addRow(label)}
-                  style={{ marginTop: 6, background: "transparent", border: "1px dashed var(--border)", borderRadius: 4, color: "#fff", padding: "6px 14px", cursor: "pointer", fontFamily: "var(--fb)", fontSize: 11, width: "100%", transition: "all .2s" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--orange)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.3)"; }}>
-                  + Add exercise
-                </button>
-              </div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function WarmupCooldown({ items, title, icon, tag }: { items: { name: string; duration: string; notes: string }[]; title: string; icon: React.ReactNode; tag: string }) {
-  const [checkedMap, setCheckedMap] = useState<Record<number, boolean>>({});
-  return (
-    <div style={{ marginBottom: 40 }}>
-      <SectionBar title={title} tag={tag} />
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        {items.map((item, i) => (
-          <div key={i} className="surface check-row" onClick={() => setCheckedMap(prev => ({ ...prev, [i]: !prev[i] }))}
-            style={{ borderRadius: 6, padding: "14px 18px", display: "flex", alignItems: "flex-start", gap: 12, cursor: "pointer", opacity: checkedMap[i] ? 0.4 : 1, border: `1px solid ${checkedMap[i] ? "var(--orange-border)" : "var(--border)"}`, transition: "all 0.2s" }}>
-            <div style={{ marginTop: 2 }}><Checkbox checked={!!checkedMap[i]} /></div>
-            <div style={{ flex: 1 }}>
-              <div className="t-display" style={{ fontSize: 15, textDecoration: checkedMap[i] ? "line-through" : "none", color: "var(--text)" }}>{item.name}</div>
-              <p className="t-body" style={{ fontSize: 12, color: "var(--text-faint)", lineHeight: 1.45, marginTop: 3 }}>{item.notes}</p>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
-              <Clock size={11} style={{ color: "var(--orange)" }} />
-              <span className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, whiteSpace: "nowrap" }}>{item.duration}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function PrintCover({ program }: { program: Program }) {
-  return (
-    <div className="print-cover" style={{ display: "none", pageBreakAfter: "always" }}>
-      <div className="print-cover-accent" />
-      <div className="t-label" style={{ color: "var(--orange)", fontSize: 11, letterSpacing: 3, marginBottom: 16 }}>GRAVITYLAB — ELITE TRAINING MANUAL</div>
-      <h1 className="print-title t-serif" style={{ fontSize: 52, lineHeight: 1.05, marginBottom: 16 }}>{program.title}</h1>
-      <p className="t-serif" style={{ fontSize: 20, color: "#555", marginBottom: 48, fontStyle: "italic" }}>{program.tagline}</p>
-      <div style={{ borderTop: "1px solid #ddd", paddingTop: 20 }}>
-        <p className="t-body print-body" style={{ fontSize: 12, color: "#888" }}>© 2025 GravityLab · Lifetime Access · gravitylab.com</p>
-      </div>
-    </div>
-  );
-}
-
-function BundleDashboard({ program, onBack }: { program: Program; onBack: () => void }) {
-  const bundleProgs = program.bundlePrograms ?? [];
-  const [activeProg, setActiveProg] = useState<Program>(bundleProgs[0]);
-  const [activeTrack, setActiveTrack] = useState<0 | 1>(0);
-  const phases: Phase[] = activeProg.dualTrack && activeTrack === 1 ? (activeProg.gymPhases ?? activeProg.phases) : activeProg.phases;
-
-  return (
-    <div style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh" }}>
-      <PrintCover program={program} />
-      <div className="no-print" style={{ background: "rgba(10,10,10,0.94)", backdropFilter: "blur(24px)", borderBottom: "1px solid var(--border)", padding: "16px 24px", position: "sticky", top: 0, zIndex: 200 }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }} className="dash-head">
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <button className="btn-ghost" onClick={onBack}><ArrowLeft size={13} /> Programs</button>
-            <div style={{ borderLeft: "1px solid var(--border-bright)", paddingLeft: 16 }}>
-              <div className="t-display" style={{ fontSize: 19, lineHeight: 1 }}>👑 Ultimate Gravity Bundle</div>
-              <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginTop: 3 }}>ALL 5 PROGRAMS — LIFETIME ACCESS</div>
-            </div>
-          </div>
-          <div style={{ display: "flex", gap: 10 }}>
-            {program.stripeUrl && (
-              <a href={program.stripeUrl} target="_blank" rel="noopener noreferrer">
-                <button className="btn-primary" style={{ padding: "10px 20px", fontSize: 12, background: "linear-gradient(135deg,var(--orange),#ff8c00)" }}>
-                  Get Bundle — ${program.price}
-                </button>
-              </a>
-            )}
-            <button className="btn-ghost" style={{ padding: "10px 20px", fontSize: 12 }} onClick={() => window.print()}>
-              <Download size={12} /> Download Manual
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px 0" }}>
-        <div style={{ background: "linear-gradient(135deg, rgba(255,69,0,0.1), rgba(255,69,0,0.03))", border: "1px solid var(--orange-border)", borderRadius: 12, padding: "32px 36px", marginBottom: 36, position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: -30, right: -30, fontSize: 120, opacity: 0.06, pointerEvents: "none" }}>👑</div>
-          <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14 }}>BUNDLE — ALL 5 PROGRAMS</div>
-          <h2 className="t-display" style={{ fontSize: "clamp(26px,4vw,44px)", marginBottom: 10 }}>Your Complete Training Library</h2>
-          <p className="t-body" style={{ fontSize: 14, color: "var(--text-dim)", maxWidth: 640, lineHeight: 1.65, marginBottom: 20 }}>{program.mindset}</p>
-          <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-            {program.benefits.map((b, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <Check size={12} style={{ color: "var(--orange)" }} />
-                <span className="t-body" style={{ fontSize: 12, color: "#ffffff" }}>{b}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ marginBottom: 32 }}>
-          <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, letterSpacing: 2, marginBottom: 12 }}>SELECT PROGRAM</div>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            {bundleProgs.map(p => (
-              <button key={p.id} onClick={() => { setActiveProg(p); setActiveTrack(0); }}
-                style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 18px", borderRadius: 6, border: `1px solid ${activeProg.id === p.id ? "var(--orange)" : "var(--border)"}`, background: activeProg.id === p.id ? "var(--orange-dim)" : "var(--bg-card)", color: activeProg.id === p.id ? "var(--orange)" : "var(--text-dim)", cursor: "pointer", transition: "all .2s", fontFamily: "var(--fd)", fontWeight: 700, fontSize: 12, letterSpacing: 1, textTransform: "uppercase" }}>
-                <span style={{ fontSize: 16 }}>{p.icon}</span>
-                <div style={{ textAlign: "left" }}>
-                  <div>{p.title}</div>
-                  <div style={{ fontSize: 9, fontFamily: "var(--fb)", fontWeight: 300, color: activeProg.id === p.id ? "var(--orange)" : "var(--text-faint)", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.level}</div>
-                </div>
-                {activeProg.id === p.id && <div style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--orange)", marginLeft: 4 }} />}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="surface" style={{ padding: "18px 22px", borderRadius: 8, marginBottom: 32, display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", borderLeft: `3px solid ${activeProg.levelColor}` }}>
-          <div style={{ fontSize: 32 }}>{activeProg.icon}</div>
-          <div style={{ flex: 1 }}>
-            <div className="t-display" style={{ fontSize: 20 }}>{activeProg.title} <span style={{ fontSize: 12, fontFamily: "var(--fb)", color: activeProg.levelColor }}>— {activeProg.level}</span></div>
-            <p className="t-body" style={{ fontSize: 13, color: "var(--text-dim)", marginTop: 4 }}>{activeProg.tagline}</p>
-          </div>
-          {activeProg.dualTrack && activeProg.trackLabels && (
-            <div className="track-toggle">
-              {activeProg.trackLabels.map((label, idx) => (
-                <button key={label} className={`track-btn ${activeTrack === idx ? "active" : ""}`} onClick={() => setActiveTrack(idx as 0 | 1)}>
-                  {idx === 0 ? <Home size={12} /> : <Dumbbell size={12} />}
-                  {label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px 60px" }}>
-        <div style={{ display: "flex", gap: 20, marginBottom: 40, flexWrap: "wrap" }}>
-          <div className="surface" style={{ flex: 2, minWidth: 260, padding: "20px", borderRadius: 8 }}>
-            <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 12 }}><Target size={10} style={{ display: "inline", marginRight: 5, color: "var(--orange)" }} />PROGRAM GOALS</div>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
-              {activeProg.goals.map((g, i) => (
-                <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-                  <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
-                  <span className="t-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.45 }}>{g}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="surface" style={{ flex: 1, minWidth: 220, padding: "20px", borderRadius: 8 }}>
-            <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 8 }}><Layers size={10} style={{ display: "inline", marginRight: 5, color: "var(--orange)" }} />STRUCTURE</div>
-            <p className="t-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.5 }}>{activeProg.weekStructure}</p>
-          </div>
-        </div>
-
-        <WarmupCooldown items={activeProg.warmup} title="WARM-UP & MOBILITY" icon={<Thermometer size={16} />} tag={`${activeProg.warmup.length} exercises · ~15 min`} />
-        <section style={{ marginBottom: 52 }}>
-          <SectionBar title="CORE PROGRAM" tag={`${phases.length} phases · ${phases.reduce((acc, p) => acc + p.exercises.length, 0)} exercises`} />
-          {phases.map((phase, i) => <PhaseBlock key={`${activeProg.id}-${i}`} phase={phase} index={i} />)}
-        </section>
-        <WarmupCooldown items={activeProg.cooldown} title="COOL DOWN & RECOVERY" icon={<Wind size={16} />} tag={`${activeProg.cooldown.length} exercises · ~12 min`} />
-        <ProgramBuilder programId={activeProg.id} />
-        <TrainingJournal isAdvanced={activeProg.level === "Advanced" || activeProg.level === "Intermediate"} />
-
-        <div className="no-print" style={{ marginTop: 56, paddingTop: 28, borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-          <button className="btn-ghost" onClick={onBack}><ArrowLeft size={13} /> Back to Programs</button>
-          <button className="btn-primary" onClick={() => window.print()}><Download size={13} /> Download Full Manual</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Dashboard({ program, onBack }: { program: Program; onBack: () => void }) {
-  const [activeTrack, setActiveTrack] = useState<0 | 1>(0);
-  const totalWeeks = 8;
-  const phases: Phase[] = program.dualTrack && activeTrack === 1 ? (program.gymPhases ?? program.phases) : program.phases;
-
-  return (
-    <div style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh" }}>
-      <PrintCover program={program} />
-      <div className="no-print" style={{ background: "rgba(10,10,10,0.94)", backdropFilter: "blur(24px)", borderBottom: "1px solid var(--border)", padding: "16px 24px", position: "sticky", top: 0, zIndex: 200 }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }} className="dash-head">
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <button className="btn-ghost" onClick={onBack}><ArrowLeft size={13} /> Programs</button>
-            <div style={{ borderLeft: "1px solid var(--border-bright)", paddingLeft: 16 }}>
-              <div className="t-display" style={{ fontSize: 19, lineHeight: 1 }}>{program.title}</div>
-              <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginTop: 3 }}>{program.subtitle}</div>
-            </div>
-          </div>
-          <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-            {program.dualTrack && program.trackLabels && (
-              <div className="track-toggle">
-                {program.trackLabels.map((label, idx) => (
-                  <button key={label} className={`track-btn ${activeTrack === idx ? "active" : ""}`} onClick={() => setActiveTrack(idx as 0 | 1)}>
-                    {idx === 0 ? <Home size={12} /> : <Dumbbell size={12} />}
-                    {label}
-                  </button>
-                ))}
-              </div>
-            )}
-            {program.stripeUrl && (
-              <a href={program.stripeUrl} target="_blank" rel="noopener noreferrer">
-                <button className="btn-primary" style={{ padding: "10px 20px", fontSize: 12 }}>Get Access — ${program.price}</button>
-              </a>
-            )}
-            <button className="btn-ghost" style={{ padding: "10px 20px", fontSize: 12 }} onClick={() => window.print()}>
-              <Download size={12} /> Download Manual
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px" }}>
-        <section style={{ marginBottom: 56 }} className="print-break-before">
-          <div style={{ display: "flex", gap: 24, flexWrap: "wrap", marginBottom: 28 }}>
-            <div style={{ flex: 2, minWidth: 260 }}>
-              <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 16 }}>
-                <BookOpen size={10} /> INTRODUCTION
-              </div>
-              <h1 className="t-display print-title" style={{ fontSize: "clamp(36px,5vw,56px)", lineHeight: 0.95, marginBottom: 12 }}>{program.title}</h1>
-              <p className="t-serif" style={{ fontSize: 19, color: "var(--text-dim)", lineHeight: 1.5, marginBottom: 20, fontStyle: "italic" }}>{program.tagline}</p>
-              <p className="t-body print-body" style={{ fontSize: 14, color: "var(--text-dim)", lineHeight: 1.7, maxWidth: 580 }}>{program.mindset}</p>
-            </div>
-            <div style={{ flex: 1, minWidth: 220 }}>
-              <div className="surface" style={{ padding: "20px", borderRadius: 8, marginBottom: 16 }}>
-                <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 12 }}>
-                  <Target size={10} style={{ display: "inline", marginRight: 5, color: "var(--orange)" }} />PROGRAM GOALS
-                </div>
-                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
-                  {program.goals.map((g, i) => (
-                    <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-                      <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
-                      <span className="t-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.45 }}>{g}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="surface" style={{ padding: "16px 20px", borderRadius: 8 }}>
-                <div className="t-label" style={{ color: "var(--text-faint)", fontSize: 9, marginBottom: 8 }}>
-                  <Layers size={10} style={{ display: "inline", marginRight: 5, color: "var(--orange)" }} />STRUCTURE
-                </div>
-                <p className="t-body" style={{ fontSize: 13, color: "#ffffff", lineHeight: 1.5 }}>{program.weekStructure}</p>
-              </div>
-            </div>
-          </div>
-
-        </section>
-
-        {program.dualTrack && program.trackLabels && (
-          <div className="no-print" style={{ background: "linear-gradient(135deg, rgba(255,69,0,0.07), rgba(255,69,0,0.03))", border: "1px solid var(--orange-border)", borderRadius: 8, padding: "18px 22px", marginBottom: 40, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-            <RefreshCw size={18} style={{ color: "var(--orange)", flexShrink: 0 }} />
-            <div>
-              <div className="t-display" style={{ fontSize: 16, marginBottom: 3 }}>Dual-Track Program Active</div>
-              <p className="t-body" style={{ fontSize: 13, color: "var(--text-dim)" }}>Currently viewing: <strong style={{ color: "var(--orange)" }}>{program.trackLabels[activeTrack]}</strong> — Switch between tracks using the toggle above.</p>
-            </div>
-          </div>
-        )}
-
-        <WarmupCooldown items={program.warmup} title="WARM-UP & MOBILITY" icon={<Thermometer size={16} />} tag={`${program.warmup.length} exercises · ~15 min`} />
-        <section style={{ marginBottom: 52 }}>
-          <SectionBar title="CORE PROGRAM" tag={`${phases.length} phases · ${phases.reduce((acc, p) => acc + p.exercises.length, 0)} exercises`} />
-          {phases.map((phase, i) => <PhaseBlock key={i} phase={phase} index={i} />)}
-        </section>
-        <WarmupCooldown items={program.cooldown} title="COOL DOWN & RECOVERY" icon={<Wind size={16} />} tag={`${program.cooldown.length} exercises · ~12 min`} />
-
-        {/* Training Journal */}
-        <ProgramBuilder programId={program.id} />
-        <TrainingJournal isAdvanced={program.level === "Advanced" || program.level === "Intermediate / Advanced" || program.level === "Intermediate"} />
-
-        <div className="no-print" style={{ marginTop: 56, paddingTop: 28, borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-          <button className="btn-ghost" onClick={onBack}><ArrowLeft size={13} /> Back to Programs</button>
-          <button className="btn-primary" onClick={() => window.print()}><Download size={13} /> Download Full Manual</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-interface JournalRow { exercise: string; sets: string; reps: string; rest: string; }
-
-function SessionTable({ type, rows, onUpdate }: {
-  type: SessionType;
-  rows: JournalRow[];
-  onUpdate: (i: number, field: keyof JournalRow, val: string) => void;
-}) {
-  const { color, bg, label, range } = REP_RANGES[type];
-  return (
-    <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${color}33`, marginBottom: 20 }}>
-      <div style={{ background: color, padding: "10px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 16, color: "#fff", letterSpacing: 2 }}>{label}</span>
-        <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#fff", background: "rgba(0,0,0,0.2)", padding: "3px 10px", borderRadius: 20 }}>{range}</span>
-      </div>
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--fb)" }}>
-          <thead>
-            <tr style={{ background: bg }}>
-              {["EXERCISES", "SETS", "REPS", "REST"].map(h => (
-                <th key={h} style={{ padding: "10px 14px", textAlign: "left", fontSize: 10, letterSpacing: 2, color: color, fontWeight: 700, borderBottom: `1px solid ${color}33` }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, i) => (
-              <tr key={i} style={{ borderBottom: "1px solid var(--border)", background: i % 2 === 0 ? "var(--bg-card)" : "var(--bg-card2)" }}>
-                {(["exercise", "sets", "reps", "rest"] as (keyof JournalRow)[]).map(field => (
-                  <td key={field} style={{ padding: "8px 10px" }}>
-                    <input
-                      value={row[field]}
-                      onChange={e => onUpdate(i, field, e.target.value)}
-                      placeholder={field === "exercise" ? "Exercise name..." : field === "sets" ? "4" : field === "reps" ? "5" : "3 min"}
-                      style={{
-                        background: "transparent", border: "none", outline: "none",
-                        fontFamily: "var(--fb)", fontSize: 13, color: "#fff",
-                        width: "100%", minWidth: field === "exercise" ? 160 : 60,
-                      }}
-                    />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════
-// PROGRAM CARD
-// ═══════════════════════════════════════════════════════
-
-// ═══════════════════════════════════════════════════════
-// STICKY TOP BAR
-// ═══════════════════════════════════════════════════════
-
-function StickyTopBar() {
-  const quickLinks = [
-    { label: "🪐 Planche", id: "planche-foundation", stripe: "https://buy.stripe.com/14A7sNgHv9ix3R14d73ZK0h" },
-    { label: "🌊 Front Lever", id: "front-lever", stripe: "https://buy.stripe.com/4gM4gB76V2U973dgZT3ZK0m" },
-    { label: "🔥 Planche + Lever", id: "combo-planche-lever", stripe: "https://buy.stripe.com/cNi5kF3UJdyNfzJ8tn3ZK0p" },
-    { label: "💎 Aesthetic Physique", id: "hypertrophy", stripe: "https://buy.stripe.com/aFadRb76V1Q5evFaBv3ZK0n" },
-    { label: "⚡ Basic Skills", id: "basic-skills", stripe: "https://buy.stripe.com/5kQdRb4YN9ixbjt6lf3ZK0o" },
-    { label: "🔥 Physique + Skills", id: "combo-hypertrophy-skills", stripe: "https://buy.stripe.com/00w5kF0Ix1Q52MXcJD3ZK0q" },
-    { label: "👑 Bundle $97", id: "bundle", stripe: "https://buy.stripe.com/cNi4gB76V8etevFaBv3ZK0r" },
-  ];
-
-  return (
-    <div className="no-print" style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 300,
-      background: "rgba(10,10,10,0.97)",
-      backdropFilter: "blur(16px)",
-      borderBottom: "1px solid rgba(255,69,0,0.2)",
-      height: 36,
-      display: "flex", alignItems: "center",
-      padding: "0 12px",
-      overflowX: "auto",
-      gap: 4,
-    }}>
-      <span style={{ fontFamily: "var(--fd)", fontSize: 9, color: "var(--orange)", letterSpacing: 2, whiteSpace: "nowrap", marginRight: 6, flexShrink: 0 }}>PROGRAMS →</span>
-      {quickLinks.map(link => (
-        <a key={link.id} href={link.stripe} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", flexShrink: 0 }}>
-          <span style={{
-            fontFamily: "var(--fd)", fontSize: 10, fontWeight: 700, letterSpacing: 1,
-            color: link.id === "bundle" ? "var(--orange)" : "rgba(255,255,255,0.75)",
-            background: link.id === "bundle" ? "rgba(255,69,0,0.15)" : "rgba(255,255,255,0.05)",
-            border: `1px solid ${link.id === "bundle" ? "rgba(255,69,0,0.4)" : "rgba(255,255,255,0.1)"}`,
-            borderRadius: 3, padding: "3px 10px", whiteSpace: "nowrap", cursor: "pointer",
-            display: "inline-block",
-            transition: "all .15s",
+    <div
+      style={{
+        background: "#FFFFFF",
+        border: "1px solid #ECE0D2",
+        borderRadius: 14,
+        overflow: "hidden",
+      }}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        style={{
+          width: "100%",
+          textAlign: "left",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          padding: "20px 24px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 16,
+          fontSize: 15,
+          fontWeight: 800,
+          color: "#2b2420",
+          fontFamily: "inherit",
+        }}
+      >
+        {q}
+        <span
+          style={{
+            width: 24,
+            height: 24,
+            borderRadius: "50%",
+            background: "#FFE7D6",
+            color: "#E0440A",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            fontSize: 16,
+            fontWeight: 900,
+            transition: "transform .25s ease",
+            transform: open ? "rotate(45deg)" : "rotate(0deg)",
           }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,69,0,0.5)"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = link.id === "bundle" ? "var(--orange)" : "rgba(255,255,255,0.75)"; (e.currentTarget as HTMLElement).style.borderColor = link.id === "bundle" ? "rgba(255,69,0,0.4)" : "rgba(255,255,255,0.1)"; }}>
-            {link.label}
-          </span>
-        </a>
-      ))}
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════
-// PROGRAM CARD
-// ═══════════════════════════════════════════════════════
-
-function ProgramCard({ program: p, onOpen }: { program: Program; onOpen: (p: Program) => void }) {
-  const fromZeroLabel: Record<string, string> = {
-    "planche-foundation": "From 0 to Planche",
-    "front-lever": "From 0 to Front Lever",
-    "hypertrophy": "From 0 to Prime Physique",
-    "basic-skills": "11 Essential Skills",
-    "combo-planche-lever": "From 0 to Planche & Front Lever",
-    "combo-hypertrophy-skills": "From 0 to Physique & Skills",
-    "bundle": "From 0 to Everything",
-  };
-  const label = fromZeroLabel[p.id] ?? `From 0 to ${p.title}`;
-
-  return (
-    <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", position: "relative", overflow: "visible" }}>
-      {/* Clip inner content but allow badge to overflow */}
-      <div style={{ position: "absolute", inset: 0, borderRadius: 8, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
-        <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at top left, ${p.glowColor}, transparent 60%)` }} />
-      </div>
-      {p.badge && (
-        <div style={{
-          position: "absolute", top: -1, right: -1,
-          background: p.badge === "BEST DUO" ? "linear-gradient(135deg,#06b6d4,#0891b2)"
-            : p.badge === "BEST VALUE" ? "linear-gradient(135deg,var(--orange),#ff8c00)"
-            : "var(--orange)",
-          color: "#fff",
-          fontSize: 9, fontWeight: 800, letterSpacing: 2, fontFamily: "var(--fb)",
-          padding: "5px 12px", borderRadius: "0 8px 0 8px",
-          whiteSpace: "nowrap", zIndex: 10,
-          animation: "badgePop 2s ease-in-out infinite",
-        }}>{p.badge}</div>
-      )}
-      <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
-        <div style={{ fontSize: 30, marginBottom: 10 }}>{p.icon}</div>
-        <span className="badge" style={{ background: `${p.levelColor}18`, color: p.levelColor, border: `1px solid ${p.levelColor}30`, marginBottom: 10, alignSelf: "flex-start", whiteSpace: "nowrap" }}>{label}</span>
-        <h3 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 21, textTransform: "uppercase", marginBottom: 3, lineHeight: 1.05, color: "var(--text)" }}>{p.title}</h3>
-        <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", marginBottom: 12, lineHeight: 1.4 }}>{p.subtitle}</p>
-        {p.category === "bundle" && (
-          <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,69,0,.07)", border: "1px solid var(--orange-border)", borderRadius: 3, padding: "4px 10px", marginBottom: 12, alignSelf: "flex-start" }}>
-            <Package size={10} style={{ color: "var(--orange)" }} />
-            <span style={{ fontFamily: "var(--fb)", fontSize: 9, fontWeight: 700, color: "var(--orange)", letterSpacing: 1.5, textTransform: "uppercase" }}>All 4 Programs Included</span>
-          </div>
-        )}
-        <ul style={{ listStyle: "none", marginBottom: 12, display: "flex", flexDirection: "column", gap: 7, flex: 1 }}>
-          {p.benefits.map((b) => (
-            <li key={b} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
-              <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.4 }}>{b}</span>
-            </li>
-          ))}
-        </ul>
-        {/* Format badges */}
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
-          {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
-            <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
-          ))}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 6, padding: "8px 10px" }}>
-          <span style={{ fontSize: 13 }}>📱</span>
-          <div>
-            <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#ffffff", fontWeight: 700, letterSpacing: 1 }}>LIFETIME ACCESS</div>
-            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
-          </div>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
-          <div>
-            <span className={p.category === "bundle" || p.id === "combo-planche-lever" || p.id === "combo-hypertrophy-skills" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: p.category === "bundle" || p.id === "combo-planche-lever" || p.id === "combo-hypertrophy-skills" ? undefined : "var(--text)", lineHeight: 1 }}>${p.price}</span>
-            {p.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${p.originalPrice}</span>}
-            <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "var(--text-faint)", marginTop: 3, lineHeight: 1.3 }}>
-              vs $80/session with a coach<br /><span style={{ color: "#22c55e", fontWeight: 700 }}>Lifetime access. One payment.</span>
-            </div>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
-            {p.stripeUrl ? (
-              <a href={p.stripeUrl} target="_blank" rel="noopener noreferrer">
-                <button className={`btn-primary ${p.category === "bundle" || p.id === "combo-planche-lever" || p.id === "combo-hypertrophy-skills" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>I want this →</button>
-              </a>
-            ) : (
-              <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => onOpen(p)}>I want this →</button>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════
-// TESTIMONIALS SECTION
-// ═══════════════════════════════════════════════════════
-
-const beforeAfterData = [
-  {
-    name: "Marcus",
-    age: 18,
-    program: "Aesthetic Physique",
-    programColor: "#ec4899",
-    duration: "3 months",
-    before: "/Marcus_Before.png",
-    after: "/Marcus_After.png",
-    quote: "I had never trained seriously before. 3 months in, I have visible abs, my chest actually exists now, and I'm stronger than I've ever been. The no-equipment track is no joke.",
-    stats: [{ label: "Duration", val: "3 months" }, { label: "Program", val: "Aesthetic Physique" }, { label: "Track", val: "No Equipment" }],
-  },
-  {
-    name: "Léo",
-    age: 23,
-    program: "Physique + Skills",
-    programColor: "#f59e0b",
-    duration: "9 months",
-    before: "/Leo_Before.png",
-    after: "/Leo_After.png",
-    quote: "9 months of the physique + skills combo. I went from a skinny guy with zero skill to a straddle planche hold and a physique I'm actually proud of. Both programs complement each other perfectly.",
-    stats: [{ label: "Duration", val: "9 months" }, { label: "Program", val: "Physique + Skills" }, { label: "Skill reached", val: "Straddle Planche" }],
-  },
-  {
-    name: "Jordan",
-    age: 20,
-    program: "Aesthetic Physique + Front Lever",
-    programColor: "#3b82f6",
-    duration: "7 months",
-    before: "/Jordan_Before.png",
-    after: "/Jordan_After.png",
-    quote: "4 months of Aesthetic Physique, then 3 months of Front Lever on top. Ended up with both: a physique transformation and a full front lever. Didn't think both were possible at the same time.",
-    stats: [{ label: "Duration", val: "7 months" }, { label: "Programs", val: "2 programs" }, { label: "Skill reached", val: "Full Front Lever" }],
-  },
-];
-
-function BeforeAfterCard({ data }: { data: typeof beforeAfterData[0] }) {
-  const [showAfter, setShowAfter] = useState(false);
-
-  return (
-    <div className="surface" style={{ borderRadius: 12, overflow: "hidden", border: "1px solid var(--border)", transition: "border-color .2s" }}
-      onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--orange-border)")}
-      onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}>
-
-      {/* Photo toggle */}
-      <div style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", background: "#0a0a0a" }}>
-        <img
-          src={showAfter ? data.after : data.before}
-          alt={`${data.name} ${showAfter ? "after" : "before"}`}
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", transition: "opacity .3s" }}
-        />
-        {/* Before/After toggle buttons */}
-        <div style={{ position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)", display: "flex", background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", borderRadius: 20, overflow: "hidden", border: "1px solid rgba(255,255,255,0.15)" }}>
-          <button onClick={() => setShowAfter(false)}
-            style={{ padding: "7px 18px", border: "none", cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, transition: "all .2s", background: !showAfter ? "var(--orange)" : "transparent", color: !showAfter ? "#fff" : "#ffffff" }}>
-            BEFORE
-          </button>
-          <button onClick={() => setShowAfter(true)}
-            style={{ padding: "7px 18px", border: "none", cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, transition: "all .2s", background: showAfter ? "var(--orange)" : "transparent", color: showAfter ? "#fff" : "#ffffff" }}>
-            AFTER
-          </button>
-        </div>
-        {/* Program badge */}
-        <div style={{ position: "absolute", top: 12, left: 12 }}>
-          <span className="badge" style={{ background: `rgba(0,0,0,0.75)`, color: data.programColor, border: `2px solid ${data.programColor}`, backdropFilter: "blur(12px)", fontSize: 9, fontWeight: 900, boxShadow: `0 0 12px ${data.programColor}66` }}>
-            {data.program}
-          </span>
-        </div>
-      </div>
-
-      {/* Info */}
-      <div style={{ padding: "20px" }}>
-        {/* Stars */}
-        <div style={{ display: "flex", gap: 2, marginBottom: 10 }}>
-          {Array(5).fill(0).map((_, i) => <Star key={i} size={11} fill="var(--orange)" stroke="none" />)}
-        </div>
-        {/* Name + age */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-          <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 20, color: "var(--text)" }}>{data.name}</div>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)" }}>{data.age} y.o. · {data.duration}</span>
-        </div>
-        {/* Quote */}
-        <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.65, marginBottom: 16, fontStyle: "italic" }}>
-          "{data.quote}"
+        >
+          +
+        </span>
+      </button>
+      <div
+        style={{
+          maxHeight: open ? 240 : 0,
+          overflow: "hidden",
+          transition: "max-height .3s ease",
+        }}
+      >
+        <p
+          style={{
+            padding: "0 24px 22px",
+            fontSize: 14,
+            color: "#6f6258",
+            lineHeight: 1.65,
+            margin: 0,
+          }}
+        >
+          {a}
         </p>
-        {/* Stats */}
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", paddingTop: 14, borderTop: "1px solid var(--border)" }}>
-          {data.stats.map((s, i) => (
-            <div key={i} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)", borderRadius: 4, padding: "6px 10px" }}>
-              <div style={{ fontFamily: "var(--fb)", fontSize: 9, color: "var(--text-faint)", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 2 }}>{s.label}</div>
-              <div style={{ fontFamily: "var(--fd)", fontSize: 13, color: "var(--text)", fontWeight: 700 }}>{s.val}</div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
 }
 
-function TestimonialsSection() {
+function Check() {
   return (
-    <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>RESULTS</div>
-          <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4vw,52px)", textTransform: "uppercase", marginBottom: 12 }}>
-            No stock photos.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>No paid reviews.</span>
-          </h2>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", maxWidth: 480, margin: "0 auto" }}>
-            Real people. Real timelines. Real results. Toggle BEFORE / AFTER yourself.
-          </p>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }} className="testimonial-grid">
-          {beforeAfterData.map((d, i) => <BeforeAfterCard key={i} data={d} />)}
-        </div>
-      </div>
-    </section>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
   );
 }
 
-// ═══════════════════════════════════════════════════════
-// FAQ SECTION
-// ═══════════════════════════════════════════════════════
-
-function FAQSection() {
-  const [open, setOpen] = useState<number | null>(null);
+function CheckOrange() {
   return (
-    <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)" }}>
-      <div style={{ maxWidth: 780, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 52 }}>
-          <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>FAQ</div>
-          <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4vw,52px)", textTransform: "uppercase" }}>
-            Real questions.<br />Straight answers.
-          </h2>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          {faqs.map((faq, i) => (
-            <div key={i} className="surface" style={{ borderRadius: 6, overflow: "hidden", border: `1px solid ${open === i ? "var(--orange-border)" : "var(--border)"}`, transition: "border-color .2s" }}>
-              <button onClick={() => setOpen(open === i ? null : i)}
-                style={{ width: "100%", background: "transparent", border: "none", cursor: "pointer", padding: "18px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, textAlign: "left" }}>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 16, color: open === i ? "var(--orange)" : "var(--text)", transition: "color .2s", lineHeight: 1.3 }}>{faq.q}</span>
-                <div style={{ width: 24, height: 24, borderRadius: "50%", border: `1.5px solid ${open === i ? "var(--orange)" : "var(--border-bright)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all .2s", background: open === i ? "var(--orange-dim)" : "transparent" }}>
-                  {open === i ? <ChevronUp size={12} style={{ color: "var(--orange)" }} /> : <ChevronDown size={12} style={{ color: "var(--text-faint)" }} />}
-                </div>
-              </button>
-              {open === i && (
-                <div style={{ padding: "0 20px 20px" }}>
-                  <div style={{ width: "100%", height: 1, background: "var(--border)", marginBottom: 16 }} />
-                  <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "#ffffff", lineHeight: 1.7 }}>{faq.a}</p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Still unsure CTA */}
-        <div style={{ marginTop: 40, textAlign: "center", padding: "28px", background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)", borderRadius: 8 }}>
-          <AlertCircle size={20} style={{ color: "var(--orange)", marginBottom: 10 }} />
-          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", marginBottom: 16 }}>Still not sure? Ask directly — you'll get a real answer, not an FAQ link.</p>
-          <a href="mailto:contact@gravitylab.com">
-            <button className="btn-secondary">Ask directly →</button>
-          </a>
-        </div>
-      </div>
-    </section>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF5E1A" strokeWidth="2.5">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
   );
 }
 
-// ═══════════════════════════════════════════════════════
-// BUNDLE COUNTDOWN + PRICE BREAKDOWN
-// ═══════════════════════════════════════════════════════
-
-function BundleSection({ onOpen }: { onOpen: (p: Program) => void }) {
-  const priceItems = [
-    { label: "Planche Foundation", price: 37 },
-    { label: "Front Lever Mastery", price: 32 },
-    { label: "Aesthetic Physique", price: 25 },
-    { label: "Basic Skills", price: 27 },
-  ];
-  const total = priceItems.reduce((a, b) => a + b.price, 0);
-
+export default function Home() {
   return (
-    <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, background: "rgba(255,69,0,0.02)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-      <div style={{ maxWidth: 960, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }} className="pg2">
-          {/* Left — value breakdown */}
-          <div>
-            <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 18 }}>BUNDLE — BEST VALUE</div>
-            <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,4vw,52px)", textTransform: "uppercase", lineHeight: .9, marginBottom: 28 }}>
-              All in.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>One shot.</span>
-            </h2>
-            {/* Price breakdown */}
-            <div style={{ background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden", marginBottom: 20 }}>
-              {priceItems.map((item, i) => (
-                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 18px", borderBottom: "1px solid var(--border)" }}>
-                  <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)" }}>
-                    <Check size={11} style={{ color: "var(--orange)", marginRight: 8, display: "inline" }} />
-                    {item.label}
-                  </span>
-                  <span style={{ fontFamily: "var(--fd)", fontSize: 15, color: "var(--text-faint)", textDecoration: "line-through" }}>${item.price}</span>
-                </div>
-              ))}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 18px", background: "rgba(255,69,0,0.06)", borderTop: "2px solid var(--orange-border)" }}>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 14, color: "var(--text)", letterSpacing: 1, textTransform: "uppercase" }}>If bought separately</span>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 20, color: "var(--text-faint)", textDecoration: "line-through" }}>${total}</span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 18px", background: "linear-gradient(90deg,rgba(255,69,0,0.12),rgba(255,69,0,0.04))" }}>
-                <div>
-                  <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 14, color: "var(--orange)", letterSpacing: 1, textTransform: "uppercase" }}>Bundle Price</div>
-                  <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>You save ${total - 97}</div>
-                </div>
-                <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "var(--orange)" }}>$97</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right — CTA */}
-          <div>
-            {/* CTA */}
-            <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer" style={{ display: "block" }}>
-              <button className="btn-primary pulse-glow cta-pulse" style={{ width: "100%", justifyContent: "center", padding: "16px", fontSize: 15, letterSpacing: 2 }}>
-                Lock in the Bundle — $97
-              </button>
-            </a>
-            <div style={{ display: "flex", gap: 16, marginTop: 14, justifyContent: "center", flexWrap: "wrap" }}>
-              {["Lifetime access", "Instant delivery"].map((t, i) => (
-                <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", display: "flex", alignItems: "center", gap: 5 }}>
-                  <Check size={10} style={{ color: "var(--orange)" }} />{t}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ═══════════════════════════════════════════════════════
-// CATEGORY SECTION
-// ═══════════════════════════════════════════════════════
-
-function CatSection({ label, sublabel, progs, onOpen }: { label: string; sublabel: string; progs: Program[]; onOpen: (p: Program) => void }) {
-  return (
-    <div style={{ marginBottom: 64 }}>
-      <div style={{ marginBottom: 28 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 6 }}>
-          <div style={{ width: 4, height: 28, background: "var(--orange)", borderRadius: 2, flexShrink: 0 }} />
-          <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(26px,3.5vw,40px)", textTransform: "uppercase", color: "var(--text)" }}>{label}</h2>
-        </div>
-        <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 18 }}>{sublabel}</p>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(progs.length, 3)}, 1fr)`, gap: 18 }} className="pg3">
-        {progs.map(p => <ProgramCard key={p.id} program={p} onOpen={onOpen} />)}
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════
-// QUIZ SECTION (with urgency result page)
-// ═══════════════════════════════════════════════════════
-
-function QuizSection({ onOpen }: { onOpen: (p: Program) => void }) {
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<number[]>([]);
-  const [result, setResult] = useState<Program | null>(null);
-  const [selected, setSelected] = useState<number | null>(null);
-
-  const questions = [
-    {
-      // Q0 — level
-      q: "Be honest — where are you right now?",
-      sub: "No judgment. This determines everything.",
-      opts: [
-        { label: "Total beginner", desc: "Never trained seriously before" },
-        { label: "Some experience", desc: "A few months in, inconsistent results" },
-        { label: "Trained 1+ year", desc: "Consistent, solid base. Ready to push harder." },
-      ],
-    },
-    {
-      // Q1 — goal
-      q: "What do you actually want?",
-      sub: "Pick what gets you out of bed at 6am.",
-      opts: [
-        { label: "Master a calisthenics skill", desc: "Planche, front lever, one arm skills, handstand..." },
-        { label: "Build a physique I'm proud of", desc: "Visible muscle, defined body. No gym required." },
-        { label: "Both — skills AND muscle", desc: "I refuse to choose" },
-        { label: "The full package", desc: "Everything, fastest route possible" },
-      ],
-    },
-    {
-      // Q2 — which skill (shown if goal === 0 or goal === 2)
-      q: "Which skill are you targeting?",
-      sub: "All programs include the handstand as standard. Pick your main focus.",
-      opts: [
-        { label: "Planche", desc: "Horizontal hold. The king of pushing strength." },
-        { label: "Front Lever", desc: "Horizontal pull. Elite lat & back dominance." },
-        { label: "Planche + Front Lever", desc: "Both iconic skills. There's a combo built for this." },
-        { label: "Basic & essential skills", desc: "OAP, muscle-up, L-sit, V-sit, pistol squat, human flag, back lever, HSPU, 90° push-up..." },
-      ],
-    },
-    {
-      // Q3 — equipment
-      q: "What's your setup?",
-      sub: "Equipment is never an excuse — but we need to know.",
-      opts: [
-        { label: "Just the floor", desc: "Zero equipment. Zero excuses." },
-        { label: "Bar + parallettes", desc: "The only tools a calisthenics athlete actually needs" },
-        { label: "Gym access", desc: "Barbells, cables, the works. Home setup included." },
-      ],
-    },
-  ];
-
-  // Q0 → Q1 always
-  // Q1 → Q2 if goal === 0 or 2; skip to Q3 if goal === 1 or 3
-  // Q2 → Q3 always
-  // Q3 → result
-  const getNextStep = (currentStep: number, ans: number[]) => {
-    if (currentStep === 1) {
-      const goal = ans[1];
-      if (goal === 1 || goal === 3) return 3; // skip skill question
-      return 2;
-    }
-    return currentStep + 1;
-  };
-
-  const isLastStep = (currentStep: number, _ans: number[]) => {
-    return currentStep === 3;
-  };
-
-  const getRecommendation = (ans: number[]): Program => {
-    const level = ans[0];
-    const goal = ans[1];
-    const skill = ans[2]; // set if goal === 0 or 2
-    // equip is at index 3 if Q2 was shown (goal 0 or 2), else at index 2
-    const equipIdx = (goal === 0 || goal === 2) ? ans[3] : ans[2];
-    const hasGym = equipIdx === 2;
-
-    if (goal === 3) return ultimateBundle;
-
-    if (goal === 1) {
-      // pure physique
-      return fullHypertrophy;
-    }
-
-    if (goal === 2) {
-      if (skill === 2) return plancheLeverCombo;
-      if (skill === 3) return hypertrophySkillsCombo;
-      if (skill === 1) return frontLeverMastery;
-      return plancheFoundation;
-    }
-
-    if (goal === 0) {
-      if (skill === 2) return plancheLeverCombo;
-      if (skill === 3) return basicSkills;
-      if (skill === 1) return frontLeverMastery;
-      return plancheFoundation;
-    }
-
-    return plancheFoundation;
-  };
-
-  const handleAnswer = (idx: number) => {
-    setSelected(idx);
-    setTimeout(() => {
-      const newAnswers = [...answers, idx];
-      setSelected(null);
-      const next = getNextStep(step, newAnswers);
-      if (isLastStep(step, newAnswers) || next >= questions.length) {
-        const rec = getRecommendation(newAnswers);
-        setAnswers(newAnswers);
-        setResult(rec);
-      } else {
-        setAnswers(newAnswers);
-        setStep(next);
-      }
-    }, 280);
-  };
-
-  const reset = () => { setStep(0); setAnswers([]); setResult(null); setSelected(null); };
-
-  const pad = (n: number) => String(n).padStart(2, "0");
-  // Progress: 4 steps if skill shown, 3 steps if skipped
-  const totalVisible = (answers[1] === 0 || answers[1] === 2) ? 4 : 3;
-  const progress = (step / (totalVisible - 1)) * 100;
-
-  return (
-    <section style={{ padding: "80px 22px", position: "relative", zIndex: 1, background: "rgba(255,69,0,0.02)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-      <div style={{ maxWidth: 680, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 44 }}>
-          <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>🎯 30-SECOND PROGRAM FINDER</div>
-          <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4vw,50px)", textTransform: "uppercase" }}>
-            Stop guessing.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Find your program.</span>
-          </h2>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", marginTop: 12 }}>3–4 questions. Your exact starting point. No fluff.</p>
-        </div>
-
-        {result ? (
-          <div>
-            <div style={{ marginBottom: 8, fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, color: "var(--orange)", textTransform: "uppercase", textAlign: "center" }}>✅ Your exact match</div>
-
-            <div className="surface card-lift" style={{ borderRadius: 8, padding: "24px", display: "flex", flexDirection: "column", border: `2px solid ${result.levelColor}40`, background: result.glowColor, marginBottom: 20, position: "relative", overflow: "visible" }}>
-              <div style={{ position: "absolute", inset: 0, borderRadius: 8, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
-                <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at top left, ${result.glowColor}, transparent 60%)` }} />
-              </div>
-              <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
-                <div style={{ fontSize: 30, marginBottom: 10 }}>{result.icon}</div>
-                <span className="badge" style={{ background: `${result.levelColor}18`, color: result.levelColor, border: `1px solid ${result.levelColor}30`, marginBottom: 10, alignSelf: "flex-start", whiteSpace: "nowrap" }}>{result.level}</span>
-                <h3 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 21, textTransform: "uppercase", marginBottom: 3, lineHeight: 1.05, color: "var(--text)" }}>{result.title}</h3>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", marginBottom: 12, lineHeight: 1.4 }}>{result.subtitle}</p>
-
-                {result.dualTrack && result.trackLabels && (
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, background: "var(--orange-dim)", border: "1px solid var(--orange-border)", borderRadius: 3, padding: "4px 10px", marginBottom: 12, alignSelf: "flex-start" }}>
-                    <RefreshCw size={10} style={{ color: "var(--orange)" }} />
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 9, fontWeight: 700, color: "var(--orange)", letterSpacing: 1.5, textTransform: "uppercase" }}>2 Tracks:</span>
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-dim)" }}>{result.trackLabels[0]}</span>
-                    <span style={{ color: "var(--text-faint)" }}>|</span>
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-dim)" }}>{result.trackLabels[1]}</span>
-                  </div>
-                )}
-                {result.category === "bundle" && (
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,69,0,.07)", border: "1px solid var(--orange-border)", borderRadius: 3, padding: "4px 10px", marginBottom: 12, alignSelf: "flex-start" }}>
-                    <Package size={10} style={{ color: "var(--orange)" }} />
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 9, fontWeight: 700, color: "var(--orange)", letterSpacing: 1.5, textTransform: "uppercase" }}>All 5 Programs Included</span>
-                  </div>
-                )}
-
-                <ul style={{ listStyle: "none", marginBottom: 12, display: "flex", flexDirection: "column", gap: 7, flex: 1 }}>
-                  {result.benefits.map((b, i) => (
-                    <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-                      <Check size={11} style={{ color: "var(--orange)", marginTop: 3, flexShrink: 0 }} />
-                      <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.4 }}>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
-                  {["⚡ Interactive", "📈 Progressive", "🎯 Adaptive", "🔬 Science-based", "📓 Training Journal", "📚 Exercise Library", "⚙️ Full Methods & Technique"].map(tag => (
-                    <span key={tag} style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 20, padding: "3px 9px" }}>{tag}</span>
-                  ))}
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 6, padding: "8px 10px" }}>
-                  <span style={{ fontSize: 13 }}>📱</span>
-                  <div>
-                    <div style={{ fontFamily: "var(--fd)", fontSize: 11, color: "#ffffff", fontWeight: 700, letterSpacing: 1 }}>LIFETIME ACCESS</div>
-                    <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#fff", marginTop: 1 }}>⚡ Instant · Web app · PDF download available</div>
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: "1px solid var(--border)", marginTop: "auto" }}>
-                  <div>
-                    <span className={result.category === "bundle" || result.id === "combo-planche-lever" ? "shimmer-text" : ""} style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 36, color: result.category === "bundle" || result.id === "combo-planche-lever" ? undefined : "var(--text)", lineHeight: 1 }}>${result.price}</span>
-                    {result.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 7, textDecoration: "line-through" }}>${result.originalPrice}</span>}
-                    {result.id === "combo-planche-lever" && (
-                      <div style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#06b6d4", marginTop: 4 }}>🔗 Includes both programs</div>
-                    )}
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-end" }}>
-                    {result.stripeUrl ? (
-                      <a href={result.stripeUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>
-                        <button className={`btn-primary cta-pulse ${result.category === "bundle" || result.id === "combo-planche-lever" ? "cta-pulse" : ""}`} style={{ padding: "9px 17px", fontSize: 12 }}>I want this →</button>
-                      </a>
-                    ) : (
-                      <button className="btn-primary" style={{ padding: "9px 17px", fontSize: 12 }} onClick={() => onOpen(result)}>I want this →</button>
-                    )}
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 10, color: "#22c55e", textAlign: "right" }}>✓ Matched to your profile</span>
-                    <button className="btn-ghost" style={{ fontSize: 11 }} onClick={reset}>↩ Retake</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bundle upsell */}
-            {result.category !== "bundle" && (
-              <div style={{ textAlign: "center", padding: "20px", background: "rgba(255,69,0,0.04)", border: "1px solid var(--orange-border)", borderRadius: 8 }}>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-dim)", marginBottom: 12 }}>
-                  Not sure you want just one? The Bundle gives you everything — and saves you <strong style={{ color: "var(--orange)" }}>${121 - 97}</strong>.
-                </p>
-                <a href={ultimateBundle.stripeUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="btn-secondary">👑 Get the full Bundle — $97 instead of $121</button>
-                </a>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div>
-            {/* Progress bar */}
-            <div style={{ height: 3, background: "var(--border)", borderRadius: 2, marginBottom: 32, overflow: "hidden" }}>
-              <div style={{ height: "100%", width: `${progress}%`, background: "var(--orange)", borderRadius: 2, transition: "width .4s ease" }} />
-            </div>
-
-            <div className="surface" style={{ borderRadius: 12, padding: "32px 28px", border: "1px solid var(--border-bright)" }}>
-              <div style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>
-                Question {step + 1} / {questions.length}
-              </div>
-              <h3 className="t-display" style={{ fontSize: "clamp(20px,3vw,28px)", marginBottom: 6, lineHeight: 1.15 }}>{questions[step].q}</h3>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--orange)", marginBottom: 28, fontStyle: "italic" }}>{questions[step].sub}</p>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {questions[step].opts.map((opt, i) => (
-                  <button key={i} onClick={() => handleAnswer(i)}
-                    style={{
-                      padding: "14px 18px", borderRadius: 8,
-                      border: `1px solid ${selected === i ? "var(--orange)" : "var(--border)"}`,
-                      background: selected === i ? "rgba(255,69,0,0.1)" : "var(--bg-card)",
-                      color: selected === i ? "var(--text)" : "var(--text-dim)",
-                      cursor: "pointer", textAlign: "left", transition: "all .2s",
-                      display: "flex", alignItems: "center", gap: 14,
-                    }}
-                    onMouseEnter={e => { if (selected !== i) { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--orange-border)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--text)"; }}}
-                    onMouseLeave={e => { if (selected !== i) { (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--text-dim)"; }}}>
-                    <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, color: "var(--orange)", flexShrink: 0, width: 20 }}>{String.fromCharCode(65 + i)}</span>
-                    <div>
-                      <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 15, lineHeight: 1.2 }}>{opt.label}</div>
-                      <div style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-faint)", marginTop: 2 }}>{opt.desc}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {step > 0 && (
-              <button className="btn-ghost" style={{ marginTop: 14, fontSize: 12 }} onClick={() => {
-                const prevAnswers = answers.slice(0, -1);
-                // If on Q3 (equipment) and goal was physique or full package, go back to Q1
-                let prevStep = step - 1;
-                if (step === 3 && (answers[1] === 1 || answers[1] === 3)) prevStep = 1;
-                setStep(prevStep);
-                setAnswers(prevAnswers);
-              }}>
-                ← Back
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
-// ═══════════════════════════════════════════════════════
-// MAIN APP
-// ═══════════════════════════════════════════════════════
-
-const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@300;400;500;600&display=swap');
-:root {
-  --orange:#FF4500;--orange-dim:rgba(255,69,0,.1);--orange-border:rgba(255,69,0,.28);
-  --bg:#0A0A0A;--bg-card:#111;--bg-card2:#141414;
-  --border:rgba(255,255,255,.07);--border-bright:rgba(255,255,255,.14);
-  --text:#FFF;--text-dim:#ffffff;--text-faint:#ffffff;
-  --fd:'Barlow Condensed',Impact,sans-serif;--fb:'Barlow',sans-serif;--fs:'Cormorant Garamond',Georgia,serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-.noise{position:fixed;inset:0;opacity:.02;pointer-events:none;z-index:500;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
-.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px);background-size:64px 64px}
-.glass{background:rgba(255,255,255,.03);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:6px}
-.surface{background:var(--bg-card);border:1px solid var(--border);border-radius:6px}
-.surface-2{background:var(--bg-card2);border:1px solid var(--border);border-radius:6px}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;border-radius:2px;font-family:var(--fb);white-space:nowrap}
-.btn-primary{background:var(--orange);color:#fff;border:none;padding:12px 26px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:8px}
-.btn-primary:hover{background:#ff6030;transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,69,0,.4)}
-.btn-secondary{background:transparent;color:var(--orange);border:2px solid var(--orange);padding:11px 22px;font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:6px;display:inline-flex;align-items:center;gap:7px;box-shadow:0 0 0 0 rgba(255,69,0,0)}
-.btn-secondary:hover{background:var(--orange-dim);box-shadow:0 0 16px rgba(255,69,0,0.25);transform:translateY(-1px)}
-.btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-bright);padding:9px 16px;font-family:var(--fd);font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:2px;display:inline-flex;align-items:center;gap:7px}
-.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.28)}
-.card-lift{transition:border-color .3s,box-shadow .3s;cursor:pointer}
-.card-lift:hover{border-color:var(--orange-border)!important;box-shadow:0 20px 56px rgba(255,69,0,.14)}
-.progress-bar{height:3px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
-.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--orange),#ff8c00);transition:width .8s cubic-bezier(.4,0,.2,1)}
-.track-toggle{display:flex;background:rgba(255,255,255,.04);border:1px solid var(--border-bright);border-radius:4px;overflow:hidden}
-.track-btn{padding:9px 18px;font-family:var(--fd);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s;display:flex;align-items:center;gap:6px;white-space:nowrap}
-.track-btn.active{background:var(--orange);color:#fff}
-.track-btn:not(.active){background:transparent;color:var(--text-dim)}
-.track-btn:not(.active):hover{background:rgba(255,255,255,.05);color:var(--text)}
-.check-row{transition:background .18s,border-color .18s;cursor:pointer}
-.check-row:hover{background:rgba(255,69,0,.04)!important}
-.data-table{width:100%;border-collapse:collapse;font-family:var(--fb);font-size:13px}
-.data-table th{padding:11px 16px;text-align:left;font-size:10px;letter-spacing:2px;color:var(--text-faint);text-transform:uppercase;font-weight:600;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
-.data-table td{padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.04);color:#ffffff;vertical-align:top}
-.data-table tr:last-child td{border-bottom:none}
-.data-table tr:hover td{background:rgba(255,69,0,.03)}
-.section-line{display:flex;align-items:center;gap:16px;margin-bottom:28px}
-.section-line .ln{flex:1;height:1px;background:var(--border)}
-.section-line .dot{width:5px;height:5px;background:var(--orange);border-radius:50%;flex-shrink:0}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes flicker{0%,100%{opacity:1}91%{opacity:1}92%{opacity:.7}93%{opacity:1}97%{opacity:1}98%{opacity:.82}99%{opacity:1}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(255,69,0,.3)}50%{box-shadow:0 0 44px rgba(255,69,0,.6)}}
-@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
-@keyframes badgeBounce{0%,100%{transform:rotate(35deg) scale(1)}50%{transform:rotate(35deg) scale(1.08)}}
-@keyframes wiggle{0%,100%{transform:translateX(0)}20%{transform:translateX(-3px)}40%{transform:translateX(3px)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}}
-@keyframes ctaPulse{0%,100%{transform:translateY(0) scale(1);box-shadow:0 4px 20px rgba(255,69,0,.4)}50%{transform:translateY(-6px) scale(1.03);box-shadow:0 20px 60px rgba(255,69,0,.85),0 0 40px rgba(255,69,0,.4)}}
-@keyframes borderGlow{0%,100%{border-color:rgba(255,69,0,.28)}50%{border-color:rgba(255,69,0,.7)}}
-@keyframes priceReveal{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
-@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-@keyframes arrowBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
-.shimmer-text{background:linear-gradient(90deg,var(--orange) 0%,#ffb347 40%,var(--orange) 60%,#ff8c00 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
-.badge-bounce{animation:badgeBounce 2s ease-in-out infinite}
-.cta-pulse{animation:ctaPulse 1.8s ease-in-out infinite}
-.border-glow{animation:borderGlow 2.5s ease-in-out infinite}
-.wiggle{animation:wiggle 3s ease-in-out infinite}
-.arrow-bounce{animation:arrowBounce 0.9s ease-in-out infinite;display:inline-block;vertical-align:middle;margin-left:6px}
-.fade-up{animation:fadeUp .5s ease both}
-.flicker{animation:flicker 5s ease-in-out infinite}
-.pulse-glow{animation:pulseGlow 2.6s ease-in-out infinite}
-.t-display{font-family:var(--fd);font-weight:900;text-transform:uppercase;letter-spacing:-.02em}
-.t-label{font-family:var(--fb);font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
-.t-body{font-family:var(--fb);font-weight:400;line-height:1.65}
-.t-serif{font-family:var(--fs)}
-.section-divider{display:flex;align-items:center;gap:16px;margin-bottom:28px}
-.section-divider .line{flex:1;height:1px;background:var(--border)}
-.section-divider .dot{width:5px;height:5px;background:var(--orange);border-radius:50%;flex-shrink:0}
-.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:rgba(10,10,10,0.96);backdrop-filter:blur(24px);border-top:1px solid var(--border);padding:8px 0;justify-content:space-around;align-items:center}
-.bottom-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 16px;background:transparent;border:none;cursor:pointer;color:#ffffff;transition:color .2s;font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none}
-.bottom-nav-btn.active,.bottom-nav-btn:hover{color:var(--orange)}
-@media(min-width:769px){.bottom-nav{display:none!important}}
-@media(max-width:768px){
-  .pg3{grid-template-columns:1fr!important}
-  .pg2{grid-template-columns:1fr!important}
-  .ex-grid{grid-template-columns:1fr!important}
-  .dash-head{flex-direction:column!important;align-items:flex-start!important;gap:14px!important}
-  .track-btn{padding:8px 12px!important;font-size:11px!important}
-  .testimonial-grid{grid-template-columns:1fr!important}
-  .bottom-nav{display:flex!important}
-  .btn-primary{min-height:52px!important;font-size:14px!important}
-  .btn-secondary{min-height:50px!important;font-size:14px!important}
-  .hero-ctas{flex-direction:column!important;width:100%!important;align-items:stretch!important}
-  .hero-ctas a{width:100%!important}
-  .hero-ctas button{width:100%!important;justify-content:center!important}
-  .hide-mobile{display:none!important}
-  body{padding-bottom:80px}
-}
-@media print{
-  .no-print,.noise,.grid-bg,nav,footer,.track-toggle,
-  .btn-primary,.btn-secondary,.btn-ghost,.progress-bar{display:none!important}
-  *{background:#fff!important;color:#111!important;box-shadow:none!important;animation:none!important;border-color:#ddd!important}
-  html,body{font-size:11pt;line-height:1.55;font-family:Georgia,serif}
-  @page{size:A4;margin:22mm 20mm}
-  .print-cover{display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:230mm!important;page-break-after:always!important}
-  .print-h1{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:40pt!important;font-weight:700!important}
-  .print-h2{font-family:'Cormorant Garamond',Georgia,serif!important;font-size:20pt!important;border-bottom:2px solid #FF4500!important;padding-bottom:5px!important;margin-bottom:14pt!important}
-}
-`;
-
-function AppInner() {
-  const [page, setPage] = useState<"landing" | "dash">("landing");
-  const [active, setActive] = useState<Program | null>(null);
-  const [justPaid, setJustPaid] = useState(false);
-  const searchParams = useSearchParams();
-
-  // ── Read ?program= param on load (after Stripe redirect) ──
-  useEffect(() => {
-    const programId = searchParams.get("program");
-    const paid = searchParams.get("paid");
-
-    if (programId) {
-      const found = PROGRAMS.find(p => p.id === programId);
-      if (found) {
-        setActive(found);
-        setPage("dash");
-        if (paid === "true") setJustPaid(true);
-        // Clean URL without reload
-        window.history.replaceState({}, "", window.location.pathname);
-      }
-    }
-  }, [searchParams]);
-
-  const openProg = (p: Program) => {
-    setActive(p);
-    setPage("dash");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  if (page === "dash" && active) {
-    return (
-      <>
-        <style>{CSS}</style>
-
-        {/* ── Post-payment welcome banner ── */}
-        {justPaid && (
-          <div style={{
-            position: "fixed", top: 0, left: 0, right: 0, zIndex: 999,
-            background: "linear-gradient(90deg, #22c55e, #16a34a)",
-            padding: "14px 24px", display: "flex", alignItems: "center",
-            justifyContent: "space-between", gap: 16, flexWrap: "wrap",
-          }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ fontSize: 20 }}>🎉</span>
-              <div>
-                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 15, color: "#fff", letterSpacing: 1 }}>
-                  Payment confirmed — welcome to {active.title}!
-                </div>
-                <div style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", marginTop: 2 }}>
-                  Your full program is unlocked below. Bookmark this page for future access.
-                </div>
-              </div>
-            </div>
-            <button onClick={() => setJustPaid(false)}
-              style={{ background: "rgba(255,255,255,0.2)", border: "1px solid rgba(255,255,255,0.3)", color: "#fff", padding: "6px 14px", borderRadius: 4, cursor: "pointer", fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 1 }}>
-              ✕ Close
-            </button>
-          </div>
-        )}
-
-        {active.category === "bundle"
-          ? <BundleDashboard program={active} onBack={() => { setPage("landing"); setJustPaid(false); window.scrollTo({ top: 0 }); }} />
-          : <Dashboard program={active} onBack={() => { setPage("landing"); setJustPaid(false); window.scrollTo({ top: 0 }); }} />
+    <div
+      style={{
+        background: "#FBF3E8",
+        color: "#2b2420",
+        fontFamily:
+          "'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif",
+        overflowX: "hidden",
+      }}
+    >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+        html { scroll-behavior: smooth; }
+        .display { font-family: 'Archivo Black','Archivo',sans-serif; }
+        .btn-primary {
+          display:inline-flex;align-items:center;gap:10px;
+          background:#FF5E1A;color:#fff;
+          font-weight:800;font-size:15px;letter-spacing:.5px;
+          padding:18px 36px;border-radius:999px;
+          text-decoration:none;border:none;cursor:pointer;
+          box-shadow:0 10px 30px -10px rgba(255,94,26,.6);
+          transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
         }
-      </>
-    );
-  }
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 36px -8px rgba(255,94,26,.7);background:#E0440A;}
+        .nav-cta {
+          background:#161311;color:#FBF3E8;
+          font-weight:800;font-size:13px;letter-spacing:.5px;
+          padding:10px 22px;border-radius:999px;text-decoration:none;
+          transition:transform .15s ease, background .2s ease;
+          white-space:nowrap;
+        }
+        .nav-cta:hover{background:#FF5E1A;transform:translateY(-1px);}
+        .eyebrow {
+          display:inline-flex;align-items:center;gap:8px;
+          background:#FFE7D6;color:#E0440A;
+          font-weight:800;font-size:12px;letter-spacing:2px;
+          padding:7px 16px;border-radius:999px;
+          text-transform:uppercase;
+        }
+        .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:#FF5E1A;}
+        .eyebrow-dark {
+          background:rgba(255,94,26,.15);color:#FF5E1A;
+        }
+        .eyebrow-dark::before{background:#FF5E1A;}
+        h1, h2 { text-transform: uppercase; letter-spacing: -0.5px; line-height: 1.05; font-family:'Archivo Black','Archivo',sans-serif; }
+        @media (max-width: 880px) {
+          .hero-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+          .cover-wrap { order: -1; }
+          .cover-card { max-width: 240px !important; }
+          .problem-grid { grid-template-columns: 1fr !important; }
+          .preview-grid { grid-template-columns: repeat(2,1fr) !important; }
+          .module-row { grid-template-columns: 1fr !important; gap: 10px !important; }
+          .module-num { font-size: 36px !important; }
+          .included { grid-template-columns: 1fr !important; }
+          .offer-grid { grid-template-columns: 1fr !important; text-align: center !important; }
+          .offer h2 { text-align: center !important; }
+          .offer-features { align-items: center !important; }
+          .testi-grid { grid-template-columns: 1fr !important; }
+          .offer { padding: 40px 24px !important; border-radius: 20px !important; }
+          .nav-cta { padding: 9px 16px !important; font-size: 12px !important; }
+        }
+      `}</style>
 
-  const skillsProgs = PROGRAMS.filter(p => p.id === "planche-foundation" || p.id === "front-lever");
-  const hypertrophyProgs = PROGRAMS.filter(p => p.category === "hypertrophy" && p.id === "hypertrophy");
-  const basicSkillsProgs = PROGRAMS.filter(p => p.category === "basic-skills");
-  const bundleProg = PROGRAMS.find(p => p.category === "bundle")!;
+      {/* ───────── NAV ───────── */}
+      <header
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+          background: "rgba(251,243,232,0.85)",
+          backdropFilter: "blur(10px)",
+          borderBottom: "1px solid #ECE0D2",
+        }}
+      >
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "16px 24px",
+            maxWidth: 1120,
+            margin: "0 auto",
+          }}
+        >
+          <div className="display" style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 15, letterSpacing: 1 }}>
+            L'ÉCOLE DU <span style={{ color: "#FF5E1A" }}>POIDS DU CORPS</span>
+          </div>
+          <a href={STRIPE_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">
+            Obtenir le guide
+          </a>
+        </nav>
+      </header>
 
-  return (
-    <div style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh" }}>
-      <style>{CSS}</style>
-      <div className="noise" /><div className="grid-bg" />
+      {/* ───────── HERO ───────── */}
+      <section style={{ padding: "64px 0 80px", position: "relative", overflow: "hidden" }}>
+        <div
+          style={{
+            content: "",
+            position: "absolute",
+            top: -200,
+            right: -200,
+            width: 560,
+            height: 560,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, #FFE7D6 0%, transparent 70%)",
+            zIndex: 0,
+          }}
+        />
+        <div
+          className="hero-grid"
+          style={{
+            position: "relative",
+            zIndex: 1,
+            display: "grid",
+            gridTemplateColumns: "1.15fr 0.85fr",
+            gap: 56,
+            alignItems: "center",
+            maxWidth: 1120,
+            margin: "0 auto",
+            padding: "0 24px",
+          }}
+        >
+          <div>
+            <div className="eyebrow" style={{ marginBottom: 22 }}>
+              Ebook PDF · 6 modules
+            </div>
+            <h1 style={{ fontSize: "clamp(38px,6vw,68px)", marginBottom: 22 }}>
+              Construisez un physique <span style={{ color: "#FF5E1A" }}>d'élite</span> avec votre propre corps
+            </h1>
+            <p
+              style={{
+                fontSize: 18,
+                lineHeight: 1.6,
+                color: "#6f6258",
+                maxWidth: 480,
+                marginBottom: 34,
+              }}
+            >
+              Le guide complet de calisthénie pour développer force, muscle, figures de gymnaste et contrôle
+              total du corps — sans salle de sport, sans matériel, et sans deviner quoi faire.
+            </p>
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", marginBottom: 28 }}>
+              <a href={STRIPE_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                Télécharger le guide — 29,99 €
+              </a>
+            </div>
+            <div style={{ display: "flex", gap: 24, flexWrap: "wrap", color: "#6f6258", fontSize: 13, fontWeight: 600 }}>
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <CheckOrange /> Téléchargement instantané (PDF)
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <CheckOrange /> Paiement sécurisé
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <CheckOrange /> Aucun équipement requis
+              </span>
+            </div>
+          </div>
 
-      {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="hero-section" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "32px 22px 90px", position: "relative", zIndex: 1, overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 750, height: 750, background: "radial-gradient(circle,rgba(255,69,0,.08),transparent 60%)", pointerEvents: "none" }} />
-
-        <div className="badge hero-badge" style={{ background: "rgba(255,69,0,.1)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 18, letterSpacing: 1.5, fontSize: 10, lineHeight: 1.4, padding: "5px 12px", maxWidth: "90vw", textAlign: "center", whiteSpace: "normal", wordBreak: "break-word" }}>⚡ The last calisthenics program you'll ever need</div>
-
-        {/* Hero headline */}
-        <h1 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,6vw,68px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 16, letterSpacing: -1 }}>
-          Master the Skills.<br />
-          <span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Build the Body.</span><br />
-          No Gym.
-        </h1>
-
-        {/* Small subtitle */}
-        <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-dim)", lineHeight: 1.6, maxWidth: 480, marginBottom: 28 }}>Structured calisthenics programs — planche, front lever, muscle & basic skills. From zero to elite, step by step.</p>
-
-        {/* Stat pills */}
-        <div style={{ display: "flex", gap: 6, marginBottom: 28, flexWrap: "wrap", justifyContent: "center" }}>
-          {["🔬 Backed by science", "💪 No gym required", "🎯 From 0 to your goal", "🔥 8 years of real training"].map((tag, i) => (
-            <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#ffffff", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>{tag}</span>
-          ))}
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.1)", border: "1px solid rgba(255,69,0,0.35)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>📱 100% interactive — not just a PDF</span>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--orange)", background: "rgba(255,69,0,0.1)", border: "1px solid rgba(255,69,0,0.35)", borderRadius: 20, padding: "5px 12px", whiteSpace: "nowrap", backdropFilter: "blur(8px)" }}>🎯 Adapts to your level and pace</span>
+          <div className="cover-wrap" style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "center" }}>
+            <div
+              className="cover-card"
+              style={{
+                position: "relative",
+                width: "100%",
+                maxWidth: 340,
+                borderRadius: 18,
+                overflow: "hidden",
+                boxShadow: "0 30px 70px -20px rgba(22,19,17,.35), 0 10px 30px -10px rgba(255,94,26,.25)",
+                transform: "rotate(2deg)",
+                border: "6px solid #fff",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/cover.png" alt="Couverture du guide L'École du Poids du Corps" style={{ display: "block", width: "100%", height: "auto" }} />
+            </div>
+            <div
+              className="display"
+              style={{
+                position: "absolute",
+                bottom: -18,
+                left: -26,
+                background: "#161311",
+                color: "#FBF3E8",
+                borderRadius: 14,
+                padding: "14px 18px",
+                fontSize: 13,
+                lineHeight: 1.3,
+                boxShadow: "0 16px 30px -12px rgba(0,0,0,.4)",
+                transform: "rotate(-3deg)",
+                textTransform: "uppercase",
+              }}
+            >
+              <span style={{ color: "#FF5E1A", fontSize: 22, display: "block" }}>6</span>
+              modules complets
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div className="hero-ctas" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, marginBottom: 28 }}>
-          <a href="#programs"><button className="btn-primary cta-pulse" style={{ fontSize: 15, padding: "15px 42px", letterSpacing: 3 }}>I'm ready — Show me the programs</button></a>
+      {/* ───────── PROBLEM ───────── */}
+      <section style={{ padding: "80px 0", background: "#161311", color: "#FBF3E8" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 24px" }}>
+          <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 52px" }}>
+            <div className="eyebrow eyebrow-dark" style={{ marginBottom: 16 }}>
+              Le problème
+            </div>
+            <h2 style={{ fontSize: "clamp(28px,4.5vw,46px)", marginBottom: 14, color: "#fff" }}>
+              Pourquoi vous tournez en rond depuis des mois
+            </h2>
+            <p style={{ color: "#b9aea3", fontSize: 16, lineHeight: 1.6 }}>
+              Vous faites des pompes et des squats régulièrement, mais votre corps ne change pas. Ce n'est pas
+              un problème de motivation — c'est un problème de méthode.
+            </p>
+          </div>
+          <div className="problem-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
+            <div style={{ background: "#221d19", border: "1px solid #332b25", borderRadius: 16, padding: "28px 24px" }}>
+              <div
+                style={{
+                  width: 46,
+                  height: 46,
+                  borderRadius: 12,
+                  background: "rgba(255,94,26,.12)",
+                  color: "#FF5E1A",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 18,
+                }}
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 6v6l4 2" />
+                </svg>
+              </div>
+              <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>Vous stagnez après 3 semaines</h3>
+              <p style={{ fontSize: 14, color: "#b9aea3", lineHeight: 1.6 }}>
+                Faire les mêmes exercices, au même rythme, encore et encore : votre corps s'adapte et arrête de
+                progresser. Sans surcharge progressive, vous développez seulement l'endurance.
+              </p>
+            </div>
+            <div style={{ background: "#221d19", border: "1px solid #332b25", borderRadius: 16, padding: "28px 24px" }}>
+              <div
+                style={{
+                  width: 46,
+                  height: 46,
+                  borderRadius: 12,
+                  background: "rgba(255,94,26,.12)",
+                  color: "#FF5E1A",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 18,
+                }}
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />
+                </svg>
+              </div>
+              <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>Vous improvisez chaque séance</h3>
+              <p style={{ fontSize: 14, color: "#b9aea3", lineHeight: 1.6 }}>
+                Sans programme structuré ni technique précise, vous gaspillez de l'énergie sur des mouvements mal
+                exécutés — et vous risquez les blessures articulaires.
+              </p>
+            </div>
+            <div style={{ background: "#221d19", border: "1px solid #332b25", borderRadius: 16, padding: "28px 24px" }}>
+              <div
+                style={{
+                  width: 46,
+                  height: 46,
+                  borderRadius: 12,
+                  background: "rgba(255,94,26,.12)",
+                  color: "#FF5E1A",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 18,
+                }}
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 3v18h18" />
+                  <path d="M18 9l-5 5-3-3-4 4" />
+                </svg>
+              </div>
+              <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>Vous ne savez pas quoi manger ni quand récupérer</h3>
+              <p style={{ fontSize: 14, color: "#b9aea3", lineHeight: 1.6 }}>
+                L'entraînement crée le stimulus, mais la croissance se passe dans votre assiette et dans votre
+                sommeil. Sans ces repères, vous perdez l'essentiel de vos résultats.
+              </p>
+            </div>
+          </div>
         </div>
+      </section>
 
-        {/* Mini social proof */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 40, padding: "8px 18px", backdropFilter: "blur(8px)" }}>
-          <div style={{ display: "flex" }}>
-            {["#22c55e","#a855f7","#3b82f6","#f97316","#ec4899"].map((c, i) => (
-              <div key={i} style={{ width: 26, height: 26, borderRadius: "50%", background: c, border: "2px solid var(--bg)", marginLeft: i > 0 ? -8 : 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, color: "#fff", fontFamily: "var(--fd)" }}>
-                {["MT","JK","AR","TB","SW"][i]}
+      {/* ───────── MODULES ───────── */}
+      <section id="contenu" style={{ padding: "80px 0" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 24px" }}>
+          <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 52px" }}>
+            <div className="eyebrow" style={{ marginBottom: 16 }}>
+              Ce que contient le guide
+            </div>
+            <h2 style={{ fontSize: "clamp(28px,4.5vw,46px)", marginBottom: 14 }}>
+              6 modules progressifs, de zéro à la maîtrise totale
+            </h2>
+            <p style={{ color: "#6f6258", fontSize: 16, lineHeight: 1.6 }}>
+              Chaque module s'appuie sur le précédent. Fondations scientifiques, technique parfaite des 9
+              exercices piliers, méthode de progression, figures de force avancées, programmes complets et
+              nutrition — tout est inclus.
+            </p>
+          </div>
+
+          <div>
+            {/* Module 1 */}
+            <div className="module-row" style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 28, alignItems: "start", padding: "32px 0", borderBottom: "1px solid #ECE0D2" }}>
+              <div className="module-num display" style={{ fontSize: 54, lineHeight: 1, WebkitTextStroke: "2px #FF5E1A", color: "transparent" }}>01</div>
+              <div>
+                <h3 style={{ fontSize: 21, fontWeight: 800, marginBottom: 10, letterSpacing: "-.2px" }}>Les fondations scientifiques de la calisthénie</h3>
+                <p style={{ color: "#6f6258", fontSize: 15, lineHeight: 1.65, marginBottom: 14 }}>
+                  Comprenez ce qui fait réellement grossir un muscle : tension mécanique, recrutement des unités
+                  motrices, stress métabolique et adaptation tendineuse. La base théorique qui transforme chaque
+                  répétition en progrès mesurable.
+                </p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Tension mécanique</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Mécanismes de croissance</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Santé des tendons</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Module 2 */}
+            <div className="module-row" style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 28, alignItems: "start", padding: "32px 0", borderBottom: "1px solid #ECE0D2" }}>
+              <div className="module-num display" style={{ fontSize: 54, lineHeight: 1, WebkitTextStroke: "2px #FF5E1A", color: "transparent" }}>02</div>
+              <div>
+                <h3 style={{ fontSize: 21, fontWeight: 800, marginBottom: 10, letterSpacing: "-.2px" }}>L'anatomie des 9 exercices piliers</h3>
+                <p style={{ color: "#6f6258", fontSize: 15, lineHeight: 1.65, marginBottom: 14 }}>
+                  Pompes, dips, tractions, tractions australiennes, squats, squats sautés, levées de jambes,
+                  planche latérale et hollow body : exécution technique détaillée, muscles ciblés, erreurs
+                  courantes et tableaux de progression niveau par niveau.
+                </p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Push · Pull · Legs · Abs</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Erreurs à corriger</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Progressions par niveau</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Module 3 */}
+            <div className="module-row" style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 28, alignItems: "start", padding: "32px 0", borderBottom: "1px solid #ECE0D2" }}>
+              <div className="module-num display" style={{ fontSize: 54, lineHeight: 1, WebkitTextStroke: "2px #FF5E1A", color: "transparent" }}>03</div>
+              <div>
+                <h3 style={{ fontSize: 21, fontWeight: 800, marginBottom: 10, letterSpacing: "-.2px" }}>La surcharge progressive sans fonte</h3>
+                <p style={{ color: "#6f6258", fontSize: 15, lineHeight: 1.65, marginBottom: 14 }}>
+                  La méthode pour continuer à progresser indéfiniment sans haltères : évolution des paramètres
+                  d'entraînement, changement de levier, lest artificiel et tenue d'un journal d'entraînement
+                  structuré.
+                </p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Changement de levier</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Lest artificiel</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Training log</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Module 4 */}
+            <div className="module-row" style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 28, alignItems: "start", padding: "32px 0", borderBottom: "1px solid #ECE0D2" }}>
+              <div className="module-num display" style={{ fontSize: 54, lineHeight: 1, WebkitTextStroke: "2px #FF5E1A", color: "transparent" }}>04</div>
+              <div>
+                <h3 style={{ fontSize: 21, fontWeight: 800, marginBottom: 10, letterSpacing: "-.2px" }}>Programmes d'entraînement clés en main</h3>
+                <p style={{ color: "#6f6258", fontSize: 15, lineHeight: 1.65, marginBottom: 14 }}>
+                  Trois programmes complets prêts à l'emploi — débutant full body, intermédiaire upper/lower et
+                  avancé push/pull/legs — avec échauffement universel et stratégie de déload pour progresser sans
+                  surentraînement.
+                </p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Débutant → Avancé</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Échauffement & récupération</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Déload & périodisation</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Module 5 */}
+            <div className="module-row" style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 28, alignItems: "start", padding: "32px 0", borderBottom: "1px solid #ECE0D2" }}>
+              <div className="module-num display" style={{ fontSize: 54, lineHeight: 1, WebkitTextStroke: "2px #FF5E1A", color: "transparent" }}>05</div>
+              <div>
+                <h3 style={{ fontSize: 21, fontWeight: 800, marginBottom: 10, letterSpacing: "-.2px" }}>Les figures de force : planche, front lever & autres skills</h3>
+                <p style={{ color: "#6f6258", fontSize: 15, lineHeight: 1.65, marginBottom: 14 }}>
+                  Apprenez les figures emblématiques de la calisthénie — la planche, le front lever et d'autres
+                  mouvements de gymnastique avancés — avec leurs prérequis, leurs progressions étape par étape et
+                  les erreurs à éviter pour ne pas vous blesser.
+                </p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Planche</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Front Lever</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Progressions par étapes</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Module 6 */}
+            <div className="module-row" style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 28, alignItems: "start", padding: "32px 0" }}>
+              <div className="module-num display" style={{ fontSize: 54, lineHeight: 1, WebkitTextStroke: "2px #FF5E1A", color: "transparent" }}>06</div>
+              <div>
+                <h3 style={{ fontSize: 21, fontWeight: 800, marginBottom: 10, letterSpacing: "-.2px" }}>Nutrition, récupération & mindset</h3>
+                <p style={{ color: "#6f6258", fontSize: 15, lineHeight: 1.65, marginBottom: 14 }}>
+                  L'équation protéique, la sèche vs la prise de masse, le rôle du sommeil et de la
+                  supplémentation, et les principes mentaux qui font la différence entre ceux qui réussissent et
+                  ceux qui abandonnent.
+                </p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Plan nutritionnel</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Sommeil & récupération</span>
+                  <span style={{ background: "#FFE7D6", color: "#E0440A", fontSize: 12, fontWeight: 700, padding: "6px 13px", borderRadius: 999 }}>Mindset & discipline</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────── PREVIEW STRIP ───────── */}
+      <section style={{ padding: "80px 0", background: "#161311", color: "#fff" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 24px" }}>
+          <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 52px" }}>
+            <div className="eyebrow eyebrow-dark" style={{ marginBottom: 16 }}>
+              En chiffres
+            </div>
+            <h2 style={{ fontSize: "clamp(28px,4.5vw,46px)", marginBottom: 14, color: "#fff" }}>
+              Un guide dense, structuré pour durer
+            </h2>
+            <p style={{ color: "#b9aea3", fontSize: 16, lineHeight: 1.6 }}>
+              Pensé comme un compagnon de longue durée — pas un guide qu'on lit une fois et qu'on oublie.
+            </p>
+          </div>
+          <div className="preview-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
+            {[
+              { big: "6", lbl: "Modules progressifs" },
+              { big: "9", lbl: "Exercices piliers décortiqués" },
+              { big: "3", lbl: "Programmes clés en main" },
+              { big: "PDF", lbl: "Format, accès à vie" },
+            ].map((item) => (
+              <div key={item.lbl} style={{ background: "#221d19", border: "1px solid #332b25", borderRadius: 14, padding: "24px 18px", textAlign: "center" }}>
+                <div className="display" style={{ fontSize: 38, color: "#FF5E1A", marginBottom: 6 }}>{item.big}</div>
+                <div style={{ fontSize: 13, color: "#b9aea3", fontWeight: 600, lineHeight: 1.4 }}>{item.lbl}</div>
               </div>
             ))}
           </div>
-          <div style={{ display: "flex", gap: 2 }}>{[1,2,3,4,5].map(s => <span key={s} style={{ color: "#f59e0b", fontSize: 11 }}>★</span>)}</div>
-          <span style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff" }}><strong>+500 athletes</strong> already training</span>
         </div>
-
-        {/* Scroll indicator */}
-        <a href="#method" style={{ textDecoration: "none" }}>
-          <div style={{ position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, cursor: "pointer" }}>
-            <span style={{ fontFamily: "var(--fb)", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#ffffff", whiteSpace: "nowrap" }}>Scroll to learn more</span>
-            <div style={{ width: 1, height: 36, background: "linear-gradient(to bottom, #ffffff, transparent)" }} />
-          </div>
-        </a>
       </section>
 
-      {/* ── MANIFESTO ─────────────────────────────────────────── */}
-      <section id="method" style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)", background: "rgba(255,255,255,0.015)" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "center" }} className="pg2">
+      {/* ───────── INCLUDED / VALUE ───────── */}
+      <section id="inclus" style={{ padding: "80px 0" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 24px" }}>
+          <div className="included" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 46, alignItems: "center" }}>
             <div>
-              <div className="badge" style={{ background: "rgba(255,69,0,.08)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 9 }}>⚠️ NOBODY WANTS TO HEAR THIS</div>
-              <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,4.5vw,58px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 28 }}>
-                You're not<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>making progress</span><br />on purpose.
-              </h2>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 20 }}>
-                You copy exercises from TikTok. You run a "30-day challenge." You train 6 days a week with zero structure and wonder why nothing changes. It's not about effort — you have plenty of that.
-              </p>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 32 }}>
-                <strong style={{ color: "var(--text)" }}>The uncomfortable truth:</strong> without method, hard work just digs you deeper into the same plateau. That's not a motivational problem — it's a structural one.
-              </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {[
-                  ["❌", "Training without knowing which muscle is supposed to fire — and why"],
-                  ["❌", "Skipping progressions because they look too easy — then wondering why you're stuck"],
-                  ["❌", "Resting 30 seconds between sets when your nervous system needs 3 minutes"],
-                  ["❌", "Training every day because 'more = better' — until your tendons disagree"],
-                  ["❌", "Quitting after 3 weeks because you had no idea what week 4 was supposed to look like"],
-                ].map(([icon, text], i) => (
-                  <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <span style={{ fontSize: 14, flexShrink: 0, marginTop: 2 }}>{icon}</span>
-                    <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#ffffff", lineHeight: 1.5 }}>{text}</span>
-                  </div>
-                ))}
+              <div className="eyebrow" style={{ marginBottom: 16 }}>
+                Ce que vous obtenez
               </div>
-            </div>
-            <div>
-              <div style={{ background: "linear-gradient(135deg, rgba(255,69,0,0.06), rgba(255,69,0,0.02))", border: "1px solid var(--orange-border)", borderRadius: 12, padding: "32px 30px" }}>
-                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, letterSpacing: 3, color: "var(--orange)", marginBottom: 20, textTransform: "uppercase" }}>✅ What actually moves the needle</div>
+              <h2 style={{ textAlign: "left", fontSize: "clamp(28px,4.5vw,46px)" }}>
+                Tout ce qu'il faut pour passer à l'action dès aujourd'hui
+              </h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: 18, marginTop: 24 }}>
                 {[
-                  { icon: "🗓️", title: "A plan where every session builds on the last", desc: "Not a random workout. A system. Each session is engineered to prepare the next one." },
-                  { icon: "🔥", title: "A warm-up that's not optional", desc: "Wrists, shoulders, tendons — if you skip this, you're not brave, you're just injuring yourself slowly." },
-                  { icon: "⏱️", title: "Rest times that are part of the program", desc: "60 seconds vs 3 minutes produces completely different adaptations. This is not a detail." },
-                  { icon: "📈", title: "Progressions you actually have to earn", desc: "There are 6 steps before a full planche. Skipping them doesn't make you advanced — it makes you stuck." },
-                  { icon: "🛑", title: "Knowing exactly when to rest — and respecting it", desc: "Your muscles grow during recovery. Training through fatigue doesn't build — it breaks." },
-                  { icon: "🧠", title: "Understanding why — not just what to do", desc: "When you know the biomechanics, you fix your own mistakes in real time. That's when progress compounds." },
-                ].map((item, i) => (
-                  <div key={i} style={{ display: "flex", gap: 14, marginBottom: i < 5 ? 20 : 0, paddingBottom: i < 5 ? 20 : 0, borderBottom: i < 5 ? "1px solid rgba(255,255,255,.06)" : "none" }}>
-                    <span style={{ fontSize: 20, flexShrink: 0, width: 32, textAlign: "center" }}>{item.icon}</span>
+                  {
+                    title: "Tableaux de progression clairs",
+                    text: "Pour chaque exercice, une échelle de difficulté du niveau débutant au niveau élite — vous savez toujours quelle est l'étape suivante.",
+                  },
+                  {
+                    title: "3 programmes complets, semaine par semaine",
+                    text: "Débutant, intermédiaire, avancé : séries, répétitions, tempo, temps de repos et planning hebdomadaire détaillés.",
+                  },
+                  {
+                    title: "Les figures avancées expliquées pas à pas",
+                    text: "Planche, front lever et autres skills de gymnastique : prérequis, étapes de progression et erreurs à éviter.",
+                  },
+                  {
+                    title: "Plan nutritionnel chiffré",
+                    text: "Calculs de protéines, exemples d'aliments, ratios sèche/prise de masse et guide de supplémentation basé sur la science.",
+                  },
+                  {
+                    title: "Feuille de route avec checklist de démarrage",
+                    text: "5 actions concrètes pour commencer dans les 48 heures — pas de théorie sans application.",
+                  },
+                ].map((item) => (
+                  <div key={item.title} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                    <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#FF5E1A", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
+                      <Check />
+                    </div>
                     <div>
-                      <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, color: "var(--text)", marginBottom: 4 }}>{item.title}</div>
-                      <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#ffffff", lineHeight: 1.5 }}>{item.desc}</p>
+                      <h4 style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>{item.title}</h4>
+                      <p style={{ fontSize: 14, color: "#6f6258", lineHeight: 1.6, margin: 0 }}>{item.text}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
+            <div
+              style={{
+                background: "#FFFFFF",
+                border: "1px solid #ECE0D2",
+                borderRadius: 20,
+                padding: 36,
+                boxShadow: "0 20px 50px -25px rgba(22,19,17,.15)",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/cover.png" alt="Aperçu du guide" style={{ width: 120, borderRadius: 10, boxShadow: "0 12px 30px -10px rgba(0,0,0,.25)", marginBottom: 20 }} />
+              <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>L'École du Poids du Corps</h3>
+              <p style={{ fontSize: 14, color: "#6f6258", lineHeight: 1.6, margin: 0 }}>
+                Le guide ultime de la calisthénie : de zéro à la maîtrise totale, figures incluses. Format PDF,
+                lisible sur tous vos appareils.
+              </p>
+              <div style={{ display: "flex", gap: 28, flexWrap: "wrap", borderTop: "1px solid #ECE0D2", paddingTop: 20, marginTop: 20 }}>
+                <div>
+                  <div className="display" style={{ fontSize: 28, color: "#FF5E1A" }}>6</div>
+                  <div style={{ fontSize: 12, color: "#6f6258", fontWeight: 600 }}>MODULES</div>
+                </div>
+                <div>
+                  <div className="display" style={{ fontSize: 28, color: "#FF5E1A" }}>PDF</div>
+                  <div style={{ fontSize: 12, color: "#6f6258", fontWeight: 600 }}>FORMAT</div>
+                </div>
+                <div>
+                  <div className="display" style={{ fontSize: 28, color: "#FF5E1A" }}>∞</div>
+                  <div style={{ fontSize: 12, color: "#6f6258", fontWeight: 600 }}>ACCÈS À VIE</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── WHO IS AXEL ───────────────────────────────────────── */}
-      <section style={{ padding: "90px 22px", position: "relative", zIndex: 1, borderTop: "1px solid var(--border)", background: "rgba(255,69,0,0.018)" }}>
-        <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }} className="pg2">
-            <div>
-              <div className="badge" style={{ background: "rgba(255,69,0,.08)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 22, letterSpacing: 2, fontSize: 9 }}>👤 THE MIND BEHIND THE PROGRAMS</div>
-              <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(30px,4vw,52px)", textTransform: "uppercase", lineHeight: .92, marginBottom: 24 }}>
-                8 years.<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>No shortcuts.</span>
-              </h2>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 18 }}>
-                My name is Axel. I spent <strong style={{ color: "var(--text)" }}>2 full years making zero progress</strong> on the planche — training hard, training often, and getting absolutely nowhere. I thought I wasn't built for it.
-              </p>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75, marginBottom: 18 }}>
-                The problem wasn't effort. It was that I had no real system. The day I stopped following random YouTube routines and started understanding <em>why</em> each movement works — the biomechanics, the progressions, the recovery — everything changed.
-              </p>
-              <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", lineHeight: 1.75 }}>
-                These programs are the result of <strong style={{ color: "var(--text)" }}>8 years of real training</strong>, informed by research into biomechanics and periodization. Not theory for theory's sake — science applied to what actually works in practice, session after session.
-              </p>
+      {/* ───────── TESTIMONIALS ───────── */}
+      <section id="avis" style={{ padding: "80px 0" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 24px" }}>
+          <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 52px" }}>
+            <div className="eyebrow" style={{ marginBottom: 16 }}>
+              Avis
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {[
-                { icon: "🧠", title: "Science-backed, gym-tested", desc: "Every method is grounded in biomechanics and periodization research — then validated through years of real training. No lab theory without sweat." },
-                { icon: "🔬", title: "Built from failure, not just success", desc: "2 years of stalled progress taught me more than anything else. These programs are designed around the mistakes most athletes make — because I made them all." },
-                { icon: "⚡", title: "Cues you won't find elsewhere", desc: "The specific details — joint angles, breathing patterns, exact rest times — that most coaches never write down because they never had to figure them out the hard way." },
-                { icon: "🎯", title: "Built for real conditions", desc: "No gym? Travelling? Had an injury? Plateau after months of training? Every scenario has been accounted for." },
-              ].map((item, i) => (
-                <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: 8, padding: "16px 18px" }}>
-                  <span style={{ fontSize: 20, flexShrink: 0 }}>{item.icon}</span>
+            <h2 style={{ fontSize: "clamp(28px,4.5vw,46px)", marginBottom: 14 }}>
+              Ils ont commencé. Ça a marché.
+            </h2>
+            <p style={{ color: "#6f6258", fontSize: 16, lineHeight: 1.6 }}>
+              Des pratiquants de tous niveaux utilisent ce guide pour structurer leur entraînement au poids du
+              corps.
+            </p>
+          </div>
+          <div className="testi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
+            {[
+              {
+                text: "« Je faisais des pompes et des squats sans plan depuis un an, sans résultat. Avec la méthode de surcharge progressive du module 3, j'ai enfin compris pourquoi je stagnais. »",
+                name: "Mehdi",
+                sub: "Débutant, 4 mois de pratique",
+                initial: "M.",
+              },
+              {
+                text: "« Les progressions vers la planche et le front lever sont incroyablement claires. Je sais exactement quelle étape travailler au lieu de me blesser à forcer trop tôt. »",
+                name: "Léa",
+                sub: "Niveau intermédiaire",
+                initial: "L.",
+              },
+              {
+                text: "« Le programme avancé PPL m'a permis de structurer mes 6 séances par semaine. La partie nutrition m'a aussi aidé à arrêter de deviner mes apports protéiques. »",
+                name: "Thomas",
+                sub: "Pratiquant avancé",
+                initial: "T.",
+              },
+            ].map((t) => (
+              <div key={t.name} style={{ background: "#FFFFFF", border: "1px solid #ECE0D2", borderRadius: 16, padding: 26, boxShadow: "0 10px 30px -20px rgba(22,19,17,.12)" }}>
+                <div style={{ color: "#FF5E1A", fontSize: 14, marginBottom: 12, letterSpacing: 2 }}>★★★★★</div>
+                <p style={{ fontSize: 14, lineHeight: 1.65, color: "#2b2420", marginBottom: 16 }}>{t.text}</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div className="display" style={{ width: 38, height: 38, borderRadius: "50%", background: "#FFE7D6", color: "#E0440A", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0 }}>{t.initial}</div>
                   <div>
-                    <div style={{ fontFamily: "var(--fd)", fontWeight: 700, fontSize: 14, color: "var(--text)", marginBottom: 4 }}>{item.title}</div>
-                    <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "var(--text-dim)", lineHeight: 1.55 }}>{item.desc}</p>
+                    <div style={{ fontSize: 13, fontWeight: 800 }}>{t.name}</div>
+                    <div style={{ fontSize: 11, color: "#6f6258" }}>{t.sub}</div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── QUIZ ──────────────────────────────────────────────── */}
-      <div id="quiz-section">
-        <QuizSection onOpen={openProg} />
-      </div>
-
-      {/* ── TESTIMONIALS ──────────────────────────────────────── */}
-      <div id="results-section"><TestimonialsSection /></div>
-
-      {/* ── PROGRAMS ──────────────────────────────────────────── */}
-      <section id="programs" style={{ padding: "60px 22px 20px", position: "relative", zIndex: 1, background: "rgba(255,255,255,0.015)" }}>
-        <div style={{ maxWidth: 1260, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <div className="badge" style={{ background: "var(--orange-dim)", color: "var(--orange)", border: "1px solid var(--orange-border)", marginBottom: 14 }}>PROGRAMS</div>
-            <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(34px,5vw,66px)", textTransform: "uppercase" }}>CHOOSE YOUR PATH</h2>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 14, color: "var(--text-faint)", marginTop: 10, marginBottom: 20 }}>Not sure which one is right for you?</p>
-            <a href="#quiz-section">
-              <button className="btn-secondary" style={{ fontSize: 13, padding: "11px 28px", letterSpacing: 1.5, cursor: "pointer", borderStyle: "solid" }}>
-                🎯 Find my program in 30 seconds
-              </button>
-            </a>
-          </div>
-
-          {/* ── SKILLS BLOCK ── */}
-          <div style={{ marginBottom: 28 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 6 }}>
-              <div style={{ width: 4, height: 28, background: "var(--orange)", borderRadius: 2, flexShrink: 0 }} />
-              <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(22px,3vw,36px)", textTransform: "uppercase", color: "var(--text)" }}>STRENGTH & SKILLS</h2>
-            </div>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 18, marginBottom: 20 }}>Master gravity — from zero to full planche or front lever</p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 16 }} className="pg2">
-              {skillsProgs.map(p => <ProgramCard key={p.id} program={p} onOpen={openProg} />)}
-            </div>
-            {/* Duo strip */}
-            <div style={{ background: "linear-gradient(90deg,rgba(6,182,212,0.06),rgba(6,182,212,0.02))", border: "1px solid rgba(6,182,212,0.2)", borderRadius: 10, padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 64 }}>
+      {/* ───────── OFFER ───────── */}
+      <section id="offre" style={{ padding: "80px 0" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 24px" }}>
+          <div
+            className="offer"
+            style={{
+              background: "linear-gradient(135deg, #161311 0%, #221d19 100%)",
+              color: "#fff",
+              borderRadius: 28,
+              padding: "64px 48px",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                content: "",
+                position: "absolute",
+                bottom: -160,
+                left: -120,
+                width: 420,
+                height: 420,
+                borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(255,94,26,.18) 0%, transparent 70%)",
+              }}
+            />
+            <div className="offer-grid" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 48, alignItems: "center", position: "relative", zIndex: 1 }}>
               <div>
-                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, color: "#06b6d4", letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>🔥 BEST DUO — Planche + Front Lever</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.5, maxWidth: 480 }}>Not just two programs sold together — a fully integrated push/pull system designed to be trained simultaneously. Each skill reinforces the other: planche protraction improves lever positioning, lever tension improves planche stability. Faster progress on both, shoulders stay healthy. Save $17.</p>
-                <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap" }}>
-                  {["Integrated push/pull system", "Skills reinforce each other", "Shoulders stay healthy", "Save $17"].map((b, i) => (
-                    <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#06b6d4", display: "flex", alignItems: "center", gap: 4 }}><Check size={10} />{b}</span>
-                  ))}
+                <div className="eyebrow eyebrow-dark" style={{ marginBottom: 16 }}>
+                  Offre de lancement
+                </div>
+                <h2 style={{ color: "#fff", textAlign: "left", fontSize: "clamp(28px,4.5vw,46px)" }}>
+                  Le guide complet, pour le prix d'un repas
+                </h2>
+                <p style={{ color: "#cbbfb2", fontSize: 15, lineHeight: 1.6, maxWidth: 440, marginTop: 8 }}>
+                  6 modules de méthode, de figures de force, de programmes et de plans nutritionnels — pour
+                  construire un physique d'élite sans salle de sport, sans matériel, et sans tâtonner.
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 12, margin: "24px 0 0" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: "#e5dcd1", fontWeight: 600 }}>
+                    <CheckOrange /> Format PDF — lisible sur mobile, tablette, ordinateur
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: "#e5dcd1", fontWeight: 600 }}>
+                    <CheckOrange /> Téléchargement immédiat après paiement
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: "#e5dcd1", fontWeight: 600 }}>
+                    <CheckOrange /> Accès à vie, sans abonnement
+                  </div>
                 </div>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, flexShrink: 0 }}>
-                <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                  <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "#06b6d4" }}>$52</span>
-                  <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", textDecoration: "line-through" }}>$69</span>
+              <div
+                style={{
+                  background: "#FFFFFF",
+                  color: "#2b2420",
+                  borderRadius: 20,
+                  padding: 36,
+                  textAlign: "center",
+                  minWidth: 300,
+                  boxShadow: "0 25px 60px -20px rgba(0,0,0,.5)",
+                }}
+              >
+                <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: 2, color: "#6f6258", textTransform: "uppercase", marginBottom: 12 }}>
+                  Accès complet
                 </div>
-                <a href={plancheLeverCombo.stripeUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="btn-primary" style={{ background: "#06b6d4", borderColor: "#06b6d4", padding: "10px 24px", fontSize: 12, letterSpacing: 2, whiteSpace: "nowrap" }}>Get the Duo →</button>
+                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: 12, marginBottom: 6 }}>
+                  <span className="display" style={{ fontSize: 54, color: "#FF5E1A" }}>29,99 €</span>
+                </div>
+                <div style={{ fontSize: 13, color: "#E0440A", fontWeight: 800, marginBottom: 24 }}>
+                  Paiement unique · aucun abonnement
+                </div>
+                <a href={STRIPE_URL} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ width: "100%", justifyContent: "center", fontSize: 16, padding: 18 }}>
+                  Obtenir le guide maintenant
                 </a>
-              </div>
-            </div>
-          </div>
-
-          {/* ── PHYSIQUE & SKILLS BLOCK ── */}
-          <div style={{ marginBottom: 28 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 6 }}>
-              <div style={{ width: 4, height: 28, background: "var(--orange)", borderRadius: 2, flexShrink: 0 }} />
-              <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(22px,3vw,36px)", textTransform: "uppercase", color: "var(--text)" }}>PHYSIQUE & SKILLS</h2>
-            </div>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", marginLeft: 18, marginBottom: 6 }}>Build muscle & master elite skills — no gym required</p>
-            <p style={{ fontFamily: "var(--fb)", fontSize: 12, color: "#fff", marginLeft: 18, marginBottom: 20 }}>All basic skills included (muscle-up, handstand, L-sit...)</p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 16 }} className="pg2">
-              {[...hypertrophyProgs, ...basicSkillsProgs].map(p => <ProgramCard key={p.id} program={p} onOpen={openProg} />)}
-            </div>
-            {/* Duo strip */}
-            <div style={{ background: "linear-gradient(90deg,rgba(245,158,11,0.06),rgba(245,158,11,0.02))", border: "1px solid rgba(245,158,11,0.2)", borderRadius: 10, padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 64 }}>
-              <div>
-                <div style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 13, color: "#f59e0b", letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>⚡ BEST DUO — Physique + Skills</div>
-                <p style={{ fontFamily: "var(--fb)", fontSize: 13, color: "#fff", lineHeight: 1.5, maxWidth: 480 }}>Not just two programs bundled — a single integrated system that trains muscle and skills together in the same sessions. Hypertrophy work builds the strength base for skills; skill training adds intensity that accelerates muscle growth. They feed each other. No gym needed. Save $15.</p>
-                <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap" }}>
-                  {["One integrated system", "Muscle & skills in same sessions", "No gym needed", "Save $15"].map((b, i) => (
-                    <span key={i} style={{ fontFamily: "var(--fb)", fontSize: 11, color: "#f59e0b", display: "flex", alignItems: "center", gap: 4 }}><Check size={10} />{b}</span>
-                  ))}
+                <div style={{ fontSize: 12, color: "#6f6258", marginTop: 16, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontWeight: 600 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                  Paiement sécurisé via Stripe
                 </div>
               </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, flexShrink: 0 }}>
-                <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                  <span style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: 32, color: "#f59e0b" }}>$37</span>
-                  <span style={{ fontFamily: "var(--fb)", fontSize: 13, color: "var(--text-faint)", textDecoration: "line-through" }}>$52</span>
-                </div>
-                <a href={hypertrophySkillsCombo.stripeUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="btn-primary" style={{ background: "#f59e0b", borderColor: "#f59e0b", padding: "10px 24px", fontSize: 12, letterSpacing: 2, whiteSpace: "nowrap" }}>Get the Duo →</button>
-                </a>
-              </div>
             </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── BUNDLE SECTION WITH COUNTDOWN ─────────────────────── */}
-      <BundleSection onOpen={openProg} />
-
-      {/* ── FAQ ───────────────────────────────────────────────── */}
-      <FAQSection />
-
-      {/* ── SELECTION GUIDE ───────────────────────────────────── */}
-      <section id="guide" style={{ padding: "70px 22px", position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: 980, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 44 }}>
-            <div className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border-bright)", marginBottom: 14 }}>SELECTION GUIDE</div>
-            <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(28px,4.5vw,56px)", textTransform: "uppercase" }}>WHICH PROGRAM IS FOR YOU?</h2>
-          </div>
-          <div className="surface" style={{ borderRadius: 8, overflowX: "auto" }}>
-            <table className="data-table">
-              <thead><tr>{["Program", "Category", "Level", "Prerequisite", "Dual Track", "Price", ""].map(h => <th key={h}>{h}</th>)}</tr></thead>
-              <tbody>
-                {PROGRAMS.filter(p => p.id !== "combo-planche-lever" && p.id !== "combo-hypertrophy-skills").map(p => (
-                  <tr key={p.id} style={{ cursor: "pointer" }}
-                    onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,69,0,.04)")}
-                    onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-                    onClick={() => p.stripeUrl ? window.open(p.stripeUrl, "_blank") : openProg(p)}>
-                    <td style={{ fontWeight: 700, color: "var(--text)" }}>{p.title}</td>
-                    <td><span className="badge" style={{ background: "rgba(255,255,255,.04)", color: "var(--text-dim)", border: "1px solid var(--border)", fontSize: 9 }}>{p.categoryGroup}</span></td>
-                    <td><span className="badge" style={{ background: `${p.levelColor}15`, color: p.levelColor, border: `1px solid ${p.levelColor}28`, whiteSpace: "nowrap" }}>{p.id === "basic-skills" ? "From Zero" : p.level}</span></td>
-                    <td style={{ fontSize: 12 }}>{(p as any).prereq ?? "—"}</td>
-                    <td style={{ textAlign: "center" }}>{p.dualTrack ? <span style={{ color: "var(--orange)", fontWeight: 700 }}>✓</span> : <span style={{ color: "var(--text-faint)" }}>—</span>}</td>
-                    <td>
-                      <span style={{ fontFamily: "var(--fd)", fontSize: 18, fontWeight: 900, color: p.category === "bundle" ? "var(--orange)" : "var(--text)" }}>${p.price}</span>
-                      {p.originalPrice && <span style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", marginLeft: 6, textDecoration: "line-through" }}>${p.originalPrice}</span>}
-                    </td>
-                    <td onClick={e => e.stopPropagation()}>
-                      {p.stripeUrl && (
-                        <a href={p.stripeUrl} target="_blank" rel="noopener noreferrer">
-                          <button className="btn-primary" style={{ padding: "6px 14px", fontSize: 10, whiteSpace: "nowrap" }}>Buy Now</button>
-                        </a>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </div>
       </section>
 
-      {/* ── FINAL CTA ─────────────────────────────────────────── */}
-      <section style={{ padding: "80px 22px", position: "relative", zIndex: 1, background: "linear-gradient(180deg, transparent, rgba(255,69,0,0.04))", borderTop: "1px solid var(--border)", textAlign: "center" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "var(--fd)", fontWeight: 900, fontSize: "clamp(32px,5vw,56px)", textTransform: "uppercase", lineHeight: .9, marginBottom: 16 }}>
-            Still reading?<br /><span style={{ WebkitTextStroke: "2px var(--orange)", WebkitTextFillColor: "transparent" }}>Time to act.</span>
+      {/* ───────── FAQ ───────── */}
+      <section id="faq" style={{ padding: "80px 0" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 24px" }}>
+          <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 52px" }}>
+            <div className="eyebrow" style={{ marginBottom: 16 }}>
+              FAQ
+            </div>
+            <h2 style={{ fontSize: "clamp(28px,4.5vw,46px)" }}>Vos questions, nos réponses</h2>
+          </div>
+          <div style={{ maxWidth: 760, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
+            {FAQS.map((f) => (
+              <FaqItem key={f.q} q={f.q} a={f.a} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ───────── FINAL CTA ───────── */}
+      <section style={{ padding: "80px 0", textAlign: "center" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 24px" }}>
+          <div className="eyebrow" style={{ marginBottom: 18 }}>
+            Dernière étape
+          </div>
+          <h2 style={{ fontSize: "clamp(28px,4.5vw,46px)", marginBottom: 14 }}>
+            Votre prochaine séance commence par cette page
           </h2>
-          <p style={{ fontFamily: "var(--fb)", fontSize: 15, color: "var(--text-dim)", marginBottom: 32, lineHeight: 1.65 }}>
-            The people who got results didn't wait for the perfect moment. They picked a program and started. That's the only difference between them and you right now.
+          <p style={{ color: "#6f6258", fontSize: 16, maxWidth: 520, margin: "0 auto 30px", lineHeight: 1.6 }}>
+            Chaque répétition propre vous rapproche de la maîtrise de votre corps. Le guide est prêt — il ne
+            manque que vous.
           </p>
-          <a href="#programs">
-            <button className="btn-primary pulse-glow" style={{ fontSize: 15, padding: "16px 48px", letterSpacing: 3 }}>
-              Choose Your Program →
-            </button>
+          <a href={STRIPE_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
+            Télécharger le guide — 29,99 €
           </a>
         </div>
       </section>
 
-      <footer className="no-print" style={{ borderTop: "1px solid var(--border)", padding: "28px 24px", textAlign: "center" }}>
-        <div style={{ display: "flex", justifyContent: "center", gap: 28, marginBottom: 14, flexWrap: "wrap" }}>
-          {["Programs", "Results", "FAQ", "Guide"].map(l => (
-            <a key={l} href={`#${l.toLowerCase() === "results" ? "results-section" : l.toLowerCase() === "faq" ? "faq" : l.toLowerCase()}`}
-              style={{ fontFamily: "var(--fd)", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-faint)", textDecoration: "none" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "var(--orange)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "var(--text-faint)")}>{l}</a>
-          ))}
+      {/* ───────── FOOTER ───────── */}
+      <footer style={{ borderTop: "1px solid #ECE0D2", padding: "32px 0", textAlign: "center" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 24px" }}>
+          <div className="display" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10, fontSize: 15, letterSpacing: 1, marginBottom: 10 }}>
+            L'ÉCOLE DU <span style={{ color: "#FF5E1A" }}>POIDS DU CORPS</span>
+          </div>
+          <p style={{ fontSize: 12, color: "#6f6258", letterSpacing: 0.5 }}>
+            © 2026 L'École du Poids du Corps — Tous droits réservés · par cali_progression
+          </p>
         </div>
-        <p style={{ fontFamily: "var(--fb)", fontSize: 11, color: "var(--text-faint)", letterSpacing: 1 }}>© 2025 GRAVITYLAB — All rights reserved</p>
       </footer>
     </div>
-  );
-}
-
-export default function App() {
-  return (
-    <Suspense fallback={null}>
-      <AppInner />
-    </Suspense>
   );
 }
