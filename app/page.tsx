@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 // ═══════════════════════════════════════════════════════
-// L'ÉCOLE DU POIDS DU CORPS — Page de vente
+// L'ÉCOLE DU POIDS DU CORPS - Page de vente
 // Couleurs reprises de la couverture : crème, noir, orange brûlé
 //
 // ⚠️ IMPORTANT : placez l'image de couverture dans /public/cover.png
@@ -27,7 +27,7 @@ const FAQS = [
   },
   {
     q: "Le guide aborde-t-il des figures comme la planche ou le front lever ?",
-    a: "Oui. Le module 5 est entièrement consacré aux figures de force avancées — planche, front lever, et autres mouvements de calisthénie statique — avec leurs prérequis et leur progression étape par étape.",
+    a: "Oui. Le module 5 est entièrement consacré aux figures de force avancées, comme la planche et le front lever, ainsi qu'à d'autres mouvements de calisthénie statique, avec leurs prérequis et leur progression étape par étape.",
   },
   {
     q: "Combien de temps avant de voir des résultats ?",
@@ -214,8 +214,9 @@ export default function Home() {
             margin: "0 auto",
           }}
         >
-          <div className="display" style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 15, letterSpacing: 1 }}>
+          <div className="display" style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 15, letterSpacing: 1, flexWrap: "wrap" }}>
             L'ÉCOLE DU <span style={{ color: "#FF5E1A" }}>POIDS DU CORPS</span>
+            <span style={{ color: "#bdb1a3", fontWeight: 400, fontSize: 12 }}>/ GravityLab</span>
           </div>
           <a href={STRIPE_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">
             Obtenir le guide
@@ -269,11 +270,11 @@ export default function Home() {
               }}
             >
               Le guide complet de calisthénie pour développer force, muscle, figures de gymnaste et contrôle
-              total du corps — sans salle de sport, sans matériel, et sans deviner quoi faire.
+              total du corps, sans salle de sport, sans matériel, et sans deviner quoi faire.
             </p>
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", marginBottom: 28 }}>
               <a href={STRIPE_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                Télécharger le guide — 29,99 €
+                Télécharger le guide : 29,99 €
               </a>
             </div>
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap", color: "#6f6258", fontSize: 13, fontWeight: 600 }}>
@@ -342,7 +343,7 @@ export default function Home() {
             </h2>
             <p style={{ color: "#b9aea3", fontSize: 16, lineHeight: 1.6 }}>
               Vous faites des pompes et des squats régulièrement, mais votre corps ne change pas. Ce n'est pas
-              un problème de motivation — c'est un problème de méthode.
+              un problème de motivation, c'est un problème de méthode.
             </p>
           </div>
           <div className="problem-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
@@ -392,7 +393,7 @@ export default function Home() {
               <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>Vous improvisez chaque séance</h3>
               <p style={{ fontSize: 14, color: "#b9aea3", lineHeight: 1.6 }}>
                 Sans programme structuré ni technique précise, vous gaspillez de l'énergie sur des mouvements mal
-                exécutés — et vous risquez les blessures articulaires.
+                exécutés, et vous risquez les blessures articulaires.
               </p>
             </div>
             <div style={{ background: "#221d19", border: "1px solid #332b25", borderRadius: 16, padding: "28px 24px" }}>
@@ -437,7 +438,7 @@ export default function Home() {
             <p style={{ color: "#6f6258", fontSize: 16, lineHeight: 1.6 }}>
               Chaque module s'appuie sur le précédent. Fondations scientifiques, technique parfaite des 9
               exercices piliers, méthode de progression, figures de force avancées, programmes complets et
-              nutrition — tout est inclus.
+              nutrition, tout est inclus.
             </p>
           </div>
 
@@ -502,8 +503,8 @@ export default function Home() {
               <div>
                 <h3 style={{ fontSize: 21, fontWeight: 800, marginBottom: 10, letterSpacing: "-.2px" }}>Programmes d'entraînement clés en main</h3>
                 <p style={{ color: "#6f6258", fontSize: 15, lineHeight: 1.65, marginBottom: 14 }}>
-                  Trois programmes complets prêts à l'emploi — débutant full body, intermédiaire upper/lower et
-                  avancé push/pull/legs — avec échauffement universel et stratégie de déload pour progresser sans
+                  Trois programmes complets prêts à l'emploi, débutant full body, intermédiaire upper/lower et
+                  avancé push/pull/legs, avec échauffement universel et stratégie de déload pour progresser sans
                   surentraînement.
                 </p>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -520,8 +521,8 @@ export default function Home() {
               <div>
                 <h3 style={{ fontSize: 21, fontWeight: 800, marginBottom: 10, letterSpacing: "-.2px" }}>Les figures de force : planche, front lever & autres skills</h3>
                 <p style={{ color: "#6f6258", fontSize: 15, lineHeight: 1.65, marginBottom: 14 }}>
-                  Apprenez les figures emblématiques de la calisthénie — la planche, le front lever et d'autres
-                  mouvements de gymnastique avancés — avec leurs prérequis, leurs progressions étape par étape et
+                  Apprenez les figures emblématiques de la calisthénie, la planche, le front lever et d'autres
+                  mouvements de gymnastique avancés, avec leurs prérequis, leurs progressions étape par étape et
                   les erreurs à éviter pour ne pas vous blesser.
                 </p>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -564,7 +565,7 @@ export default function Home() {
               Un guide dense, structuré pour durer
             </h2>
             <p style={{ color: "#b9aea3", fontSize: 16, lineHeight: 1.6 }}>
-              Pensé comme un compagnon de longue durée — pas un guide qu'on lit une fois et qu'on oublie.
+              Pensé comme un compagnon de longue durée, pas un guide qu'on lit une fois et qu'on oublie.
             </p>
           </div>
           <div className="preview-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
@@ -598,7 +599,7 @@ export default function Home() {
                 {[
                   {
                     title: "Tableaux de progression clairs",
-                    text: "Pour chaque exercice, une échelle de difficulté du niveau débutant au niveau élite — vous savez toujours quelle est l'étape suivante.",
+                    text: "Pour chaque exercice, une échelle de difficulté du niveau débutant au niveau élite, vous savez toujours quelle est l'étape suivante.",
                   },
                   {
                     title: "3 programmes complets, semaine par semaine",
@@ -614,7 +615,7 @@ export default function Home() {
                   },
                   {
                     title: "Feuille de route avec checklist de démarrage",
-                    text: "5 actions concrètes pour commencer dans les 48 heures — pas de théorie sans application.",
+                    text: "5 actions concrètes pour commencer dans les 48 heures, pas de théorie sans application.",
                   },
                 ].map((item) => (
                   <div key={item.title} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
@@ -751,12 +752,12 @@ export default function Home() {
                   Le guide complet, pour le prix d'un repas
                 </h2>
                 <p style={{ color: "#cbbfb2", fontSize: 15, lineHeight: 1.6, maxWidth: 440, marginTop: 8 }}>
-                  6 modules de méthode, de figures de force, de programmes et de plans nutritionnels — pour
+                  6 modules de méthode, de figures de force, de programmes et de plans nutritionnels, pour
                   construire un physique d'élite sans salle de sport, sans matériel, et sans tâtonner.
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 12, margin: "24px 0 0" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: "#e5dcd1", fontWeight: 600 }}>
-                    <CheckOrange /> Format PDF — lisible sur mobile, tablette, ordinateur
+                    <CheckOrange /> Format PDF, lisible sur mobile, tablette, ordinateur
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: "#e5dcd1", fontWeight: 600 }}>
                     <CheckOrange /> Téléchargement immédiat après paiement
@@ -828,11 +829,11 @@ export default function Home() {
             Votre prochaine séance commence par cette page
           </h2>
           <p style={{ color: "#6f6258", fontSize: 16, maxWidth: 520, margin: "0 auto 30px", lineHeight: 1.6 }}>
-            Chaque répétition propre vous rapproche de la maîtrise de votre corps. Le guide est prêt — il ne
+            Chaque répétition propre vous rapproche de la maîtrise de votre corps. Le guide est prêt, il ne
             manque que vous.
           </p>
           <a href={STRIPE_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
-            Télécharger le guide — 29,99 €
+            Télécharger le guide : 29,99 €
           </a>
         </div>
       </section>
@@ -840,11 +841,12 @@ export default function Home() {
       {/* ───────── FOOTER ───────── */}
       <footer style={{ borderTop: "1px solid #ECE0D2", padding: "32px 0", textAlign: "center" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto", padding: "0 24px" }}>
-          <div className="display" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10, fontSize: 15, letterSpacing: 1, marginBottom: 10 }}>
+          <div className="display" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10, fontSize: 15, letterSpacing: 1, marginBottom: 10, flexWrap: "wrap" }}>
             L'ÉCOLE DU <span style={{ color: "#FF5E1A" }}>POIDS DU CORPS</span>
+            <span style={{ color: "#bdb1a3", fontWeight: 400, fontSize: 13 }}>/ GravityLab</span>
           </div>
           <p style={{ fontSize: 12, color: "#6f6258", letterSpacing: 0.5 }}>
-            © 2026 L'École du Poids du Corps — Tous droits réservés · par cali_progression
+            © 2026 L'École du Poids du Corps. Tous droits réservés · par cali_progression
           </p>
         </div>
       </footer>
